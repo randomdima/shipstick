@@ -1,0 +1,62 @@
+{
+  "id": "walls_a-v1",
+  "ts": "2026-11-05T21:29:59",
+  "op": "edit",
+  "name": "walls_a",
+  "file": ".tmp/gen/frames/walls_a-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.021673,
+  "usage": {
+    "prompt_tokens": 2465,
+    "completion_tokens": 158,
+    "total_tokens": 2623,
+    "cost": 0.021673,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.021673,
+      "upstream_inference_prompt_cost": 0.016933,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sprite sheet of 16 separate game assets on a fully transparent background, in a 4 by 4 grid, each asset centred in its own cell with wide empty transparent gaps between them. No ground, no floor, no shadow plate, no frame, no border, no text, no labels, no numbers.\n\nImage 1 is a style reference only: match its rendering, palette, wear, lighting, camera angle and scale exactly, and draw none of the objects in it.\n\nStyle for every asset: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation. The capsule is one operator's work station and living quarters: compact, sturdy, lived in and kept. Its walls are bolted steel bulkhead panels in dull grey with a dull dark yellow top cap, visible bolts and rivets, seams between panels, occasional yellow-black hazard stripes round the doors; scuffs, worn edges, chipped paint \u2014 no grime, no rust, no oil stains, no soot. Reinforced glass has a blue-green tint. Small indicator lamps are green or amber. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nCamera for every asset: the same fixed game camera as image 1, tilted only about 15 to 20 degrees from straight down, looking toward the back of the room. So a wall's top edge always shows as a thick dark yellow cap; the back wall also shows its inner face toward the camera, foreshortened; the side walls and the front wall show only their top cap and no face. One floor cell is about 1 metre square, the space a standing human occupies; every piece below is exactly 1 cell long. A door is one cell wide: a single heavy door a person walks through.\n\nCells in reading order (row 1 left to right, then rows 2, 3 and 4):\n1. Back wall, plain: 1 cell wide, a thick dark yellow top cap above a grey bulkhead face about three quarters of a cell tall, a panel seam and bolts.\n2. Back wall with a small round reinforced blue-green glass porthole in its face, dark space and a few stars beyond.\n3. Back wall with a run of pipes and a cable tray along its face.\n4. Back wall with signs of the operator living here: a padded olive jacket on a hook, a small photo taped up, a narrow fold-down shelf with a mug.\n5. Door in the back wall, closed: 1 cell wide, as tall as the back wall, a thick steel slab with a wheel lock in a yellow-black hazard-striped frame, a small green lamp beside it.\n6. The same back-wall door open: the slab slid aside into the wall, a dark doorway.\n7. Back-left corner of the room: the back wall's left end, its top cap turning down toward the camera into a side wall's cap, an L shape.\n8. Back-right corner of the room: the mirror of cell 7, the cap turning down on the right.\n9. Side wall: only its thick dark yellow top cap seen from above, a narrow strip running from the top of the cell to the bottom, bolts along it.\n10. Door in a side wall, closed, seen from above: the side wall's cap broken by a heavy hazard-striped door frame, the closed slab's top a thick steel bar across the gap, running from top to bottom.\n11. The same side-wall door open: the gap between the frame posts empty, the slab's top slid back into the wall.\n12. Front wall: only its thick dark yellow top cap seen from above, a narrow strip running left to right, bolts along it.\n13. Door in the front wall, closed, seen from above: the front wall's cap broken by a heavy hazard-striped door frame, the closed slab's top a thick steel bar across the gap, running left to right.\n14. The same front-wall door open: the gap between the frame posts empty, the slab's top slid aside into the wall.\n15. Front-left corner of the room: a side wall's cap coming down from the top meeting the front wall's cap going right, an L shape, caps only.\n16. Front-right corner of the room: the mirror of cell 15, the side cap coming down meeting the front cap going left.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "a363fbf5b54829ae",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/devices_style_v3.png"
+    }
+  ],
+  "cells": [
+    "wall_h",
+    "wall_h_porthole",
+    "wall_h_pipes",
+    "wall_h_lived",
+    "door_h_closed",
+    "door_h_open",
+    "wall_corner_tl",
+    "wall_corner_tr",
+    "wall_v",
+    "door_v_closed",
+    "door_v_open",
+    "wall_s",
+    "door_s_closed",
+    "door_s_open",
+    "wall_corner_bl",
+    "wall_corner_br"
+  ]
+}

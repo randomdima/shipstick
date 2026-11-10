@@ -1,0 +1,4 @@
+{"variant": "ui_fil_pleater-v1", "frame": "ui_c-v1", "box": [1044, 683, 457, 286], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T20:20:52"}
+{"variant": "ui_fil_pleater-v2", "frame": "ui_c-v2", "box": [1063, 691, 426, 257], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:36:41"}
+{"variant": "ui_fil_pleater-v3", "frame": "cui_c-v1", "box": [1057, 688, 415, 241], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:17:55"}
+{"variant": "ui_fil_pleater-v4", "frame": "tui_c-v1", "box": [1061, 698, 441, 265], "grid": null, "score": 4, "status": "used", "ts": "2026-11-06T01:41:56"}

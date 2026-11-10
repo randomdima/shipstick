@@ -1,0 +1,55 @@
+{
+  "id": "dev_a-v2",
+  "ts": "2026-11-05T20:34:01",
+  "op": "edit",
+  "name": "dev_a",
+  "file": ".tmp/gen/frames/dev_a-v2.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.020483,
+  "usage": {
+    "prompt_tokens": 2227,
+    "completion_tokens": 158,
+    "total_tokens": 2385,
+    "cost": 0.020483,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.020483,
+      "upstream_inference_prompt_cost": 0.015743,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sprite sheet of 9 separate game assets on a fully transparent background, in a 3 by 3 grid, each asset centred in its own cell with wide empty transparent gaps between them. No ground, no floor, no shadow plate, no frame, no border, no text, no labels, no numbers.\n\nImage 1 is a style reference only: match its rendering, palette, wear, lighting, camera angle and scale exactly, and draw none of the objects in it.\n\nStyle for every asset: 1970s-80s \"used future\" heavy-duty industrial machinery aboard a cargo spaceship, owned by an indifferent corporation. Painted metal in dull, muted dark yellow, mustard yellow and burnt orange over grey and black steel, with occasional yellow-black hazard stripes on edges; chunky housings, visible bolts and rivets, vents, worn paint, scuffs, dents, tape, replaced panels \u2014 used, not ruined. Reinforced glass has a blue-green tint. Ceramic is plain off-white ceramic. Fabric is bulky, padded and quilted canvas in muted grey or olive. Small indicator lamps are green or amber. Small screens glow green phosphor on black. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nCamera for every asset: the same fixed game camera as image 1, tilted only about 15 to 20 degrees from straight down: the top surfaces of each object fill most of its sprite and only a narrow strip of its front face shows along its bottom edge; no side faces. Every asset at the same scale as image 1: one floor cell is the space a standing human occupies, about 1 metre square, and each object fills its footprint.\n\nCells in reading order (row 1 left to right, then row 2, then row 3):\n1. Solar strip \u2014 footprint 1 by 1: a narrow upright frame of blue-green glass solar cells on a steel stand with a cable to the floor.\n2. Moisture condenser \u2014 footprint 1 by 1: a compact boxy condenser with cooling fins, a fan grille, a drip tray and a small collection bottle.\n3. Algae jar \u2014 footprint 1 by 1: a large reinforced blue-green glass jar of green algae water on a steel stand, with an air tube and a lid clamp.\n4. Sprout tray \u2014 footprint 1 by 1: a small stack of shallow steel trays with sprouts, a drip line and a little lamp hood.\n5. Toilet \u2014 footprint 1 by 1: a heavy steel spacecraft toilet with a suction hose, foot bar, lid and wall-side tank; grey and mustard.\n6. Washbasin \u2014 footprint 1 by 1: a plain off-white ceramic washbasin on a steel pedestal with a push tap, a small mirror panel and a towel hook.\n7. Locker \u2014 footprint 1 by 1: a tall narrow steel locker with vents and a latch, dark yellow with a black stripe.\n8. Service hatch \u2014 footprint 1 by 1: a square floor-mounted access hatch with a heavy hinged lid, a wheel latch and hazard-striped rim.\n9. Composting toilet \u2014 footprint 1 by 1: a bulky toilet over a composting drum with a crank handle and a vent pipe; olive and grey.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "867db7baa58f1550",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/devices_style_v2.png"
+    }
+  ],
+  "cells": [
+    "any_solarstrip",
+    "any_condenser",
+    "any_algaejar",
+    "any_sprouter",
+    "any_toilet",
+    "any_washbasin",
+    "any_locker",
+    "any_hatch",
+    "toi_compostloo"
+  ]
+}

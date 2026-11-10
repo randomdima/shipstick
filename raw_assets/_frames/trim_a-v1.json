@@ -1,0 +1,55 @@
+{
+  "id": "trim_a-v1",
+  "ts": "2026-11-05T20:18:56",
+  "op": "edit",
+  "name": "trim_a",
+  "file": ".tmp/gen/frames/trim_a-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.019188,
+  "usage": {
+    "prompt_tokens": 1968,
+    "completion_tokens": 158,
+    "total_tokens": 2126,
+    "cost": 0.019188,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.019188,
+      "upstream_inference_prompt_cost": 0.014448,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate interface trim pieces for a game, on a fully transparent background, in a 3 by 3 grid, each piece centred in its own cell with wide empty transparent gaps between them. Drawn flat and face on. No text, no letters, no numbers.\n\nImage 1 is a style reference only: match its palette, materials, wear and rendering, and draw none of the objects in it. Unlike image 1, every asset here is drawn flat and face on (or straight down for floor), with no perspective.\n\nStyle: 1970s-80s \"used future\" heavy-duty industrial machinery aboard a corporate cargo spaceship. Painted metal in dull, muted dark yellow, mustard yellow and burnt orange over grey and black steel, occasional yellow-black hazard stripes, visible bolts and rivets, worn paint, scuffs \u2014 used, not ruined. Glass is reinforced with a blue-green tint. Off-white parts are worn plastic. Lamps are green, amber or red. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nPieces in reading order (row 1 left to right, then row 2, then row 3):\n1. A long horizontal strip of yellow-black diagonal hazard stripes on painted steel, seamless left to right.\n2. A square panel of dull dark yellow painted steel, seamless on every side, lightly worn.\n3. A square panel of dark gunmetal grey steel, seamless on every side, lightly worn.\n4. A square panel of matte black steel, seamless on every side.\n5. A thick rectangular screen bezel of black and dark grey steel with bolts at its corners, its whole centre empty and fully transparent.\n6. A thick rectangular machine panel frame of dark yellow painted steel with black hazard-striped corners and bolts, its whole centre empty and fully transparent.\n7. A single hex bolt head, large.\n8. A long horizontal vent grille strip of steel slats.\n9. A thin horizontal off-white plastic label strip, riveted at both ends, blank.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "b82349da38857c43",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/devices_style.png"
+    }
+  ],
+  "cells": [
+    "trim_hazard",
+    "trim_yellow",
+    "trim_gunmetal",
+    "trim_black",
+    "bezel_screen",
+    "frame_panel",
+    "bolt_hex",
+    "trim_vent",
+    "plate_label"
+  ]
+}

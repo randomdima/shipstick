@@ -1,0 +1,30 @@
+{
+  "id": "any_locker",
+  "about": "A tall yellow steel clothes locker: steel carcass, a door with two vents, a hazard band and a handle.",
+  "boundsM": [[0, 0, 0], [1, 1, 1.85]],
+  "textures": {
+    "yellow": {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "steel": {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "trim": {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 4, "tileM": 0.3},
+    "vent": {"src": "raw_assets/textures/tex_vent/tex_vent-v1.png", "insetPct": 4},
+    "hazard": {"src": "raw_assets/textures/tex_hazard/tex_hazard-v1.png", "insetPct": 4}
+  },
+  "parts": [
+    {"shape": "group", "name": "locker", "atM": [0, 0, 0], "parts": [
+      {"shape": "box", "name": "carcass", "atM": [0.5, 0.5, 0.9], "sizeM": [0.56, 0.5, 1.8],
+       "faces": {"*": "steel", "bottom": null}, "shade": 0.8},
+      {"shape": "box", "name": "door", "atM": [0.5, 0.245, 0.88], "sizeM": [0.5, 0.01, 1.68],
+       "faces": {"*": "yellow"}},
+      {"shape": "box", "name": "upper vent", "atM": [0.5, 0.238, 1.52], "sizeM": [0.38, 0.004, 0.17],
+       "faces": {"*": "vent"}},
+      {"shape": "box", "name": "hazard band", "atM": [0.5, 0.238, 1.3], "sizeM": [0.5, 0.004, 0.15],
+       "faces": {"*": "hazard"}},
+      {"shape": "box", "name": "lower vent", "atM": [0.5, 0.238, 0.3], "sizeM": [0.38, 0.004, 0.17],
+       "faces": {"*": "vent"}},
+      {"shape": "box", "name": "handle", "atM": [0.69, 0.225, 1.05], "sizeM": [0.05, 0.03, 0.16],
+       "tex": "steel", "shade": 0.7},
+      {"shape": "box", "name": "hinge", "atM": [0.235, 0.236, 0.5], "sizeM": [0.02, 0.012, 0.09],
+       "repeat": {"count": 2, "stepM": [0, 0, 0.8]}, "tex": "trim"}
+    ]}
+  ]
+}

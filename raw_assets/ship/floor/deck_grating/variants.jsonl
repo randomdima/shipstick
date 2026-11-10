@@ -1,0 +1,4 @@
+{"variant": "deck_grating-v1", "frame": "deck_a-v1", "box": [1049, 16, 298, 294], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:19:19"}
+{"variant": "deck_grating-v2", "frame": "cdeck_a-v1", "box": [1050, 19, 298, 295], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:19:17"}
+{"variant": "deck_grating-v3", "frame": "deck_b-v1", "box": [625, 690, 286, 286], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T22:35:41"}
+{"variant": "deck_grating-v4", "frame": "deck_c-v1", "box": [637, 676, 263, 264], "grid": [3, 3], "score": 4, "status": "used", "ts": "2026-11-05T22:43:50"}

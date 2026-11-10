@@ -1,0 +1,55 @@
+{
+  "id": "walls_c-v1",
+  "ts": "2026-11-05T21:50:40",
+  "op": "edit",
+  "name": "walls_c",
+  "file": ".tmp/gen/frames/walls_c-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.019418,
+  "usage": {
+    "prompt_tokens": 2014,
+    "completion_tokens": 158,
+    "total_tokens": 2172,
+    "cost": 0.019418,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.019418,
+      "upstream_inference_prompt_cost": 0.014678,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate flat square game tiles on a fully transparent background, in a 3 by 3 grid, each tile a square centred in its own cell with wide empty transparent gaps between them. No ground, no shadow, no frame, no text, no labels, no numbers.\n\nImage 1 is a style reference only: match its palette, materials, wear and rendering exactly \u2014 its dark yellow steel squares are the wall tops every tile here starts from \u2014 and draw none of its other objects.\n\nStyle: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation; the capsule is one operator's work station and living quarters, compact, lived in and kept. Each tile is the flat top of a low bulkhead wall block, one metre square, seen straight down with no perspective, filling its square edge to edge: a dull dark yellow steel plate with a few bolts, its edges plain so tops laid side by side or one above another join seamlessly. On each top sits or runs one thing, also seen straight down and kept inside the square; scuffs, worn edges, chipped paint \u2014 no grime, no rust, no oil stains, no litter. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nTiles in reading order (row 1 left to right, then row 2, then row 3):\n1. A grey cable tray with bundled cables running from the top edge to the bottom edge.\n2. A grey steel junction box with a hinged lid and a cable gland.\n3. A pipe elbow: a grey pipe coming in from the left edge and turning to leave by the bottom edge, with a valve wheel.\n4. A small sensor mast seen from above: a round base plate and a short stubby antenna with an amber tip.\n5. A strapped-down olive canvas tool roll.\n6. A small potted plant in a plain off-white ceramic pot, clamped to the plate.\n7. A short stack of worn grey operating manuals under an elastic strap, and a steel mug.\n8. A coiled grey hose on a bracket.\n9. A small sealed grey parts crate with yellow-black hazard-striped corners, strapped down.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "6e84b5090115b2ef",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/walls_style.png"
+    }
+  ],
+  "cells": [
+    "any_wall_top_tray",
+    "any_wall_top_box",
+    "any_wall_top_elbow",
+    "any_wall_top_mast",
+    "any_wall_top_toolroll",
+    "any_wall_top_plant",
+    "any_wall_top_manuals",
+    "any_wall_top_hose",
+    "any_wall_top_crate"
+  ]
+}

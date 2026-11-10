@@ -1,0 +1,139 @@
+{
+ "variant": "raw_assets/devices/any_hatch/any_hatch-v6.png",
+ "model": "raw_assets/devices/any_hatch/any_hatch-v6.model.json",
+ "boundsM": [
+  [
+   0,
+   0,
+   0
+  ],
+  [
+   1.0,
+   1.0,
+   0.2
+  ]
+ ],
+ "triangles": 532,
+ "bin": "any_hatch.mesh.bin",
+ "layout": {
+  "P": {
+   "offset": 0,
+   "type": "float32",
+   "length": 4788
+  },
+  "UV": {
+   "offset": 19152,
+   "type": "float32",
+   "length": 3192
+  },
+  "N": {
+   "offset": 31920,
+   "type": "int8",
+   "length": 4788
+  },
+  "order": {
+   "offset": 36708,
+   "type": "uint16",
+   "length": 1596
+  }
+ },
+ "looks": [
+  {
+   "texture": "assets/textures/tex_bare_steel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_hatch_plate-v1-i4.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_bare_steel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 0.8,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_orange_enamel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_handwheel_cutout-v1-i1.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": true
+  }
+ ],
+ "draws": [
+  [
+   0,
+   0,
+   10
+  ],
+  [
+   1,
+   10,
+   136
+  ],
+  [
+   2,
+   146,
+   2
+  ],
+  [
+   3,
+   148,
+   256
+  ],
+  [
+   4,
+   404,
+   64
+  ],
+  [
+   5,
+   468,
+   64
+  ]
+ ],
+ "light": {
+  "sun": [
+   -0.399004,
+   -0.349128,
+   0.847883
+  ],
+  "ambient": 0.5,
+  "tiltDeg": 18,
+  "shadowPxM": 400,
+  "shadowBiasM": 0.004,
+  "shadowLiftM": 0.006,
+  "shadowKeep": 0.35,
+  "aoRadiiM": [
+   0.02,
+   0.06
+  ],
+  "aoDirections": 8,
+  "aoMarginM": 0.003,
+  "aoStrength": 0.5,
+  "edgeM": 0.015,
+  "edgeShade": 0.6,
+  "foldCos": 0.6,
+  "foldLight": 1.2,
+  "grazeCos": 0.15,
+  "deckShadowMax": 0.6,
+  "deckFadeM": 0.06,
+  "cutoutAlpha": 0.5,
+  "supersample": 3
+ }
+}

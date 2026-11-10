@@ -1,0 +1,172 @@
+{
+ "variant": "raw_assets/devices/any_algaejar/any_algaejar-v5.png",
+ "model": "raw_assets/devices/any_algaejar/any_algaejar-v5.model.json",
+ "boundsM": [
+  [
+   0,
+   0,
+   0
+  ],
+  [
+   1.0,
+   1.0,
+   1.1
+  ]
+ ],
+ "triangles": 3934,
+ "bin": "any_algaejar.mesh.bin",
+ "layout": {
+  "P": {
+   "offset": 0,
+   "type": "float32",
+   "length": 35406
+  },
+  "UV": {
+   "offset": 141624,
+   "type": "float32",
+   "length": 23604
+  },
+  "N": {
+   "offset": 236040,
+   "type": "int8",
+   "length": 35406
+  },
+  "order": {
+   "offset": 271448,
+   "type": "uint16",
+   "length": 11802
+  }
+ },
+ "looks": [
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 0.9,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_bench_panel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_yellow_enamel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_bare_steel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_algae_glass-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_tank_liquid-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_jug_lid-v1-i3.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_pipe-v1-i6-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  }
+ ],
+ "draws": [
+  [
+   0,
+   0,
+   8
+  ],
+  [
+   1,
+   8,
+   2
+  ],
+  [
+   2,
+   10,
+   24
+  ],
+  [
+   3,
+   34,
+   1136
+  ],
+  [
+   4,
+   1170,
+   64
+  ],
+  [
+   5,
+   1234,
+   64
+  ],
+  [
+   6,
+   1298,
+   64
+  ],
+  [
+   7,
+   1362,
+   2240
+  ],
+  [
+   8,
+   3602,
+   332
+  ]
+ ],
+ "light": {
+  "sun": [
+   -0.399004,
+   -0.349128,
+   0.847883
+  ],
+  "ambient": 0.5,
+  "tiltDeg": 18,
+  "shadowPxM": 400,
+  "shadowBiasM": 0.004,
+  "shadowLiftM": 0.006,
+  "shadowKeep": 0.35,
+  "aoRadiiM": [
+   0.02,
+   0.06
+  ],
+  "aoDirections": 8,
+  "aoMarginM": 0.003,
+  "aoStrength": 0.5,
+  "edgeM": 0.015,
+  "edgeShade": 0.6,
+  "foldCos": 0.6,
+  "foldLight": 1.2,
+  "grazeCos": 0.15,
+  "deckShadowMax": 0.6,
+  "deckFadeM": 0.06,
+  "cutoutAlpha": 0.5,
+  "supersample": 3
+ }
+}

@@ -1,0 +1,55 @@
+{
+  "id": "doors_c-v1",
+  "ts": "2026-11-05T22:43:13",
+  "op": "edit",
+  "name": "doors_c",
+  "file": ".tmp/gen/frames/doors_c-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.020598,
+  "usage": {
+    "prompt_tokens": 2250,
+    "completion_tokens": 158,
+    "total_tokens": 2408,
+    "cost": 0.020598,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.020598,
+      "upstream_inference_prompt_cost": 0.015858,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate flat game assets on a fully transparent background, in a 3 by 3 grid, each centred in its own cell with wide empty transparent gaps between them. No text, no labels, no numbers, no frame round the sheet.\n\nImage 1 is a style reference only: match its palette, materials, wear and rendering exactly, and draw none of its objects.\n\nStyle: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation; compact, lived in and kept. Smooth, heavy, continuous surfaces: NO bolts, NO rivets, NO screw heads anywhere. Light scuffs and worn paint spread evenly, with no single distinctive mark that would show when a tile repeats \u2014 no grime, no rust, no oil. Every wheel and handle is grey steel; red appears nowhere. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nThese are the parts of the capsule's door unit: a heavy submarine watertight door in its own steel housing, which stands taller and deeper than the capsule's low walls so it reads at once as a door. The housing is grey steel with thick black and yellow hazard stripes on its frame; the door is an oval grey steel leaf with a large hand wheel and six locking dogs. Real depth and shadow in every part: a solid object, not a picture.\n\nAssets in reading order (row 1 left to right, then row 2, then row 3):\n1. Housing top, closed: an exact square seen straight down, filling it edge to edge: the top of the door housing, a heavy grey steel lintel box spanning the square from its left edge to its right edge, its front and back edges in hazard stripes, a small green lamp on top, smooth dull dark yellow cap beyond it at the top and bottom of the square.\n2. The same housing top with the lamp amber: the door is open.\n3. Housing front, closed: a rectangle four units wide by three tall, filling it edge to edge, face on: the thick hazard-striped frame standing proud, its inner jamb faces in deep shadow, the oval leaf recessed in it with the wheel and dogs casting shadows, heavy hinge barrels on the left.\n4. Housing front, open: the same frame; the thick leaf swung out toward the viewer on its hinges, its edge and wheel showing; through the oval a deep dark passage with a hazard-striped sill.\n5. Housing side, closed: a tall narrow strip one unit wide by four tall, filling it edge to edge: the housing seen almost edge on, the thick hazard-striped frame's edge standing proud, the shut leaf's thickness, deep shadow in the recess.\n6. Housing side, open: the same strip, the frame's edge and a deep dark opening, the leaf's thick edge swung toward the viewer.\n7. Housing top for a wall running top to bottom, closed: as 1 but the lintel box spans the square from its top edge to its bottom edge, green lamp.\n8. The same top-to-bottom housing top with the lamp amber.\n9. Threshold: an exact square of dark grey anti-slip deck seen straight down, filling it edge to edge, with a broad black and yellow hazard-striped sill along its top edge where the door stands, flush with the deck, its other edges plain.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "56e5a3caeb25c882",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/smooth_style.png"
+    }
+  ],
+  "cells": [
+    "any_door_cap_closed",
+    "any_door_cap_open",
+    "any_door_front_closed",
+    "any_door_front_open",
+    "any_door_side_closed",
+    "any_door_side_open",
+    "any_door_cap_side_closed",
+    "any_door_cap_side_open",
+    "deck_threshold"
+  ]
+}

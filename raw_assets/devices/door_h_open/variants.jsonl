@@ -1,0 +1,4 @@
+{"variant": "door_h_open-v1", "frame": "dev_f-v1", "box": [1178, 537, 320, 200], "grid": [4, 4], "score": 4, "status": "candidate", "ts": "2026-11-05T20:17:54"}
+{"variant": "door_h_open-v2", "frame": "dev_f-v2", "box": [1167, 578, 307, 117], "grid": [4, 4], "score": 4, "status": "candidate", "ts": "2026-11-05T20:34:47"}
+{"variant": "door_h_open-v3", "frame": "cdev_f-v1", "box": [1171, 568, 329, 155], "grid": [4, 4], "score": 4, "status": "candidate", "ts": "2026-11-05T21:16:06"}
+{"variant": "door_h_open-v4", "frame": "walls_a-v1", "box": [453, 276, 261, 198], "grid": [4, 4], "score": 5, "status": "used", "ts": "2026-11-05T21:30:07"}

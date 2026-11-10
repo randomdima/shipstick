@@ -1,0 +1,30 @@
+{
+  "id": "any_wall_segment",
+  "about": "One straight cell of the low bulkhead wall, running east-west: a cap plate over an inset core, a kick strip at its foot, a pipe on two brackets and a vent along its south face.",
+  "boundsM": [[0, 0, 0], [1, 1, 0.5]],
+  "textures": {
+    "cap": {"src": "raw_assets/textures/tex_wall_cap/tex_wall_cap-v1.png", "insetPct": 3},
+    "face": {"src": "raw_assets/textures/tex_wall_face/tex_wall_face-v1.png", "insetPct": 3},
+    "trim": {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3},
+    "pipe": {"src": "raw_assets/textures/tex_pipe/tex_pipe-v1.png", "insetPct": 6, "tileM": [1, 0.19]},
+    "kick": {"src": "raw_assets/textures/tex_kick_strip/tex_kick_strip-v1.png", "insetPct": 4},
+    "vent": {"src": "raw_assets/textures/tex_vent/tex_vent-v1.png", "insetPct": 1}
+  },
+  "parts": [
+    {"shape": "box", "name": "core", "atM": [0.5, 0.5, 0.25], "sizeM": [1, 0.84, 0.44],
+     "faces": {"south": "face", "north": "face", "*": "trim", "bottom": null}},
+    {"shape": "box", "name": "cap", "atM": [0.5, 0.5, 0.47], "sizeM": [1, 1, 0.06],
+     "faces": {"top": "cap", "*": {"tex": "cap", "tileM": 0.3, "shade": 0.8}, "bottom": {"tex": "trim", "shade": 0.5}}},
+    {"shape": "box", "name": "kick strip", "atM": [0.5, 0.5, 0.04], "sizeM": [1, 0.88, 0.08],
+     "faces": {"south": "kick", "north": "kick", "*": "trim", "bottom": null}},
+    {"shape": "box", "name": "vent", "atM": [0.72, 0.075, 0.2], "sizeM": [0.3, 0.012, 0.14],
+     "faces": {"south": "vent", "*": "trim"}},
+    {"shape": "group", "name": "pipe run", "tex": "trim",
+     "parts": [
+       {"shape": "cylinder", "name": "pipe", "atM": [0.5, 0.045, 0.34], "radiusM": 0.03, "lengthM": 1, "axis": "x",
+        "faces": {"side": {"tex": "pipe", "turnDeg": 90, "tileM": [0.19, 1]}, "ends": "trim"}},
+       {"shape": "box", "name": "bracket", "atM": [0.15, 0.06, 0.34], "sizeM": [0.04, 0.04, 0.09],
+        "repeat": {"count": 2, "stepM": [0.7, 0, 0]}}
+     ]}
+  ]
+}

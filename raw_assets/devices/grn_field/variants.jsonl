@@ -1,0 +1,3 @@
+{"variant": "grn_field-v1", "frame": "dev_f-v1", "box": [1177, 45, 321, 265], "grid": [4, 4], "score": 4, "status": "candidate", "ts": "2026-11-05T20:17:54"}
+{"variant": "grn_field-v2", "frame": "dev_f-v2", "box": [1163, 89, 318, 167], "grid": [4, 4], "score": 4, "status": "candidate", "ts": "2026-11-05T20:34:47"}
+{"variant": "grn_field-v3", "frame": "cdev_f-v1", "box": [1171, 60, 328, 212], "grid": [4, 4], "score": 4, "status": "used", "ts": "2026-11-05T21:16:06"}

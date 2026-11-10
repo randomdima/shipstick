@@ -1,0 +1,68 @@
+{
+  "id": "any_bench",
+  "about": "A workbench two cells long, a standing worktop at 0.9 m: a steel top over twelve yellow drawers and a vented cabinet, a bench grinder at the back, a small yellow motor, a rag, a tray of hand tools and a steel jug.",
+  "boundsM": [[0, 0, 0], [2, 1, 1.35]],
+  "textures": {
+    "top":     {"src": "raw_assets/textures/tex_bench_top/tex_bench_top-v1.png", "insetPct": 2},
+    "drawers": {"src": "raw_assets/textures/tex_bench_drawers/tex_bench_drawers-v1.png", "insetPct": 2},
+    "panel":   {"src": "raw_assets/textures/tex_bench_panel/tex_bench_panel-v1.png", "insetPct": 4, "tileM": 0.6},
+    "vent":    {"src": "raw_assets/textures/tex_vent/tex_vent-v1.png", "insetPct": 2},
+    "tray":    {"src": "raw_assets/textures/tex_tool_tray/tex_tool_tray-v1.png", "insetPct": 2},
+    "ribs":    {"src": "raw_assets/textures/tex_motor_ribs/tex_motor_ribs-v1.png", "insetPct": 3},
+    "yellow":  {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "motor":   {"src": "raw_assets/textures/tex_small_motor_top/tex_small_motor_top-v1.png", "insetPct": 3},
+    "steel":   {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "canvas":  {"src": "raw_assets/textures/tex_canvas_offwhite/tex_canvas_offwhite-v1.png", "insetPct": 3, "tileM": 0.3},
+    "trim":    {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3}
+  },
+  "parts": [
+    {"shape": "group", "name": "bench body", "parts": [
+      {"shape": "box", "name": "plinth", "atM": [1, 0.51, 0.015], "sizeM": [1.92, 0.9, 0.03],
+       "faces": {"*": "trim", "bottom": null}},
+      {"shape": "box", "name": "carcass", "atM": [1, 0.51, 0.44], "sizeM": [1.9, 0.88, 0.82],
+       "faces": {"*": "panel", "south": {"tex": "trim", "shade": 0.5}, "top": null, "bottom": null}},
+      {"shape": "box", "name": "drawer bank low", "atM": [0.37, 0.065, 0.35], "sizeM": [0.5, 0.01, 0.3],
+       "repeat": {"count": 3, "stepM": [0.5, 0, 0]},
+       "faces": {"south": "drawers", "*": {"tex": "trim", "shade": 0.8}, "north": null}},
+      {"shape": "box", "name": "drawer bank high", "atM": [0.37, 0.065, 0.67], "sizeM": [0.5, 0.01, 0.3],
+       "repeat": {"count": 3, "stepM": [0.5, 0, 0]},
+       "faces": {"south": "drawers", "*": {"tex": "trim", "shade": 0.8}, "north": null}},
+      {"shape": "box", "name": "cabinet door", "atM": [1.775, 0.065, 0.51], "sizeM": [0.27, 0.01, 0.62],
+       "faces": {"south": "panel", "*": {"tex": "trim", "shade": 0.8}, "north": null}},
+      {"shape": "box", "name": "cabinet vent", "atM": [1.775, 0.058, 0.7], "sizeM": [0.19, 0.005, 0.14],
+       "repeat": {"count": 2, "stepM": [0, 0, -0.36]},
+       "faces": {"south": "vent", "*": {"tex": "trim", "shade": 0.6}, "north": null}},
+      {"shape": "box", "name": "top", "atM": [1, 0.5, 0.875], "sizeM": [2, 1, 0.05],
+       "faces": {"top": "top", "bottom": {"tex": "trim", "shade": 0.5}, "*": {"tex": "panel", "shade": 0.85}}}
+    ]},
+
+    {"shape": "group", "name": "grinder", "parts": [
+      {"shape": "box", "name": "grinder base", "atM": [0.95, 0.68, 0.915], "sizeM": [0.6, 0.24, 0.03], "faces": {"*": "trim", "bottom": null}},
+      {"shape": "box", "name": "grinder pedestal", "atM": [0.95, 0.68, 0.96], "sizeM": [0.26, 0.18, 0.06], "tex": "steel", "shade": 0.8},
+      {"shape": "cylinder", "name": "motor", "atM": [0.95, 0.68, 1.08], "radiusM": 0.12, "lengthM": 0.34, "axis": "x",
+       "faces": {"side": "ribs", "ends": "steel"}},
+      {"shape": "cylinder", "name": "wheel guard", "atM": [0.705, 0.68, 1.08], "radiusM": 0.15, "lengthM": 0.15, "axis": "x",
+       "repeat": {"count": 2, "stepM": [0.49, 0, 0]},
+       "faces": {"side": {"tex": "yellow", "turnDeg": 90}, "ends": {"tex": "yellow", "shade": 0.85}}},
+      {"shape": "box", "name": "eye shield", "atM": [0.95, 0.74, 1.26], "sizeM": [0.3, 0.015, 0.12], "rotDeg": [-30, 0, 0],
+       "tex": "yellow", "shade": 1.15}
+    ]},
+
+    {"shape": "group", "name": "small motor", "parts": [
+      {"shape": "box", "name": "motor foot", "atM": [0.31, 0.3, 0.915], "sizeM": [0.38, 0.3, 0.03], "faces": {"*": "trim", "bottom": null}},
+      {"shape": "cylinder", "name": "motor body", "atM": [0.31, 0.32, 1.02], "radiusM": 0.08, "lengthM": 0.38, "axis": "x",
+       "faces": {"side": {"tex": "yellow", "turnDeg": 90}, "ends": {"tex": "steel", "shade": 0.8}}},
+      {"shape": "box", "name": "motor casing", "atM": [0.31, 0.32, 1.02], "sizeM": [0.22, 0.22, 0.2],
+       "faces": {"top": "motor", "*": "yellow", "bottom": null}},
+      {"shape": "cylinder", "name": "motor shaft", "atM": [0.31, 0.17, 0.98], "radiusM": 0.035, "lengthM": 0.08, "axis": "y",
+       "faces": {"side": "steel", "ends": {"tex": "steel", "shade": 0.8}}}
+    ]},
+
+    {"shape": "sphere", "name": "rag", "atM": [1.17, 0.28, 0.9], "sizeM": [0.18, 0.24, 0.05], "half": true, "tex": "canvas"},
+
+    {"shape": "box", "name": "tool tray", "atM": [1.6, 0.32, 0.915], "sizeM": [0.64, 0.4, 0.03],
+     "faces": {"top": "tray", "bottom": null, "*": {"tex": "tray", "tileM": 2}}},
+
+    {"shape": "model", "name": "jug", "src": "raw_assets/parts/jug/jug-v1.model.json", "atM": [1.72, 0.75, 0.9]}
+  ]
+}

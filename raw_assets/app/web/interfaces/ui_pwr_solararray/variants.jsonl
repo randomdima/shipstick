@@ -1,0 +1,4 @@
+{"variant": "ui_pwr_solararray-v1", "frame": "ui_c-v1", "box": [1044, 28, 457, 278], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T20:20:52"}
+{"variant": "ui_pwr_solararray-v2", "frame": "ui_c-v2", "box": [1062, 54, 427, 256], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:36:41"}
+{"variant": "ui_pwr_solararray-v3", "frame": "cui_c-v1", "box": [1056, 80, 416, 240], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:17:55"}
+{"variant": "ui_pwr_solararray-v4", "frame": "tui_c-v1", "box": [1061, 40, 441, 259], "grid": null, "score": 4, "status": "used", "ts": "2026-11-06T01:41:56"}

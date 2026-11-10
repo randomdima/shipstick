@@ -1,0 +1,58 @@
+{
+  "id": "kit_c-v1",
+  "ts": "2026-11-05T22:35:21",
+  "op": "edit",
+  "name": "kit_c",
+  "file": ".tmp/gen/frames/kit_c-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.020618,
+  "usage": {
+    "prompt_tokens": 2254,
+    "completion_tokens": 158,
+    "total_tokens": 2412,
+    "cost": 0.020618,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.020618,
+      "upstream_inference_prompt_cost": 0.015878,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 12 separate flat game assets on a fully transparent background, in a 4 by 3 grid (4 across, 3 down), each asset centred in its own cell with wide empty transparent gaps between them. No ground, no shadow round the assets, no frame round the sheet, no text, no labels, no numbers.\n\nImage 1 is a style reference only: match its palette, materials, wear and rendering exactly, and draw none of its objects. Every asset is drawn face on, flat, but with real depth and shadow inside it.\n\nStyle: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation; compact, lived in and kept. These are the faces of the capsule's low bulkhead walls: dull grey steel panels, one long continuous face along each wall. Light scuffs spread evenly, with no single distinctive mark that would show when a panel repeats \u2014 no grime, no rust. Every wheel and handle is grey steel; red appears nowhere. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nFront panels are strips five units wide by two tall, filling the strip edge to edge; their left and right edges have no seam, no bolt and no line, so panels laid side by side join into one continuous face. Side panels are tall strips one unit wide by three tall, their top and bottom edges plain in the same way.\n\nAssets in reading order (row 1 left to right, then row 2, then row 3):\n1. Front panel, plain grey steel, a row of small rivets along its top and its foot, no seam.\n2. Front panel with one vertical plate seam across its middle, a few rivets along it.\n3. Front panel with a low louvred vent grille.\n4. Front panel ending at its left edge in a vertical rounded steel corner trim, where the wall turns away; its right edge plain.\n5. Front door, closed: a heavy submarine watertight door filling the panel's full height and about half its width, in its middle: a thick oval frame ringed with black and yellow hazard stripes standing proud of the wall, its inner jamb faces in deep shadow, the oval grey leaf recessed behind it with a large hand wheel and six locking dogs that cast shadows, heavy hinge barrels on one side, a small green lamp beside it. A solid three-dimensional door, not a picture of one.\n6. Front door, open: the same frame; the thick leaf swung out toward the viewer on its hinges, seen at an angle with its edge and wheel showing; through the frame a deep dark passage going back into the wall with a hazard-striped sill.\n7. Front panel with a small bolted access hatch.\n8. Front panel with a small round reinforced blue-green porthole.\n9. Side panel, plain grey steel, rivets along it, top and bottom edges plain.\n10. Side panel with one horizontal plate seam across its middle.\n11. Side door, closed: the tall strip with the watertight door seen almost edge on: the thick hazard-striped frame standing proud, the shut leaf's thickness and the rim of its wheel, deep shadow in the recess.\n12. Side door, open: the same strip, the frame's edge and a deep dark opening, the leaf's thick edge swung toward the viewer.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "7cecf1e777c0877b",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/kit_style_b.png"
+    }
+  ],
+  "cells": [
+    "any_panel",
+    "any_panel_seam",
+    "any_panel_vent",
+    "any_panel_trim",
+    "any_panel_door_closed",
+    "any_panel_door_open",
+    "any_panel_hatch",
+    "any_panel_porthole",
+    "any_side_panel",
+    "any_side_panel_seam",
+    "any_side_door_closed",
+    "any_side_door_open"
+  ]
+}

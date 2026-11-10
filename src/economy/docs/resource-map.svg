@@ -1,0 +1,172 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1540 494" width="1540" height="494" font-family="sans-serif" font-size="12">
+<rect width="1540" height="494" fill="#fbfaf7"/>
+<text x="128.0" y="40" text-anchor="middle" fill="#555">mean depth 3.4–6.7</text>
+<text x="342.0" y="40" text-anchor="middle" fill="#555">mean depth 6.8–7.6</text>
+<text x="556.0" y="40" text-anchor="middle" fill="#555">mean depth 7.7–8.5</text>
+<text x="770.0" y="40" text-anchor="middle" fill="#555">mean depth 8.5–9.1</text>
+<text x="984.0" y="40" text-anchor="middle" fill="#555">mean depth 9.2–10.9</text>
+<text x="1198.0" y="40" text-anchor="middle" fill="#555">mean depth 11.1–13.2</text>
+<text x="1412.0" y="40" text-anchor="middle" fill="#555">mean depth 13.4–13.4</text>
+<path d="M216,325.0 C556.0,325.0 556.0,125.0 896,125.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="4.0"/>
+<path d="M254,365.0 C166.0,365.0 518.0,285.0 430,285.0" fill="none" stroke="hsl(240, 55%, 48%)" stroke-opacity="0.2" stroke-width="4.5" stroke-dasharray="5 4"/>
+<path d="M40,205.0 C-48.0,205.0 304.0,285.0 216,285.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.2" stroke-width="4.5" stroke-dasharray="5 4"/>
+<path d="M216,285.0 C449.0,285.0 449.0,285.0 682,285.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="4.6"/>
+<path d="M216,325.0 C266,325.0 204,365.0 254,365.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="4.6"/>
+<path d="M40,85.0 C-48.0,85.0 304.0,165.0 216,165.0" fill="none" stroke="hsl(30, 55%, 48%)" stroke-opacity="0.2" stroke-width="4.6" stroke-dasharray="5 4"/>
+<path d="M216,285.0 C449.0,285.0 449.0,125.0 682,125.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="4.7"/>
+<path d="M216,285.0 C266,285.0 204,285.0 254,285.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="4.7"/>
+<path d="M216,85.0 C266,85.0 204,365.0 254,365.0" fill="none" stroke="hsl(30, 55%, 48%)" stroke-opacity="0.5" stroke-width="4.7"/>
+<path d="M216,85.0 C449.0,85.0 449.0,165.0 682,165.0" fill="none" stroke="hsl(30, 55%, 48%)" stroke-opacity="0.5" stroke-width="4.8"/>
+<path d="M468,325.0 C418,325.0 480,245.0 430,245.0" fill="none" stroke="hsl(300, 55%, 48%)" stroke-opacity="0.2" stroke-width="4.9" stroke-dasharray="5 4"/>
+<path d="M468,285.0 C342.0,285.0 342.0,85.0 216,85.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.2" stroke-width="4.9" stroke-dasharray="5 4"/>
+<path d="M858,85.0 C908,85.0 846,165.0 896,165.0" fill="none" stroke="hsl(0, 55%, 48%)" stroke-opacity="0.5" stroke-width="4.9"/>
+<path d="M216,285.0 C663.0,285.0 663.0,365.0 1110,365.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.0"/>
+<path d="M40,285.0 C-48.0,285.0 304.0,165.0 216,165.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.2" stroke-width="5.0" stroke-dasharray="5 4"/>
+<path d="M430,365.0 C480,365.0 418,245.0 468,245.0" fill="none" stroke="hsl(240, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.1"/>
+<path d="M682,365.0 C449.0,365.0 449.0,205.0 216,205.0" fill="none" stroke="hsl(300, 55%, 48%)" stroke-opacity="0.2" stroke-width="5.1" stroke-dasharray="5 4"/>
+<path d="M216,245.0 C449.0,245.0 449.0,125.0 682,125.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.2"/>
+<path d="M216,325.0 C663.0,325.0 663.0,285.0 1110,285.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.2"/>
+<path d="M896,245.0 C808.0,245.0 1160.0,205.0 1072,205.0" fill="none" stroke="hsl(300, 55%, 48%)" stroke-opacity="0.2" stroke-width="5.3" stroke-dasharray="5 4"/>
+<path d="M430,365.0 C663.0,365.0 663.0,165.0 896,165.0" fill="none" stroke="hsl(240, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.3"/>
+<path d="M644,285.0 C694,285.0 632,205.0 682,205.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.3"/>
+<path d="M468,285.0 C342.0,285.0 342.0,205.0 216,205.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.2" stroke-width="5.3" stroke-dasharray="5 4"/>
+<path d="M40,325.0 C-48.0,325.0 304.0,365.0 216,365.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.2" stroke-width="5.3" stroke-dasharray="5 4"/>
+<path d="M216,245.0 C449.0,245.0 449.0,325.0 682,325.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.4"/>
+<path d="M682,245.0 C632,245.0 694,165.0 644,165.0" fill="none" stroke="hsl(150, 55%, 48%)" stroke-opacity="0.2" stroke-width="5.4" stroke-dasharray="5 4"/>
+<path d="M216,325.0 C342.0,325.0 342.0,85.0 468,85.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.4"/>
+<path d="M216,285.0 C449.0,285.0 449.0,365.0 682,365.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.5"/>
+<path d="M430,285.0 C663.0,285.0 663.0,205.0 896,205.0" fill="none" stroke="hsl(210, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.5"/>
+<path d="M430,365.0 C770.0,365.0 770.0,285.0 1110,285.0" fill="none" stroke="hsl(240, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.5"/>
+<path d="M430,165.0 C770.0,165.0 770.0,85.0 1110,85.0" fill="none" stroke="hsl(0, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.5"/>
+<path d="M644,285.0 C694,285.0 632,365.0 682,365.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.5"/>
+<path d="M216,85.0 C556.0,85.0 556.0,85.0 896,85.0" fill="none" stroke="hsl(30, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.5"/>
+<path d="M254,125.0 C166.0,125.0 518.0,165.0 430,165.0" fill="none" stroke="hsl(0, 55%, 48%)" stroke-opacity="0.2" stroke-width="5.6" stroke-dasharray="5 4"/>
+<path d="M430,365.0 C480,365.0 418,205.0 468,205.0" fill="none" stroke="hsl(240, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.6"/>
+<path d="M216,285.0 C342.0,285.0 342.0,85.0 468,85.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.6"/>
+<path d="M468,285.0 C380.0,285.0 732.0,365.0 644,365.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.2" stroke-width="5.6" stroke-dasharray="5 4"/>
+<path d="M216,365.0 C556.0,365.0 556.0,365.0 896,365.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.6"/>
+<path d="M216,245.0 C449.0,245.0 449.0,205.0 682,205.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.6"/>
+<path d="M40,285.0 C-48.0,285.0 304.0,325.0 216,325.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.2" stroke-width="5.6" stroke-dasharray="5 4"/>
+<path d="M216,285.0 C556.0,285.0 556.0,365.0 896,365.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.6"/>
+<path d="M430,285.0 C480,285.0 418,245.0 468,245.0" fill="none" stroke="hsl(210, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.6"/>
+<path d="M216,325.0 C266,325.0 204,325.0 254,325.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.7"/>
+<path d="M216,325.0 C556.0,325.0 556.0,285.0 896,285.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.7"/>
+<path d="M254,125.0 C166.0,125.0 518.0,205.0 430,205.0" fill="none" stroke="hsl(0, 55%, 48%)" stroke-opacity="0.2" stroke-width="5.8" stroke-dasharray="5 4"/>
+<path d="M216,325.0 C556.0,325.0 556.0,245.0 896,245.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.8"/>
+<path d="M216,325.0 C449.0,325.0 449.0,165.0 682,165.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.8"/>
+<path d="M216,325.0 C342.0,325.0 342.0,165.0 468,165.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.8"/>
+<path d="M40,245.0 C-48.0,245.0 304.0,85.0 216,85.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.2" stroke-width="5.8" stroke-dasharray="5 4"/>
+<path d="M216,285.0 C556.0,285.0 556.0,245.0 896,245.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.8"/>
+<path d="M216,285.0 C342.0,285.0 342.0,365.0 468,365.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.8"/>
+<path d="M216,325.0 C342.0,325.0 342.0,205.0 468,205.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.8"/>
+<path d="M254,85.0 C166.0,85.0 518.0,125.0 430,125.0" fill="none" stroke="hsl(0, 55%, 48%)" stroke-opacity="0.2" stroke-width="5.8" stroke-dasharray="5 4"/>
+<path d="M40,85.0 C-48.0,85.0 304.0,245.0 216,245.0" fill="none" stroke="hsl(30, 55%, 48%)" stroke-opacity="0.2" stroke-width="5.8" stroke-dasharray="5 4"/>
+<path d="M644,125.0 C877.0,125.0 877.0,245.0 1110,245.0" fill="none" stroke="hsl(120, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.9"/>
+<path d="M254,165.0 C166.0,165.0 518.0,125.0 430,125.0" fill="none" stroke="hsl(0, 55%, 48%)" stroke-opacity="0.2" stroke-width="5.9" stroke-dasharray="5 4"/>
+<path d="M216,285.0 C342.0,285.0 342.0,285.0 468,285.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.9"/>
+<path d="M216,325.0 C266,325.0 204,245.0 254,245.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="5.9"/>
+<path d="M430,125.0 C770.0,125.0 770.0,245.0 1110,245.0" fill="none" stroke="hsl(0, 55%, 48%)" stroke-opacity="0.5" stroke-width="6.0"/>
+<path d="M430,125.0 C770.0,125.0 770.0,165.0 1110,165.0" fill="none" stroke="hsl(0, 55%, 48%)" stroke-opacity="0.5" stroke-width="6.0"/>
+<path d="M216,285.0 C556.0,285.0 556.0,325.0 896,325.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="6.0"/>
+<path d="M1110,85.0 C1060,85.0 1122,85.0 1072,85.0" fill="none" stroke="hsl(0, 55%, 48%)" stroke-opacity="0.2" stroke-width="6.0" stroke-dasharray="5 4"/>
+<path d="M468,285.0 C418,285.0 480,205.0 430,205.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.2" stroke-width="6.0" stroke-dasharray="5 4"/>
+<path d="M254,285.0 C166.0,285.0 518.0,325.0 430,325.0" fill="none" stroke="hsl(210, 55%, 48%)" stroke-opacity="0.2" stroke-width="6.0" stroke-dasharray="5 4"/>
+<path d="M858,85.0 C984.0,85.0 984.0,85.0 1110,85.0" fill="none" stroke="hsl(0, 55%, 48%)" stroke-opacity="0.5" stroke-width="6.1"/>
+<path d="M40,165.0 C-48.0,165.0 304.0,365.0 216,365.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.2" stroke-width="6.1" stroke-dasharray="5 4"/>
+<path d="M40,165.0 C-48.0,165.0 304.0,285.0 216,285.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.2" stroke-width="6.1" stroke-dasharray="5 4"/>
+<path d="M216,85.0 C266,85.0 204,165.0 254,165.0" fill="none" stroke="hsl(30, 55%, 48%)" stroke-opacity="0.5" stroke-width="6.2"/>
+<path d="M430,125.0 C770.0,125.0 770.0,325.0 1110,325.0" fill="none" stroke="hsl(0, 55%, 48%)" stroke-opacity="0.5" stroke-width="6.3"/>
+<path d="M216,325.0 C342.0,325.0 342.0,285.0 468,285.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="6.3"/>
+<path d="M1110,85.0 C877.0,85.0 877.0,125.0 644,125.0" fill="none" stroke="hsl(0, 55%, 48%)" stroke-opacity="0.2" stroke-width="6.4" stroke-dasharray="5 4"/>
+<path d="M40,165.0 C-48.0,165.0 304.0,245.0 216,245.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.2" stroke-width="6.4" stroke-dasharray="5 4"/>
+<path d="M40,245.0 C-48.0,245.0 304.0,325.0 216,325.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.2" stroke-width="6.5" stroke-dasharray="5 4"/>
+<path d="M430,365.0 C663.0,365.0 663.0,125.0 896,125.0" fill="none" stroke="hsl(240, 55%, 48%)" stroke-opacity="0.5" stroke-width="6.5"/>
+<path d="M430,165.0 C877.0,165.0 877.0,85.0 1324,85.0" fill="none" stroke="hsl(0, 55%, 48%)" stroke-opacity="0.5" stroke-width="6.5"/>
+<path d="M216,325.0 C556.0,325.0 556.0,325.0 896,325.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="6.5"/>
+<path d="M216,85.0 C342.0,85.0 342.0,125.0 468,125.0" fill="none" stroke="hsl(30, 55%, 48%)" stroke-opacity="0.5" stroke-width="6.5"/>
+<path d="M216,245.0 C449.0,245.0 449.0,245.0 682,245.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="6.6"/>
+<path d="M896,245.0 C808.0,245.0 1160.0,285.0 1072,285.0" fill="none" stroke="hsl(300, 55%, 48%)" stroke-opacity="0.2" stroke-width="6.7" stroke-dasharray="5 4"/>
+<path d="M1072,245.0 C1122,245.0 1060,365.0 1110,365.0" fill="none" stroke="hsl(300, 55%, 48%)" stroke-opacity="0.5" stroke-width="6.7"/>
+<path d="M216,285.0 C449.0,285.0 449.0,325.0 682,325.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="6.7"/>
+<path d="M644,285.0 C694,285.0 632,245.0 682,245.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="6.8"/>
+<path d="M216,85.0 C449.0,85.0 449.0,85.0 682,85.0" fill="none" stroke="hsl(30, 55%, 48%)" stroke-opacity="0.5" stroke-width="6.8"/>
+<path d="M644,125.0 C984.0,125.0 984.0,125.0 1324,125.0" fill="none" stroke="hsl(120, 55%, 48%)" stroke-opacity="0.5" stroke-width="6.8"/>
+<path d="M430,85.0 C770.0,85.0 770.0,165.0 1110,165.0" fill="none" stroke="hsl(0, 55%, 48%)" stroke-opacity="0.5" stroke-width="6.9"/>
+<path d="M430,365.0 C556.0,365.0 556.0,285.0 682,285.0" fill="none" stroke="hsl(240, 55%, 48%)" stroke-opacity="0.5" stroke-width="7.0"/>
+<path d="M216,285.0 C342.0,285.0 342.0,325.0 468,325.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="7.0"/>
+<path d="M430,85.0 C770.0,85.0 770.0,325.0 1110,325.0" fill="none" stroke="hsl(0, 55%, 48%)" stroke-opacity="0.5" stroke-width="7.0"/>
+<path d="M1110,85.0 C1022.0,85.0 1374.0,125.0 1286,125.0" fill="none" stroke="hsl(0, 55%, 48%)" stroke-opacity="0.2" stroke-width="7.1" stroke-dasharray="5 4"/>
+<path d="M216,85.0 C770.0,85.0 770.0,125.0 1324,125.0" fill="none" stroke="hsl(30, 55%, 48%)" stroke-opacity="0.5" stroke-width="7.1"/>
+<path d="M216,325.0 C342.0,325.0 342.0,325.0 468,325.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="7.1"/>
+<path d="M430,85.0 C556.0,85.0 556.0,85.0 682,85.0" fill="none" stroke="hsl(0, 55%, 48%)" stroke-opacity="0.5" stroke-width="7.3"/>
+<path d="M644,285.0 C877.0,285.0 877.0,125.0 1110,125.0" fill="none" stroke="hsl(270, 55%, 48%)" stroke-opacity="0.5" stroke-width="7.4"/>
+<path d="M468,125.0 C342.0,125.0 342.0,125.0 216,125.0" fill="none" stroke="hsl(120, 55%, 48%)" stroke-opacity="0.2" stroke-width="7.4" stroke-dasharray="5 4"/>
+<path d="M254,125.0 C166.0,125.0 518.0,85.0 430,85.0" fill="none" stroke="hsl(0, 55%, 48%)" stroke-opacity="0.2" stroke-width="7.6" stroke-dasharray="5 4"/>
+<path d="M1286,85.0 C1336,85.0 1274,85.0 1324,85.0" fill="none" stroke="hsl(0, 55%, 48%)" stroke-opacity="0.5" stroke-width="7.8"/>
+<path d="M1110,85.0 C1022.0,85.0 1374.0,205.0 1286,205.0" fill="none" stroke="hsl(0, 55%, 48%)" stroke-opacity="0.2" stroke-width="7.9" stroke-dasharray="5 4"/>
+<path d="M40,85.0 C-48.0,85.0 304.0,125.0 216,125.0" fill="none" stroke="hsl(30, 55%, 48%)" stroke-opacity="0.2" stroke-width="7.9" stroke-dasharray="5 4"/>
+<path d="M216,85.0 C266,85.0 204,85.0 254,85.0" fill="none" stroke="hsl(30, 55%, 48%)" stroke-opacity="0.5" stroke-width="8.0"/>
+<path d="M644,125.0 C877.0,125.0 877.0,205.0 1110,205.0" fill="none" stroke="hsl(120, 55%, 48%)" stroke-opacity="0.5" stroke-width="8.1"/>
+<rect x="40" y="70" width="176" height="30" rx="5" fill="hsl(30, 55%, 48%)"/><text x="47" y="90" fill="#fff"><tspan font-weight="bold">wat</tspan> Water</text>
+<rect x="40" y="110" width="176" height="30" rx="5" fill="hsl(120, 55%, 48%)"/><text x="47" y="130" fill="#fff"><tspan font-weight="bold">san</tspan> Waste Treatment</text>
+<rect x="40" y="150" width="176" height="30" rx="5" fill="hsl(270, 55%, 48%)"/><text x="47" y="170" fill="#fff"><tspan font-weight="bold">ore</tspan> Ores, Ice &amp; Regolith</text>
+<rect x="40" y="190" width="176" height="30" rx="5" fill="hsl(270, 55%, 48%)"/><text x="47" y="210" fill="#fff"><tspan font-weight="bold">scr</tspan> Salvage &amp; Recycling</text>
+<rect x="40" y="230" width="176" height="30" rx="5" fill="hsl(270, 55%, 48%)"/><text x="47" y="250" fill="#fff"><tspan font-weight="bold">chm</tspan> Chemicals</text>
+<rect x="40" y="270" width="176" height="30" rx="5" fill="hsl(270, 55%, 48%)"/><text x="47" y="290" fill="#fff"><tspan font-weight="bold">met</tspan> Metals &amp; Alloys</text>
+<rect x="40" y="310" width="176" height="30" rx="5" fill="hsl(270, 55%, 48%)"/><text x="47" y="330" fill="#fff"><tspan font-weight="bold">pol</tspan> Polymers, Seals &amp; Lubri</text>
+<rect x="40" y="350" width="176" height="30" rx="5" fill="hsl(270, 55%, 48%)"/><text x="47" y="370" fill="#fff"><tspan font-weight="bold">cer</tspan> Ceramics, Glass &amp; Compo</text>
+<rect x="254" y="70" width="176" height="30" rx="5" fill="hsl(0, 55%, 48%)"/><text x="261" y="90" fill="#fff"><tspan font-weight="bold">soi</tspan> Growth Media &amp; Nutrient</text>
+<rect x="254" y="110" width="176" height="30" rx="5" fill="hsl(0, 55%, 48%)"/><text x="261" y="130" fill="#fff"><tspan font-weight="bold">bio</tspan> Seeds, Starters &amp; Cultu</text>
+<rect x="254" y="150" width="176" height="30" rx="5" fill="hsl(0, 55%, 48%)"/><text x="261" y="170" fill="#fff"><tspan font-weight="bold">grn</tspan> Grains &amp; Staples</text>
+<rect x="254" y="190" width="176" height="30" rx="5" fill="hsl(60, 55%, 48%)"/><text x="261" y="210" fill="#fff"><tspan font-weight="bold">gas</tspan> Air &amp; Gases</text>
+<rect x="254" y="230" width="176" height="30" rx="5" fill="hsl(120, 55%, 48%)"/><text x="261" y="250" fill="#fff"><tspan font-weight="bold">toi</tspan> Toilet &amp; Body Waste</text>
+<rect x="254" y="270" width="176" height="30" rx="5" fill="hsl(210, 55%, 48%)"/><text x="261" y="290" fill="#fff"><tspan font-weight="bold">sig</tspan> Notes, Tokens &amp; Signals</text>
+<rect x="254" y="310" width="176" height="30" rx="5" fill="hsl(210, 55%, 48%)"/><text x="261" y="330" fill="#fff"><tspan font-weight="bold">fun</tspan> Games &amp; Pastimes</text>
+<rect x="254" y="350" width="176" height="30" rx="5" fill="hsl(240, 55%, 48%)"/><text x="261" y="370" fill="#fff"><tspan font-weight="bold">fib</tspan> Fibres &amp; Textiles</text>
+<rect x="468" y="70" width="176" height="30" rx="5" fill="hsl(60, 55%, 48%)"/><text x="475" y="90" fill="#fff"><tspan font-weight="bold">thm</tspan> Heat &amp; Cooling</text>
+<rect x="468" y="110" width="176" height="30" rx="5" fill="hsl(120, 55%, 48%)"/><text x="475" y="130" fill="#fff"><tspan font-weight="bold">cln</tspan> Cleaning &amp; Laundry</text>
+<rect x="468" y="150" width="176" height="30" rx="5" fill="hsl(150, 55%, 48%)"/><text x="475" y="170" fill="#fff"><tspan font-weight="bold">sup</tspan> Medical Supplies</text>
+<rect x="468" y="190" width="176" height="30" rx="5" fill="hsl(210, 55%, 48%)"/><text x="475" y="210" fill="#fff"><tspan font-weight="bold">fit</tspan> Exercise</text>
+<rect x="468" y="230" width="176" height="30" rx="5" fill="hsl(210, 55%, 48%)"/><text x="475" y="250" fill="#fff"><tspan font-weight="bold">art</tspan> Arts, Crafts &amp; Music</text>
+<rect x="468" y="270" width="176" height="30" rx="5" fill="hsl(270, 55%, 48%)"/><text x="475" y="290" fill="#fff"><tspan font-weight="bold">pak</tspan> Containers &amp; Packaging</text>
+<rect x="468" y="310" width="176" height="30" rx="5" fill="hsl(300, 55%, 48%)"/><text x="475" y="330" fill="#fff"><tspan font-weight="bold">mec</tspan> Mechanical Parts &amp; Tool</text>
+<rect x="468" y="350" width="176" height="30" rx="5" fill="hsl(330, 55%, 48%)"/><text x="475" y="370" fill="#fff"><tspan font-weight="bold">prp</tspan> Propulsion &amp; Fuel</text>
+<rect x="682" y="70" width="176" height="30" rx="5" fill="hsl(0, 55%, 48%)"/><text x="689" y="90" fill="#fff"><tspan font-weight="bold">veg</tspan> Vegetables &amp; Greens</text>
+<rect x="682" y="110" width="176" height="30" rx="5" fill="hsl(60, 55%, 48%)"/><text x="689" y="130" fill="#fff"><tspan font-weight="bold">fil</tspan> Filters &amp; Scrubbers</text>
+<rect x="682" y="150" width="176" height="30" rx="5" fill="hsl(120, 55%, 48%)"/><text x="689" y="170" fill="#fff"><tspan font-weight="bold">hyg</tspan> Personal Hygiene</text>
+<rect x="682" y="190" width="176" height="30" rx="5" fill="hsl(150, 55%, 48%)"/><text x="689" y="210" fill="#fff"><tspan font-weight="bold">rad</tspan> Radiation &amp; Toxin Treat</text>
+<rect x="682" y="230" width="176" height="30" rx="5" fill="hsl(150, 55%, 48%)"/><text x="689" y="250" fill="#fff"><tspan font-weight="bold">med</tspan> Medicines</text>
+<rect x="682" y="270" width="176" height="30" rx="5" fill="hsl(240, 55%, 48%)"/><text x="689" y="290" fill="#fff"><tspan font-weight="bold">clo</tspan> Garments &amp; Wearables</text>
+<rect x="682" y="310" width="176" height="30" rx="5" fill="hsl(270, 55%, 48%)"/><text x="689" y="330" fill="#fff"><tspan font-weight="bold">pwr</tspan> Power &amp; Cabling</text>
+<rect x="682" y="350" width="176" height="30" rx="5" fill="hsl(300, 55%, 48%)"/><text x="689" y="370" fill="#fff"><tspan font-weight="bold">fur</tspan> Furniture &amp; Device Kits</text>
+<rect x="896" y="70" width="176" height="30" rx="5" fill="hsl(0, 55%, 48%)"/><text x="903" y="90" fill="#fff"><tspan font-weight="bold">prt</tspan> Proteins</text>
+<rect x="896" y="110" width="176" height="30" rx="5" fill="hsl(90, 55%, 48%)"/><text x="903" y="130" fill="#fff"><tspan font-weight="bold">bed</tspan> Beds &amp; Bedding</text>
+<rect x="896" y="150" width="176" height="30" rx="5" fill="hsl(180, 55%, 48%)"/><text x="903" y="170" fill="#fff"><tspan font-weight="bold">rlx</tspan> Stress Relief</text>
+<rect x="896" y="190" width="176" height="30" rx="5" fill="hsl(210, 55%, 48%)"/><text x="903" y="210" fill="#fff"><tspan font-weight="bold">lib</tspan> Books &amp; Media</text>
+<rect x="896" y="230" width="176" height="30" rx="5" fill="hsl(300, 55%, 48%)"/><text x="903" y="250" fill="#fff"><tspan font-weight="bold">ecp</tspan> Electronics &amp; Computing</text>
+<rect x="896" y="270" width="176" height="30" rx="5" fill="hsl(300, 55%, 48%)"/><text x="903" y="290" fill="#fff"><tspan font-weight="bold">lgt</tspan> Lighting &amp; Sensors</text>
+<rect x="896" y="310" width="176" height="30" rx="5" fill="hsl(330, 55%, 48%)"/><text x="903" y="330" fill="#fff"><tspan font-weight="bold">hul</tspan> Hull, Repair &amp; Safety</text>
+<rect x="896" y="350" width="176" height="30" rx="5" fill="hsl(330, 55%, 48%)"/><text x="903" y="370" fill="#fff"><tspan font-weight="bold">shd</tspan> Shields &amp; Deflection</text>
+<rect x="1110" y="70" width="176" height="30" rx="5" fill="hsl(0, 55%, 48%)"/><text x="1117" y="90" fill="#fff"><tspan font-weight="bold">ing</tspan> Galley Stores</text>
+<rect x="1110" y="110" width="176" height="30" rx="5" fill="hsl(0, 55%, 48%)"/><text x="1117" y="130" fill="#fff"><tspan font-weight="bold">prs</tspan> Rations &amp; Preserves</text>
+<rect x="1110" y="150" width="176" height="30" rx="5" fill="hsl(0, 55%, 48%)"/><text x="1117" y="170" fill="#fff"><tspan font-weight="bold">frt</tspan> Fruit &amp; Berries</text>
+<rect x="1110" y="190" width="176" height="30" rx="5" fill="hsl(0, 55%, 48%)"/><text x="1117" y="210" fill="#fff"><tspan font-weight="bold">mel</tspan> Cooked Meals</text>
+<rect x="1110" y="230" width="176" height="30" rx="5" fill="hsl(30, 55%, 48%)"/><text x="1117" y="250" fill="#fff"><tspan font-weight="bold">brw</tspan> Brews &amp; Ferments</text>
+<rect x="1110" y="270" width="176" height="30" rx="5" fill="hsl(90, 55%, 48%)"/><text x="1117" y="290" fill="#fff"><tspan font-weight="bold">slp</tspan> Sleep Aids</text>
+<rect x="1110" y="310" width="176" height="30" rx="5" fill="hsl(180, 55%, 48%)"/><text x="1117" y="330" fill="#fff"><tspan font-weight="bold">grd</tspan> Ornamental Plants &amp; Ani</text>
+<rect x="1110" y="350" width="176" height="30" rx="5" fill="hsl(330, 55%, 48%)"/><text x="1117" y="370" fill="#fff"><tspan font-weight="bold">nav</tspan> Navigation &amp; Data</text>
+<rect x="1324" y="70" width="176" height="30" rx="5" fill="hsl(0, 55%, 48%)"/><text x="1331" y="90" fill="#fff"><tspan font-weight="bold">snk</tspan> Snacks &amp; Confectionery</text>
+<rect x="1324" y="110" width="176" height="30" rx="5" fill="hsl(30, 55%, 48%)"/><text x="1331" y="130" fill="#fff"><tspan font-weight="bold">bev</tspan> Beverages</text>
+<rect x="40" y="400" width="12" height="12" rx="2" fill="hsl(0, 55%, 48%)"/><text x="58" y="410" fill="#333">Div 01 Provisions</text>
+<rect x="210" y="400" width="12" height="12" rx="2" fill="hsl(30, 55%, 48%)"/><text x="228" y="410" fill="#333">Div 02 Potables</text>
+<rect x="380" y="400" width="12" height="12" rx="2" fill="hsl(60, 55%, 48%)"/><text x="398" y="410" fill="#333">Div 03 Atmosphere &amp; Climate</text>
+<rect x="550" y="400" width="12" height="12" rx="2" fill="hsl(90, 55%, 48%)"/><text x="568" y="410" fill="#333">Div 04 Rest</text>
+<rect x="720" y="400" width="12" height="12" rx="2" fill="hsl(120, 55%, 48%)"/><text x="738" y="410" fill="#333">Div 05 Sanitation &amp; Hygiene</text>
+<rect x="890" y="400" width="12" height="12" rx="2" fill="hsl(150, 55%, 48%)"/><text x="908" y="410" fill="#333">Div 06 Medical</text>
+<rect x="40" y="422" width="12" height="12" rx="2" fill="hsl(180, 55%, 48%)"/><text x="58" y="432" fill="#333">Div 07 Stress Control</text>
+<rect x="210" y="422" width="12" height="12" rx="2" fill="hsl(210, 55%, 48%)"/><text x="228" y="432" fill="#333">Div 08 Recreation &amp; Morale</text>
+<rect x="380" y="422" width="12" height="12" rx="2" fill="hsl(240, 55%, 48%)"/><text x="398" y="432" fill="#333">Div 09 Garments</text>
+<rect x="550" y="422" width="12" height="12" rx="2" fill="hsl(270, 55%, 48%)"/><text x="568" y="432" fill="#333">Div 10 Materials &amp; Power</text>
+<rect x="720" y="422" width="12" height="12" rx="2" fill="hsl(300, 55%, 48%)"/><text x="738" y="432" fill="#333">Div 11 Parts &amp; Fixtures</text>
+<rect x="890" y="422" width="12" height="12" rx="2" fill="hsl(330, 55%, 48%)"/><text x="908" y="432" fill="#333">Div 12 Vessel Systems</text>
+</svg>

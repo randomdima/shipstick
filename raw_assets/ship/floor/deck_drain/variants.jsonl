@@ -1,0 +1,4 @@
+{"variant": "deck_drain-v1", "frame": "deck_a-v1", "box": [190, 345, 299, 295], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:19:19"}
+{"variant": "deck_drain-v2", "frame": "cdeck_a-v1", "box": [188, 345, 298, 296], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:19:17"}
+{"variant": "deck_drain-v3", "frame": "deck_b-v1", "box": [193, 690, 285, 286], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T22:35:41"}
+{"variant": "deck_drain-v4", "frame": "deck_c-v1", "box": [206, 676, 264, 264], "grid": [3, 3], "score": 4, "status": "used", "ts": "2026-11-05T22:43:50"}

@@ -1,0 +1,23 @@
+<Project>
+  <!-- **The game's version, once**, for every head that ships it, stamped on each assembly. The release is raised by
+       hand; the last figure is the count of commits (Directory.Build.targets, `CountTheCommits`). -->
+  <PropertyGroup>
+    <GameRelease>0.1</GameRelease>
+    <Version>$(GameRelease).0</Version>
+  </PropertyGroup>
+
+  <!-- **Every project's bin/ and obj/ at the root, one folder a project**, so a slice folder holds only what was
+       written. Set here because Directory.Build.props is read before the SDK derives its own from the project's
+       folder. -->
+  <PropertyGroup>
+    <BaseOutputPath>$(MSBuildThisFileDirectory)bin/$(MSBuildProjectName)/</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)obj/$(MSBuildProjectName)/</BaseIntermediateOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net11.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+</Project>

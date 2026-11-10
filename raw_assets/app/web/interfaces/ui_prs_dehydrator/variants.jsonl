@@ -1,0 +1,4 @@
+{"variant": "ui_prs_dehydrator-v1", "frame": "ui_e-v1", "box": [536, 348, 465, 285], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T20:20:54"}
+{"variant": "ui_prs_dehydrator-v2", "frame": "ui_e-v2", "box": [563, 374, 411, 250], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:36:44"}
+{"variant": "ui_prs_dehydrator-v3", "frame": "cui_e-v1", "box": [561, 384, 417, 245], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:17:56"}
+{"variant": "ui_prs_dehydrator-v4", "frame": "tui_e-v1", "box": [545, 373, 447, 262], "grid": null, "score": 4, "status": "used", "ts": "2026-11-06T01:41:56"}

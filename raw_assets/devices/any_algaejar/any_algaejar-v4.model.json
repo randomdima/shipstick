@@ -1,0 +1,54 @@
+{
+  "id": "any_algaejar",
+  "about": "An algae jar on one cell: a strapped glass jar of green algae on a steel plinth with yellow corner clamps, a gas bottle beside it piped to the lid.",
+  "boundsM": [[0, 0, 0], [1, 1, 1.1]],
+  "textures": {
+    "algae":  {"src": "raw_assets/textures/tex_algae_glass/tex_algae_glass-v1.png", "insetPct": 4, "tileM": 0.67},
+    "liquid": {"src": "raw_assets/textures/tex_tank_liquid/tex_tank_liquid-v1.png", "insetPct": 4, "tileM": 0.67},
+    "panel":  {"src": "raw_assets/textures/tex_bench_panel/tex_bench_panel-v1.png", "insetPct": 4, "tileM": 0.6},
+    "steel":  {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "pipe":   {"src": "raw_assets/textures/tex_pipe/tex_pipe-v1.png", "insetPct": 6, "tileM": 0.3},
+    "lid":    {"src": "raw_assets/textures/tex_jug_lid/tex_jug_lid-v1.png", "insetPct": 3},
+    "yellow": {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "trim":   {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3}
+  },
+  "parts": [
+    {"shape": "group", "name": "plinth", "parts": [
+      {"shape": "box", "name": "plinth body", "atM": [0.5, 0.5, 0.06], "sizeM": [0.88, 0.84, 0.12],
+       "faces": {"top": "panel", "*": {"tex": "trim", "shade": 0.9}, "bottom": null}},
+      {"shape": "box", "name": "clamp", "atM": [0.14, 0.065, 0.11], "sizeM": [0.12, 0.03, 0.22],
+       "repeat": {"count": 2, "stepM": [0.6, 0, 0]}, "tex": "yellow"}
+    ]},
+    {"shape": "group", "name": "jar", "parts": [
+      {"shape": "cylinder", "name": "foot ring", "atM": [0.43, 0.52, 0.18], "radiusM": 0.33, "lengthM": 0.12,
+       "faces": {"side": "steel", "ends": "steel"}},
+      {"shape": "cylinder", "name": "algae", "atM": [0.43, 0.52, 0.46], "radiusM": 0.31, "lengthM": 0.52,
+       "faces": {"side": "algae", "ends": null}},
+      {"shape": "cylinder", "name": "headspace", "atM": [0.43, 0.52, 0.80], "radiusM": 0.31, "lengthM": 0.16,
+       "faces": {"side": "liquid", "ends": null}},
+      {"shape": "cylinder", "name": "top ring", "atM": [0.43, 0.52, 0.9], "radiusM": 0.33, "lengthM": 0.04,
+       "faces": {"side": "steel", "ends": "steel"}},
+      {"shape": "cylinder", "name": "lid", "atM": [0.43, 0.52, 0.94], "radiusM": 0.29, "lengthM": 0.04,
+       "faces": {"side": "steel", "ends": "lid"}},
+      {"shape": "cylinder", "name": "lid cap", "atM": [0.43, 0.52, 0.99], "radiusM": 0.1, "lengthM": 0.06,
+       "faces": {"side": "steel", "ends": "steel"}},
+      {"shape": "box", "name": "strap", "atM": [0.21, 0.30, 0.53], "sizeM": [0.04, 0.02, 0.7], "rotDeg": [0, 0, -45],
+       "tex": "steel"},
+      {"shape": "box", "name": "strap", "atM": [0.65, 0.30, 0.53], "sizeM": [0.04, 0.02, 0.7], "rotDeg": [0, 0, 45],
+       "tex": "steel"},
+      {"shape": "box", "name": "strap", "atM": [0.21, 0.74, 0.53], "sizeM": [0.04, 0.02, 0.7], "rotDeg": [0, 0, 45],
+       "tex": "steel"},
+      {"shape": "box", "name": "strap", "atM": [0.65, 0.74, 0.53], "sizeM": [0.04, 0.02, 0.7], "rotDeg": [0, 0, -45],
+       "tex": "steel"},
+      {"shape": "cylinder", "name": "pipe riser", "atM": [0.6, 0.62, 1.01], "radiusM": 0.022, "lengthM": 0.1,
+       "faces": {"side": "pipe", "ends": "trim"}},
+      {"shape": "sphere", "name": "pipe elbow", "atM": [0.6, 0.62, 1.06], "radiusM": 0.026, "tex": "pipe"},
+      {"shape": "cylinder", "name": "pipe run", "atM": [0.73, 0.62, 1.06], "radiusM": 0.022, "lengthM": 0.26,
+       "axis": "x", "faces": {"side": {"tex": "pipe", "turnDeg": 90}, "ends": "trim"}},
+      {"shape": "sphere", "name": "pipe elbow", "atM": [0.86, 0.62, 1.06], "radiusM": 0.026, "tex": "pipe"},
+      {"shape": "cylinder", "name": "pipe drop", "atM": [0.86, 0.62, 0.945], "radiusM": 0.022, "lengthM": 0.23,
+       "faces": {"side": "pipe", "ends": "trim"}}
+    ]},
+    {"shape": "model", "name": "gas bottle", "src": "raw_assets/parts/gas_bottle/gas_bottle-v1.model.json", "atM": [0.86, 0.62, 0.12]}
+  ]
+}

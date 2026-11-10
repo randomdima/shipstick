@@ -1,0 +1,4 @@
+{"variant": "ui_grn_field-v1", "frame": "ui_d-v1", "box": [544, 360, 448, 287], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T20:20:53"}
+{"variant": "ui_grn_field-v2", "frame": "ui_d-v2", "box": [557, 373, 424, 261], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:36:42"}
+{"variant": "ui_grn_field-v3", "frame": "cui_d-v1", "box": [568, 386, 403, 238], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:17:55"}
+{"variant": "ui_grn_field-v4", "frame": "tui_d-v1", "box": [548, 373, 441, 254], "grid": null, "score": 4, "status": "used", "ts": "2026-11-06T01:41:56"}

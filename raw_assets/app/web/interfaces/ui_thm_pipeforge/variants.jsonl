@@ -1,0 +1,4 @@
+{"variant": "ui_thm_pipeforge-v1", "frame": "ui_b-v1", "box": [1066, 703, 412, 267], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T20:20:51"}
+{"variant": "ui_thm_pipeforge-v2", "frame": "ui_b-v2", "box": [1064, 705, 421, 252], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:36:40"}
+{"variant": "ui_thm_pipeforge-v3", "frame": "cui_b-v1", "box": [1059, 701, 406, 240], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:17:54"}
+{"variant": "ui_thm_pipeforge-v4", "frame": "tui_b-v1", "box": [1061, 703, 435, 262], "grid": null, "score": 4, "status": "used", "ts": "2026-11-06T01:41:56"}

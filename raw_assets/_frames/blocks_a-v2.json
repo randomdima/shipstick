@@ -1,0 +1,55 @@
+{
+  "id": "blocks_a-v2",
+  "ts": "2026-11-05T21:37:59",
+  "op": "edit",
+  "name": "blocks_a",
+  "file": ".tmp/gen/frames/blocks_a-v2.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.021023,
+  "usage": {
+    "prompt_tokens": 2335,
+    "completion_tokens": 158,
+    "total_tokens": 2493,
+    "cost": 0.021023,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.021023,
+      "upstream_inference_prompt_cost": 0.016283,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sprite sheet of 9 separate game assets on a fully transparent background, in a 3 by 3 grid, each asset centred in its own cell with wide empty transparent gaps between them. No ground, no floor, no shadow plate, no frame, no border, no text, no labels, no numbers.\n\nImage 1 is a style reference only: match its rendering, palette, wear, lighting, camera angle and scale exactly, and draw none of the objects in it.\n\nStyle for every asset: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation. The capsule is one operator's work station and living quarters: compact, sturdy, lived in and kept. Its walls are bolted steel bulkhead blocks in dull grey with a dull dark yellow top, visible bolts and rivets, seams, occasional yellow-black hazard stripes round the doors; scuffs, worn edges, chipped paint \u2014 no grime, no rust, no oil stains, no soot. Reinforced glass has a blue-green tint. Small indicator lamps are green or amber. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nCamera for every asset: the same fixed game camera as image 1, tilted only about 15 to 20 degrees from straight down, looking toward the back of the room. Every asset is one wall block that fills exactly one floor cell, 1 metre square, the space a standing human occupies, and stands about 2.2 metres tall. So each sprite is 1 cell wide and about 1.75 times as tall as it is wide, and shows two parts, stacked: on top, the block's flat dark yellow top, the larger part, a full square as deep as it is wide, its edges plain so blocks laid side by side or one above another join seamlessly; below it, the block's front face toward the camera, grey steel, the full width, a band only about three quarters as tall as the top is deep. Seen from high above: the top dominates, as the tops do in image 1. No side faces. Every block is the same size and shape; only its front face differs, except where said.\n\nBlocks in reading order (row 1 left to right, then row 2, then row 3):\n1. Plain wall block: the front face a bolted grey bulkhead panel with a seam.\n2. Wall block whose front face has a small round reinforced blue-green glass porthole, dark space and a few stars beyond.\n3. Wall block whose front face carries a run of pipes and a cable tray.\n4. Wall block whose front face shows the operator lives here: a padded olive jacket on a hook, a small taped-up photo, a narrow fold-down shelf with a mug.\n5. Wall block whose front face has a vent grille and a small amber wall lamp.\n6. Door block, closed: the front face is a single heavy steel door slab the full height, with a wheel lock, in a yellow-black hazard-striped frame, a small green lamp beside it; the top shows the frame's thick top edge.\n7. The same door block open: the slab slid aside, a dark doorway through the front face.\n8. Side door block, closed: a door that passes through the block from left to right. The top shows it: across the block's top runs a hazard-striped door frame from the left edge to the right edge, the closed slab's top a thick steel bar along it. The front face is plain grey with a small green lamp.\n9. The same side door block open: the frame on the top is an empty dark channel from the left edge to the right edge, the slab's top slid aside; the front face plain grey.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "a363fbf5b54829ae",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/devices_style_v3.png"
+    }
+  ],
+  "cells": [
+    "any_wall",
+    "any_wall_porthole",
+    "any_wall_pipes",
+    "any_wall_lived",
+    "any_wall_vent",
+    "any_door_closed",
+    "any_door_open",
+    "any_door_side_closed",
+    "any_door_side_open"
+  ]
+}

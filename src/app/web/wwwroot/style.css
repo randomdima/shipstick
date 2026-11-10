@@ -1,0 +1,273 @@
+/* Used-future company hardware (GAM-8 to GAM-11, docs/style.md). Off the screens everything is a generated image under
+   assets/ — housings, keys, lamps, sockets, the deck, the devices — placed, sized and sliced here, never drawn. The one
+   thing drawn here is a screen: black glass, green phosphor, scanlines. Amber is caution, red an alert and nothing else.
+   Every colour below is a token; rules use the tokens. */
+/* The wide face, served by the host from assets/ (OFL, provenance in its .src.json). */
+@font-face { font-family: "Michroma"; src: url("assets/app/web/fonts/Michroma-Regular.ttf") format("truetype");
+  font-display: swap; }
+:root {
+  --phosphor: #46f07a; --phosphor-dim: #23934a; --phosphor-faint: #0f3d20; --glow: 0 0 5px #46f07a80;
+  --amber: #ffb02e; --alert: #ff4436; --alert-dim: #3a0d0a;
+  --screen: #040805;
+  --matte: #101112; --ink: #1c1d1a; --space: #0a0b0b;
+  /* Words stencilled on metal, off the screens. */
+  --stencil: #d9d3c1; --stencil-dim: #9c967f;
+  /* Item tags by section: industrial colour coding, red left out for the alerts. */
+  --tag-0: #c9a227; --tag-1: #5f93b8; --tag-2: #8fa63f; --tag-3: #c2b280; --tag-4: #4f9d93; --tag-5: #9b8fc0;
+  --tag-6: #d9d3c1; --tag-7: #6f9a5f; --tag-8: #c08a4a; --tag-9: #8c9296; --tag-10: #a8a070; --tag-11: #7fb0a0;
+  --font-wide: "Eurostile Extended", "Microgramma D Extended", "Michroma", "Eurostile", "Bank Gothic", "DejaVu Sans",
+    system-ui, sans-serif;
+  /* Tracking for the wide face: it is wide already, so a little; the fallback faces read narrower. */
+  --track-wide: .04em;
+  --font-mono: "IBM Plex Mono", "DejaVu Sans Mono", "Liberation Mono", Consolas, ui-monospace, monospace;
+  /* A screen's glass. */
+  --scanlines: repeating-linear-gradient(to bottom, #0000003a 0 1px, transparent 1px 3px);
+  /* The generated props and trim (assets/app/web/, docs/style.md "Props"). */
+  --trim-gunmetal: url("assets/app/web/trim/trim_gunmetal.png");  --trim-yellow: url("assets/app/web/trim/trim_yellow.png"); --trim-hazard: url("assets/app/web/trim/trim_hazard.png");
+  --frame-panel: url("assets/app/web/trim/frame_panel.png"); --bezel-screen: url("assets/app/web/trim/bezel_screen.png");
+  --plate-label: url("assets/app/web/trim/plate_label.png"); --plate-name: url("assets/app/web/props/plate_name.png");
+  --key-up: url("assets/app/web/props/key_square_up.png"); --key-down: url("assets/app/web/props/key_square_down.png");
+  --socket: url("assets/app/web/props/socket_slot.png");
+  --slot-px: 48px;
+}
+html, body { margin: 0; height: 100%; background: var(--space); color: var(--stencil);
+  font: 13px var(--font-mono); scrollbar-color: var(--phosphor-dim) var(--screen); }
+body { display: flex; flex-direction: column; user-select: none; overflow: hidden; }
+/* Space round the ship: the generated patches laid one over another, the repeating ones at sizes that share no
+   measure so the sky does not repeat, the haze and the far things placed once. Each patch is near-black round its
+   stars, so they are lightened together and no patch's edge shows. The sky stands still while the floor is dragged. */
+body { background: var(--space) no-repeat;
+  background-image: url("assets/app/web/space/galaxy_far.png"), url("assets/app/web/space/stars_cluster.png"),
+    url("assets/app/web/space/nebula_cold.png"), url("assets/app/web/space/nebula_warm.png"),
+    url("assets/app/web/space/stars_bright.png"), url("assets/app/web/space/stars_scant.png"),
+    url("assets/app/web/space/stars_sparse_b.png"), url("assets/app/web/space/stars_sparse_a.png"),
+    url("assets/app/web/space/stars_dust.png");
+  background-position: 82% 24%, 30% 12%, 10% 72%, 64% 94%, 0 0, 137px 59px, 71px 113px, 0 0, 0 0;
+  background-size: 220px, 260px, 560px, 480px, 611px, 433px, 347px, 293px, 257px;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat, repeat, repeat, repeat, repeat;
+  background-blend-mode: lighten; }
+button { font-family: var(--font-wide); text-transform: uppercase; letter-spacing: var(--track-wide); }
+
+/* A screen: black glass behind a generated bezel. */
+.readout, #codex .body, .window .process, .window .form, #editor .body {
+  background: var(--scanlines), var(--screen); color: var(--phosphor); text-shadow: var(--glow); }
+.readout, .window .process, .window .form {
+  border: 10px solid; border-image: var(--bezel-screen) 60 fill / 10px; }
+
+/* A key: the generated plastic key, sliced so it takes any label, pressed when on. */
+#controls button, #editor .body button, #codex-open {
+  border: 10px solid; border-image: var(--key-up) 36 fill / 10px; background: none; color: var(--ink);
+  font-size: 9px; padding: 0 4px; min-height: 30px; cursor: pointer; }
+#controls button:active, #editor .body button:active:not(:disabled), #codex-open:active,
+#controls button.on { border-image-source: var(--key-down); }
+#controls button.on::before { content: ''; display: inline-block; width: 9px; height: 9px; margin-right: 5px;
+  vertical-align: -1px; background: url("assets/app/web/props/lamp_green.png") center / contain no-repeat; }
+#editor .body button:disabled { opacity: .45; cursor: default; }
+
+/* The console's top: black plate over a hazard strip. */
+header { display: flex; gap: 16px; align-items: center; padding: 8px 18px; background: var(--trim-gunmetal) 0 0 / 120px;
+  border-bottom: 12px solid; border-image: var(--trim-hazard) 22 40 / 12px 0 round; }
+.plate { display: flex; align-items: baseline; gap: 10px; padding: 7px 34px; color: var(--ink);
+  background: var(--plate-label) center / 100% 100%; font-family: var(--font-wide); text-transform: uppercase;
+  letter-spacing: var(--track-wide); }
+.plate b { font-size: 18px; letter-spacing: .12em; }
+.plate span { font-size: 8px; }
+.plate, .readout span, #controls button { white-space: nowrap; }
+.readout { display: flex; gap: 22px; align-items: center; padding: 3px 8px; text-transform: uppercase; letter-spacing: .06em; }
+#status { display: flex; align-items: center; gap: 8px; }
+#status::before { content: ''; width: 12px; height: 12px; background: url("assets/app/web/props/lamp_green.png") center / contain no-repeat; }
+#status.alarm { color: var(--alert); text-shadow: 0 0 5px var(--alert); }
+#status.alarm::before { background-image: url("assets/app/web/props/lamp_red.png"); }
+#controls { display: flex; gap: 6px; margin-left: auto; }
+#codex-open { margin-left: 4px; }
+
+main { flex: 1; min-height: 0; display: flex; }
+footer { padding: 7px 20px; color: var(--stencil-dim); background: var(--trim-gunmetal); font-size: 11px;
+  text-transform: uppercase; letter-spacing: .06em; }
+footer::before { content: 'operating note'; margin-right: 12px; padding: 2px 10px; color: var(--ink);
+  background: var(--plate-name) center / 100% 100%; font-family: var(--font-wide); font-size: 9px; letter-spacing: var(--track-wide); }
+/* A label plate riveted over a housing. */
+h2 { display: inline-block; margin: 0 0 12px; padding: 5px 30px; font: 10px var(--font-wide); color: var(--ink);
+  background: var(--plate-label) center / 100% 100%; text-transform: uppercase; letter-spacing: var(--track-wide); }
+/* The floor has no housing: its own walls are its edge. It is the whole ship in 3D (scene.js), one canvas the size of
+   the view, its camera fitted so one capsule fills it, dragged by a mouse or a finger rather than scrolled and turned
+   with ctrl held (cabin.js); its heading stays in the corner. */
+#floor { flex: 1; position: relative; overflow: hidden; touch-action: none; cursor: grab; }
+body.panning, body.panning * { cursor: grabbing; }
+body.turning, body.turning * { cursor: move; }
+#floor h2 { position: absolute; left: 20px; top: 16px; z-index: 1; }
+#floor canvas.scene { position: absolute; inset: 0; width: 100%; height: 100%; }
+#floor canvas.scene.pointing { cursor: pointer; }
+#floor .no-scene { position: absolute; left: 50%; top: 50%; translate: -50% -50%; margin: 0; color: var(--alert);
+  font: 12px var(--font-wide); text-transform: uppercase; }
+/* The admin's header carries the rate keys: the plate gives up its serial line for them. */
+body.admin .plate span { display: none; }
+
+/* Laid over the scene where the camera puts a point of the world (cabin.js placeOverlay): each running device's lamp
+   at its footprint's corner, each door's count of held items on a tag below it. */
+#floor .overlay { position: absolute; inset: 0; pointer-events: none; }
+#floor .overlay > * { position: absolute; left: 0; top: 0; visibility: hidden; }
+.lamp { width: 12px; height: 12px; margin: -6px 0 0 -6px; pointer-events: auto;
+  background: url("assets/app/web/props/lamp_off.png") center / contain no-repeat; }
+.lamp.Ran { background-image: url("assets/app/web/props/lamp_green.png"); }
+.lamp.Starved, .lamp.Full { background-image: url("assets/app/web/props/lamp_red.png"); }
+.door-tag { margin-top: 2px; padding: 1px 5px; transform: translateX(-50%); text-transform: uppercase;
+  font: 8px var(--font-wide); color: var(--ink); background: var(--plate-name) center / 100% 100%; white-space: nowrap; }
+
+#leaders { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4; }
+#leaders line { stroke: var(--amber); stroke-width: 1.5; stroke-dasharray: 5 4; opacity: .8; }
+#leaders circle { fill: var(--amber); }
+
+/* The codex's and the editor's plate to drag them by. Its rivets sit about a tenth in from each end; the words and keys
+   stay between them. */
+.titlebar { display: flex; align-items: center; gap: 8px; padding: 6px 12% 6px 13%; color: var(--ink); cursor: move;
+  background: var(--plate-label) center / 100% 100%; }
+.titlebar b { font: 10px var(--font-wide); text-transform: uppercase; letter-spacing: var(--track-wide); }
+.titlebar span { color: #5d5949; font-size: 10px; flex: 1; text-transform: uppercase; }
+.titlebar .code, .foot-tag .code { color: inherit; }
+/* A window's keys are props: the manual key, the close key. Their glyphs stay for a reader, not for the eye. */
+.titlebar button, .bay button { width: 24px; height: 24px; border: 0; padding: 0; cursor: pointer; font-size: 0;
+  background: center / contain no-repeat; }
+.bay .key-manual, .titlebar button[data-go] { background-image: url("assets/app/web/props/key_manual.png"); }
+.bay .key-close, .titlebar button[data-codex-close], .titlebar button[data-edit-close] {
+  background-image: url("assets/app/web/props/key_close.png"); }
+.titlebar button:hover, .bay button:hover { filter: brightness(1.2); }
+
+/* A device's window is one block: the device's own generated interface panel (GAM-11), nine-sliced so its frame and
+   top band keep their shape while the empty face stretches to hold the controls. Every panel shares one layout
+   (raw_assets/app/web/interfaces/prompting.md): a plain housing, its top band some three tenths of its height holding
+   a blank nameplate at its left and a bay of two key sockets at its right, the frame a twelfth at each side and a
+   seventh at the foot, the rest an empty face. No control is drawn on it (GAM-11): what the device has, the page
+   places on the face. Its name is stamped on the nameplate, its keys sit in the bay, where it stands is tagged on the
+   foot, and a press on anything but a control drags it (cabin.js). */
+#windows { position: fixed; inset: 0; pointer-events: none; z-index: 5; }
+/* A floor window is placed by its translate alone (cabin.js), so dragging one moves its layer and lays out nothing. */
+#windows > .window { left: 0; top: 0; }
+.window { --band-px: 64px; --band-share: .29; --side-share: .085; --key-px: 24px;
+  /* The panel's whole size at the scale its band is drawn at; --aspect is its own, measured by `qq panels`. */
+  --panel-high: calc(var(--band-px) / var(--band-share)); --panel-wide: calc(var(--aspect) * var(--panel-high));
+  position: absolute; pointer-events: auto; min-width: 300px; filter: drop-shadow(0 10px 14px #000c);
+  cursor: move; border: solid; border-width: var(--band-px) 32px 32px; border-image-source: var(--panel);
+  border-image-slice: 29% 8.5% 14% fill; border-image-width: var(--band-px) 32px 32px; }
+.window :is(.slot, label) { cursor: default; }
+/* The band stretches with the window, and would stretch the bay drawn in it: so the panel's own top-right corner is
+   laid back over it at the band's scale, reaching left past both the bay and the band's stretched copy of it, and the
+   keys are centred on its two sockets — the bay's measured box (--bay-*, shares of the panel) halved. */
+.bay { position: absolute; top: calc(-1 * var(--band-px)); right: -32px; height: var(--band-px);
+  left: min(calc((var(--bay-x0) - var(--side-share)) / (1 - 2 * var(--side-share)) * 100% - 6px),
+    calc(100% + 32px - (1.015 - var(--bay-x0)) * var(--panel-wide)));
+  background: var(--panel) right top / var(--panel-wide) var(--panel-high) no-repeat; }
+.bay button { position: absolute; width: var(--key-px); height: var(--key-px);
+  top: calc((var(--bay-y0) + var(--bay-y1)) / 2 * var(--panel-high) - var(--key-px) / 2); }
+.bay .key-manual { right: calc((1 - (3 * var(--bay-x0) + var(--bay-x1)) / 4) * var(--panel-wide) - var(--key-px) / 2); }
+.bay .key-close { right: calc((1 - (var(--bay-x0) + 3 * var(--bay-x1)) / 4) * var(--panel-wide) - var(--key-px) / 2); }
+/* The drawn nameplate runs from 12% to 44% of the panel's width, measured from its outer edge: these offsets are those
+   fractions rebased on the face, inside the 32px side frame. */
+.nameplate { position: absolute; left: calc(12% - 24px); top: -51px; width: calc(32% + 20px); height: 38px;
+  display: grid; place-items: center; padding: 0 10px; box-sizing: border-box; text-align: center; line-height: 1.25;
+  font: 9px var(--font-wide); color: var(--ink); text-transform: uppercase; }
+/* A tag riveted on the foot frame, inside its corner rivets. */
+.foot-tag { position: absolute; left: 0; bottom: -27px; height: 22px; display: flex; align-items: center; padding: 0 14px;
+  color: var(--ink); background: var(--plate-name) center / 100% 100%; font-size: 9px; text-transform: uppercase;
+  white-space: nowrap; }
+.window .body { padding: 12px 18px; }
+.window .note { color: var(--stencil-dim); font-size: 11px; margin: 10px 0 0; max-width: 260px; }
+.code { color: var(--phosphor-dim); font-size: .85em; text-shadow: none; margin-right: .4em; }
+
+.machine { display: flex; align-items: center; gap: 14px; padding: 6px 4px; }
+.machine h3, .labelled h3 { margin: 0 0 6px; font: 9px var(--font-wide); color: var(--stencil-dim);
+  text-transform: uppercase; letter-spacing: var(--track-wide); }
+.labelled h3 { margin: 10px 0 4px; }
+.io { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.labelled { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.labelled .row { display: flex; gap: 6px; }
+.labelled small { color: var(--stencil-dim); font-size: 10px; text-transform: uppercase; }
+.labelled small a.go { color: var(--stencil); border-bottom-color: var(--stencil-dim); }
+.process { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 72px; padding: 2px 4px; }
+.process small { color: var(--phosphor-dim); font-size: 10px; text-transform: uppercase; text-shadow: none; }
+.process .arrow { font-size: 18px; color: var(--phosphor); }
+.process .bar { width: 100%; }
+.none { color: var(--stencil-dim); font-size: 10px; width: var(--slot-px); text-align: center; text-transform: uppercase; }
+.form { display: grid; grid-template-columns: auto 1fr; gap: 3px 14px; margin: 12px 0 0; padding: 4px 8px; font-size: 11px;
+  text-transform: uppercase; }
+.form dt { color: var(--phosphor-dim); text-shadow: none; }
+.form dd { margin: 0; }
+.form a.go { color: var(--phosphor); }
+.state.Ran { color: var(--phosphor); }
+.state.Starved, .state.Full { color: var(--alert); text-shadow: 0 0 5px var(--alert); }
+.bar { height: 5px; background: var(--phosphor-faint); }
+/* Filled by a scale animation in ship time (cabin.js runCycles), which the browser runs at the display's rate. */
+.bar i { display: block; height: 100%; background: var(--phosphor); box-shadow: var(--glow); transform-origin: left;
+  transform: scaleX(0); }
+
+/* A slot is the generated socket tray; what it holds sits in it. */
+.slots { display: grid; gap: 6px; }
+.slot { width: var(--slot-px); height: var(--slot-px); box-sizing: border-box; background: var(--socket) center / 100% 100%;
+  display: grid; place-items: center; font-size: 8px; color: var(--stencil-dim); text-transform: uppercase; }
+.slot.target { filter: drop-shadow(0 0 4px var(--amber)); }
+.slot.wants { text-align: center; line-height: 1.2; color: var(--tag); }
+.slot.out { filter: brightness(.55); }
+.slot.refuses { opacity: .35; }
+.slot.refuses.target { filter: drop-shadow(0 0 4px var(--alert)); opacity: .7; }
+.slot.editing { outline: 2px solid var(--amber); outline-offset: 1px; }
+
+/* An item: a tag in its section's colour, its count on the corner, until items have generated art of their own. */
+.chip { width: calc(var(--slot-px) - 14px); height: calc(var(--slot-px) - 14px); border-radius: 2px; cursor: grab;
+  color: var(--ink); font: 700 11px var(--font-mono); display: grid; place-items: center; position: relative;
+  background: var(--tag); box-shadow: inset 0 -3px 0 #0005, 0 1px 0 #000; letter-spacing: .04em; }
+.chip em { position: absolute; right: 2px; bottom: 1px; font-style: normal; font-size: 9px; }
+.ghost { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 1000; opacity: .85; }
+
+a.go { color: var(--phosphor); cursor: pointer; text-decoration: none; border-bottom: 1px dotted var(--phosphor-dim); }
+a.go:hover { background: var(--phosphor); color: var(--screen); text-shadow: none; }
+a.go:hover .code { color: var(--screen); }
+.pick { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; font: 9px var(--font-wide); color: var(--stencil-dim);
+  text-transform: uppercase; letter-spacing: var(--track-wide); }
+#editor input, .pick select, #codex .search input { background: var(--scanlines), #000; color: var(--phosphor);
+  border: 1px solid var(--phosphor-dim); border-radius: 0; font: 12px var(--font-mono); padding: 4px 6px; text-shadow: var(--glow); }
+.pick select { flex: 1; max-width: 320px; }
+
+/* The codex and the slot editor: a heavy panel housing round a screen. */
+#codex, #editor { border: 26px solid; border-image: var(--frame-panel) 60 fill / 26px; padding: 0; min-width: 0; }
+#codex .titlebar, #editor .titlebar { margin: -12px -12px 8px; }
+#editor { position: fixed; z-index: 900; }
+#editor .body { padding: 10px; }
+#editor .row { display: flex; gap: 6px; align-items: center; }
+#editor .row + .row { margin-top: 10px; }
+#editor input { width: 52px; }
+#editor input.find { width: 220px; }
+#editor .picks { flex-wrap: wrap; max-width: 340px; }
+#editor .body .swatch { display: flex; gap: 6px; align-items: center; padding: 2px 8px 2px 2px; background: #000;
+  color: var(--phosphor); border: 1px solid var(--phosphor-faint); border-image: none; font: 11px var(--font-mono);
+  letter-spacing: 0; text-transform: none; min-height: 0; }
+#editor .body .swatch.on { border-color: var(--amber); color: var(--amber); }
+#editor .swatch .chip { width: 24px; height: 24px; font-size: 9px; cursor: pointer; }
+#editor .note.alarm { color: var(--alert); text-shadow: 0 0 5px var(--alert); }
+
+#codex { position: fixed; z-index: 800; width: min(600px, calc(100vw - 32px)); max-height: calc(100vh - 100px);
+  display: flex; flex-direction: column; }
+#codex[hidden] { display: none; }
+#codex .titlebar button[data-codex-step] { font-size: 13px; color: var(--stencil); background: #2a2d30; width: 22px; height: 22px; }
+#codex .titlebar button:disabled { opacity: .3; cursor: default; }
+#codex .titlebar button[data-go="home"] { background-image: url("assets/app/web/props/key_manual.png"); }
+#codex .search { padding: 0 0 8px; }
+#codex .search input { width: 100%; box-sizing: border-box; }
+#codex .body { overflow-y: auto; user-select: text; line-height: 1.5; padding: 14px; border: 12px solid;
+  border-image: var(--bezel-screen) 60 / 12px; }
+#codex h3 { margin: 18px 0 6px; padding-bottom: 3px; font: 10px var(--font-wide); color: var(--phosphor-dim);
+  text-transform: uppercase; letter-spacing: var(--track-wide); border-bottom: 1px solid var(--phosphor-faint); text-shadow: none; }
+#codex p { margin: 0 0 8px; }
+#codex .where { font-size: 11px; color: var(--phosphor-dim); margin-bottom: 10px; text-transform: uppercase; text-shadow: none; }
+#codex .where code { color: var(--phosphor); text-shadow: var(--glow); }
+#codex .kind { color: var(--phosphor); }
+#codex .about { font-size: 14px; }
+#codex .flavour { font-size: 11px; color: var(--phosphor-dim); text-shadow: none; padding-left: 10px;
+  border-left: 2px solid var(--phosphor-faint); }
+#codex ul { margin: 0; padding-left: 18px; }
+#codex ul.plain, #codex ul.ways { list-style: none; padding: 0; }
+#codex ul.plain li { margin: 0 0 6px; }
+#codex ul.ways li { padding: 6px 0; border-top: 1px dashed var(--phosphor-faint); font-size: 12px; }
+#codex small, #codex .tag { color: var(--phosphor-dim); font-size: 10px; text-transform: uppercase; text-shadow: none; }
+#codex li.way > b { text-transform: uppercase; letter-spacing: .04em; }
+#codex .arrow { color: var(--phosphor); }
+#codex .note { color: var(--phosphor-dim); font-size: 11px; }

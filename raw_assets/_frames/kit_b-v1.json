@@ -1,0 +1,55 @@
+{
+  "id": "kit_b-v1",
+  "ts": "2026-11-05T22:34:57",
+  "op": "edit",
+  "name": "kit_b",
+  "file": ".tmp/gen/frames/kit_b-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.020123,
+  "usage": {
+    "prompt_tokens": 2155,
+    "completion_tokens": 158,
+    "total_tokens": 2313,
+    "cost": 0.020123,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.020123,
+      "upstream_inference_prompt_cost": 0.015383,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate square game tiles on a fully transparent background, in a 3 by 3 grid, each tile an exact square centred in its own cell with wide empty transparent gaps between them. Seen straight down, flat, no perspective. No text, no labels, no numbers, no frame round the sheet.\n\nImage 1 is a style reference only: match its palette, materials, wear and rendering exactly, and draw none of its objects.\n\nStyle: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation; compact, lived in and kept. These are the caps on top of the capsule's low bulkhead walls: one long continuous dull dark yellow steel cap plate running along each wall, as if cast in one piece. Light scuffs and worn paint spread evenly, with no single distinctive mark that would show when a tile repeats \u2014 no grime, no rust. Nothing stands or lies on any cap. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nEach tile is one square metre of cap. Along every edge where the wall ends, a raised bolted grey steel rim. Every edge where the wall continues into the next tile has no rim, no bolt, no seam, no bevel and no line at all: the yellow plate runs straight out of the edge and continues seamlessly into the next tile. Each tile fills its square edge to edge.\n\nTiles in reading order (row 1 left to right, then row 2, then row 3):\n1. Post: the wall ends on all four sides; rim on all four edges.\n2. End: the wall continues through the right edge only; rim along the top, the left and the bottom, the right edge plain.\n3. Straight: the wall continues through the left and right edges; rim along the top and the bottom, the left and right edges plain.\n4. Straight with a seam: as tile 3, with one thin plate seam across its middle from the top rim to the bottom rim, a few rivets along it.\n5. Corner: the wall continues through the right and the bottom edges; rim along the top and the left, turning the corner, a small rim notch at the bottom-right corner; the right and bottom edges plain.\n6. Tee: the wall continues through the left, right and bottom edges; rim along the top only, small notches at the two bottom corners.\n7. Cross: the wall continues through all four edges; no rim, small notches at the four corners.\n8. Door cap, closed: as tile 3 (rims top and bottom, left and right edges plain), with a thick grey steel lintel beam ringed in black and yellow hazard stripes across its middle from the left edge to the right edge, and a small green lamp on it.\n9. The same door cap with the lamp amber.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "7cecf1e777c0877b",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/kit_style_b.png"
+    }
+  ],
+  "cells": [
+    "any_cap_post",
+    "any_cap_end",
+    "any_cap_straight",
+    "any_cap_straight_seam",
+    "any_cap_corner",
+    "any_cap_tee",
+    "any_cap_cross",
+    "any_cap_door_closed",
+    "any_cap_door_open"
+  ]
+}

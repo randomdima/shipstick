@@ -1,0 +1,2 @@
+{"variant": "deck_tread-v1", "frame": "deck_a-v1", "box": [620, 16, 298, 294], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:19:19"}
+{"variant": "deck_tread-v2", "frame": "cdeck_a-v1", "box": [620, 19, 297, 295], "grid": [3, 3], "score": 4, "status": "used", "ts": "2026-11-05T21:19:17"}

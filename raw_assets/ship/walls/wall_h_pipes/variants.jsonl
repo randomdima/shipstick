@@ -1,0 +1,4 @@
+{"variant": "wall_h_pipes-v1", "frame": "dev_f-v1", "box": [1198, 773, 285, 200], "grid": [4, 4], "score": 3, "status": "candidate", "ts": "2026-11-05T20:17:54"}
+{"variant": "wall_h_pipes-v2", "frame": "dev_f-v2", "box": [1175, 797, 287, 115], "grid": [4, 4], "score": 4, "status": "candidate", "ts": "2026-11-05T20:34:47"}
+{"variant": "wall_h_pipes-v3", "frame": "cdev_f-v1", "box": [1171, 815, 316, 147], "grid": [4, 4], "score": 4, "status": "candidate", "ts": "2026-11-05T21:16:06"}
+{"variant": "wall_h_pipes-v4", "frame": "walls_a-v1", "box": [821, 39, 261, 175], "grid": [4, 4], "score": 5, "status": "used", "ts": "2026-11-05T21:30:07"}

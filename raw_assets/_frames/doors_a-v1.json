@@ -1,0 +1,55 @@
+{
+  "id": "doors_a-v1",
+  "ts": "2026-11-05T22:10:49",
+  "op": "edit",
+  "name": "doors_a",
+  "file": ".tmp/gen/frames/doors_a-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.020288,
+  "usage": {
+    "prompt_tokens": 2188,
+    "completion_tokens": 158,
+    "total_tokens": 2346,
+    "cost": 0.020288,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.020288,
+      "upstream_inference_prompt_cost": 0.015548,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate flat game assets on a fully transparent background, in a 3 by 3 grid, each asset centred in its own cell with wide empty transparent gaps between them. No ground, no shadow, no frame round the sheet, no text, no labels, no numbers.\n\nImage 1 is a style reference only: match its palette, materials, wear and rendering exactly, and draw none of its objects. Every asset here is drawn flat with no perspective.\n\nStyle: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation; compact, lived in and kept. Walls are low bolted steel bulkhead blocks, their tops dull dark yellow steel plate, their faces dull grey steel. Doors are unmistakable heavy submarine-style watertight doors: an oval grey steel door leaf with a large central hand wheel and six locking dogs round its rim, in a thick oval frame ringed with black and yellow hazard stripes, heavy hinges on one side, a small green lamp beside it. Scuffs, worn edges, chipped paint \u2014 no grime, no rust, no oil stains. Every wheel, handle and valve is grey steel; red appears nowhere. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nAssets in reading order (row 1 left to right, then row 2, then row 3):\n1. Door tile, closed: an exact square, filling it edge to edge: the watertight door drawn flat and face on, its oval leaf shut, wheel and dogs clear, the thick hazard-striped oval frame filling the square, its corners grey bulkhead steel.\n2. The same door tile open: the frame as before; the oval leaf swung back on its hinges against the left of the frame; through the oval opening a dark steel passage floor with a hazard-striped sill.\n3. Door face strip, closed: a strip three times as wide as it is tall, filling it edge to edge, grey bulkhead steel with the watertight door's oval leaf, wheel and hazard-striped frame squat in its middle, the frame reaching the strip's top and bottom.\n4. The same door face strip open: the oval leaf swung aside, a dark oval opening.\n5. Wall top tile, an exact square seen straight down, a dull dark yellow steel plate with a few bolts, edges plain: a grey pipe comes in from the left edge, turns through an elbow with a grey valve wheel, and leaves by the bottom edge, both ends at the middle of their edges.\n6. Wall top tile, the same plate: a strapped-down grey fire extinguisher in a bracket.\n7. Wall top tile, the same plate: a small round intercom speaker grille with a grey push button.\n8. Wall top tile, the same plate: a small off-white first aid box with a grey latch and a plain cross pictogram in dark grey.\n9. Wall top tile, the same plate: a small grey desk fan clamped to the plate, its guard and blades seen from above.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "e135ba00f9d0664f",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/doors_style.png"
+    }
+  ],
+  "cells": [
+    "any_door_top_closed",
+    "any_door_top_open",
+    "any_door_face_closed",
+    "any_door_face_open",
+    "any_wall_top_elbow",
+    "any_wall_top_extinguisher",
+    "any_wall_top_intercom",
+    "any_wall_top_firstaid",
+    "any_wall_top_fan"
+  ]
+}

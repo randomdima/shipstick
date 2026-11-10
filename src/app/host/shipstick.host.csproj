@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!-- The game's host (HST-3): runs the one ship and serves the client. The client's files are app/web's, copied
+       beside the host as they are written: no bundler, no build step (WEB-9). -->
+
+  <PropertyGroup>
+    <RootNamespace>Shipstick.App.Host</RootNamespace>
+    <AssemblyName>shipstick-host</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../shipstick.csproj" />
+    <InternalsVisibleTo Include="shipstick-tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../web/wwwroot/**" Link="client/%(RecursiveDir)%(Filename)%(Extension)"
+          CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <!-- The game's assets (HST-3), served at /assets/ by the path they have under assets/; their provenance stays behind. -->
+    <None Include="../../../assets/**" Exclude="../../../assets/**/*.src.json"
+          Link="client/assets/%(RecursiveDir)%(Filename)%(Extension)"
+          CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

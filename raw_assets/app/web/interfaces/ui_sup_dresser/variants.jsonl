@@ -1,0 +1,4 @@
+{"variant": "ui_sup_dresser-v1", "frame": "ui_e-v1", "box": [535, 688, 466, 287], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T20:20:54"}
+{"variant": "ui_sup_dresser-v2", "frame": "ui_e-v2", "box": [563, 702, 412, 248], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:36:44"}
+{"variant": "ui_sup_dresser-v3", "frame": "cui_e-v1", "box": [560, 696, 418, 244], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:17:56"}
+{"variant": "ui_sup_dresser-v4", "frame": "tui_e-v1", "box": [545, 705, 448, 271], "grid": null, "score": 4, "status": "used", "ts": "2026-11-06T01:41:56"}

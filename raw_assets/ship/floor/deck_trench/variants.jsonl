@@ -1,0 +1,2 @@
+{"variant": "deck_trench-v1", "frame": "deck_a-v1", "box": [1049, 345, 298, 295], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:19:19"}
+{"variant": "deck_trench-v2", "frame": "cdeck_a-v1", "box": [1050, 345, 298, 296], "grid": [3, 3], "score": 4, "status": "used", "ts": "2026-11-05T21:19:17"}

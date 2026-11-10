@@ -1,0 +1,55 @@
+{
+  "id": "doors_b-v1",
+  "ts": "2026-11-05T22:12:59",
+  "op": "edit",
+  "name": "doors_b",
+  "file": ".tmp/gen/frames/doors_b-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.020133,
+  "usage": {
+    "prompt_tokens": 2157,
+    "completion_tokens": 158,
+    "total_tokens": 2315,
+    "cost": 0.020133,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.020133,
+      "upstream_inference_prompt_cost": 0.015393,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate flat game assets on a fully transparent background, in a 3 by 3 grid, each asset centred in its own cell with wide empty transparent gaps between them. No ground, no shadow, no frame round the sheet, no text, no labels, no numbers.\n\nImage 1 is a style reference only: match its palette, materials, wear and rendering exactly \u2014 its dark yellow squares are wall tops, its grey strips wall faces, its oval door the capsule's watertight door \u2014 and draw none of its objects. Every asset here is drawn flat with no perspective.\n\nStyle: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation; compact, lived in and kept. Walls are low bolted steel bulkhead blocks, their tops dull dark yellow steel plate, their faces dull grey steel. Scuffs, worn edges, chipped paint \u2014 no grime, no rust, no oil stains. Every wheel and handle is grey steel; red appears nowhere. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nAssets in reading order (row 1 left to right, then row 2, then row 3):\n1. Door lintel top, closed, an exact square seen straight down, filling it edge to edge: the top of the wall block above a watertight door, in a wall running left to right. A thick grey steel lintel beam with black and yellow hazard stripes runs across the square from the left edge to the right edge through its middle, bolted, with a small green lamp on it; above and below the beam, dull dark yellow wall-top plate, edges plain. No door is drawn: only the wall's top over it.\n2. The same lintel top with the lamp amber instead of green: the door below is open.\n3. Door lintel top, closed, for a wall running from top to bottom: the same, but the hazard-striped beam runs from the top edge to the bottom edge through the middle, green lamp.\n4. The same top-to-bottom lintel with the lamp amber.\n5. Door side face, closed: a tall narrow strip four times as tall as it is wide, filling it edge to edge: the watertight door's face seen almost edge-on, squeezed narrow \u2014 grey bulkhead steel, a narrow sliver of the hazard-striped oval frame and the shut leaf with the edge of its wheel.\n6. The same door side face open: the sliver of frame and a dark narrow opening.\n7. Wall top tile, an exact square of dull dark yellow plate seen straight down, edges plain: a neat stack of two folded olive blankets under a strap.\n8. Wall top tile, the same plate: a small grey portable radio with a short antenna.\n9. Wall top tile, the same plate: three stacked grey ration tins and a steel spoon.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "011b75c2f63d8128",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/doors_style_b.png"
+    }
+  ],
+  "cells": [
+    "any_door_lintel_closed",
+    "any_door_lintel_open",
+    "any_door_lintel_side_closed",
+    "any_door_lintel_side_open",
+    "any_door_side_face_closed",
+    "any_door_side_face_open",
+    "any_wall_top_blankets",
+    "any_wall_top_radio",
+    "any_wall_top_tins"
+  ]
+}

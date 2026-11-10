@@ -1,0 +1,4 @@
+{"variant": "ui_bio_seedbank-v1", "frame": "ui_d-v1", "box": [52, 360, 449, 287], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T20:20:53"}
+{"variant": "ui_bio_seedbank-v2", "frame": "ui_d-v2", "box": [52, 373, 424, 261], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:36:42"}
+{"variant": "ui_bio_seedbank-v3", "frame": "cui_d-v1", "box": [66, 386, 411, 238], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:17:55"}
+{"variant": "ui_bio_seedbank-v4", "frame": "tui_d-v1", "box": [38, 374, 442, 253], "grid": null, "score": 4, "status": "used", "ts": "2026-11-06T01:41:56"}

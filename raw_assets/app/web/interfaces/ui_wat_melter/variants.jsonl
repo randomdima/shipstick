@@ -1,0 +1,4 @@
+{"variant": "ui_wat_melter-v1", "frame": "ui_c-v1", "box": [35, 356, 457, 279], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T20:20:52"}
+{"variant": "ui_wat_melter-v2", "frame": "ui_c-v2", "box": [47, 372, 427, 255], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:36:41"}
+{"variant": "ui_wat_melter-v3", "frame": "cui_c-v1", "box": [64, 384, 416, 240], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:17:55"}
+{"variant": "ui_wat_melter-v4", "frame": "tui_c-v1", "box": [36, 372, 440, 261], "grid": null, "score": 4, "status": "used", "ts": "2026-11-06T01:41:56"}

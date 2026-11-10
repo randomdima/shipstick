@@ -1,0 +1,4 @@
+{"variant": "wall_h_porthole-v1", "frame": "dev_f-v1", "box": [822, 773, 286, 196], "grid": [4, 4], "score": 3, "status": "candidate", "ts": "2026-11-05T20:17:54"}
+{"variant": "wall_h_porthole-v2", "frame": "dev_f-v2", "box": [816, 797, 267, 115], "grid": [4, 4], "score": 4, "status": "candidate", "ts": "2026-11-05T20:34:47"}
+{"variant": "wall_h_porthole-v3", "frame": "cdev_f-v1", "box": [797, 815, 294, 147], "grid": [4, 4], "score": 4, "status": "candidate", "ts": "2026-11-05T21:16:06"}
+{"variant": "wall_h_porthole-v4", "frame": "walls_a-v1", "box": [453, 39, 261, 181], "grid": [4, 4], "score": 5, "status": "used", "ts": "2026-11-05T21:30:07"}

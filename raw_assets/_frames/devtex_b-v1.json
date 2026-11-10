@@ -1,0 +1,55 @@
+{
+  "id": "devtex_b-v1",
+  "ts": "2026-11-09T21:50:17",
+  "op": "edit",
+  "name": "devtex_b",
+  "file": ".tmp/gen/frames/devtex_b-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.020818,
+  "usage": {
+    "prompt_tokens": 2303,
+    "completion_tokens": 158,
+    "total_tokens": 2461,
+    "cost": 0.020818,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.020818,
+      "upstream_inference_prompt_cost": 0.016078,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate flat material swatches for texturing simple 3D game models, each swatch a flat rectangle seen exactly face on, with no perspective, no depth, no cast shadow and no outline, evenly lit, on a fully transparent background, in a 3 by 3 grid, each centred in its own cell with wide empty transparent gaps between them. Each swatch fills its rectangle edge to edge with square corners. No text, no labels, no numbers, no frame round the sheet.\n\nImage 1 shows the capsule devices these swatches texture, in rows: moisture condenser, storage chest, solar strip; sprout tray, washbasin, seed bank; floor service hatch, dishwasher, cot. Match their colours, paints, glass and wear exactly, and take each swatch's surface from the matching part of them. Do not draw the devices themselves, and nothing in perspective: every swatch is the flat surface of one part, seen square on.\n\nStyle: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation; compact, lived in and kept. Heavy painted steel in dull dark yellow and orange over grey and black; glass reinforced and blue-green; monochrome green phosphor screens. Light scuffs and worn paint at edges, spread evenly \u2014 no grime, no rust, no oil. Red appears nowhere. Colours dull and desaturated. Crisp game-asset rendering, flat even light, as if lit from the top left only very faintly.\n\nThese are surfaces to be wrapped over plain boxes.\n\nSwatches in reading order (row 1 left to right, then row 2, then row 3):\n1. Twice as wide as tall. A small control panel seen face on: dull yellow painted steel frame, at its left a tiny dark screen glowing with faint green phosphor lines that are not letters, at its right two small round indicator lamps, one dull green and one amber, and a small steel toggle switch.\n2. Twice as wide as tall. The storage chest's lid seen straight down: dull dark-yellow painted steel with raised stiffening ribs running across from top to bottom edge, evenly spaced, black and yellow hazard stripes across the two corners at each end, a small plain steel plate centred near the bottom edge.\n3. Twice as wide as tall. A solar panel seen face on: a grid of dark blue-green photovoltaic cells, four across and two down, thin silver lines between them, inside a narrow brushed steel frame along all four edges.\n4. Twice as wide as tall. The sprout tray seen straight down: dense young green seedlings in dark soil filling a black plastic tray, the tray's narrow rim along all four edges.\n5. Twice as wide as tall. A mirror seen face on: dull blue-green tinted mirror glass, faintly cloudy, in a narrow brushed steel frame along all four edges.\n6. Twice as wide as tall. The seed bank's top seen straight down: a grid of twelve small square compartments, four across and three down, each holding loose seeds, under blue-green tinted glass, in a steel frame with thin steel dividers.\n7. Square. The floor service hatch's plate seen straight down: a heavy worn grey steel plate, two strong hinges along the top edge, a recessed lift handle near the bottom edge, a ring of bolts round its border.\n8. Square. A wire dish rack seen straight down: dull steel wire bars holding three plates standing on edge and two cups upside down, dark grey steel tray below.\n9. Twice as wide as tall. A small plain steel name plate seen face on: brushed steel, four corner screws, a few short engraved lines that are not letters.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "8e7d365108ea72ec",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/devtex_b_ref.png"
+    }
+  ],
+  "cells": [
+    "tex_control_panel",
+    "tex_chest_lid",
+    "tex_solar_cells",
+    "tex_sprouts",
+    "tex_mirror",
+    "tex_seed_trays",
+    "tex_hatch_plate",
+    "tex_dish_rack",
+    "tex_label_plate"
+  ]
+}

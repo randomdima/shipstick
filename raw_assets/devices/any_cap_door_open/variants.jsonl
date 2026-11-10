@@ -1,0 +1,2 @@
+{"variant": "any_cap_door_open-v1", "frame": "kit_a-v1", "box": [1203, 282, 204, 205], "grid": [4, 4], "score": 4, "status": "candidate", "ts": "2026-11-05T22:18:35"}
+{"variant": "any_cap_door_open-v2", "frame": "kit_b-v1", "box": [1099, 696, 267, 268], "grid": [3, 3], "score": 4, "status": "used", "ts": "2026-11-05T22:35:41"}

@@ -1,0 +1,62 @@
+{
+  "id": "kit_a-v1",
+  "ts": "2026-11-05T22:18:07",
+  "op": "edit",
+  "name": "kit_a",
+  "file": ".tmp/gen/frames/kit_a-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.021668,
+  "usage": {
+    "prompt_tokens": 2464,
+    "completion_tokens": 158,
+    "total_tokens": 2622,
+    "cost": 0.021668,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.021668,
+      "upstream_inference_prompt_cost": 0.016928,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 16 separate flat game assets on a fully transparent background, in a 4 by 4 grid, each asset centred in its own cell with wide empty transparent gaps between them. No ground, no shadow round the assets, no frame round the sheet, no text, no labels, no numbers.\n\nImage 1 is a style reference only: match its palette, materials, wear and rendering exactly \u2014 its dark yellow squares are wall tops, its grey strips wall faces, its oval door the capsule's watertight door \u2014 and draw none of its objects. Every asset is drawn flat with no perspective, but with real depth and shadow inside it.\n\nStyle: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation; compact, lived in and kept. A modular kit of low bolted steel bulkhead wall parts that join in any layout: caps for the wall's top, dull dark yellow steel; panels for its faces, dull grey steel; a watertight submarine door. Scuffs, worn edges, chipped paint \u2014 no grime, no rust, no oil stains. Nothing stands or lies on any cap. Every wheel and handle is grey steel; red appears nowhere. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nRow 1 and row 2 are caps: each an exact square seen straight down, filling it edge to edge, a dull dark yellow steel cap plate. Along every edge where the wall ends, a raised bolted grey steel rim; every edge where the wall continues into the next square has no rim and is plain, so it joins the next cap seamlessly:\n1. Post: the wall ends on all four sides, rim on all four edges.\n2. End: the wall continues through the right edge only; rim along the top, left and bottom edges.\n3. Straight: the wall continues through the left and right edges; rim along the top and bottom edges.\n4. Corner: the wall continues through the right and bottom edges; rim along the top and left edges, the rim turning the corner, and a small rim notch at the bottom-right corner.\n5. Tee: the wall continues through the left, right and bottom edges; rim along the top edge, small notches at the bottom corners.\n6. Cross: the wall continues through all four edges; no rim, small notches at the four corners.\n7. Door cap, closed: the straight cap (continuing left and right, rims top and bottom) with a thick grey lintel beam ringed in black and yellow hazard stripes across its middle from left to right, a small green lamp on it.\n8. The same door cap with the lamp amber.\n\nRow 3 and row 4 are faces, drawn face on:\n9. Front panel: a strip three times as wide as it is tall, filling it edge to edge, plain grey bulkhead steel with a seam and bolts, its left and right edges plain so panels join seamlessly.\n10. The same front panel with a low vent grille.\n11. The same front panel ending at its left edge in a vertical rounded steel corner trim, where the wall turns away.\n12. Front door, closed: the same strip with the watertight door in its middle \u2014 an oval grey steel leaf with a hand wheel and locking dogs, set deep into a thick hazard-striped oval frame: the frame's inner jamb faces show in shadow round it, the leaf stands slightly proud, the hinge barrels and wheel cast shadows. Clearly a heavy three-dimensional door, not a picture of one.\n13. Front door, open: the same frame, the leaf swung out toward the viewer on its hinges, seen at an angle with its thick edge showing, and through the frame a deep dark passage going back into the wall.\n14. Side panel: a tall narrow strip four times as tall as it is wide, filling it edge to edge, plain grey bulkhead steel with bolts, its top and bottom edges plain so panels join seamlessly.\n15. Side door, closed: the same tall narrow strip with the watertight door seen almost edge on \u2014 the thick hazard-striped frame's edge, the shut leaf's thickness and the rim of its wheel, with deep shadow in the recess.\n16. Side door, open: the same strip, the frame's edge and a deep dark opening, the leaf's thick edge swung toward the viewer.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "b7ea9cc341334ae3",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/kit_style.png"
+    }
+  ],
+  "cells": [
+    "any_cap_post",
+    "any_cap_end",
+    "any_cap_straight",
+    "any_cap_corner",
+    "any_cap_tee",
+    "any_cap_cross",
+    "any_cap_door_closed",
+    "any_cap_door_open",
+    "any_panel",
+    "any_panel_vent",
+    "any_panel_trim",
+    "any_panel_door_closed",
+    "any_panel_door_open",
+    "any_side_panel",
+    "any_side_door_closed",
+    "any_side_door_open"
+  ]
+}

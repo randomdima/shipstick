@@ -1,0 +1,55 @@
+{
+  "id": "benchtex_a-v1",
+  "ts": "2026-11-09T19:23:27",
+  "op": "edit",
+  "name": "benchtex_a",
+  "file": ".tmp/gen/frames/benchtex_a-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.009568,
+  "usage": {
+    "prompt_tokens": 908,
+    "completion_tokens": 158,
+    "total_tokens": 1066,
+    "cost": 0.009568,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.009568,
+      "upstream_inference_prompt_cost": 0.004828,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate flat material swatches for texturing simple 3D game models, each swatch a flat rectangle seen exactly face on, with no perspective, no depth, no cast shadow and no outline, evenly lit, on a fully transparent background, in a 3 by 3 grid, each centred in its own cell with wide empty transparent gaps between them. Each swatch fills its rectangle edge to edge with square corners. No text, no labels, no numbers, no frame round the sheet.\n\nImage 1 is the workbench these swatches texture: match its colours, paints, materials and wear exactly, and take each swatch's surface from the matching part of it. Do not draw the bench itself, and nothing in perspective: every swatch is the flat surface of one part, seen square on.\n\nStyle: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation; compact, lived in and kept. Heavy painted steel in dull dark yellow and orange over grey and black. Light scuffs and worn paint at edges, spread evenly, with no single distinctive mark that would show when a swatch repeats \u2014 no grime, no rust, no oil. Red appears nowhere. Colours dull and desaturated. Crisp game-asset rendering, flat even light, as if lit from the top left only very faintly.\n\nThese are the surfaces of a capsule's workbench, to be wrapped over plain boxes and cylinders. A swatch marked \"repeating\" continues seamlessly out of every edge into a copy of itself: no seam, no rim, no bevel and no line along any edge. A swatch for a round part is flat painted or bare metal, evenly lit: no roundness, no highlight, no shading across it.\n\nSwatches in reading order (row 1 left to right, then row 2, then row 3):\n1. Twice as wide as tall. The whole bench top seen straight down: a worn mid-grey steel work surface with fine scratches and faint tool marks, a slightly darker raised steel rim along all four edges, a small round bolt head in each corner of the rim. Nothing lying on it.\n2. Twice as wide as tall. Two drawers stacked one above the other, seen face on, filling the swatch: each a dull dark-yellow painted steel drawer front with a short dark recessed pull handle centred near its top edge, the two fronts parted and framed by a thin dark grey steel frame running round all four edges and between them.\n3. Square. The bench's side panels: worn mid-grey painted steel, faint fine scuffs, repeating.\n4. Twice as wide as tall. A shallow dull orange painted steel tool tray seen straight down, its rim at all four edges, holding hand tools laid flat side by side: two open-ended spanners, a ring spanner, a screwdriver and a pair of pliers, all dull grey steel with black grips.\n5. Twice as wide as tall. The bench grinder's motor housing, unrolled flat: dark grey cast steel with evenly spaced cooling ribs running straight across the full width, from the left edge to the right edge, repeating.\n6. Square. The grinder's wheel guards and the small motor's casing: heavy smooth steel enamelled dull dark yellow, evenly worn, repeating.\n7. Square. The top of a small yellow bench motor seen straight down: dull dark-yellow painted casing filling the swatch, a dark slotted vent grille across its middle, a small grey steel cover plate near one end.\n8. Square. Bare machined steel, dull grey, fine brushing left to right, repeating.\n9. Square. The top of a tall steel jug seen straight down: a round dull steel lid with a small hinged thumb tab, the lid's rim touching all four edges, the corners outside it plain grey steel.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "3adb98ba0d6e9665",
+      "ext": "png",
+      "frame": null,
+      "was": "assets/devices/any_bench.png"
+    }
+  ],
+  "cells": [
+    "tex_bench_top",
+    "tex_bench_drawers",
+    "tex_bench_panel",
+    "tex_tool_tray",
+    "tex_motor_ribs",
+    "tex_yellow_enamel",
+    "tex_small_motor_top",
+    "tex_bare_steel",
+    "tex_jug_lid"
+  ]
+}

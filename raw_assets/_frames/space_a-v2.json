@@ -1,0 +1,62 @@
+{
+  "id": "space_a-v2",
+  "ts": "2026-11-06T00:23:47",
+  "op": "edit",
+  "name": "space_a",
+  "file": ".tmp/gen/frames/space_a-v2.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.018018,
+  "usage": {
+    "prompt_tokens": 1734,
+    "completion_tokens": 158,
+    "total_tokens": 1892,
+    "cost": 0.018018,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.018018,
+      "upstream_inference_prompt_cost": 0.013278,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "Redraw only the two masked squares of this sheet of deep-space patches; keep everything else exactly as it is. Row 2, right: a faint cold nebula wisp \u2014 a small soft cloud of dull grey-teal haze in the middle of its square, fading smoothly to nothing well inside the square, so a wide margin of plain dark space runs round all four edges and no haze touches or is cut by any edge; a few tiny stars in it. Row 3, left: a faint warm dust cloud \u2014 a small soft patch of dull ochre-brown haze in the middle of its square, fading smoothly to nothing well inside the square, a wide margin of plain dark space round all four edges, no haze touching any edge; a few tiny stars in it. Muted and cold, as seen through thick reinforced glass: no neon, no pink, no purple, no text.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "82b96e6b25feb329",
+      "ext": "png",
+      "frame": "space_a-v1",
+      "was": ".tmp/gen/frames/space_a-v1.png"
+    },
+    {
+      "role": "mask",
+      "sha": "190e2427c45ffef6",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/cuts/space_a-v1/_mask_nebula_cold_nebula_warm.png"
+    }
+  ],
+  "cells": [
+    "stars_sparse_a",
+    "stars_sparse_b",
+    "stars_scant",
+    "stars_dust",
+    "stars_bright",
+    "nebula_cold",
+    "nebula_warm",
+    "galaxy_far",
+    "stars_cluster"
+  ]
+}

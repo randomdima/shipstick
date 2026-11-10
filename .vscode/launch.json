@@ -1,0 +1,53 @@
+{
+  "version": "0.2.0",
+  // F5 builds, runs the host (HST-3) and, once it listens, opens the page in Chromium. Stopping the host closes the
+  // page's session. A build copies JS and CSS under a running host (reload the page); C# wants F5 again (restart).
+  "configurations": [
+    {
+      "name": "web: admin",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build host",
+      "program": "${workspaceFolder}/bin/shipstick.host/Debug/net11.0/shipstick-host.dll",
+      "console": "internalConsole",
+      "serverReadyAction": {
+        "action": "startDebugging",
+        "name": "page: admin",
+        "pattern": "Now listening on: (https?://\\S+)",
+        "killOnServerStop": true
+      }
+    },
+    {
+      "name": "web: player",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build host",
+      "program": "${workspaceFolder}/bin/shipstick.host/Debug/net11.0/shipstick-host.dll",
+      "console": "internalConsole",
+      "serverReadyAction": {
+        "action": "startDebugging",
+        "name": "page: player",
+        "pattern": "Now listening on: (https?://\\S+)",
+        "killOnServerStop": true
+      }
+    },
+    {
+      "name": "page: admin",
+      "type": "chrome",
+      "request": "launch",
+      "runtimeExecutable": "/usr/bin/chromium-browser",
+      "url": "http://localhost:8730/?admin",
+      "webRoot": "${workspaceFolder}/src/app/web/wwwroot",
+      "presentation": { "hidden": true }
+    },
+    {
+      "name": "page: player",
+      "type": "chrome",
+      "request": "launch",
+      "runtimeExecutable": "/usr/bin/chromium-browser",
+      "url": "http://localhost:8730/?seat=1,1",
+      "webRoot": "${workspaceFolder}/src/app/web/wwwroot",
+      "presentation": { "hidden": true }
+    }
+  ]
+}

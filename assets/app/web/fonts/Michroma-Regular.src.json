@@ -1,0 +1,10 @@
+{
+  "kind": "font",
+  "source": "https://raw.githubusercontent.com/google/fonts/8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5/ofl/michroma/Michroma-Regular.ttf",
+  "repository": "https://github.com/google/fonts",
+  "commit": "8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5",
+  "sha256": "b62301163788bc5b7f8fcac0b74b184e34e1827e577b499ecb724da065098f87",
+  "licence": "SIL Open Font License 1.1, OFL.txt beside it",
+  "fetched": "2026-11-05",
+  "why": "the wide upper-case face of docs/style.md (GAM-8); no wide face ships with the systems the page runs on"
+}

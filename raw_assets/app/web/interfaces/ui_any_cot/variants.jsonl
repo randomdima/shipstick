@@ -1,0 +1,4 @@
+{"variant": "ui_any_cot-v1", "frame": "ui_b-v1", "box": [59, 33, 412, 265], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T20:20:51"}
+{"variant": "ui_any_cot-v2", "frame": "ui_b-v2", "box": [50, 53, 422, 245], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:36:40"}
+{"variant": "ui_any_cot-v3", "frame": "cui_b-v1", "box": [71, 74, 406, 238], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:17:54"}
+{"variant": "ui_any_cot-v4", "frame": "tui_b-v1", "box": [39, 44, 436, 255], "grid": null, "score": 4, "status": "used", "ts": "2026-11-06T01:41:56"}

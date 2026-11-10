@@ -1,0 +1,55 @@
+{
+  "id": "dev_e-v2",
+  "ts": "2026-11-05T20:34:02",
+  "op": "edit",
+  "name": "dev_e",
+  "file": ".tmp/gen/frames/dev_e-v2.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.020283,
+  "usage": {
+    "prompt_tokens": 2187,
+    "completion_tokens": 158,
+    "total_tokens": 2345,
+    "cost": 0.020283,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.020283,
+      "upstream_inference_prompt_cost": 0.015543,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sprite sheet of 9 separate game assets on a fully transparent background, in a 3 by 3 grid, each asset centred in its own cell with wide empty transparent gaps between them. No ground, no floor, no shadow plate, no frame, no border, no text, no labels, no numbers.\n\nImage 1 is a style reference only: match its rendering, palette, wear, lighting, camera angle and scale exactly, and draw none of the objects in it.\n\nStyle for every asset: 1970s-80s \"used future\" heavy-duty industrial machinery aboard a cargo spaceship, owned by an indifferent corporation. Painted metal in dull, muted dark yellow, mustard yellow and burnt orange over grey and black steel, with occasional yellow-black hazard stripes on edges; chunky housings, visible bolts and rivets, vents, worn paint, scuffs, dents, tape, replaced panels \u2014 used, not ruined. Reinforced glass has a blue-green tint. Ceramic is plain off-white ceramic. Fabric is bulky, padded and quilted canvas in muted grey or olive. Small indicator lamps are green or amber. Small screens glow green phosphor on black. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nCamera for every asset: the same fixed game camera as image 1, tilted only about 15 to 20 degrees from straight down: the top surfaces of each object fill most of its sprite and only a narrow strip of its front face shows along its bottom edge; no side faces. Every asset at the same scale as image 1: one floor cell is the space a standing human occupies, about 1 metre square, and each object fills its footprint.\n\nCells in reading order (row 1 left to right, then row 2, then row 3). Cells 1 to 8 are 2 by 2 cells; cell 9 is 3 cells wide by 2 deep:\n1. Algae vat \u2014 an open shallow tank of green algae under a light hood, with a paddle wheel and pumps.\n2. Fermenting vessel \u2014 a tall conical steel fermenter with an airlock, a temperature jacket and a tap.\n3. Grain mill \u2014 a stone mill under a hopper with a motor, a flour chute and a sack.\n4. Galley stove \u2014 a heavy steel stove with four burners, an oven door, a pot and an extractor hood.\n5. Culture fermenter \u2014 a lab fermenter with a blue-green glass vessel, tubing, a control box with a small green screen.\n6. Isotope chemlab \u2014 a lead-shielded fume cabinet with glove ports, a radiation pictogram plate and a reinforced blue-green window.\n7. Grey water reclaimer \u2014 a filter tank stack with pipes, a pump, a sludge drum and a blue-green sight tube.\n8. Soap kettle \u2014 a large steam-jacketed kettle with a stirring paddle, a lid hoist and blocks of off-white soap.\n9. Asteroid tether \u2014 a heavy winch drum with thick cable, a hull port clamp, hydraulic brakes and hazard stripes.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "867db7baa58f1550",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/devices_style_v2.png"
+    }
+  ],
+  "cells": [
+    "prt_algaevat",
+    "brw_fermenter",
+    "grn_mill",
+    "mel_stove",
+    "med_fermenter",
+    "rad_chemlab",
+    "san_reclaimer",
+    "hyg_kettle",
+    "ore_tether"
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "id": "props_a-v1",
+  "ts": "2026-11-05T20:18:58",
+  "op": "edit",
+  "name": "props_a",
+  "file": ".tmp/gen/frames/props_a-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.019648,
+  "usage": {
+    "prompt_tokens": 2060,
+    "completion_tokens": 158,
+    "total_tokens": 2218,
+    "cost": 0.019648,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.019648,
+      "upstream_inference_prompt_cost": 0.014908,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 16 separate interface props for a game, on a fully transparent background, in a 4 by 4 grid, each prop centred in its own cell with wide empty transparent gaps between them. Each prop is drawn flat and face on, as on a machine's control panel, at the same scale except where noted. No text, no letters, no numbers, no frame, no background plate.\n\nImage 1 is a style reference only: match its palette, materials, wear and rendering, and draw none of the objects in it. Unlike image 1, every asset here is drawn flat and face on (or straight down for floor), with no perspective.\n\nStyle: 1970s-80s \"used future\" heavy-duty industrial machinery aboard a corporate cargo spaceship. Painted metal in dull, muted dark yellow, mustard yellow and burnt orange over grey and black steel, occasional yellow-black hazard stripes, visible bolts and rivets, worn paint, scuffs \u2014 used, not ruined. Glass is reinforced with a blue-green tint. Off-white parts are worn plastic. Lamps are green, amber or red. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nProps in reading order (row 1 left to right, then rows 2, 3 and 4):\n1. Round black push button in a dark yellow bezel, raised.\n2. The same round push button pressed in.\n3. Square off-white plastic key cap on a black base, raised.\n4. The same square key pressed in.\n5. Metal toggle switch on a black plate, lever down (off).\n6. The same toggle switch, lever up (on).\n7. Black rotary knob with a pointer line on a steel ring.\n8. Small square steel key with a bold X pictogram stamped in it (a close button).\n9. Small square steel key with a simple open book pictogram stamped in it (a manual button).\n10. Indicator lamp in a chrome bezel, unlit (dark).\n11. The same indicator lamp lit green.\n12. The same indicator lamp lit amber.\n13. The same indicator lamp lit red.\n14. An empty recessed square socket tray of dark steel with a lip, for holding one item (seen face on, empty).\n15. A round analog gauge with a blank dial face, a needle and a chrome rim, no numbers.\n16. A blank riveted nameplate of worn off-white plastic, wide rectangle, nothing written on it.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "b82349da38857c43",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/devices_style.png"
+    }
+  ],
+  "cells": [
+    "btn_round_up",
+    "btn_round_down",
+    "key_square_up",
+    "key_square_down",
+    "toggle_off",
+    "toggle_on",
+    "knob_rotary",
+    "key_close",
+    "key_manual",
+    "lamp_off",
+    "lamp_green",
+    "lamp_amber",
+    "lamp_red",
+    "socket_slot",
+    "gauge_dial",
+    "plate_name"
+  ]
+}

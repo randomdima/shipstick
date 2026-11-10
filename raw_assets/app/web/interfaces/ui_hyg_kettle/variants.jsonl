@@ -1,0 +1,4 @@
+{"variant": "ui_hyg_kettle-v1", "frame": "ui_f-v1", "box": [1040, 25, 443, 286], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T20:20:56"}
+{"variant": "ui_hyg_kettle-v2", "frame": "ui_f-v2", "box": [1062, 50, 419, 250], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:36:45"}
+{"variant": "ui_hyg_kettle-v3", "frame": "cui_f-v1", "box": [1058, 67, 411, 241], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:17:57"}
+{"variant": "ui_hyg_kettle-v4", "frame": "tui_f-v1", "box": [1055, 42, 445, 258], "grid": null, "score": 4, "status": "used", "ts": "2026-11-06T01:41:56"}

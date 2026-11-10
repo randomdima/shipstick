@@ -1,0 +1,3 @@
+{"variant": "any_side_panel-v1", "frame": "kit_a-v1", "box": [537, 735, 87, 241], "grid": [4, 4], "score": 4, "status": "candidate", "ts": "2026-11-05T22:18:35"}
+{"variant": "any_side_panel-v2", "frame": "kit_c-v1", "box": [149, 631, 105, 311], "grid": [4, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T22:35:41"}
+{"variant": "any_side_panel-v3", "frame": "kit_e-v1", "box": [705, 624, 126, 309], "grid": [3, 3], "score": 4, "status": "used", "ts": "2026-11-05T22:43:50"}

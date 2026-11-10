@@ -1,0 +1,47 @@
+{
+  "id": "cdev_b-v1",
+  "ts": "2026-11-05T21:14:35",
+  "op": "gen",
+  "name": "cdev_b",
+  "file": ".tmp/gen/frames/cdev_b-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.008835,
+  "usage": {
+    "prompt_tokens": 819,
+    "completion_tokens": 158,
+    "total_tokens": 977,
+    "cost": 0.008835,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.008835,
+      "upstream_inference_prompt_cost": 0.004095,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sprite sheet of 9 separate game assets on a fully transparent background, arranged in a 3 by 3 grid, each asset centred in its own cell with wide empty transparent gaps between them. No ground, no floor, no shadow plate, no frame, no border, no text, no labels, no numbers.\n\nStyle for every asset: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation. The capsule is one operator's work station and living quarters, so every machine is a compact, self-contained, automated unit sized for a small cabin and run by one person, its works boxed in behind bolted panels \u2014 not heavy plant: no excavator arms, no drill rigs, no chimneys, no wheelbarrows. Painted metal in dull, muted dark yellow, mustard yellow and burnt orange over grey and black steel, with occasional yellow-black hazard stripes on edges; visible bolts and rivets, vents, scuffs, worn edges, chipped paint, a strip of tape here and there \u2014 lived in and kept: no grime, no rust, no oil stains, no soot, no litter. Reinforced glass has a blue-green tint. Fabric is bulky, padded and quilted canvas in muted grey or olive. Small indicator lamps are green or amber. Small screens glow green phosphor on black. Colours dull and desaturated. Painterly but crisp game-asset rendering, consistent lighting from the top left.\n\nCamera for every asset: a top-down game view with the camera tilted only about 15 to 20 degrees from straight down, as in a classic top-down management game. The top surfaces of each object fill most of its sprite; only a narrow strip of its front face shows along its bottom edge; no side faces. Every asset is drawn at the same scale: one floor cell is the space a standing human occupies, about 1 metre square, and each object fills its footprint.\n\nCells in reading order (row 1 left to right, then row 2, then row 3):\n1. Workbench \u2014 footprint 2 cells wide by 1 deep: a compact steel workbench with a small vice, a bench grinder under a guard, a kettle and a few hand tools in a tray; yellow-painted steel drawer unit.\n2. Mess table \u2014 footprint 2 by 1: a small bolted-down steel table with a fixed padded bench seat, a tray rack and a hot plate; grey and mustard paint.\n3. Cot \u2014 footprint 2 by 1: a narrow bunk on a steel frame with a bulky padded quilted mattress, a pillow and a folded blanket, a small shelf at the head with a cup and a photo.\n4. Chest \u2014 footprint 2 by 1: a lidded storage chest of ribbed steel, dark yellow with black hazard-striped corners, latches and handles.\n5. Life support unit \u2014 footprint 2 by 2: a compact boxed life support unit, fans behind grilles, a row of filter cartridges, a small green phosphor readout and an amber lamp; grey steel with orange panels.\n6. Regolith scoop \u2014 footprint 2 by 1: a compact sealed intake unit fed from a hull port: a hatch-lidded hopper, a short enclosed auger housing and a lidded collection bin; yellow and black.\n7. Ice melter \u2014 footprint 2 by 1: a low insulated tank with a heating coil housing, a blue-green glass sight window, a valve and a drain pipe; orange and grey.\n8. Resin vat \u2014 footprint 2 by 1: a small sealed mixing vat with a lid motor, a sight glass and a closed drum beside it; mustard yellow and black.\n9. Filter pleater \u2014 footprint 2 by 1: a compact bench machine that folds filter paper, with guarded rollers, a roll of white filter media and a stack of pleated filters; grey with yellow guards.",
+  "inputs": [],
+  "cells": [
+    "any_bench",
+    "any_table",
+    "any_cot",
+    "any_chest",
+    "any_lifesupport",
+    "ore_scoop",
+    "wat_melter",
+    "fil_resinvat",
+    "fil_pleater"
+  ]
+}

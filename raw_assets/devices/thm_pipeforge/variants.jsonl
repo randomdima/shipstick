@@ -1,0 +1,3 @@
+{"variant": "thm_pipeforge-v1", "frame": "dev_d-v1", "box": [1062, 33, 419, 297], "grid": null, "score": 4, "status": "candidate", "ts": "2026-11-05T20:17:54"}
+{"variant": "thm_pipeforge-v2", "frame": "dev_d-v2", "box": [1058, 53, 383, 257], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:34:47"}
+{"variant": "thm_pipeforge-v3", "frame": "cdev_d-v1", "box": [1052, 84, 436, 220], "grid": [3, 3], "score": 4, "status": "used", "ts": "2026-11-05T21:16:06"}

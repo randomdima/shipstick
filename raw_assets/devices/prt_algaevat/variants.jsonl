@@ -1,0 +1,3 @@
+{"variant": "prt_algaevat-v1", "frame": "dev_e-v1", "box": [92, 49, 380, 280], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:17:54"}
+{"variant": "prt_algaevat-v2", "frame": "dev_e-v2", "box": [86, 45, 379, 264], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:34:47"}
+{"variant": "prt_algaevat-v3", "frame": "cdev_e-v1", "box": [90, 96, 384, 245], "grid": [3, 3], "score": 4, "status": "used", "ts": "2026-11-05T21:16:06"}

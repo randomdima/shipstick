@@ -1,0 +1,55 @@
+{
+  "id": "tabletex_a-v1",
+  "ts": "2026-11-09T21:14:41",
+  "op": "edit",
+  "name": "tabletex_a",
+  "file": ".tmp/gen/frames/tabletex_a-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.009423,
+  "usage": {
+    "prompt_tokens": 879,
+    "completion_tokens": 158,
+    "total_tokens": 1037,
+    "cost": 0.009423,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.009423,
+      "upstream_inference_prompt_cost": 0.004683,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate flat material swatches for texturing simple 3D game models, each swatch a flat rectangle seen exactly face on, with no perspective, no depth, no cast shadow and no outline, evenly lit, on a fully transparent background, in a 3 by 3 grid, each centred in its own cell with wide empty transparent gaps between them. Each swatch fills its rectangle edge to edge with square corners. No text, no labels, no numbers, no frame round the sheet.\n\nImage 1 is the mess table with its padded bench seat that swatches 1 to 6 texture: match its colours, paints, fabrics and wear exactly, and take each of those swatches' surface from the matching part of it. Swatches 7 to 9 are materials of the same capsule that are not in it. Do not draw the table itself, and nothing in perspective: every swatch is the flat surface of one part, seen square on.\n\nStyle: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation; compact, lived in and kept. Heavy painted steel in dull dark yellow and orange over grey and black; fabric bulky and padded; ceramic plain; glass reinforced and blue-green. Light scuffs and worn paint at edges, spread evenly, with no single distinctive mark that would show when a swatch repeats \u2014 no grime, no rust, no oil. Red appears nowhere. Colours dull and desaturated. Crisp game-asset rendering, flat even light, as if lit from the top left only very faintly.\n\nThese are surfaces to be wrapped over plain boxes and cylinders. A swatch marked \"repeating\" continues seamlessly out of every edge into a copy of itself: no seam, no rim, no bevel and no line along any edge. A swatch for a round part is flat, evenly lit: no roundness, no highlight, no shading across it.\n\nSwatches in reading order (row 1 left to right, then row 2, then row 3):\n1. Three times as wide as tall. The whole table top seen straight down: pale worn cream-grey painted steel, the paint thinner and greyer toward the edges, a slightly darker narrow lip along all four edges. Nothing lying on it.\n2. Square. The bench seat's padded upholstery: thick grey-green fabric quilted in a diamond pattern of stitched seams, softly puffed between them, repeating.\n3. Square. A small hotplate set into the table, seen straight down: a dark grey ceramic cooking plate with a faint darker spiral heating ring at its centre, framed by a brushed steel rim, and along the front edge a narrow dark strip holding a row of four tiny round indicator lamps, two dull green and one amber, one dark.\n4. Square. The open top of a steel mug seen straight down: the round rolled steel rim touching all four edges, the inside dark, filled almost to the rim with dark brown coffee; the corners outside the rim plain grey steel.\n5. Four times as wide as three. The floor of a shallow empty steel tray seen straight down: dull grey pressed steel with fine scuffs, a raised lip along all four edges.\n6. Square. Plain padded grey-green vinyl upholstery, the same colour as swatch 2 but smooth with no quilting, faint creases, repeating.\n7. Square. Plain glazed white ceramic, slightly off-white and dulled with age, faint fine crazing, repeating.\n8. Square. Heavy smooth steel enamelled dull orange, evenly worn, repeating.\n9. Square. Thick reinforced glass seen face on, a dull blue-green tint, a fine square wire mesh embedded in it, repeating.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "f22b095a1bfc5b28",
+      "ext": "png",
+      "frame": null,
+      "was": "assets/devices/any_table.png"
+    }
+  ],
+  "cells": [
+    "tex_table_top",
+    "tex_seat_quilted",
+    "tex_hotplate",
+    "tex_mug_top",
+    "tex_tray_floor",
+    "tex_vinyl_padded",
+    "tex_ceramic_white",
+    "tex_orange_enamel",
+    "tex_glass_wired"
+  ]
+}

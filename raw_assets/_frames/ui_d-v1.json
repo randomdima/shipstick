@@ -1,0 +1,55 @@
+{
+  "id": "ui_d-v1",
+  "ts": "2026-11-05T20:20:34",
+  "op": "edit",
+  "name": "ui_d",
+  "file": ".tmp/gen/frames/ui_d-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.020263,
+  "usage": {
+    "prompt_tokens": 2183,
+    "completion_tokens": 158,
+    "total_tokens": 2341,
+    "cost": 0.020263,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.020263,
+      "upstream_inference_prompt_cost": 0.015523,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate game interface panels on a fully transparent background, in a 3 by 3 grid, each panel a landscape rectangle about 3 wide by 2 high, centred in its own cell with wide empty transparent gaps between them. No text, no letters, no numbers, no labels.\n\nImage 1 is a style reference only: match its panel layout, palette, materials, wear and rendering exactly, and draw none of the panels in it. Unlike image 1, every asset here is drawn flat and face on (or straight down for floor), with no perspective.\n\nStyle: 1970s-80s \"used future\" heavy-duty industrial machinery aboard a corporate cargo spaceship. Painted metal in dull, muted dark yellow, mustard yellow and burnt orange over grey and black steel, occasional yellow-black hazard stripes, visible bolts and rivets, worn paint, scuffs \u2014 used, not ruined. Glass is reinforced with a blue-green tint. Off-white parts are worn plastic. Lamps are green, amber or red. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nEach panel is the flat, face-on, stylised front control panel of one machine, used as the background of that machine's control window. Every panel has the same layout: a thick heavy-duty outer frame in that machine's own paint, bolted at the corners; a top strip about one fifth of the panel's height carrying that machine's own mechanical controls \u2014 dials, analog gauges, toggle switches, push buttons, lamps, a blank riveted nameplate on the left \u2014 chosen to suit the machine; and below it the rest of the panel, about four fifths of its height, one large plain flat recessed bay of dark grey steel with nothing on it at all, left empty. Mechanical controls only; a machine marked HIGH-TECH also has one small green phosphor screen in its top strip.\nPanels in reading order (row 1 left to right, then row 2, then row 3):\n1. Coolant mixer \u2014 mustard frame; a pump toggle, a mix ratio dial, a blue-green sight glass.\n2. Sabatier reactor \u2014 grey and orange frame; a reactor temperature gauge, a gas valve wheel, a small green phosphor readout. HIGH-TECH.\n3. Compost bin \u2014 olive frame; a crank handle, a temperature gauge, a vent slider.\n4. Seed bank \u2014 mustard frame; a thermostat dial, a drawer key switch, a frost lamp.\n5. Grain bed \u2014 mustard frame; a lamp bar toggle, a drip valve knob, a moisture gauge.\n6. Sprouting rack \u2014 olive frame; a lamp timer dial, a drip toggle, a lamp.\n7. Culture tank \u2014 grey frame; a stirrer knob, a temperature gauge, a small green phosphor readout. HIGH-TECH.\n8. Algae vat \u2014 mustard frame; a paddle wheel toggle, a light dial, a pump lamp.\n9. Fermenting vessel \u2014 grey steel frame; a jacket temperature dial, a pressure gauge, a tap lever.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "31edd5ef9ee707f9",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/ui_style.png"
+    }
+  ],
+  "cells": [
+    "ui_thm_coolantmixer",
+    "ui_gas_sabatier",
+    "ui_soi_compostbin",
+    "ui_bio_seedbank",
+    "ui_grn_field",
+    "ui_veg_sprouter",
+    "ui_bio_culturetank",
+    "ui_prt_algaevat",
+    "ui_brw_fermenter"
+  ]
+}

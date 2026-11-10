@@ -1,0 +1,4 @@
+{"variant": "ui_pwr_reactor-v1", "frame": "ui_c-v1", "box": [36, 28, 456, 277], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T20:20:52"}
+{"variant": "ui_pwr_reactor-v2", "frame": "ui_c-v2", "box": [47, 53, 427, 255], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:36:41"}
+{"variant": "ui_pwr_reactor-v3", "frame": "cui_c-v1", "box": [65, 80, 415, 240], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:17:55"}
+{"variant": "ui_pwr_reactor-v4", "frame": "tui_c-v1", "box": [36, 40, 440, 259], "grid": null, "score": 4, "status": "used", "ts": "2026-11-06T01:41:56"}

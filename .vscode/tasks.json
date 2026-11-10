@@ -1,0 +1,14 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      // The host and the page it serves; every launch, so the host never serves a build older than the source.
+      "label": "build host",
+      "type": "process",
+      "command": "dotnet",
+      "args": ["build", "${workspaceFolder}/src/app/host/shipstick.host.csproj", "-v", "q", "--nologo"],
+      "problemMatcher": "$msCompile",
+      "presentation": { "reveal": "silent", "panel": "dedicated" }
+    }
+  ]
+}

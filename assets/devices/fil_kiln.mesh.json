@@ -1,0 +1,249 @@
+{
+ "variant": "raw_assets/devices/fil_kiln/fil_kiln-v6.png",
+ "model": "raw_assets/devices/fil_kiln/fil_kiln-v6.model.json",
+ "boundsM": [
+  [
+   0,
+   0,
+   0
+  ],
+  [
+   2.0,
+   2.0,
+   1.85
+  ]
+ ],
+ "triangles": 1200,
+ "bin": "fil_kiln.mesh.bin",
+ "layout": {
+  "P": {
+   "offset": 0,
+   "type": "float32",
+   "length": 10800
+  },
+  "UV": {
+   "offset": 43200,
+   "type": "float32",
+   "length": 7200
+  },
+  "N": {
+   "offset": 72000,
+   "type": "int8",
+   "length": 10800
+  },
+  "order": {
+   "offset": 82800,
+   "type": "uint16",
+   "length": 3600
+  }
+ },
+ "looks": [
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_bare_steel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_drum_welded-v1-i3-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_yellow_enamel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_yellow_enamel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 0.9,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_kiln_door-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_bare_steel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 0.8,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_control_panel-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_vent-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_screen_green-v1-i6.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_pipe-v1-i6.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_perforated_steel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 0.4,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_charcoal-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 1.3,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_label_plate-v1-i3.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  }
+ ],
+ "draws": [
+  [
+   0,
+   0,
+   424
+  ],
+  [
+   1,
+   424,
+   44
+  ],
+  [
+   2,
+   468,
+   128
+  ],
+  [
+   3,
+   596,
+   330
+  ],
+  [
+   4,
+   926,
+   64
+  ],
+  [
+   5,
+   990,
+   2
+  ],
+  [
+   6,
+   992,
+   4
+  ],
+  [
+   7,
+   996,
+   2
+  ],
+  [
+   8,
+   998,
+   2
+  ],
+  [
+   9,
+   1000,
+   2
+  ],
+  [
+   10,
+   1002,
+   64
+  ],
+  [
+   11,
+   1066,
+   64
+  ],
+  [
+   12,
+   1130,
+   64
+  ],
+  [
+   13,
+   1194,
+   2
+  ],
+  [
+   14,
+   1196,
+   2
+  ],
+  [
+   15,
+   1198,
+   2
+  ]
+ ],
+ "light": {
+  "sun": [
+   -0.399004,
+   -0.349128,
+   0.847883
+  ],
+  "ambient": 0.5,
+  "tiltDeg": 18,
+  "shadowPxM": 400,
+  "shadowBiasM": 0.004,
+  "shadowLiftM": 0.006,
+  "shadowKeep": 0.35,
+  "aoRadiiM": [
+   0.02,
+   0.06
+  ],
+  "aoDirections": 8,
+  "aoMarginM": 0.003,
+  "aoStrength": 0.5,
+  "edgeM": 0.015,
+  "edgeShade": 0.6,
+  "foldCos": 0.6,
+  "foldLight": 1.2,
+  "grazeCos": 0.15,
+  "deckShadowMax": 0.6,
+  "deckFadeM": 0.06,
+  "cutoutAlpha": 0.5,
+  "supersample": 3
+ }
+}

@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="src/shipstick.csproj" />
+  <Folder Name="/app/">
+    <Project Path="src/app/host/shipstick.host.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="src/tests/shipstick-tests.csproj" />
+  </Folder>
+</Solution>

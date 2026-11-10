@@ -1,0 +1,4 @@
+{"variant": "ui_generic_chem-v1", "frame": "ui_f-v1", "box": [53, 674, 442, 293], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T20:20:56"}
+{"variant": "ui_generic_chem-v2", "frame": "ui_f-v2", "box": [54, 696, 416, 254], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:36:45"}
+{"variant": "ui_generic_chem-v3", "frame": "cui_f-v1", "box": [68, 700, 410, 243], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:17:57"}
+{"variant": "ui_generic_chem-v4", "frame": "tui_f-v1", "box": [36, 690, 445, 269], "grid": null, "score": 4, "status": "used", "ts": "2026-11-06T01:41:56"}

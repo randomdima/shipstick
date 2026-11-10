@@ -1,0 +1,3 @@
+{"variant": "gas_electrolyser-v1", "frame": "dev_d-v1", "box": [1086, 385, 375, 260], "grid": null, "score": 4, "status": "candidate", "ts": "2026-11-05T20:17:54"}
+{"variant": "gas_electrolyser-v2", "frame": "dev_d-v2", "box": [1051, 391, 388, 233], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:34:47"}
+{"variant": "gas_electrolyser-v3", "frame": "cdev_d-v1", "box": [1057, 401, 420, 230], "grid": [3, 3], "score": 4, "status": "used", "ts": "2026-11-05T21:16:06"}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>shipstick · COF capsule operations terminal</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+  <!-- Everything the page loads, asked for at once rather than as each import is read. -->
+  <link rel="preload" href="codex.json" as="fetch" crossorigin>
+  <link rel="preload" href="assets.json" as="fetch" crossorigin>
+  <link rel="preload" href="assets/app/web/interfaces/bays.json" as="fetch" crossorigin>
+  <link rel="modulepreload" href="art.js">
+  <link rel="modulepreload" href="scene.js">
+  <link rel="preload" href="assets/app/web/fonts/Michroma-Regular.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="modulepreload" href="dom.js">
+  <link rel="modulepreload" href="host.js">
+  <link rel="modulepreload" href="codex.js">
+  <link rel="modulepreload" href="cabin.js">
+  <link rel="modulepreload" href="player.js">
+  <link rel="modulepreload" href="admin.js">
+  <script type="module" src="main.js"></script>
+</head>
+
+<body>
+  <header><div class="plate"><b>cof</b><span>capsule ops terminal ct4 · sn 0447 1121</span></div>
+    <div class="readout"><span id="clock"></span><span id="status"></span></div><span id="controls"></span>
+    <button id="codex-open" data-go="home" title="codex: every item, device and procedure aboard">codex</button></header>
+  <main>
+    <section id="floor"></section>
+  </main>
+  <svg id="leaders"></svg>
+  <div id="windows"></div>
+  <div id="editor" class="window" hidden></div>
+  <div id="codex" class="window" hidden></div>
+  <footer id="hint"></footer>
+</body>
+
+</html>

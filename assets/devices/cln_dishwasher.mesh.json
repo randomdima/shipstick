@@ -1,0 +1,282 @@
+{
+ "variant": "raw_assets/devices/cln_dishwasher/cln_dishwasher-v6.png",
+ "model": "raw_assets/devices/cln_dishwasher/cln_dishwasher-v6.model.json",
+ "boundsM": [
+  [
+   0,
+   0,
+   0
+  ],
+  [
+   2.0,
+   1.0,
+   1.25
+  ]
+ ],
+ "triangles": 1060,
+ "bin": "cln_dishwasher.mesh.bin",
+ "layout": {
+  "P": {
+   "offset": 0,
+   "type": "float32",
+   "length": 9540
+  },
+  "UV": {
+   "offset": 38160,
+   "type": "float32",
+   "length": 6360
+  },
+  "N": {
+   "offset": 63600,
+   "type": "int8",
+   "length": 9540
+  },
+  "order": {
+   "offset": 73140,
+   "type": "uint16",
+   "length": 3180
+  }
+ },
+ "looks": [
+  {
+   "texture": "assets/textures/tex_yellow_enamel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 0.8,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_yellow_enamel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_bench_panel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_washer_door-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_bare_steel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 0.85,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_vent-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_lamp_lens_green-v1-i3.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_bare_steel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_bench_top-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 0.5,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_sink_steel-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_bare_steel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 0.8,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_bare_steel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 0.9,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_wire_mesh-v1-i2-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_dish_rack-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_bare_steel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.15,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 1.4,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 0.7,
+   "cutout": false
+  }
+ ],
+ "draws": [
+  [
+   0,
+   0,
+   10
+  ],
+  [
+   1,
+   10,
+   2
+  ],
+  [
+   2,
+   12,
+   8
+  ],
+  [
+   3,
+   20,
+   2
+  ],
+  [
+   4,
+   22,
+   176
+  ],
+  [
+   5,
+   198,
+   12
+  ],
+  [
+   6,
+   210,
+   2
+  ],
+  [
+   7,
+   212,
+   64
+  ],
+  [
+   8,
+   276,
+   336
+  ],
+  [
+   9,
+   612,
+   2
+  ],
+  [
+   10,
+   614,
+   2
+  ],
+  [
+   11,
+   616,
+   2
+  ],
+  [
+   12,
+   618,
+   12
+  ],
+  [
+   13,
+   630,
+   256
+  ],
+  [
+   14,
+   886,
+   8
+  ],
+  [
+   15,
+   894,
+   2
+  ],
+  [
+   16,
+   896,
+   6
+  ],
+  [
+   17,
+   902,
+   30
+  ],
+  [
+   18,
+   932,
+   128
+  ]
+ ],
+ "light": {
+  "sun": [
+   -0.399004,
+   -0.349128,
+   0.847883
+  ],
+  "ambient": 0.5,
+  "tiltDeg": 18,
+  "shadowPxM": 400,
+  "shadowBiasM": 0.004,
+  "shadowLiftM": 0.006,
+  "shadowKeep": 0.35,
+  "aoRadiiM": [
+   0.02,
+   0.06
+  ],
+  "aoDirections": 8,
+  "aoMarginM": 0.003,
+  "aoStrength": 0.5,
+  "edgeM": 0.015,
+  "edgeShade": 0.6,
+  "foldCos": 0.6,
+  "foldLight": 1.2,
+  "grazeCos": 0.15,
+  "deckShadowMax": 0.6,
+  "deckFadeM": 0.06,
+  "cutoutAlpha": 0.5,
+  "supersample": 3
+ }
+}

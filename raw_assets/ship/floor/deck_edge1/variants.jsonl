@@ -1,0 +1,2 @@
+{"variant": "deck_edge1-v1", "frame": "deck_b-v1", "box": [625, 32, 286, 277], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T22:35:41"}
+{"variant": "deck_edge1-v2", "frame": "deck_c-v1", "box": [637, 57, 263, 258], "grid": [3, 3], "score": 4, "status": "used", "ts": "2026-11-05T22:43:50"}

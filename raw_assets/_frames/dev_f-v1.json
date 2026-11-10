@@ -1,0 +1,62 @@
+{
+  "id": "dev_f-v1",
+  "ts": "2026-11-05T20:15:47",
+  "op": "edit",
+  "name": "dev_f",
+  "file": ".tmp/gen/frames/dev_f-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.020558,
+  "usage": {
+    "prompt_tokens": 2242,
+    "completion_tokens": 158,
+    "total_tokens": 2400,
+    "cost": 0.020558,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.020558,
+      "upstream_inference_prompt_cost": 0.015818,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sprite sheet of 16 separate game assets on a fully transparent background, in a 4 by 4 grid, each asset centred in its own cell with wide empty transparent gaps between them. No ground, no floor, no shadow plate, no frame, no border, no text, no labels, no numbers.\n\nImage 1 is a style reference only: match its rendering, palette, wear, lighting, camera angle and scale exactly, and draw none of the objects in it.\n\nStyle for every asset: 1970s-80s \"used future\" heavy-duty industrial machinery aboard a cargo spaceship, owned by an indifferent corporation. Painted metal in dull, muted dark yellow, mustard yellow and burnt orange over grey and black steel, with occasional yellow-black hazard stripes on edges; chunky housings, visible bolts and rivets, vents, worn paint, scuffs, dents, tape, replaced panels \u2014 used, not ruined. Reinforced glass has a blue-green tint. Ceramic is plain off-white ceramic. Fabric is bulky, padded and quilted canvas in muted grey or olive. Small indicator lamps are green or amber. Small screens glow green phosphor on black. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nCamera for every asset: the same fixed game camera as image 1, a three-quarter top-down view, so the top of each object and part of its front face are visible. Every asset at the same scale as image 1: one floor cell is the space a standing human occupies, about 1 metre square.\nCells in reading order (row 1 left to right, then rows 2, 3 and 4). Cells 1 to 4 are machines 3 cells wide by 2 deep. Cells 5 to 16 are capsule wall and door pieces, each 1 cell, a thick bulkhead wall about knee to head high seen from the same camera:\n1. Fission reactor \u2014 a compact shielded reactor block with control rod housings on top, coolant pipes, hazard stripes and a radiation pictogram plate.\n2. Exchanger bay \u2014 a bank of heat exchanger fins and pipe manifolds with valves and gauges.\n3. Solar array \u2014 a folding rack of blue-green glass solar panels on a steel gantry with cable drums.\n4. Grain bed \u2014 a long hydroponic bed of wheat under lamp bars with a drip line and a trough.\n5. Straight wall section running left to right: grey steel bulkhead with a dark yellow top cap and bolts.\n6. Straight wall section running toward the camera (front to back), same build.\n7. Wall corner, outer top-left.\n8. Wall corner, outer top-right.\n9. Wall corner, outer bottom-left.\n10. Wall corner, outer bottom-right.\n11. Heavy bulkhead door closed, set in a wall section running left to right: thick steel door with a wheel lock and yellow-black hazard-striped frame.\n12. The same heavy bulkhead door open, the door slid aside, a dark opening.\n13. Heavy bulkhead door closed, in a wall section running toward the camera.\n14. The same door open, in a wall section running toward the camera.\n15. Wall section running left to right with a small round reinforced blue-green glass porthole.\n16. Wall section running left to right with pipes and a cable tray along it.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "b82349da38857c43",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/devices_style.png"
+    }
+  ],
+  "cells": [
+    "pwr_reactor",
+    "thm_exchangerbay",
+    "pwr_solararray",
+    "grn_field",
+    "wall_h",
+    "wall_v",
+    "wall_corner_tl",
+    "wall_corner_tr",
+    "wall_corner_bl",
+    "wall_corner_br",
+    "door_h_closed",
+    "door_h_open",
+    "door_v_closed",
+    "door_v_open",
+    "wall_h_porthole",
+    "wall_h_pipes"
+  ]
+}

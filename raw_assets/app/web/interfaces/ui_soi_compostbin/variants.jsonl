@@ -1,0 +1,4 @@
+{"variant": "ui_soi_compostbin-v1", "frame": "ui_d-v1", "box": [1036, 30, 448, 287], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T20:20:53"}
+{"variant": "ui_soi_compostbin-v2", "frame": "ui_d-v2", "box": [1061, 48, 424, 262], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:36:42"}
+{"variant": "ui_soi_compostbin-v3", "frame": "cui_d-v1", "box": [1062, 95, 412, 236], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:17:55"}
+{"variant": "ui_soi_compostbin-v4", "frame": "tui_d-v1", "box": [1056, 43, 442, 252], "grid": null, "score": 4, "status": "used", "ts": "2026-11-06T01:41:56"}

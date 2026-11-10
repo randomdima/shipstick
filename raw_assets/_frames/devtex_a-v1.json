@@ -1,0 +1,55 @@
+{
+  "id": "devtex_a-v1",
+  "ts": "2026-11-09T21:50:16",
+  "op": "edit",
+  "name": "devtex_a",
+  "file": ".tmp/gen/frames/devtex_a-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.020743,
+  "usage": {
+    "prompt_tokens": 2288,
+    "completion_tokens": 158,
+    "total_tokens": 2446,
+    "cost": 0.020743,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.020743,
+      "upstream_inference_prompt_cost": 0.016003,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate flat material swatches for texturing simple 3D game models, each swatch a flat square seen exactly face on, with no perspective, no depth, no cast shadow and no outline, evenly lit, on a fully transparent background, in a 3 by 3 grid, each centred in its own cell with wide empty transparent gaps between them. Each swatch fills its square edge to edge with square corners. No text, no labels, no numbers, no frame round the sheet.\n\nImage 1 shows the capsule devices these swatches texture, in rows: algae jar, culture tank, moisture condenser; floor service hatch, charcoal kiln, toilet; washbasin, dishwasher, seed bank. Match their colours, paints, glass, ceramic and wear exactly, and take each swatch's surface from the matching part of them. Do not draw the devices themselves, and nothing in perspective: every swatch is the flat surface of one part, seen square on.\n\nStyle: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation; compact, lived in and kept. Heavy painted steel in dull dark yellow and orange over grey and black; glass reinforced and blue-green; ceramic plain. Light scuffs and worn paint at edges, spread evenly, with no single distinctive mark that would show when a swatch repeats \u2014 no grime, no rust, no oil. Red appears nowhere. Colours dull and desaturated. Crisp game-asset rendering, flat even light, as if lit from the top left only very faintly.\n\nThese are surfaces to be wrapped over plain boxes and cylinders. A swatch marked \"repeating\" continues seamlessly out of every edge into a copy of itself: no seam, no rim, no bevel and no line along any edge. A swatch for a round part is flat, evenly lit: no roundness, no highlight, no shading across it.\n\nSwatches in reading order (row 1 left to right, then row 2, then row 3), every one square:\n1. The algae jar's glass seen face on: thick blue-green tinted glass with dense bright green algae water behind it, small bubbles, repeating.\n2. The culture tank's glass seen face on: thick blue-green tinted glass with clear pale blue-green liquid behind it, faint streams of tiny bubbles, repeating.\n3. A round cooling fan seen face on: dark fan blades behind a square steel grille of crossed bars, a steel square frame touching all four edges.\n4. A round analogue dial gauge seen face on: off-white face with fine tick marks and one black needle, no numbers, a round steel bezel touching all four edges, the corners outside it plain grey steel.\n5. An orange painted steel spoked handwheel seen straight down: its rim touching all four edges, four spokes to a hub, between the spokes dark grey steel plate.\n6. The charcoal kiln's door seen face on: a heavy grey steel door plate with a strong hinge on the left edge, a lever latch handle on the right, rivets round its border.\n7. A white ceramic toilet seen straight down: a thick off-white seat ring touching all four edges round a dark oval opening, the corners outside it plain grey steel.\n8. A white ceramic washbasin seen straight down: a rounded off-white bowl with a small round steel drain in its middle, a short steel tap at the top edge, the ceramic rim touching all four edges.\n9. A brushed steel sink seen straight down: a deep rectangular steel bowl with a round drain in its middle, a narrow flat steel rim along all four edges.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "8da8415342ee2167",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/devtex_a_ref.png"
+    }
+  ],
+  "cells": [
+    "tex_algae_glass",
+    "tex_tank_liquid",
+    "tex_fan_grille",
+    "tex_gauge_dial",
+    "tex_handwheel",
+    "tex_kiln_door",
+    "tex_toilet_bowl",
+    "tex_basin_top",
+    "tex_sink_steel"
+  ]
+}

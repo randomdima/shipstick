@@ -1,0 +1,2 @@
+{"variant": "any_panel_door_closed-v1", "frame": "kit_a-v1", "box": [1154, 548, 334, 145], "grid": [4, 4], "score": 4, "status": "candidate", "ts": "2026-11-05T22:18:35"}
+{"variant": "any_panel_door_closed-v2", "frame": "kit_c-v1", "box": [38, 354, 330, 209], "grid": [4, 3], "score": 4, "status": "used", "ts": "2026-11-05T22:35:41"}

@@ -1,0 +1,55 @@
+{
+  "id": "ui_b-v2",
+  "ts": "2026-11-05T20:36:22",
+  "op": "edit",
+  "name": "ui_b",
+  "file": ".tmp/gen/frames/ui_b-v2.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.019703,
+  "usage": {
+    "prompt_tokens": 2071,
+    "completion_tokens": 158,
+    "total_tokens": 2229,
+    "cost": 0.019703,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.019703,
+      "upstream_inference_prompt_cost": 0.014963,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate game interface panels on a fully transparent background, in a 3 by 3 grid, each panel a landscape rectangle about 3 wide by 2 high, centred in its own cell with wide empty transparent gaps between them. No text, no letters, no numbers, no labels.\n\nImage 1 is a style reference only: match its panel layout, palette, materials, wear and rendering exactly, and draw none of the panels in it. Unlike image 1, every asset here is drawn flat and face on (or straight down for floor), with no perspective.\n\nStyle: 1970s-80s \"used future\" heavy-duty industrial machinery aboard a corporate cargo spaceship. Painted metal in dull, muted dark yellow, mustard yellow and burnt orange over grey and black steel, occasional yellow-black hazard stripes, visible bolts and rivets, worn paint, scuffs \u2014 used, not ruined. Glass is reinforced with a blue-green tint. Off-white parts are worn plastic. Lamps are green, amber or red. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nEach panel is the flat, face-on front housing of one machine, used as the background of that machine's control window. Every panel has the same layout: a thick heavy-duty outer frame in that machine's own paint and materials, bolted at the corners; a narrow band along the top holding only a blank riveted nameplate at its left; and below it one large plain flat recessed face of dark grey steel, empty. The panels differ only in paint, material, wear, rivet patterns and occasional hazard stripes on the frame. Draw NO controls of any kind: no buttons, no dials, no gauges, no switches, no levers, no knobs, no valves, no wheels, no lamps, no screens, no sight glasses, no pictograms, no meters. Red appears nowhere.\n\nPanels in reading order (row 1 left to right, then row 2, then row 3):\n1. Cot \u2014 olive canvas-padded frame edged in grey steel.\n2. Storage chest and locker \u2014 dark yellow frame with black hazard-striped corners.\n3. Service hatch \u2014 black frame with hazard-striped edge.\n4. Heavy bulkhead door \u2014 yellow-black hazard-striped frame.\n5. Regolith water extractor \u2014 mustard frame.\n6. Mining drill \u2014 yellow and black frame.\n7. Regolith scoop \u2014 yellow frame.\n8. Asteroid tether \u2014 black frame with hazard stripes.\n9. Heat pipe forge \u2014 burnt orange frame.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "f6e640547bb7a1c8",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/ui_style_v2.png"
+    }
+  ],
+  "cells": [
+    "ui_any_cot",
+    "ui_storage",
+    "ui_any_hatch",
+    "ui_door",
+    "ui_wat_extractor",
+    "ui_ore_drill",
+    "ui_ore_scoop",
+    "ui_ore_tether",
+    "ui_thm_pipeforge"
+  ]
+}

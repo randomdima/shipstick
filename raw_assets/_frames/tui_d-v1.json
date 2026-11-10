@@ -1,0 +1,62 @@
+{
+  "id": "tui_d-v1",
+  "ts": "2026-11-06T01:37:57",
+  "op": "edit",
+  "name": "tui_d",
+  "file": ".tmp/gen/frames/tui_d-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.032601,
+  "usage": {
+    "prompt_tokens": 3729,
+    "completion_tokens": 158,
+    "total_tokens": 3887,
+    "cost": 0.032601,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.032601,
+      "upstream_inference_prompt_cost": 0.027861,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate game interface panels on a fully transparent background, in a 3 by 3 grid, each panel a landscape rectangle, centred in its own cell with wide empty transparent gaps between them. No text, no letters, no numbers, no labels.\n\nImage 1 is a layout guide drawn in flat grey blocks: take from it exactly the grid, each panel's outline and proportions, the frame's thickness, the top band's height, and the position and size of the nameplate and of the key bay. Take none of its flat grey colours or its plainness.\nImage 2 shows these same nine panels as they are now, in the same order: keep each panel's own paint, materials, trim, hazard stripes, rivets, wear and rendering exactly, and change only its layout to match image 1.\n\nStyle: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation. The capsule is one operator's work station and living quarters, so every machine is compact and kept. Painted metal in dull, muted dark yellow, mustard yellow and burnt orange over grey and black steel, occasional yellow-black hazard stripes, visible bolts and rivets, scuffs, worn edges, chipped paint \u2014 lived in and kept: no grime, no rust, no oil stains, no soot. Colours dull and desaturated. Crisp game-asset rendering, flat and face on with no perspective, lighting from the top left.\n\nEach panel is the flat, face-on front housing of one machine, used as the background of that machine's control window. Every panel has the same layout, image 1's: a sturdy outer frame in that machine's own paint and materials, bolted at the corners; a band along the top about three tenths of the panel's height, holding a blank riveted nameplate at its left and, at its right just inside the frame, a small recessed dark steel bay holding two empty square sockets side by side, the same height as the nameplate's middle; and below the band one large plain flat recessed face of dark grey steel, empty and clean. The two sockets are plain empty square recesses with a dark floor and a slight bevelled rim \u2014 nothing in them, no button caps, no symbols. Draw NO controls of any kind anywhere: no buttons, no dials, no gauges, no switches, no levers, no knobs, no valves, no wheels, no lamps, no screens, no sight glasses, no pictograms, no meters. Red appears nowhere.\n\nPanels in reading order (row 1 left to right, then row 2, then row 3):\n1. Coolant mixer \u2014 mustard frame.\n2. Sabatier reactor \u2014 grey and orange frame.\n3. Compost bin \u2014 olive frame.\n4. Seed bank \u2014 mustard frame.\n5. Grain bed \u2014 mustard frame.\n6. Sprouting rack \u2014 olive frame.\n7. Culture tank \u2014 grey frame.\n8. Algae vat \u2014 mustard frame.\n9. Fermenting vessel \u2014 grey steel frame.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "eefd46f5a5d484d4",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/template/ui_layout_keys.png"
+    },
+    {
+      "role": "image 2",
+      "sha": "c23f843ea6708e25",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/template/ref_cui_d.png"
+    }
+  ],
+  "cells": [
+    "ui_thm_coolantmixer",
+    "ui_gas_sabatier",
+    "ui_soi_compostbin",
+    "ui_bio_seedbank",
+    "ui_grn_field",
+    "ui_veg_sprouter",
+    "ui_bio_culturetank",
+    "ui_prt_algaevat",
+    "ui_brw_fermenter"
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "id": "deck_a-v1",
+  "ts": "2026-11-05T20:19:00",
+  "op": "edit",
+  "name": "deck_a",
+  "file": ".tmp/gen/frames/deck_a-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.019238,
+  "usage": {
+    "prompt_tokens": 1978,
+    "completion_tokens": 158,
+    "total_tokens": 2136,
+    "cost": 0.019238,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.019238,
+      "upstream_inference_prompt_cost": 0.014498,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate square floor tiles for a top-down game, on a fully transparent background, in a 3 by 3 grid, each tile a square centred in its own cell with wide empty transparent gaps between tiles. Each tile fills its own square edge to edge and is seamless: its left edge continues its right edge and its top edge continues its bottom edge, so it repeats across a floor without visible seams. Seen straight down. No text, no labels, no numbers, no frame.\n\nImage 1 is a style reference only: match its palette, materials, wear and rendering, and draw none of the objects in it. Unlike image 1, every asset here is drawn flat and face on (or straight down for floor), with no perspective.\n\nStyle: 1970s-80s \"used future\" heavy-duty industrial machinery aboard a corporate cargo spaceship. Painted metal in dull, muted dark yellow, mustard yellow and burnt orange over grey and black steel, occasional yellow-black hazard stripes, visible bolts and rivets, worn paint, scuffs \u2014 used, not ruined. Glass is reinforced with a blue-green tint. Off-white parts are worn plastic. Lamps are green, amber or red. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nTiles in reading order (row 1 left to right, then row 2, then row 3), each one metre square of a spaceship cabin deck, dark grey and black steel with dull yellow accents:\n1. Plain riveted steel deck plate, dark grey, lightly scuffed.\n2. Steel diamond tread plate, dark grey.\n3. Open steel floor grating over a dark gap.\n4. Deck plate with a round drain grate in the middle.\n5. Worn deck plate with an oil stain and boot scuffs.\n6. Deck plate with a covered cable trench running across it, bolted lid.\n7. Deck plate with a yellow-black hazard stripe band along one edge.\n8. Deck plate with a recessed cargo tie-down ring.\n9. Ribbed black rubber floor mat on steel.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "b82349da38857c43",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/devices_style.png"
+    }
+  ],
+  "cells": [
+    "deck_plate",
+    "deck_tread",
+    "deck_grating",
+    "deck_drain",
+    "deck_worn",
+    "deck_trench",
+    "deck_hazard",
+    "deck_tiedown",
+    "deck_mat"
+  ]
+}

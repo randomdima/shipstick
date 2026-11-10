@@ -1,0 +1,55 @@
+{
+  "id": "deck_b-v1",
+  "ts": "2026-11-05T22:34:29",
+  "op": "edit",
+  "name": "deck_b",
+  "file": ".tmp/gen/frames/deck_b-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.019768,
+  "usage": {
+    "prompt_tokens": 2084,
+    "completion_tokens": 158,
+    "total_tokens": 2242,
+    "cost": 0.019768,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.019768,
+      "upstream_inference_prompt_cost": 0.015028,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate square floor tiles for a top-down game, on a fully transparent background, in a 3 by 3 grid, each tile an exact square centred in its own cell with wide empty transparent gaps between tiles. Seen straight down, flat, no perspective. No text, no labels, no numbers, no frame round the sheet.\n\nImage 1 is a style reference only: match its palette, materials, wear and rendering exactly, and draw none of its objects.\n\nStyle: the deck of one small crew capsule of a space station, 1970s-80s \"used future\" industrial, owned by an indifferent corporation; the capsule is one operator's work station and living quarters, lived on and kept. Dark grey steel deck plate, dull and desaturated; light scuffs and faint boot wear spread evenly, with no single distinctive mark, stain or scratch that would show when a tile repeats \u2014 no grime, no rust, no oil. Crisp game-asset rendering, lighting from the top left.\n\nThe deck is made of large steel plates of different sizes, and every tile is one square metre of it. Where a plate ends, the tile shows that plate's edge: a narrow bevelled seam with a line of small rivets just inside it. Where the tile's edge lies inside a plate, that edge has no seam, no bevel, no rivets and no line at all: the plain steel runs straight out of the edge, so it continues seamlessly into the next tile of the same plate. Each tile fills its square edge to edge.\n\nTiles in reading order (row 1 left to right, then row 2, then row 3):\n1. Inside a plate: all four edges plain, no seam anywhere.\n2. A plate's edge along the top edge only; the other three edges plain.\n3. A plate's corner: edges along the top and the left; the bottom and right edges plain.\n4. A plate's edges along the top and the bottom; the left and right edges plain.\n5. A plate's edges along the top, the left and the bottom; the right edge plain.\n6. A whole one-metre plate: edges on all four sides.\n7. A whole one-metre plate, edges on all four sides, with a small round drain grate in its middle.\n8. A whole one-metre floor grating panel, edges on all four sides, over a shallow dark service void with a few tidy cables.\n9. A whole one-metre plate, edges on all four sides, with a recessed tie-down ring in its middle.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "afc1c32f647e52f1",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/deck_style_b.png"
+    }
+  ],
+  "cells": [
+    "deck_inner",
+    "deck_edge1",
+    "deck_edge2",
+    "deck_edge2op",
+    "deck_edge3",
+    "deck_edge4",
+    "deck_drain",
+    "deck_grating",
+    "deck_tiedown"
+  ]
+}

@@ -1,0 +1,3 @@
+{"variant": "sup_dresser-v1", "frame": "dev_c-v1", "box": [625, 661, 284, 335], "grid": null, "score": 4, "status": "candidate", "ts": "2026-11-05T20:17:54"}
+{"variant": "sup_dresser-v2", "frame": "dev_c-v3", "box": [624, 658, 320, 316], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T20:35:12"}
+{"variant": "sup_dresser-v3", "frame": "cdev_c-v1", "box": [595, 675, 345, 284], "grid": [3, 3], "score": 4, "status": "used", "ts": "2026-11-05T21:16:06"}

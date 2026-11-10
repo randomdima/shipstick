@@ -1,0 +1,60 @@
+{
+  "id": "cln_dishwasher",
+  "about": "A dishwasher counter: a steel counter with a sink and tap, a wire rack of plates and cups on it, a washer door below with a handle, a lamp and vent beside it, yellow ends and plinth.",
+  "boundsM": [[0, 0, 0], [2, 1, 1.25]],
+  "textures": {
+    "top":    {"src": "raw_assets/textures/tex_bench_top/tex_bench_top-v1.png", "insetPct": 2},
+    "sink":   {"src": "raw_assets/textures/tex_sink_steel/tex_sink_steel-v1.png", "insetPct": 2},
+    "rack":   {"src": "raw_assets/textures/tex_dish_rack/tex_dish_rack-v1.png", "insetPct": 2},
+    "mesh":   {"src": "raw_assets/textures/tex_wire_mesh/tex_wire_mesh-v1.png", "insetPct": 2, "tileM": 0.15},
+    "door":   {"src": "raw_assets/textures/tex_washer_door/tex_washer_door-v1.png", "insetPct": 2},
+    "panel":  {"src": "raw_assets/textures/tex_bench_panel/tex_bench_panel-v1.png", "insetPct": 4, "tileM": 0.6},
+    "steel":  {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "yellow": {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.4},
+    "trim":   {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3},
+    "vent":   {"src": "raw_assets/textures/tex_vent/tex_vent-v1.png", "insetPct": 2},
+    "lamp":   {"src": "raw_assets/textures/tex_lamp_lens_green/tex_lamp_lens_green-v1.png", "insetPct": 3}
+  },
+  "parts": [
+    {"shape": "group", "name": "counter", "parts": [
+      {"shape": "box", "name": "plinth", "atM": [1, 0.52, 0.04], "sizeM": [1.94, 0.86, 0.08],
+       "faces": {"*": {"tex": "yellow", "shade": 0.8}, "bottom": null}},
+      {"shape": "box", "name": "carcass", "atM": [1, 0.5, 0.46], "sizeM": [1.96, 0.88, 0.76],
+       "faces": {"*": "panel", "south": "yellow", "top": null, "bottom": null}},
+      {"shape": "box", "name": "door", "atM": [0.89, 0.053, 0.47], "sizeM": [1.34, 0.006, 0.66],
+       "faces": {"south": "door", "*": "trim", "north": null}},
+      {"shape": "box", "name": "door handle", "atM": [0.89, 0.035, 0.73], "sizeM": [0.5, 0.03, 0.035], "tex": "steel", "shade": 0.85},
+      {"shape": "box", "name": "handle stand-offs", "atM": [0.66, 0.045, 0.73], "sizeM": [0.03, 0.03, 0.05],
+       "repeat": {"count": 2, "stepM": [0.46, 0, 0]}, "tex": "trim"},
+      {"shape": "box", "name": "service panel", "atM": [1.71, 0.053, 0.47], "sizeM": [0.22, 0.006, 0.66],
+       "faces": {"south": "panel", "*": "trim", "north": null}},
+      {"shape": "box", "name": "vent", "atM": [1.71, 0.047, 0.36], "sizeM": [0.16, 0.006, 0.26],
+       "faces": {"south": {"tex": "vent", "turnDeg": 90}, "*": "trim", "north": null}},
+      {"shape": "cylinder", "name": "lamp", "atM": [1.71, 0.04, 0.68], "radiusM": 0.025, "lengthM": 0.02, "axis": "y",
+       "faces": {"ends": "lamp", "side": "trim"}},
+      {"shape": "box", "name": "worktop", "atM": [1, 0.5, 0.87], "sizeM": [2, 1, 0.06],
+       "faces": {"top": "top", "bottom": {"tex": "trim", "shade": 0.5}, "*": "steel"}},
+      {"shape": "box", "name": "sink", "atM": [0.52, 0.52, 0.901], "sizeM": [0.74, 0.62, 0.002],
+       "faces": {"top": "sink", "*": "steel", "bottom": null}}
+    ]},
+    {"shape": "group", "name": "tap", "parts": [
+      {"shape": "box", "name": "tap plate", "atM": [0.52, 0.91, 0.91], "sizeM": [0.2, 0.06, 0.02], "tex": "steel", "shade": 0.8},
+      {"shape": "cylinder", "name": "tap column", "atM": [0.52, 0.91, 1.01], "radiusM": 0.025, "lengthM": 0.18,
+       "faces": {"side": {"tex": "steel", "tileM": [0.16, 0.18]}, "ends": "steel"}},
+      {"shape": "cylinder", "name": "spout", "atM": [0.52, 0.83, 1.08], "radiusM": 0.02, "lengthM": 0.16, "axis": "y",
+       "faces": {"side": {"tex": "steel", "turnDeg": 90, "tileM": [0.13, 0.16]}, "ends": "trim"}},
+      {"shape": "cylinder", "name": "tap knobs", "atM": [0.42, 0.91, 0.94], "radiusM": 0.025, "lengthM": 0.04,
+       "repeat": {"count": 2, "stepM": [0.2, 0, 0]}, "tex": "steel", "shade": 0.9}
+    ]},
+    {"shape": "group", "name": "dish rack", "parts": [
+      {"shape": "box", "name": "rack", "atM": [1.45, 0.58, 0.96], "sizeM": [0.76, 0.62, 0.12],
+       "faces": {"top": "rack", "*": "mesh", "bottom": null}},
+      {"shape": "box", "name": "plates", "atM": [1.42, 0.64, 1.09], "sizeM": [0.32, 0.015, 0.26], "rotDeg": [-15, 0, 0],
+       "repeat": {"count": 3, "stepM": [0, 0.08, 0]},
+       "faces": {"*": {"tex": "trim", "shade": 1.4}, "south": {"tex": "steel", "shade": 1.15}}},
+      {"shape": "cylinder", "name": "cups", "atM": [1.24, 0.40, 1.08], "radiusM": 0.06, "lengthM": 0.13,
+       "repeat": {"count": 2, "stepM": [0.40, 0, 0]},
+       "faces": {"side": {"tex": "steel", "tileM": [0.38, 0.13]}, "ends": {"tex": "trim", "shade": 0.7}}}
+    ]}
+  ]
+}

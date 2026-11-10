@@ -1,0 +1,44 @@
+{
+  "id": "any_condenser",
+  "about": "A moisture condenser: grey cabinet with a fan grille and a cooling-fin block on top, a water basin in a front recess, a yellow side column with a lamp, a gas bottle standing in front.",
+  "boundsM": [[0, 0, 0], [1, 1, 0.85]],
+  "textures": {
+    "grey":   {"src": "raw_assets/textures/tex_bench_panel/tex_bench_panel-v1.png", "insetPct": 4, "tileM": 0.6},
+    "trim":   {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3},
+    "steel":  {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "yellow": {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "fan":    {"src": "raw_assets/textures/tex_fan_grille/tex_fan_grille-v1.png", "insetPct": 4},
+    "fins":   {"src": "raw_assets/textures/tex_pleated_filter/tex_pleated_filter-v1.png", "insetPct": 4},
+    "water":  {"src": "raw_assets/textures/tex_tank_liquid/tex_tank_liquid-v1.png", "insetPct": 4},
+    "tub":    {"src": "raw_assets/textures/tex_glass_wired/tex_glass_wired-v1.png", "insetPct": 4},
+    "lamp":   {"src": "raw_assets/textures/tex_lamp_lens_green/tex_lamp_lens_green-v1.png", "insetPct": 3},
+    "label":  {"src": "raw_assets/textures/tex_label_plate/tex_label_plate-v1.png", "insetPct": 4}
+  },
+  "parts": [
+    {"shape": "group", "name": "cabinet", "atM": [0, 0, 0], "tex": "grey", "parts": [
+      {"shape": "box", "name": "plinth", "atM": [0.44, 0.60, 0.03], "sizeM": [0.84, 0.74, 0.06],
+       "faces": {"*": "trim", "bottom": null}},
+      {"shape": "box", "name": "recess post", "atM": [0.045, 0.60, 0.24], "sizeM": [0.05, 0.74, 0.36],
+       "faces": {"*": "grey", "bottom": null}},
+      {"shape": "box", "name": "recess back", "atM": [0.315, 0.795, 0.24], "sizeM": [0.49, 0.35, 0.36],
+       "faces": {"south": {"tex": "trim", "shade": 0.6}, "*": "grey", "bottom": null}},
+      {"shape": "box", "name": "lower right block", "atM": [0.71, 0.60, 0.24], "sizeM": [0.30, 0.74, 0.36],
+       "faces": {"west": {"tex": "trim", "shade": 0.7}, "*": "grey", "bottom": null}},
+      {"shape": "box", "name": "upper body", "atM": [0.44, 0.60, 0.585], "sizeM": [0.84, 0.74, 0.33],
+       "faces": {"bottom": {"tex": "trim", "shade": 0.5}, "*": "grey"}},
+      {"shape": "box", "name": "yellow column", "atM": [0.92, 0.60, 0.375], "sizeM": [0.12, 0.74, 0.75],
+       "faces": {"*": "yellow", "bottom": null}},
+      {"shape": "quad", "name": "fan grille", "atM": [0.26, 0.60, 0.753], "sizeM": [0.42, 0.42], "facing": "up", "tex": "fan"},
+      {"shape": "box", "name": "fin block", "atM": [0.67, 0.60, 0.78], "sizeM": [0.30, 0.60, 0.06],
+       "faces": {"top": {"tex": "fins", "shade": 0.75}, "*": "trim", "bottom": null}},
+      {"shape": "cylinder", "name": "spout", "atM": [0.30, 0.50, 0.39], "radiusM": 0.015, "lengthM": 0.06, "tex": "steel"},
+      {"shape": "box", "name": "lamp", "atM": [0.92, 0.224, 0.62], "sizeM": [0.05, 0.012, 0.04],
+       "faces": {"south": "lamp", "*": "trim"}},
+      {"shape": "box", "name": "label", "atM": [0.92, 0.227, 0.38], "sizeM": [0.08, 0.006, 0.16],
+       "faces": {"south": {"tex": "label", "turnDeg": 90}, "*": "trim"}}
+    ]},
+    {"shape": "box", "name": "basin", "atM": [0.315, 0.425, 0.18], "sizeM": [0.42, 0.31, 0.24],
+     "faces": {"top": "water", "*": {"tex": "tub", "shade": 0.9}, "bottom": null}},
+    {"shape": "model", "name": "gas bottle", "src": "raw_assets/parts/gas_bottle/gas_bottle-v1.model.json", "atM": [0.71, 0.12, 0]}
+  ]
+}

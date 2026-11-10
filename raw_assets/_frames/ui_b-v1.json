@@ -1,0 +1,55 @@
+{
+  "id": "ui_b-v1",
+  "ts": "2026-11-05T20:20:37",
+  "op": "edit",
+  "name": "ui_b",
+  "file": ".tmp/gen/frames/ui_b-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.020313,
+  "usage": {
+    "prompt_tokens": 2193,
+    "completion_tokens": 158,
+    "total_tokens": 2351,
+    "cost": 0.020313,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.020313,
+      "upstream_inference_prompt_cost": 0.015573,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate game interface panels on a fully transparent background, in a 3 by 3 grid, each panel a landscape rectangle about 3 wide by 2 high, centred in its own cell with wide empty transparent gaps between them. No text, no letters, no numbers, no labels.\n\nImage 1 is a style reference only: match its panel layout, palette, materials, wear and rendering exactly, and draw none of the panels in it. Unlike image 1, every asset here is drawn flat and face on (or straight down for floor), with no perspective.\n\nStyle: 1970s-80s \"used future\" heavy-duty industrial machinery aboard a corporate cargo spaceship. Painted metal in dull, muted dark yellow, mustard yellow and burnt orange over grey and black steel, occasional yellow-black hazard stripes, visible bolts and rivets, worn paint, scuffs \u2014 used, not ruined. Glass is reinforced with a blue-green tint. Off-white parts are worn plastic. Lamps are green, amber or red. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nEach panel is the flat, face-on, stylised front control panel of one machine, used as the background of that machine's control window. Every panel has the same layout: a thick heavy-duty outer frame in that machine's own paint, bolted at the corners; a top strip about one fifth of the panel's height carrying that machine's own mechanical controls \u2014 dials, analog gauges, toggle switches, push buttons, lamps, a blank riveted nameplate on the left \u2014 chosen to suit the machine; and below it the rest of the panel, about four fifths of its height, one large plain flat recessed bay of dark grey steel with nothing on it at all, left empty. Mechanical controls only; a machine marked HIGH-TECH also has one small green phosphor screen in its top strip.\nPanels in reading order (row 1 left to right, then row 2, then row 3):\n1. Cot \u2014 olive canvas-padded frame edged in grey steel; a reading lamp toggle, a heater dial.\n2. Storage chest and locker \u2014 dark yellow frame with black hazard-striped corners; a heavy latch handle, a lock knob.\n3. Service hatch \u2014 black frame with hazard-striped edge; a wheel latch, a pressure gauge, an amber lamp.\n4. Heavy bulkhead door \u2014 yellow-black hazard-striped frame; a wheel lock, a seal pressure gauge, a green and a red lamp.\n5. Regolith water extractor \u2014 mustard frame; an oven heat dial, a hopper feed lever, a water level sight glass.\n6. Mining drill \u2014 yellow and black frame; a drill speed knob, a big start push button, a hydraulic pressure gauge.\n7. Regolith scoop \u2014 yellow frame; a scoop arm lever, a hopper gauge, two toggles.\n8. Asteroid tether \u2014 black frame with hazard stripes; a winch brake lever, a cable tension gauge, a clamp toggle.\n9. Heat pipe forge \u2014 burnt orange frame; a furnace temperature gauge, a bellows knob, a quench valve.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "31edd5ef9ee707f9",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/ui_style.png"
+    }
+  ],
+  "cells": [
+    "ui_any_cot",
+    "ui_storage",
+    "ui_any_hatch",
+    "ui_door",
+    "ui_wat_extractor",
+    "ui_ore_drill",
+    "ui_ore_scoop",
+    "ui_ore_tether",
+    "ui_thm_pipeforge"
+  ]
+}

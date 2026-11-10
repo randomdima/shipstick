@@ -1,0 +1,4 @@
+{"variant": "ui_ore_scoop-v1", "frame": "ui_b-v1", "box": [59, 684, 412, 286], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T20:20:51"}
+{"variant": "ui_ore_scoop-v2", "frame": "ui_b-v2", "box": [50, 706, 422, 252], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:36:40"}
+{"variant": "ui_ore_scoop-v3", "frame": "cui_b-v1", "box": [72, 702, 405, 239], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:17:54"}
+{"variant": "ui_ore_scoop-v4", "frame": "tui_b-v1", "box": [40, 703, 435, 263], "grid": null, "score": 4, "status": "used", "ts": "2026-11-06T01:41:56"}

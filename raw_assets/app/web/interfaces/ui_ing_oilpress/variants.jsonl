@@ -1,0 +1,4 @@
+{"variant": "ui_ing_oilpress-v1", "frame": "ui_e-v1", "box": [1049, 10, 465, 282], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T20:20:54"}
+{"variant": "ui_ing_oilpress-v2", "frame": "ui_e-v2", "box": [1060, 48, 420, 249], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:36:44"}
+{"variant": "ui_ing_oilpress-v3", "frame": "cui_e-v1", "box": [1049, 72, 418, 248], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:17:56"}
+{"variant": "ui_ing_oilpress-v4", "frame": "tui_e-v1", "box": [1056, 36, 448, 265], "grid": null, "score": 4, "status": "used", "ts": "2026-11-06T01:41:56"}

@@ -1,0 +1,47 @@
+{
+  "id": "dev_b-v1",
+  "ts": "2026-11-05T20:13:47",
+  "op": "gen",
+  "name": "dev_b",
+  "file": ".tmp/gen/frames/dev_b-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.008175,
+  "usage": {
+    "prompt_tokens": 687,
+    "completion_tokens": 158,
+    "total_tokens": 845,
+    "cost": 0.008175,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.008175,
+      "upstream_inference_prompt_cost": 0.003435,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sprite sheet of 9 separate game assets on a fully transparent background, arranged in a 3 by 3 grid, each asset centred in its own cell with wide empty transparent gaps between them. No ground, no floor, no shadow plate, no frame, no border, no text, no labels, no numbers.\n\nStyle for every asset: 1970s-80s \"used future\" heavy-duty industrial machinery aboard a cargo spaceship, owned by an indifferent corporation. Painted metal in dull, muted dark yellow, mustard yellow and burnt orange over grey and black steel, with occasional yellow-black hazard stripes on edges; chunky housings, visible bolts and rivets, vents, worn paint, scuffs, dents, tape, replaced panels \u2014 used, not ruined. Reinforced glass has a blue-green tint. Fabric is bulky, padded and quilted canvas in muted grey or olive. Small indicator lamps are green or amber. Small screens glow green phosphor on black. Colours dull and desaturated. Painterly but crisp game-asset rendering, consistent lighting from the top left.\n\nCamera for every asset: one fixed game camera tilted a little from straight down (a pseudo-3D three-quarter top-down view), so the top of each object and a small part of its front face are visible. Every asset is drawn at the same scale: one floor cell is the size a standing human would occupy, about 1 metre square.\n\nCells in reading order (row 1 left to right, then row 2, then row 3):\n1. Workbench \u2014 footprint 2 cells wide by 1 deep: a heavy steel workbench with a vice, a small hand-crank grinder, a kettle and scattered hand tools; yellow-painted steel legs and drawer unit.\n2. Mess table \u2014 footprint 2 by 1: a bolted-down steel mess table with a fixed bench seat, a tray rack and a hot plate; grey and mustard paint.\n3. Cot \u2014 footprint 2 by 1: a narrow folding bunk on a steel frame with a bulky padded quilted mattress and a rolled blanket, a small shelf at the head.\n4. Chest \u2014 footprint 2 by 1: a heavy lidded storage chest of ribbed steel, dark yellow with black hazard-striped corners, latches and handles.\n5. Life support unit \u2014 footprint 2 by 2: a large boxy life support machine with fans under grilles, pipes and hoses, a small green phosphor readout, pressure gauges and an amber lamp; grey steel with orange panels.\n6. Regolith scoop \u2014 footprint 2 by 1: a squat machine with a toothed scoop bucket on an arm, a hopper and a hose to the hull; yellow and black.\n7. Ice melter \u2014 footprint 2 by 1: a low insulated tank with a heating coil housing, a blue-green glass sight window, valves and a drain pipe; orange and grey.\n8. Resin vat \u2014 footprint 2 by 1: a stirred chemical vat with a lid, a motor on top, a sight glass and drums at its side; mustard yellow and black.\n9. Filter pleater \u2014 footprint 2 by 1: a bench machine that folds filter paper, with rollers, a roll of white filter media and a stack of pleated filters; grey with yellow guards.",
+  "inputs": [],
+  "cells": [
+    "any_bench",
+    "any_table",
+    "any_cot",
+    "any_chest",
+    "any_lifesupport",
+    "ore_scoop",
+    "wat_melter",
+    "fil_resinvat",
+    "fil_pleater"
+  ]
+}

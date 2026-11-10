@@ -1,0 +1,62 @@
+{
+  "id": "dev_f-v2",
+  "ts": "2026-11-05T20:34:01",
+  "op": "edit",
+  "name": "dev_f",
+  "file": ".tmp/gen/frames/dev_f-v2.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.021008,
+  "usage": {
+    "prompt_tokens": 2332,
+    "completion_tokens": 158,
+    "total_tokens": 2490,
+    "cost": 0.021008,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.021008,
+      "upstream_inference_prompt_cost": 0.016268,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sprite sheet of 16 separate game assets on a fully transparent background, in a 4 by 4 grid, each asset centred in its own cell with wide empty transparent gaps between them. No ground, no floor, no shadow plate, no frame, no border, no text, no labels, no numbers.\n\nImage 1 is a style reference only: match its rendering, palette, wear, lighting, camera angle and scale exactly, and draw none of the objects in it.\n\nStyle for every asset: 1970s-80s \"used future\" heavy-duty industrial machinery aboard a cargo spaceship, owned by an indifferent corporation. Painted metal in dull, muted dark yellow, mustard yellow and burnt orange over grey and black steel, with occasional yellow-black hazard stripes on edges; chunky housings, visible bolts and rivets, vents, worn paint, scuffs, dents, tape, replaced panels \u2014 used, not ruined. Reinforced glass has a blue-green tint. Ceramic is plain off-white ceramic. Fabric is bulky, padded and quilted canvas in muted grey or olive. Small indicator lamps are green or amber. Small screens glow green phosphor on black. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nCamera for every asset: the same fixed game camera as image 1, tilted only about 15 to 20 degrees from straight down: the top surfaces of each object fill most of its sprite and only a narrow strip of its front face shows along its bottom edge; no side faces. Every asset at the same scale as image 1: one floor cell is the space a standing human occupies, about 1 metre square, and each object fills its footprint.\n\nCells in reading order (row 1 left to right, then rows 2, 3 and 4). Cells 1 to 4 are machines 3 cells wide by 2 deep. Cells 5 to 16 are capsule wall and door pieces, each 1 cell, a thick grey steel bulkhead with a dark yellow top cap and bolts, seen from the same camera, so mostly its thick top edge shows:\n1. Fission reactor \u2014 a compact shielded reactor block with control rod housings on top, coolant pipes, hazard stripes and a radiation pictogram plate.\n2. Exchanger bay \u2014 a bank of heat exchanger fins and pipe manifolds with valves and gauges.\n3. Solar array \u2014 a folding rack of blue-green glass solar panels on a steel gantry with cable drums.\n4. Grain bed \u2014 a long hydroponic bed of wheat under lamp bars with a drip line and a trough.\n5. Straight wall running left to right across the cell.\n6. Straight wall running from the top of the cell to the bottom (a side wall), its long top edge vertical.\n7. Corner joining a wall from the right edge to a wall going down: an L shape, the top-left corner of a room.\n8. Corner joining a wall from the left edge to a wall going down: the top-right corner of a room.\n9. Corner joining a wall going up to a wall to the right: the bottom-left corner of a room.\n10. Corner joining a wall going up to a wall to the left: the bottom-right corner of a room.\n11. Heavy bulkhead door closed, in a wall running left to right: thick steel slab with a wheel lock and yellow-black hazard-striped frame.\n12. The same door open: the slab slid aside, a dark opening.\n13. Heavy bulkhead door closed, in a wall running from top to bottom (a side wall).\n14. The same side-wall door open.\n15. Wall running left to right with a small round reinforced blue-green glass porthole.\n16. Wall running left to right with pipes and a cable tray along it.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "867db7baa58f1550",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/devices_style_v2.png"
+    }
+  ],
+  "cells": [
+    "pwr_reactor",
+    "thm_exchangerbay",
+    "pwr_solararray",
+    "grn_field",
+    "wall_h",
+    "wall_v",
+    "wall_corner_tl",
+    "wall_corner_tr",
+    "wall_corner_bl",
+    "wall_corner_br",
+    "door_h_closed",
+    "door_h_open",
+    "door_v_closed",
+    "door_v_open",
+    "wall_h_porthole",
+    "wall_h_pipes"
+  ]
+}

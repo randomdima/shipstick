@@ -1,0 +1,293 @@
+{
+ "variant": "raw_assets/devices/any_bench/any_bench-v5.png",
+ "model": "raw_assets/devices/any_bench/any_bench-v5.model.json",
+ "boundsM": [
+  [
+   0,
+   0,
+   0
+  ],
+  [
+   2.0,
+   1.0,
+   1.35
+  ]
+ ],
+ "triangles": 1500,
+ "bin": "any_bench.mesh.bin",
+ "layout": {
+  "P": {
+   "offset": 0,
+   "type": "float32",
+   "length": 13500
+  },
+  "UV": {
+   "offset": 54000,
+   "type": "float32",
+   "length": 9000
+  },
+  "N": {
+   "offset": 90000,
+   "type": "int8",
+   "length": 13500
+  },
+  "order": {
+   "offset": 103500,
+   "type": "uint16",
+   "length": 4500
+  }
+ },
+ "looks": [
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 0.5,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_bench_panel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_bench_drawers-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 0.8,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_vent-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 0.6,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_bench_panel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 0.85,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_bench_top-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_bare_steel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 0.8,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_motor_ribs-v1-i3.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_bare_steel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_yellow_enamel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_yellow_enamel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 0.85,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_yellow_enamel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.15,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_small_motor_top-v1-i3.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_canvas_offwhite-v1-i3-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_tool_tray-v1-i2.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_tool_tray-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_jug_lid-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  }
+ ],
+ "draws": [
+  [
+   0,
+   0,
+   30
+  ],
+  [
+   1,
+   30,
+   4
+  ],
+  [
+   2,
+   34,
+   8
+  ],
+  [
+   3,
+   42,
+   12
+  ],
+  [
+   4,
+   54,
+   56
+  ],
+  [
+   5,
+   110,
+   4
+  ],
+  [
+   6,
+   114,
+   16
+  ],
+  [
+   7,
+   130,
+   8
+  ],
+  [
+   8,
+   138,
+   2
+  ],
+  [
+   9,
+   140,
+   176
+  ],
+  [
+   10,
+   316,
+   64
+  ],
+  [
+   11,
+   380,
+   192
+  ],
+  [
+   12,
+   572,
+   200
+  ],
+  [
+   13,
+   772,
+   128
+  ],
+  [
+   14,
+   900,
+   12
+  ],
+  [
+   15,
+   912,
+   2
+  ],
+  [
+   16,
+   914,
+   512
+  ],
+  [
+   17,
+   1426,
+   8
+  ],
+  [
+   18,
+   1434,
+   2
+  ],
+  [
+   19,
+   1436,
+   64
+  ]
+ ],
+ "light": {
+  "sun": [
+   -0.399004,
+   -0.349128,
+   0.847883
+  ],
+  "ambient": 0.5,
+  "tiltDeg": 18,
+  "shadowPxM": 400,
+  "shadowBiasM": 0.004,
+  "shadowLiftM": 0.006,
+  "shadowKeep": 0.35,
+  "aoRadiiM": [
+   0.02,
+   0.06
+  ],
+  "aoDirections": 8,
+  "aoMarginM": 0.003,
+  "aoStrength": 0.5,
+  "edgeM": 0.015,
+  "edgeShade": 0.6,
+  "foldCos": 0.6,
+  "foldLight": 1.2,
+  "grazeCos": 0.15,
+  "deckShadowMax": 0.6,
+  "deckFadeM": 0.06,
+  "cutoutAlpha": 0.5,
+  "supersample": 3
+ }
+}

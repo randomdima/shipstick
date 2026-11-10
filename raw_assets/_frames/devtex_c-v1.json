@@ -1,0 +1,55 @@
+{
+  "id": "devtex_c-v1",
+  "ts": "2026-11-09T21:50:12",
+  "op": "edit",
+  "name": "devtex_c",
+  "file": ".tmp/gen/frames/devtex_c-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.020438,
+  "usage": {
+    "prompt_tokens": 2227,
+    "completion_tokens": 158,
+    "total_tokens": 2385,
+    "cost": 0.020438,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.020438,
+      "upstream_inference_prompt_cost": 0.015698,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate flat material swatches for texturing simple 3D game models, each swatch a flat square seen exactly face on, with no perspective, no depth, no cast shadow and no outline, evenly lit, on a fully transparent background, in a 3 by 3 grid, each centred in its own cell with wide empty transparent gaps between them. Each swatch fills its square edge to edge with square corners. No text, no labels, no numbers, no frame round the sheet.\n\nImage 1 shows capsule devices these swatches texture, in rows: charcoal kiln, filter pleater, cot; culture tank, life support, sprout tray; resin vat, algae jar, fermenting vessel. Match their colours, materials and wear exactly where a swatch's material is in them; the rest are materials of the same capsule. Do not draw the devices themselves, and nothing in perspective: every swatch is the flat surface of one material, seen square on.\n\nStyle: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation; compact, lived in and kept. Heavy painted steel in dull dark yellow and orange over grey and black; fabric bulky and padded; monochrome green phosphor screens. Light scuffs and wear spread evenly, with no single distinctive mark that would show when a swatch repeats \u2014 no grime, no rust, no oil. Red appears nowhere. Colours dull and desaturated. Crisp game-asset rendering, flat even light, as if lit from the top left only very faintly.\n\nThese are surfaces to be wrapped over plain boxes and cylinders. A swatch marked \"repeating\" continues seamlessly out of every edge into a copy of itself: no seam, no rim, no bevel and no line along any edge. A swatch for a round part is flat, evenly lit: no roundness, no highlight, no shading across it.\n\nSwatches in reading order (row 1 left to right, then row 2, then row 3), every one square:\n1. Lumps of black charcoal heaped together, seen straight down, dull grey-black, repeating.\n2. White pleated filter paper seen face on: even narrow pleats running from the top edge to the bottom edge, soft grey shadow in each fold, repeating.\n3. Plain off-white heavy canvas fabric, a fine weave, faint soft creases, repeating.\n4. A small monochrome green phosphor screen seen face on: dark glass glowing with rows of faint green dashes and a small bar graph that are not letters or numbers, a thin black bezel along all four edges.\n5. Black rubber hose seen face on, unrolled: fine ribs running across from the left edge to the right edge, evenly spaced, repeating.\n6. Dull brushed copper pipe metal, unrolled flat, faint lengthwise brushing from the left edge to the right edge, slightly tarnished brown, repeating.\n7. Perforated grey steel plate: an even grid of small round holes, dark behind them, repeating.\n8. Fine dull steel wire mesh, a square weave, dark behind it, repeating.\n9. A glowing grow-lamp diffuser seen face on: a frosted panel lit warm white, faint even lines of the tubes behind it, a narrow steel frame along all four edges.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "7250097508621953",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/devtex_c_ref.png"
+    }
+  ],
+  "cells": [
+    "tex_charcoal",
+    "tex_pleated_filter",
+    "tex_canvas_offwhite",
+    "tex_screen_green",
+    "tex_rubber_hose",
+    "tex_copper",
+    "tex_perforated_steel",
+    "tex_wire_mesh",
+    "tex_grow_lamp"
+  ]
+}

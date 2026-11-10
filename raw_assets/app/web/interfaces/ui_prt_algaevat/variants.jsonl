@@ -1,0 +1,4 @@
+{"variant": "ui_prt_algaevat-v1", "frame": "ui_d-v1", "box": [544, 689, 448, 288], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T20:20:53"}
+{"variant": "ui_prt_algaevat-v2", "frame": "ui_d-v2", "box": [557, 698, 424, 265], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:36:42"}
+{"variant": "ui_prt_algaevat-v3", "frame": "cui_d-v1", "box": [568, 685, 403, 241], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:17:55"}
+{"variant": "ui_prt_algaevat-v4", "frame": "tui_d-v1", "box": [548, 714, 441, 257], "grid": null, "score": 4, "status": "used", "ts": "2026-11-06T01:41:56"}

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash"
+    ],
+    "deny": [
+      "Artifact",
+      "ArtifactComments",
+      "ArtifactData",
+      "mcp__claude_ai_Claude_Docs"
+    ]
+  }
+}

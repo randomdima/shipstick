@@ -1,0 +1,55 @@
+{
+  "id": "cdeck_a-v1",
+  "ts": "2026-11-05T21:19:10",
+  "op": "edit",
+  "name": "cdeck_a",
+  "file": ".tmp/gen/frames/cdeck_a-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.019283,
+  "usage": {
+    "prompt_tokens": 1987,
+    "completion_tokens": 158,
+    "total_tokens": 2145,
+    "cost": 0.019283,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.019283,
+      "upstream_inference_prompt_cost": 0.014543,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate square floor tiles for a top-down game, on a fully transparent background, in a 3 by 3 grid, each tile a square centred in its own cell with wide empty transparent gaps between tiles. Each tile fills its own square edge to edge and is seamless: its left edge continues its right edge and its top edge continues its bottom edge, so it repeats across a floor without visible seams. Seen straight down. No text, no labels, no numbers, no frame.\n\nImage 1 is a style reference only: match its palette, materials, wear and rendering, and draw none of the objects in it. Unlike image 1, every asset here is drawn flat and seen straight down, with no perspective.\n\nStyle: 1970s-80s \"used future\" industrial deck inside one small crew capsule of a space station, owned by an indifferent corporation. The capsule is one operator's work station and living quarters, so the deck is lived on and kept: light scuffs, worn paint, faint boot marks \u2014 no grime, no rust, no oil stains, no puddles, no litter. Dark grey and black steel with dull, muted dark yellow accents, occasional yellow-black hazard stripes, visible bolts and rivets. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nTiles in reading order (row 1 left to right, then row 2, then row 3), each one metre square of the capsule's deck:\n1. Plain riveted steel deck plate, dark grey, lightly scuffed.\n2. Steel diamond tread plate, dark grey.\n3. Steel floor grating over a shallow service void with a few tidy cables.\n4. Deck plate with a small round drain grate in the middle.\n5. Deck plate worn smooth along a walkway, paint thinned by boots, clean.\n6. Deck plate with a covered cable trench running across it, bolted lid.\n7. Deck plate with a yellow-black hazard stripe band along one edge.\n8. Deck plate with a recessed tie-down ring.\n9. Ribbed dark grey rubber floor mat on steel.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "a363fbf5b54829ae",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/devices_style_v3.png"
+    }
+  ],
+  "cells": [
+    "deck_plate",
+    "deck_tread",
+    "deck_grating",
+    "deck_drain",
+    "deck_worn",
+    "deck_trench",
+    "deck_hazard",
+    "deck_tiedown",
+    "deck_mat"
+  ]
+}

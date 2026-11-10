@@ -1,0 +1,38 @@
+{
+  "id": "any_chest",
+  "about": "A yellow ribbed steel storage chest, steel-capped corners, two front latches and a name plate.",
+  "boundsM": [[0, 0, 0], [2, 1, 0.55]],
+  "textures": {
+    "lid": {"src": "raw_assets/textures/tex_chest_lid/tex_chest_lid-v1.png", "insetPct": 4},
+    "yellow": {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "trim": {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 4, "tileM": 0.3},
+    "steel": {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "latch": {"src": "raw_assets/textures/tex_latch/tex_latch-v1.png", "insetPct": 2},
+    "plate": {"src": "raw_assets/textures/tex_label_plate/tex_label_plate-v1.png", "insetPct": 4}
+  },
+  "parts": [
+    {"shape": "group", "name": "chest", "atM": [0, 0, 0], "parts": [
+      {"shape": "box", "name": "body", "atM": [1, 0.5, 0.13], "sizeM": [1.92, 0.84, 0.26],
+       "faces": {"*": "yellow", "top": null, "bottom": null}},
+      {"shape": "box", "name": "seam band", "atM": [1, 0.5, 0.275], "sizeM": [1.92, 0.86, 0.05],
+       "faces": {"*": "trim", "bottom": null}},
+      {"shape": "box", "name": "lid", "atM": [1, 0.5, 0.4], "sizeM": [1.92, 0.84, 0.2],
+       "faces": {"top": "lid", "*": "yellow", "bottom": null}},
+      {"shape": "group", "name": "corner caps", "atM": [0, 0, 0], "tex": "steel", "shade": 0.7, "parts": [
+        {"shape": "box", "atM": [0.09, 0.13, 0.445], "sizeM": [0.12, 0.12, 0.13],
+         "repeat": {"count": 2, "stepM": [1.82, 0, 0]}},
+        {"shape": "box", "atM": [0.09, 0.87, 0.445], "sizeM": [0.12, 0.12, 0.13],
+         "repeat": {"count": 2, "stepM": [1.82, 0, 0]}},
+        {"shape": "box", "atM": [0.09, 0.13, 0.06], "sizeM": [0.12, 0.12, 0.12],
+         "repeat": {"count": 2, "stepM": [1.82, 0, 0]}},
+        {"shape": "box", "atM": [0.09, 0.87, 0.06], "sizeM": [0.12, 0.12, 0.12],
+         "repeat": {"count": 2, "stepM": [1.82, 0, 0]}}
+      ]},
+      {"shape": "box", "name": "latch", "atM": [0.43, 0.055, 0.23], "sizeM": [0.14, 0.03, 0.28],
+       "repeat": {"count": 2, "stepM": [1.14, 0, 0]},
+       "faces": {"south": "latch", "*": "trim", "bottom": null}},
+      {"shape": "box", "name": "name plate", "atM": [1, 0.077, 0.12], "sizeM": [0.24, 0.006, 0.09],
+       "faces": {"south": "plate", "*": "trim"}}
+    ]}
+  ]
+}

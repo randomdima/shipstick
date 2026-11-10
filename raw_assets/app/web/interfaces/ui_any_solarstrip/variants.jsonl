@@ -1,0 +1,4 @@
+{"variant": "ui_any_solarstrip-v1", "frame": "ui_a-v1", "box": [29, 352, 469, 281], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:19:20"}
+{"variant": "ui_any_solarstrip-v2", "frame": "ui_a-v2", "box": [37, 366, 452, 270], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:36:02"}
+{"variant": "ui_any_solarstrip-v3", "frame": "cui_a-v1", "box": [57, 372, 433, 249], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:17:17"}
+{"variant": "ui_any_solarstrip-v4", "frame": "tui_a-v1", "box": [35, 374, 442, 252], "grid": null, "score": 4, "status": "used", "ts": "2026-11-06T01:41:56"}

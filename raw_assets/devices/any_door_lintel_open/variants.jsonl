@@ -1,0 +1,2 @@
+{"variant": "any_door_lintel_open-v1", "frame": "doors_b-v1", "box": [646, 24, 245, 236], "grid": [3, 3], "score": 5, "status": "candidate", "ts": "2026-11-05T22:13:14"}
+{"variant": "any_door_lintel_open-v2", "frame": "doors_d-v1", "box": [1051, 458, 365, 106], "grid": [3, 3], "score": 4, "status": "used", "ts": "2026-11-05T22:47:52"}

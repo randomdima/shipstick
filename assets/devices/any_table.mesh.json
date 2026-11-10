@@ -1,0 +1,227 @@
+{
+ "variant": "raw_assets/devices/any_table/any_table-v5.png",
+ "model": "raw_assets/devices/any_table/any_table-v5.model.json",
+ "boundsM": [
+  [
+   0,
+   0,
+   0
+  ],
+  [
+   2.0,
+   1.0,
+   0.95
+  ]
+ ],
+ "triangles": 312,
+ "bin": "any_table.mesh.bin",
+ "layout": {
+  "P": {
+   "offset": 0,
+   "type": "float32",
+   "length": 2808
+  },
+  "UV": {
+   "offset": 11232,
+   "type": "float32",
+   "length": 1872
+  },
+  "N": {
+   "offset": 18720,
+   "type": "int8",
+   "length": 2808
+  },
+  "order": {
+   "offset": 21528,
+   "type": "uint16",
+   "length": 936
+  }
+ },
+ "looks": [
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 0.8,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_table_top-v1-i2.webp",
+   "wrap": true,
+   "shade": 0.85,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_table_top-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 0.5,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 0.7,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_vinyl_padded-v1-i3-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_seat_quilted-v1-i2-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_yellow_enamel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_bare_steel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_tray_floor-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_hotplate-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_mug_top-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_bare_steel-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 0.8,
+   "cutout": false
+  }
+ ],
+ "draws": [
+  [
+   0,
+   0,
+   52
+  ],
+  [
+   1,
+   52,
+   12
+  ],
+  [
+   2,
+   64,
+   8
+  ],
+  [
+   3,
+   72,
+   2
+  ],
+  [
+   4,
+   74,
+   2
+  ],
+  [
+   5,
+   76,
+   10
+  ],
+  [
+   6,
+   86,
+   16
+  ],
+  [
+   7,
+   102,
+   4
+  ],
+  [
+   8,
+   106,
+   20
+  ],
+  [
+   9,
+   126,
+   80
+  ],
+  [
+   10,
+   206,
+   4
+  ],
+  [
+   11,
+   210,
+   2
+  ],
+  [
+   12,
+   212,
+   64
+  ],
+  [
+   13,
+   276,
+   36
+  ]
+ ],
+ "light": {
+  "sun": [
+   -0.399004,
+   -0.349128,
+   0.847883
+  ],
+  "ambient": 0.5,
+  "tiltDeg": 18,
+  "shadowPxM": 400,
+  "shadowBiasM": 0.004,
+  "shadowLiftM": 0.006,
+  "shadowKeep": 0.35,
+  "aoRadiiM": [
+   0.02,
+   0.06
+  ],
+  "aoDirections": 8,
+  "aoMarginM": 0.003,
+  "aoStrength": 0.5,
+  "edgeM": 0.015,
+  "edgeShade": 0.6,
+  "foldCos": 0.6,
+  "foldLight": 1.2,
+  "grazeCos": 0.15,
+  "deckShadowMax": 0.6,
+  "deckFadeM": 0.06,
+  "cutoutAlpha": 0.5,
+  "supersample": 3
+ }
+}

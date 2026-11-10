@@ -1,0 +1,62 @@
+{
+  "id": "walls_b-v1",
+  "ts": "2026-11-05T21:49:49",
+  "op": "edit",
+  "name": "walls_b",
+  "file": ".tmp/gen/frames/walls_b-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.021018,
+  "usage": {
+    "prompt_tokens": 2334,
+    "completion_tokens": 158,
+    "total_tokens": 2492,
+    "cost": 0.021018,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.021018,
+      "upstream_inference_prompt_cost": 0.016278,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 16 separate flat game assets on a fully transparent background, in a 4 by 4 grid, each asset centred in its own cell with wide empty transparent gaps between them. No ground, no shadow, no frame, no text, no labels, no numbers.\n\nImage 1 is a style reference only: match its palette, materials, wear and rendering, and draw none of the objects in it. Unlike image 1, every asset here is drawn flat with no perspective: rows 1 and 2 are squares seen straight down, rows 3 and 4 are wide strips seen straight on.\n\nStyle: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation; the capsule is one operator's work station and living quarters, compact, lived in and kept. The walls are low bolted steel bulkhead blocks: their tops a dull dark yellow steel plate, their faces dull grey steel; visible bolts and rivets, seams, scuffs, worn edges, chipped paint \u2014 no grime, no rust, no oil stains, no soot. The doors stand out from the walls at a glance: black and yellow hazard-striped frames, a grey steel slab, a small green lamp. Reinforced glass has a blue-green tint. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nRows 1 and 2 are the tops of wall and door blocks, each an exact square one metre on a side, seen straight down, filling its square edge to edge. A wall top's edges are plain so tops laid side by side or one above another join seamlessly into one continuous wall:\n1. Wall top: a plain dark yellow steel plate, a few bolts.\n2. Wall top with a grey cable conduit running along it from the left edge to the right edge.\n3. Wall top with a small bolted grey access plate in its middle.\n4. Wall top with a small vent grille in its middle.\n5. Door top, closed, for a wall running left to right: a black and yellow hazard-striped frame post at the left edge and at the right edge, between them a thick grey steel slab running left to right across the middle, a small green lamp on one post.\n6. The same door top open: the posts as before, the slab gone into the left post, the gap between the posts showing a dark steel threshold with a hazard-striped edge.\n7. Door top, closed, for a wall running top to bottom: a hazard-striped frame post at the top edge and at the bottom edge, between them the grey slab running top to bottom down the middle, a small green lamp on one post.\n8. The same door top open: the slab gone into the top post, the gap showing a dark steel threshold.\n\nRows 3 and 4 are the low front faces of the same blocks, seen straight on, each a strip one metre wide and a third of a metre tall, three times as wide as it is tall, filling its strip edge to edge, its left and right edges plain so faces laid side by side join seamlessly:\n9. Wall face: plain grey bulkhead steel with a seam and bolts.\n10. Wall face with a long low vent grille.\n11. Wall face with two pipes running along it from edge to edge.\n12. Wall face with a small round reinforced blue-green porthole.\n13. Wall face with a small amber caged lamp.\n14. Wall face showing the operator lives here: a small taped-up photo and a hook with a padded olive jacket's collar.\n15. Door face, closed: the hazard-striped frame and the grey slab with a handle, filling the strip.\n16. The same door face open: the frame, a dark gap where the slab was.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "a363fbf5b54829ae",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/devices_style_v3.png"
+    }
+  ],
+  "cells": [
+    "any_wall_top",
+    "any_wall_top_conduit",
+    "any_wall_top_plate",
+    "any_wall_top_vent",
+    "any_door_top_closed",
+    "any_door_top_open",
+    "any_door_top_side_closed",
+    "any_door_top_side_open",
+    "any_wall_face",
+    "any_wall_face_vent",
+    "any_wall_face_pipes",
+    "any_wall_face_porthole",
+    "any_wall_face_lamp",
+    "any_wall_face_lived",
+    "any_door_face_closed",
+    "any_door_face_open"
+  ]
+}

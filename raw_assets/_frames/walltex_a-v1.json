@@ -1,0 +1,55 @@
+{
+  "id": "walltex_a-v1",
+  "ts": "2026-11-09T17:51:07",
+  "op": "edit",
+  "name": "walltex_a",
+  "file": ".tmp/gen/frames/walltex_a-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.019953,
+  "usage": {
+    "prompt_tokens": 2121,
+    "completion_tokens": 158,
+    "total_tokens": 2279,
+    "cost": 0.019953,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.019953,
+      "upstream_inference_prompt_cost": 0.015213,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate flat material swatches for texturing simple 3D game models, each swatch a flat rectangle seen exactly face on, with no perspective, no depth, no cast shadow and no outline, evenly lit, on a fully transparent background, in a 3 by 3 grid, each centred in its own cell with wide empty transparent gaps between them. Each swatch fills its rectangle edge to edge with square corners. No text, no labels, no numbers, no frame round the sheet.\n\nImage 1 is a style reference only: match its palette, materials, wear and rendering exactly, and draw none of its objects.\n\nStyle: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation; compact, lived in and kept. Smooth, heavy, continuous surfaces: NO bolts, NO rivets, NO screw heads anywhere. Light scuffs and worn paint spread evenly, with no single distinctive mark that would show when a swatch repeats \u2014 no grime, no rust, no oil. Red appears nowhere. Colours dull and desaturated. Crisp game-asset rendering, flat even light.\n\nThese are the surfaces of a capsule's low bulkhead wall, to be wrapped over plain boxes and cylinders. A swatch marked \"repeating\" continues seamlessly out of every edge into a copy of itself: no seam, no rim, no bevel and no line along any edge.\n\nSwatches in reading order (row 1 left to right, then row 2, then row 3):\n1. Square. The wall's top plate: smooth dull dark-yellow painted steel, repeating.\n2. Twice as wide as tall. The wall's face: smooth dull grey steel, repeating, with faint vertical brushing.\n3. Square. Matt black-grey steel for brackets and trim, lightly scuffed, repeating.\n4. Square. Painted grey pipe steel, faint lengthwise wear streaks running left to right, repeating.\n5. Four times as wide as tall. Worn black and yellow diagonal hazard stripes painted on steel, repeating left to right.\n6. Four times as wide as tall. Matt black rubber kick strip with fine horizontal ribs, repeating left to right.\n7. Twice as wide as tall. A low louvred vent grille seen face on: horizontal dark grey slats over a dark void, a plain narrow grey steel frame round it.\n8. Square. A small flush access hatch seen face on: a grey steel panel with a fine recessed seam round it and a recessed pull handle, a plain grey steel margin round it.\n9. Square. The wall's top plate again, dull dark-yellow painted steel, with paint worn through to grey steel along a broad band across its middle where hands rest, repeating.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "56e5a3caeb25c882",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/smooth_style.png"
+    }
+  ],
+  "cells": [
+    "tex_wall_cap",
+    "tex_wall_face",
+    "tex_trim_dark",
+    "tex_pipe",
+    "tex_hazard",
+    "tex_kick_strip",
+    "tex_vent",
+    "tex_hatch",
+    "tex_wall_cap_worn"
+  ]
+}

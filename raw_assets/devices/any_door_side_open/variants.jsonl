@@ -1,0 +1,2 @@
+{"variant": "any_door_side_open-v1", "frame": "blocks_a-v2", "box": [1073, 673, 278, 291], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T21:42:03"}
+{"variant": "any_door_side_open-v2", "frame": "doors_c-v1", "box": [1143, 334, 178, 318], "grid": [3, 3], "score": 4, "status": "used", "ts": "2026-11-05T22:43:50"}

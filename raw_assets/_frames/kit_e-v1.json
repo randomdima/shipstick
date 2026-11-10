@@ -1,0 +1,55 @@
+{
+  "id": "kit_e-v1",
+  "ts": "2026-11-05T22:42:53",
+  "op": "edit",
+  "name": "kit_e",
+  "file": ".tmp/gen/frames/kit_e-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.019473,
+  "usage": {
+    "prompt_tokens": 2025,
+    "completion_tokens": 158,
+    "total_tokens": 2183,
+    "cost": 0.019473,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.019473,
+      "upstream_inference_prompt_cost": 0.014733,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate flat game assets, drawn face on with real depth and shadow inside them on a fully transparent background, in a 3 by 3 grid, each centred in its own cell with wide empty transparent gaps between them. No text, no labels, no numbers, no frame round the sheet.\n\nImage 1 is a style reference only: match its palette, materials, wear and rendering exactly, and draw none of its objects.\n\nStyle: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation; compact, lived in and kept. Smooth, heavy, continuous surfaces: NO bolts, NO rivets, NO screw heads anywhere. Light scuffs and worn paint spread evenly, with no single distinctive mark that would show when a tile repeats \u2014 no grime, no rust, no oil. Every wheel and handle is grey steel; red appears nowhere. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nThese are the faces of the capsule's low bulkhead walls: smooth dull grey steel, one long continuous face along each wall. Front panels are strips five units wide by two tall, filling the strip edge to edge, their left and right edges with no seam and no line, so panels side by side join into one face; a fine shadow line along the top under the cap and along the foot. Side panels are tall strips one unit wide by three tall, filling the strip edge to edge, their top and bottom edges plain the same way.\n\nAssets in reading order (row 1 left to right, then row 2, then row 3):\n1. Front panel, smooth and plain.\n2. Front panel with one fine flush vertical joint line across its middle.\n3. Front panel with a low recessed louvred vent.\n4. Front panel ending at its left edge in a smooth vertical rounded corner, where the wall turns away; its right edge plain.\n5. Front panel with a small flush access hatch with a recessed handle.\n6. Front panel with a small round reinforced blue-green porthole set flush.\n7. Front panel with a small recessed intercom grille.\n8. Side panel, smooth and plain.\n9. Side panel with one fine flush horizontal joint line across its middle.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "56e5a3caeb25c882",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/smooth_style.png"
+    }
+  ],
+  "cells": [
+    "any_panel",
+    "any_panel_seam",
+    "any_panel_vent",
+    "any_panel_trim",
+    "any_panel_hatch",
+    "any_panel_porthole",
+    "any_panel_intercom",
+    "any_side_panel",
+    "any_side_panel_seam"
+  ]
+}

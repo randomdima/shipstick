@@ -1,0 +1,55 @@
+{
+  "id": "devtex_d-v1",
+  "ts": "2026-11-09T22:39:56",
+  "op": "edit",
+  "name": "devtex_d",
+  "file": ".tmp/gen/frames/devtex_d-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.020758,
+  "usage": {
+    "prompt_tokens": 2291,
+    "completion_tokens": 158,
+    "total_tokens": 2449,
+    "cost": 0.020758,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.020758,
+      "upstream_inference_prompt_cost": 0.016018,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate flat material swatches for texturing simple 3D game models, each swatch a flat rectangle seen exactly face on, with no perspective, no depth, no cast shadow and no outline, evenly lit, on a fully transparent background, in a 3 by 3 grid, each centred in its own cell with wide empty transparent gaps between them. Each swatch fills its rectangle edge to edge with square corners, unless it says its outside is transparent. No text, no labels, no numbers, no frame round the sheet.\n\nImage 1 shows capsule devices these swatches texture, in rows: storage chest, washbasin, toilet; fermenting vessel, condenser, dishwasher; charcoal kiln, floor hatch, sprout tray. Match their colours, materials and wear exactly where a swatch's material is in them. Do not draw the devices themselves, and nothing in perspective: every swatch is one flat surface or one flat part, seen square on.\n\nStyle: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation; compact, lived in and kept. Heavy painted steel in dull dark yellow and orange over grey and black; fabric bulky and padded; monochrome green phosphor screens. Light scuffs and wear spread evenly, with no single distinctive mark that would show when a swatch repeats \u2014 no grime, no rust, no oil. Red appears nowhere. Colours dull and desaturated. Crisp game-asset rendering, flat even light, as if lit from the top left only very faintly.\n\nThese are surfaces to be wrapped over plain boxes and cylinders. A swatch marked \"repeating\" continues seamlessly out of every edge into a copy of itself: no seam, no rim, no bevel and no line along any edge. A swatch for a round part is flat, evenly lit: no roundness, no highlight, no shading across it.\n\nSwatches in reading order (row 1 left to right, then row 2, then row 3):\n1. Twice as tall as wide: a heavy steel draw latch seen face on \u2014 a dull yellow painted lever hinged at the top over a grey steel keeper at the bottom, four rivets, on plain dark grey steel filling the rest.\n2. Square: dull olive green terry towelling, soft looped cotton pile, faint even texture, repeating.\n3. Square: the underside of an open off-white moulded plastic toilet lid seen face on, a rounded lid filling the square almost to its edges, a faint raised rim inset along its edge, two small grey hinge lugs at its bottom edge; outside the lid fully transparent.\n4. Square: plain dull blue moulded plastic, faint matte grain, repeating.\n5. Square: thick amber-brown glass with dark amber liquid behind it and a few small bubbles, flat, repeating.\n6. Square: a round green indicator lamp lens seen face on, softly glowing, filling the square, a thin black bezel ring round it, dark steel in the corners.\n7. Twice as wide as tall: a dishwasher's front door seen face on \u2014 brushed grey steel, a long recessed pull handle across the top, a narrow row of vent slots along the bottom, a thin dark gasket line along all four edges.\n8. Square: dull grey painted steel drum plating, two faint straight weld seams running from the left edge to the right edge, repeating.\n9. Square: a dull orange painted steel handwheel seen face on \u2014 a round rim, four straight spokes and a grey steel hub nut in the middle; everything outside the rim and every gap between the rim and the spokes fully transparent.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "9b911058615c9df1",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/devtex_d_ref.png"
+    }
+  ],
+  "cells": [
+    "tex_latch",
+    "tex_towel_terry",
+    "tex_toilet_lid",
+    "tex_plastic_blue",
+    "tex_amber_glass",
+    "tex_lamp_lens_green",
+    "tex_washer_door",
+    "tex_drum_welded",
+    "tex_handwheel_cutout"
+  ]
+}

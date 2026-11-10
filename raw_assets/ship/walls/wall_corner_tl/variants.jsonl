@@ -1,0 +1,4 @@
+{"variant": "wall_corner_tl-v1", "frame": "dev_f-v1", "box": [880, 347, 183, 169], "grid": [4, 4], "score": 2, "status": "candidate", "ts": "2026-11-05T20:17:54"}
+{"variant": "wall_corner_tl-v2", "frame": "dev_f-v2", "box": [794, 256, 314, 256], "grid": [4, 4], "score": 4, "status": "candidate", "ts": "2026-11-05T20:34:47"}
+{"variant": "wall_corner_tl-v3", "frame": "cdev_f-v1", "box": [837, 328, 200, 195], "grid": [4, 4], "score": 4, "status": "candidate", "ts": "2026-11-05T21:16:06"}
+{"variant": "wall_corner_tl-v4", "frame": "walls_a-v1", "box": [826, 277, 248, 201], "grid": [4, 4], "score": 5, "status": "used", "ts": "2026-11-05T21:30:07"}

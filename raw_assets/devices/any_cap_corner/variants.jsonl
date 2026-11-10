@@ -1,0 +1,3 @@
+{"variant": "any_cap_corner-v1", "frame": "kit_a-v1", "box": [1207, 28, 197, 206], "grid": [4, 4], "score": 4, "status": "candidate", "ts": "2026-11-05T22:18:35"}
+{"variant": "any_cap_corner-v2", "frame": "kit_b-v1", "box": [634, 377, 268, 253], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T22:35:41"}
+{"variant": "any_cap_corner-v3", "frame": "kit_d-v1", "box": [1086, 372, 255, 262], "grid": [3, 3], "score": 4, "status": "used", "ts": "2026-11-05T22:43:50"}

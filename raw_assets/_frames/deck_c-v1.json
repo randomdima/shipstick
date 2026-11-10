@@ -1,0 +1,55 @@
+{
+  "id": "deck_c-v1",
+  "ts": "2026-11-05T22:42:14",
+  "op": "edit",
+  "name": "deck_c",
+  "file": ".tmp/gen/frames/deck_c-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.019608,
+  "usage": {
+    "prompt_tokens": 2052,
+    "completion_tokens": 158,
+    "total_tokens": 2210,
+    "cost": 0.019608,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.019608,
+      "upstream_inference_prompt_cost": 0.014868,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate square floor tiles for a top-down game, each an exact square seen straight down, flat on a fully transparent background, in a 3 by 3 grid, each centred in its own cell with wide empty transparent gaps between them. No text, no labels, no numbers, no frame round the sheet.\n\nImage 1 is a style reference only: match its palette, materials, wear and rendering exactly, and draw none of its objects.\n\nStyle: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation; compact, lived in and kept. Smooth, heavy, continuous surfaces: NO bolts, NO rivets, NO screw heads anywhere. Light scuffs and worn paint spread evenly, with no single distinctive mark that would show when a tile repeats \u2014 no grime, no rust, no oil. Every wheel and handle is grey steel; red appears nowhere. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nThe deck is dark grey steel deck plate with a fine, even anti-slip texture, laid in large plates of different sizes, and every tile is one square metre of it. Where a plate ends the tile shows only a fine flush weld line along that edge, slightly darker, with no bevel, no rivets and no raised edge. Where the tile's edge lies inside a plate, that edge has no line at all: the plain steel runs straight out of the edge into the next tile. Each tile fills its square edge to edge.\n\nTiles in reading order (row 1 left to right, then row 2, then row 3):\n1. Inside a plate: all four edges plain.\n2. A weld line along the top edge only.\n3. Weld lines along the top and the left edges.\n4. Weld lines along the top and the bottom edges.\n5. Weld lines along the top, the left and the bottom edges.\n6. A whole one-metre plate: weld lines on all four edges.\n7. A whole one-metre plate, weld lines all round, with a small round flush drain grate in its middle.\n8. A whole one-metre flush floor grating, weld lines all round, over a shallow dark service void with a few tidy cables.\n9. A whole one-metre plate, weld lines all round, with a flush round access cover with a recessed lift handle.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "56e5a3caeb25c882",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/smooth_style.png"
+    }
+  ],
+  "cells": [
+    "deck_inner",
+    "deck_edge1",
+    "deck_edge2",
+    "deck_edge2op",
+    "deck_edge3",
+    "deck_edge4",
+    "deck_drain",
+    "deck_grating",
+    "deck_cover"
+  ]
+}

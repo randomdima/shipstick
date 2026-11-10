@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The game itself, engine-free: every slice under src/ except the heads and the tests. What a head adds (the
+       browser page, later a server) is its own project beside its own slice, referencing this one. -->
+
+  <PropertyGroup>
+    <RootNamespace>Shipstick</RootNamespace>
+    <AssemblyName>shipstick</AssemblyName>
+    <EnableDefaultItems>false</EnableDefaultItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="**/*.cs" Exclude="app/**;tests/**" />
+    <!-- The catalogue is read by the game as written: economy/Catalogue.cs, codex/CodexBook.cs. -->
+    <EmbeddedResource Include="economy/catalog/*.md" LogicalName="catalog/%(Filename)%(Extension)" />
+    <EmbeddedResource Include="codex/mechanics.md" LogicalName="codex/mechanics.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="shipstick-tests" />
+  </ItemGroup>
+
+</Project>

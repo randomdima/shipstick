@@ -1,0 +1,4 @@
+{"variant": "ui_any_table-v1", "frame": "ui_a-v1", "box": [29, 678, 468, 293], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T20:19:20"}
+{"variant": "ui_any_table-v2", "frame": "ui_a-v2", "box": [37, 700, 452, 275], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:36:02"}
+{"variant": "ui_any_table-v3", "frame": "cui_a-v1", "box": [56, 700, 434, 253], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:17:17"}
+{"variant": "ui_any_table-v4", "frame": "tui_a-v1", "box": [35, 705, 442, 260], "grid": null, "score": 4, "status": "used", "ts": "2026-11-06T01:41:56"}

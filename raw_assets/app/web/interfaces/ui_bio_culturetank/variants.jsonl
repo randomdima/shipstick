@@ -1,0 +1,4 @@
+{"variant": "ui_bio_culturetank-v1", "frame": "ui_d-v1", "box": [52, 689, 449, 288], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T20:20:53"}
+{"variant": "ui_bio_culturetank-v2", "frame": "ui_d-v2", "box": [52, 698, 424, 265], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:36:42"}
+{"variant": "ui_bio_culturetank-v3", "frame": "cui_d-v1", "box": [65, 685, 412, 241], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:17:55"}
+{"variant": "ui_bio_culturetank-v4", "frame": "tui_d-v1", "box": [38, 714, 442, 257], "grid": null, "score": 4, "status": "used", "ts": "2026-11-06T01:41:56"}

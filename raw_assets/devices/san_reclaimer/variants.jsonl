@@ -1,0 +1,3 @@
+{"variant": "san_reclaimer-v1", "frame": "dev_e-v1", "box": [117, 692, 304, 285], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:17:54"}
+{"variant": "san_reclaimer-v2", "frame": "dev_e-v2", "box": [95, 659, 329, 321], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:34:47"}
+{"variant": "san_reclaimer-v3", "frame": "cdev_e-v1", "box": [105, 704, 361, 267], "grid": [3, 3], "score": 4, "status": "used", "ts": "2026-11-05T21:16:06"}

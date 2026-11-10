@@ -1,0 +1,55 @@
+{
+  "id": "cdev_d-v1",
+  "ts": "2026-11-05T21:15:46",
+  "op": "edit",
+  "name": "cdev_d",
+  "file": ".tmp/gen/frames/cdev_d-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.020888,
+  "usage": {
+    "prompt_tokens": 2308,
+    "completion_tokens": 158,
+    "total_tokens": 2466,
+    "cost": 0.020888,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.020888,
+      "upstream_inference_prompt_cost": 0.016148,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sprite sheet of 9 separate game assets on a fully transparent background, in a 3 by 3 grid, each asset centred in its own cell with wide empty transparent gaps between them. No ground, no floor, no shadow plate, no frame, no border, no text, no labels, no numbers.\n\nImage 1 is a style reference only: match its rendering, palette, wear, lighting, camera angle and scale exactly, and draw none of the objects in it.\n\nStyle for every asset: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation. The capsule is one operator's work station and living quarters, so every machine is a compact, self-contained, automated unit sized for a small cabin and run by one person, its works boxed in behind bolted panels \u2014 not heavy plant: no excavator arms, no drill rigs, no chimneys, no wheelbarrows. Painted metal in dull, muted dark yellow, mustard yellow and burnt orange over grey and black steel, with occasional yellow-black hazard stripes on edges; visible bolts and rivets, vents, scuffs, worn edges, chipped paint, a strip of tape here and there \u2014 lived in and kept: no grime, no rust, no oil stains, no soot, no litter. Reinforced glass has a blue-green tint. Ceramic is plain off-white ceramic. Fabric is bulky, padded and quilted canvas in muted grey or olive. Small indicator lamps are green or amber. Small screens glow green phosphor on black. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\nCamera for every asset: the same fixed game camera as image 1, tilted only about 15 to 20 degrees from straight down: the top surfaces of each object fill most of its sprite and only a narrow strip of its front face shows along its bottom edge; no side faces. Every asset at the same scale as image 1: one floor cell is the space a standing human occupies, about 1 metre square, and each object fills its footprint.\n\nCells in reading order (row 1 left to right, then row 2, then row 3). Every footprint here is 2 by 2 cells:\n1. Regolith water extractor \u2014 a compact enclosed oven unit: a hatch-lidded intake hopper, a sealed heated drum housing, a condenser box and a water tank with a sight glass.\n2. Mining drill \u2014 a compact sealed rubble intake unit over a hull port: an armoured lidded hopper, an enclosed grinder housing and a chute into a lidded collection bin; no drill bit, no rig.\n3. Heat pipe forge \u2014 a compact enclosed induction furnace with a small glowing viewing port behind a grille, heat pipes and a lidded quench tank.\n4. Charcoal kiln \u2014 a compact sealed retort oven with an insulated door, a flue pipe running up into a ceiling duct and a lidded bin of charcoal.\n5. Urine reclaimer \u2014 a distillation unit of tanks, coiled tubes and a blue-green glass column, with a yellowish fluid gauge.\n6. Water electrolyser \u2014 a stack of electrolysis cells with thick cables, gas lines to two small tanks and pressure gauges.\n7. Sabatier reactor \u2014 a squat insulated reactor vessel with hot pipes, a methane tank and a cooling loop.\n8. Compost bin \u2014 a sealed compact compost tumbler drum on a frame with a crank, a hatch and a vent; olive and mustard.\n9. Culture tank \u2014 an upright bioreactor tank with a blue-green glass window of murky culture, stirrer motor and hoses.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "a363fbf5b54829ae",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/devices_style_v3.png"
+    }
+  ],
+  "cells": [
+    "wat_extractor",
+    "ore_drill",
+    "thm_pipeforge",
+    "fil_kiln",
+    "wat_reclaimer",
+    "gas_electrolyser",
+    "gas_sabatier",
+    "soi_compostbin",
+    "bio_culturetank"
+  ]
+}

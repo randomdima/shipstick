@@ -1,0 +1,4 @@
+{"variant": "ui_gas_sabatier-v1", "frame": "ui_d-v1", "box": [544, 30, 448, 287], "grid": [3, 3], "score": 3, "status": "candidate", "ts": "2026-11-05T20:20:53"}
+{"variant": "ui_gas_sabatier-v2", "frame": "ui_d-v2", "box": [557, 48, 424, 262], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:36:42"}
+{"variant": "ui_gas_sabatier-v3", "frame": "cui_d-v1", "box": [568, 95, 403, 236], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T21:17:55"}
+{"variant": "ui_gas_sabatier-v4", "frame": "tui_d-v1", "box": [548, 43, 441, 252], "grid": null, "score": 4, "status": "used", "ts": "2026-11-06T01:41:56"}

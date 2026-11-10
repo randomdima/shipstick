@@ -1,0 +1,55 @@
+{
+  "id": "kit_d-v1",
+  "ts": "2026-11-05T22:42:34",
+  "op": "edit",
+  "name": "kit_d",
+  "file": ".tmp/gen/frames/kit_d-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.019778,
+  "usage": {
+    "prompt_tokens": 2086,
+    "completion_tokens": 158,
+    "total_tokens": 2244,
+    "cost": 0.019778,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.019778,
+      "upstream_inference_prompt_cost": 0.015038,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sheet of 9 separate square game tiles, each an exact square seen straight down, flat on a fully transparent background, in a 3 by 3 grid, each centred in its own cell with wide empty transparent gaps between them. No text, no labels, no numbers, no frame round the sheet.\n\nImage 1 is a style reference only: match its palette, materials, wear and rendering exactly, and draw none of its objects.\n\nStyle: 1970s-80s \"used future\" industrial equipment inside one small crew capsule of a space station, owned by an indifferent corporation; compact, lived in and kept. Smooth, heavy, continuous surfaces: NO bolts, NO rivets, NO screw heads anywhere. Light scuffs and worn paint spread evenly, with no single distinctive mark that would show when a tile repeats \u2014 no grime, no rust, no oil. Every wheel and handle is grey steel; red appears nowhere. Colours dull and desaturated. Crisp game-asset rendering, lighting from the top left.\n\nThese are the caps on top of the capsule's low bulkhead walls: one long continuous smooth dull dark yellow steel cap running along each wall, as if cast in one piece. Along every edge where the wall ends, a smooth rounded grey steel edge trim with no bolts. Every edge where the wall continues into the next tile has no trim, no seam and no line at all: the yellow cap runs straight out of the edge into the next tile. Each tile fills its square edge to edge.\n\nTiles in reading order (row 1 left to right, then row 2, then row 3):\n1. Post: trim on all four edges.\n2. End: the wall continues through the right edge only; trim along the top, the left and the bottom.\n3. Straight: continues through the left and right edges; trim along the top and the bottom.\n4. Straight with a seam: as 3, with one fine flush joint line across its middle from the top trim to the bottom trim.\n5. Straight, as 3, a little more worn along its middle.\n6. Corner: continues through the right and the bottom edges; trim along the top and the left, rounding the corner, a small rounded trim notch at the bottom-right corner.\n7. Tee: continues through the left, right and bottom edges; trim along the top only, small notches at the two bottom corners.\n8. Cross: continues through all four edges; no trim, small notches at the four corners.\n9. Straight, as 3, with a small flush round inspection cap in its middle.",
+  "inputs": [
+    {
+      "role": "image 1",
+      "sha": "56e5a3caeb25c882",
+      "ext": "png",
+      "frame": null,
+      "was": ".tmp/gen/style/smooth_style.png"
+    }
+  ],
+  "cells": [
+    "any_cap_post",
+    "any_cap_end",
+    "any_cap_straight",
+    "any_cap_straight_seam",
+    "any_cap_straight_worn",
+    "any_cap_corner",
+    "any_cap_tee",
+    "any_cap_cross",
+    "any_cap_straight_inspect"
+  ]
+}

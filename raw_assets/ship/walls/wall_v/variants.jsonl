@@ -1,0 +1,4 @@
+{"variant": "wall_v-v1", "frame": "dev_f-v1", "box": [429, 256, 298, 256], "grid": [4, 4], "score": 2, "status": "candidate", "ts": "2026-11-05T20:17:54"}
+{"variant": "wall_v-v2", "frame": "dev_f-v2", "box": [424, 256, 316, 256], "grid": [4, 4], "score": 4, "status": "candidate", "ts": "2026-11-05T20:34:47"}
+{"variant": "wall_v-v3", "frame": "cdev_f-v1", "box": [550, 311, 57, 212], "grid": [4, 4], "score": 4, "status": "candidate", "ts": "2026-11-05T21:16:06"}
+{"variant": "wall_v-v4", "frame": "walls_a-v1", "box": [192, 519, 52, 225], "grid": [4, 4], "score": 5, "status": "used", "ts": "2026-11-05T21:30:07"}

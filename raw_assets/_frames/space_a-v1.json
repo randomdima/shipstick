@@ -1,0 +1,47 @@
+{
+  "id": "space_a-v1",
+  "ts": "2026-11-06T00:22:48",
+  "op": "gen",
+  "name": "space_a",
+  "file": ".tmp/gen/frames/space_a-v1.png",
+  "model": "openai/gpt-image-2.5-sunburst",
+  "size": "1536x1024",
+  "settings": {
+    "aspect_ratio": "3:2",
+    "quality": "low",
+    "background": "transparent"
+  },
+  "costUsd": 0.00697,
+  "usage": {
+    "prompt_tokens": 446,
+    "completion_tokens": 158,
+    "total_tokens": 604,
+    "cost": 0.00697,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00697,
+      "upstream_inference_prompt_cost": 0.00223,
+      "upstream_inference_completions_cost": 0.00474
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 158
+    }
+  },
+  "prompt": "A sprite sheet of nine separate square patches of deep space, laid out in a 3 by 3 grid with clear transparent gaps between them. Each patch is seen flat, face on, and fills its own square; transparent background everywhere there is no star, no frame, no border, no text. They are layered behind a game about a used, 1970s-80s industrial cargo ship, so space is drawn plain and muted, as it looks through thick reinforced glass: small crisp points of light, colours dull and cold, nothing glossy, no neon, no pink, no purple, no lens flares, no planets, no spaceships.\n\nEvery patch is scattered so it can be repeated side by side and over another patch without a visible edge: no star touches or is cut by the square's edge, and no single star is much bigger than the rest, so no mark stands out when a patch repeats.\n\nRow 1, left: sparse small stars \u2014 some forty tiny white and pale blue-white points, evenly scattered.\nRow 1, middle: sparse small stars \u2014 some forty tiny points, a few of them faint pale amber, evenly scattered.\nRow 1, right: very sparse \u2014 some fifteen tiny white points, widely scattered.\nRow 2, left: dense fine star dust \u2014 some two hundred very small grey-white points, clearly visible, evenly spread.\nRow 2, middle: a few brighter stars \u2014 eight small white points each with a tight soft glow, scattered.\nRow 2, right: a faint cold nebula wisp \u2014 a thin soft cloud of dull grey-teal haze drifting across the square, fading out well before every edge, with a few tiny stars in it.\nRow 3, left: a faint warm dust lane \u2014 a thin soft band of dull ochre-brown haze, fading out well before every edge, with a few tiny stars in it.\nRow 3, middle: one small distant galaxy \u2014 a dim grey-white oval smudge in the middle, a few tiny stars round it.\nRow 3, right: a loose cluster \u2014 some thirty tiny white points gathered loosely toward the middle, thinning outward.",
+  "inputs": [],
+  "cells": [
+    "stars_sparse_a",
+    "stars_sparse_b",
+    "stars_scant",
+    "stars_dust",
+    "stars_bright",
+    "nebula_cold",
+    "nebula_warm",
+    "galaxy_far",
+    "stars_cluster"
+  ]
+}

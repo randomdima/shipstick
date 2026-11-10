@@ -1,0 +1,2 @@
+{"variant": "any_wall_face_porthole-v1", "frame": "walls_b-v1", "box": [1158, 512, 343, 240], "grid": [4, 4], "score": 4, "status": "candidate", "ts": "2026-11-05T21:50:04"}
+{"variant": "any_wall_face_porthole-v2", "frame": "walls_b-v1", "box": [1158, 627, 343, 125], "grid": [4, 4], "score": 4, "status": "used", "ts": "2026-11-05T21:52:36"}

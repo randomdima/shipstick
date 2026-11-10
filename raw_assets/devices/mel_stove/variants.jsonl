@@ -1,0 +1,3 @@
+{"variant": "mel_stove-v1", "frame": "dev_e-v1", "box": [129, 337, 292, 334], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:17:54"}
+{"variant": "mel_stove-v2", "frame": "dev_e-v2", "box": [132, 321, 284, 327], "grid": [3, 3], "score": 4, "status": "candidate", "ts": "2026-11-05T20:34:47"}
+{"variant": "mel_stove-v3", "frame": "cdev_e-v1", "box": [134, 376, 277, 283], "grid": [3, 3], "score": 4, "status": "used", "ts": "2026-11-05T21:16:06"}
