@@ -1,0 +1,47 @@
+# Builds the game and runs its suite on every push and pull request; on main, publishes the demo (DEM-1) to GitHub
+# Pages. The demo is a static site: the client playing back frames the host recorded at build time.
+name: build and demo
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # the version's last figure counts the commits (Directory.Build.targets)
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - run: dotnet build shipstick.slnx -c Release
+      - run: dotnet test src/tests/shipstick-tests.csproj -c Release --no-build --filter Tier=Unit
+      - run: dotnet run --project src/app/demo -c Release --no-build -- site
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

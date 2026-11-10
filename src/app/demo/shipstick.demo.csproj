@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The demo (DEM-1): writes the client, its art and a recording of the host's frames as a static site. The host's
+       client files arrive beside it through the reference; demo.js joins them. -->
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Shipstick.App.Demo</RootNamespace>
+    <AssemblyName>shipstick-demo</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="../host/shipstick.host.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot/**" Link="client/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

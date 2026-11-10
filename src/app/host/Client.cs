@@ -57,6 +57,13 @@ abstract class Client
         wake.Writer.TryWrite(true);
     }
 
+    /// <summary>This client's frame as the ship stands now, changed or not: what a recording of the host keeps (DEM-1).</summary>
+    public byte[] FrameNow(ServedShip ship)
+    {
+        var (kind, view) = Look(ship);
+        return Frame(ship.Vessel.NowS, ship.Rate, kind, view);
+    }
+
     /// <summary>Joins the ship, answers this client's actions until its socket closes, and leaves.</summary>
     public async Task Run(WebSocket socket, ServedShip ship, CancellationToken stopping)
     {

@@ -26,7 +26,8 @@ and stops it.
                                             display missed, and Chrome's style, layout and script time over it
     qq web --shot F --page .tmp/shapes/viewer.html
                                             a page of the project opened from disk, not the game's: no build, no
-                                            host; the gestures and --query work the same
+                                            host; the gestures and --query work the same, and the page may fetch
+                                            and import its neighbours (the demo's site, DEM-1)
     qq web --shot F --mutations 3         count the page's DOM changes over 3 s first, by where: a page drawing
                                             only what changed (WEB-10) adds and removes no node between frames
 
@@ -83,6 +84,10 @@ FLAGS = ("--test-type", "--no-first-run", "--no-default-browser-check", "--disab
 
 #: Headless on the GPU: left alone, headless Chromium draws WebGL in software at a few frames a second.
 HEADLESS = ("--headless=new", "--use-angle=vulkan", "--enable-features=Vulkan")
+
+#: A page opened from disk may fetch and import its neighbours there, as a static site does from its server: a page's
+#: modules and JSON otherwise fail as cross-origin from a file.
+FROM_DISK = ("--allow-file-access-from-files",)
 
 #: A real window under XWayland, where Chromium paces its own frames even when covered.
 HEADED = ("--ozone-platform=x11",)
@@ -195,7 +200,8 @@ def shoot(base: Path, folder: Path | None, a) -> int:
     profile = base / ".tmp" / "web-profile"
     profile.mkdir(parents=True, exist_ok=True)
     browser = subprocess.Popen(
-        [command, *FLAGS, *(HEADED if a.headed else HEADLESS), f"--user-data-dir={profile}",
+        [command, *FLAGS, *(HEADED if a.headed else HEADLESS), *(FROM_DISK if folder is None else ()),
+         f"--user-data-dir={profile}",
          f"--remote-debugging-port={a.debug_port}", f"--window-size={a.width},{a.height}", "about:blank"],
         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 

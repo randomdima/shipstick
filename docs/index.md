@@ -31,6 +31,7 @@ run it is [../readme.md](../readme.md).
 | [codex/](../src/codex/mechanics.md) | The codex's book: every item and device, and the pages on how the ship works |
 | [app/web/](../src/app/web/) | The client, plain JS and CSS: the player's page, the admin's, and the codex window |
 | [app/host/](../src/app/host/docs/requirements.md) | The game's host: runs the game and serves its assets (client–server, `P0`) |
+| [app/demo/](../src/app/demo/docs/requirements.md) | The demo: the client playing back the host's recorded frames as a static site, published to GitHub Pages |
 
 A slice's `docs/requirements.md` and `docs/decision-log.md` are made when it has its first rule or decision.
 
@@ -46,6 +47,7 @@ A slice's `docs/requirements.md` and `docs/decision-log.md` are made when it has
 | `SHP-` | [ship/](../src/ship/docs/requirements.md) — capsules, doors, the clock |
 | `WEB-` | [app/web/](../src/app/web/docs/requirements.md) — what the client is, what the player's and the admin's pages show, and the codex |
 | `HST-` | [app/host/](../src/app/host/docs/requirements.md) — what runs and serves the game, and what a client is |
+| `DEM-` | [app/demo/](../src/app/demo/docs/requirements.md) — the demo served with no host |
 
 `qq req` prints this map off the documents themselves; `qq doclint` fails on a family this table does not name.
 

@@ -2,6 +2,7 @@
   <Project Path="src/shipstick.csproj" />
   <Folder Name="/app/">
     <Project Path="src/app/host/shipstick.host.csproj" />
+    <Project Path="src/app/demo/shipstick.demo.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="src/tests/shipstick-tests.csproj" />

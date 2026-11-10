@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="../../shipstick.csproj" />
     <InternalsVisibleTo Include="shipstick-tests" />
+    <InternalsVisibleTo Include="shipstick-demo" />
   </ItemGroup>
 
   <ItemGroup>

@@ -27,7 +27,12 @@ dotnet run --project src/app/host        # the game's host: the page at http://l
 qq tests                                 # the unit tier, after every edit
 qq web --shot .tmp/web/page.png          # the host run and its page photographed in a headless browser
 qq checks                                # build, suite, citations, art provenance — before a commit
+dotnet run --project src/app/demo -- .tmp/demo-site                        # the demo's static site, no host
+qq web --page .tmp/demo-site/index.html --shot .tmp/web/demo.png           # the demo photographed from disk
 ```
+
+The demo (DEM-1) is deployed to GitHub Pages from `main` by `.github/workflows/demo.yml`: the page playing back the
+host's recorded frames, with ship time stopped and every action but the admin's `enter` refused.
 
 `?admin` opens the admin's page, `?seat=column,row` a player's; every page open on a host plays its one ship. In VS
 Code, the launch configurations `web: admin` and `web: player` build the host, run it under the debugger and open the
