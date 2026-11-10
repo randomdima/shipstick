@@ -109,8 +109,9 @@ owner's desktop**: `qq web` drives Chromium headless; `--headed` is for when the
 ## House rules
 
 - **Edit with the file tools**, not `sed`/`python3` one-liners. Shell text processing is read-only inspection.
-- **Work stays in the local repository.** Nothing is published: no artifacts, no hosted documents or pages
-  (`.claude/settings.json` denies those tools). A page to look at is written to `.tmp/` and pictured headless.
+- **The repository is pushed to its public GitHub remote, `origin`, and nothing else is published**: no artifacts,
+  no hosted documents or pages (`.claude/settings.json` denies those tools). Every push is public — nothing secret or
+  personal is committed. A page to look at is written to `.tmp/` and pictured headless.
 - **Scratch goes in `.tmp/`**, gitignored and wiped without asking — never the system temp directory or a per-session
   scratchpad.
 - **Metric units, and the unit is part of the name** — `…M`, `…S`, `…Px`.
