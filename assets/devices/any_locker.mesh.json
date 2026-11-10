@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/any_locker/any_locker-v7.png",
- "model": "raw_assets/devices/any_locker/any_locker-v7.model.json",
+ "variant": "raw_assets/devices/any_locker/any_locker-v8.png",
+ "model": "raw_assets/devices/any_locker/any_locker-v8.model.json",
  "boundsM": [
   [
    0,
@@ -13,33 +13,33 @@
    1.85
   ]
  ],
- "triangles": 282,
+ "triangles": 378,
  "bin": "any_locker.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 2538
+   "length": 3402
   },
   "UV": {
-   "offset": 10152,
+   "offset": 13608,
    "type": "float32",
-   "length": 1692
+   "length": 2268
   },
   "N": {
-   "offset": 16920,
+   "offset": 22680,
    "type": "int8",
-   "length": 2538
+   "length": 3402
   },
   "order": {
-   "offset": 19460,
+   "offset": 26084,
    "type": "uint16",
-   "length": 846
+   "length": 1134
   },
   "live": {
-   "offset": 21152,
+   "offset": 28352,
    "type": "uint8",
-   "length": 846
+   "length": 1134
   }
  },
  "looks": [
@@ -116,21 +116,21 @@
   [
    4,
    58,
-   12
+   108
   ],
   [
    5,
-   70,
+   166,
    24
   ],
   [
    6,
-   94,
+   190,
    172
   ],
   [
    7,
-   266,
+   362,
    16
   ]
  ],

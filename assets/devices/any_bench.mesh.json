@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/any_bench/any_bench-v7.png",
- "model": "raw_assets/devices/any_bench/any_bench-v7.model.json",
+ "variant": "raw_assets/devices/any_bench/any_bench-v8.png",
+ "model": "raw_assets/devices/any_bench/any_bench-v8.model.json",
  "boundsM": [
   [
    0,
@@ -13,33 +13,33 @@
    1.35
   ]
  ],
- "triangles": 1964,
+ "triangles": 2204,
  "bin": "any_bench.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 17676
+   "length": 19836
   },
   "UV": {
-   "offset": 70704,
+   "offset": 79344,
    "type": "float32",
-   "length": 11784
+   "length": 13224
   },
   "N": {
-   "offset": 117840,
+   "offset": 132240,
    "type": "int8",
-   "length": 17676
+   "length": 19836
   },
   "order": {
-   "offset": 135516,
+   "offset": 152076,
    "type": "uint16",
-   "length": 5892
+   "length": 6612
   },
   "live": {
-   "offset": 147300,
+   "offset": 165300,
    "type": "uint8",
-   "length": 5892
+   "length": 6612
   }
  },
  "looks": [
@@ -239,41 +239,41 @@
   [
    13,
    828,
-   232
+   424
   ],
   [
    14,
-   1060,
+   1252,
    160
   ],
   [
    15,
-   1220,
+   1412,
    12
   ],
   [
    16,
-   1232,
-   2
+   1424,
+   50
   ],
   [
    17,
-   1234,
+   1474,
    648
   ],
   [
    18,
-   1882,
+   2122,
    8
   ],
   [
    19,
-   1890,
+   2130,
    2
   ],
   [
    20,
-   1892,
+   2132,
    72
   ]
  ],

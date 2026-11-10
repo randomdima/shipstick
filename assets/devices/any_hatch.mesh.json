@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/any_hatch/any_hatch-v7.png",
- "model": "raw_assets/devices/any_hatch/any_hatch-v7.model.json",
+ "variant": "raw_assets/devices/any_hatch/any_hatch-v8.png",
+ "model": "raw_assets/devices/any_hatch/any_hatch-v8.model.json",
  "boundsM": [
   [
    0,
@@ -13,33 +13,33 @@
    0.2
   ]
  ],
- "triangles": 668,
+ "triangles": 1020,
  "bin": "any_hatch.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 6012
+   "length": 9180
   },
   "UV": {
-   "offset": 24048,
+   "offset": 36720,
    "type": "float32",
-   "length": 4008
+   "length": 6120
   },
   "N": {
-   "offset": 40080,
+   "offset": 61200,
    "type": "int8",
-   "length": 6012
+   "length": 9180
   },
   "order": {
-   "offset": 46092,
+   "offset": 70380,
    "type": "uint16",
-   "length": 2004
+   "length": 3060
   },
   "live": {
-   "offset": 50100,
+   "offset": 76500,
    "type": "uint8",
-   "length": 2004
+   "length": 3060
   }
  },
  "looks": [
@@ -116,21 +116,21 @@
   [
    4,
    212,
-   88
+   264
   ],
   [
    5,
-   300,
-   88
+   476,
+   264
   ],
   [
    6,
-   388,
+   740,
    80
   ],
   [
    7,
-   468,
+   820,
    200
   ]
  ],

@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/any_table/any_table-v7.png",
- "model": "raw_assets/devices/any_table/any_table-v7.model.json",
+ "variant": "raw_assets/devices/any_table/any_table-v8.png",
+ "model": "raw_assets/devices/any_table/any_table-v8.model.json",
  "boundsM": [
   [
    0,
@@ -13,33 +13,33 @@
    0.95
   ]
  ],
- "triangles": 808,
+ "triangles": 1456,
  "bin": "any_table.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 7272
+   "length": 13104
   },
   "UV": {
-   "offset": 29088,
+   "offset": 52416,
    "type": "float32",
-   "length": 4848
+   "length": 8736
   },
   "N": {
-   "offset": 48480,
+   "offset": 87360,
    "type": "int8",
-   "length": 7272
+   "length": 13104
   },
   "order": {
-   "offset": 55752,
+   "offset": 100464,
    "type": "uint16",
-   "length": 2424
+   "length": 4368
   },
   "live": {
-   "offset": 60600,
+   "offset": 109200,
    "type": "uint8",
-   "length": 2424
+   "length": 4368
   }
  },
  "looks": [
@@ -148,66 +148,66 @@
   [
    2,
    64,
-   8
+   40
   ],
   [
    3,
-   72,
-   2
+   104,
+   20
   ],
   [
    4,
-   74,
-   2
+   124,
+   20
   ],
   [
    5,
-   76,
+   144,
    10
   ],
   [
    6,
-   86,
-   16
+   154,
+   400
   ],
   [
    7,
-   102,
-   4
+   554,
+   100
   ],
   [
    8,
-   106,
+   654,
    20
   ],
   [
    9,
-   126,
-   72
+   674,
+   136
   ],
   [
    10,
-   198,
-   4
+   810,
+   40
   ],
   [
    11,
-   202,
+   850,
    2
   ],
   [
    12,
-   204,
+   852,
    512
   ],
   [
    13,
-   716,
+   1364,
    56
   ],
   [
    14,
-   772,
+   1420,
    36
   ]
  ],

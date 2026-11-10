@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/any_algaejar/any_algaejar-v7.png",
- "model": "raw_assets/devices/any_algaejar/any_algaejar-v7.model.json",
+ "variant": "raw_assets/devices/any_algaejar/any_algaejar-v8.png",
+ "model": "raw_assets/devices/any_algaejar/any_algaejar-v8.model.json",
  "boundsM": [
   [
    0,
@@ -13,33 +13,33 @@
    1.1
   ]
  ],
- "triangles": 2838,
+ "triangles": 3094,
  "bin": "any_algaejar.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 25542
+   "length": 27846
   },
   "UV": {
-   "offset": 102168,
+   "offset": 111384,
    "type": "float32",
-   "length": 17028
+   "length": 18564
   },
   "N": {
-   "offset": 170280,
+   "offset": 185640,
    "type": "int8",
-   "length": 25542
+   "length": 27846
   },
   "order": {
-   "offset": 195824,
+   "offset": 213488,
    "type": "uint16",
-   "length": 8514
+   "length": 9282
   },
   "live": {
-   "offset": 212852,
+   "offset": 232052,
    "type": "uint8",
-   "length": 8514
+   "length": 9282
   }
  },
  "looks": [
@@ -123,36 +123,36 @@
   [
    3,
    34,
-   1408
+   1664
   ],
   [
    4,
-   1442,
+   1698,
    112
   ],
   [
    5,
-   1554,
+   1810,
    112
   ],
   [
    6,
-   1666,
+   1922,
    112
   ],
   [
    7,
-   1778,
+   2034,
    608
   ],
   [
    8,
-   2386,
+   2642,
    252
   ],
   [
    9,
-   2638,
+   2894,
    200
   ]
  ],

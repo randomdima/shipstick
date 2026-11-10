@@ -1,0 +1,28 @@
+{
+  "id": "any_hatch",
+  "about": "A floor service hatch: a steel frame, a heavy hazard-bordered plate on two hinges, an orange handwheel, a status lamp set in the plate's front corner.",
+  "sets": ["issue_steel", "hull", "controls"],
+  "boundsM": [[0, 0, 0], [1, 1, 0.2]],
+  "textures": {
+    "plate": {"src": "raw_assets/textures/tex_floor_hatch_plate/tex_floor_hatch_plate-v1.png", "insetPct": 4},
+    "steel": {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "trim": {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 4, "tileM": 0.3},
+    "wheel": {"src": "raw_assets/textures/tex_handwheel_cutout/tex_handwheel_cutout-v1.png", "insetPct": 1, "cutout": true},
+    "orange": {"src": "raw_assets/textures/tex_orange_enamel/tex_orange_enamel-v1.png", "insetPct": 4, "tileM": 0.2}
+  },
+  "parts": [
+    {"shape": "group", "name": "hatch", "atM": [0, 0, 0], "parts": [
+      {"shape": "box", "name": "frame", "atM": [0.5, 0.5, 0.02], "sizeM": [0.98, 0.98, 0.04],
+       "faces": {"*": "steel", "bottom": null}},
+      {"shape": "box", "name": "plate", "atM": [0.5, 0.5, 0.055], "sizeM": [0.92, 0.92, 0.03],
+       "faces": {"top": "plate", "*": "trim", "bottom": null}},
+      {"shape": "cylinder", "name": "hinge", "atM": [0.27, 0.95, 0.075], "radiusM": 0.025, "lengthM": 0.12, "axis": "x",
+       "repeat": {"count": 2, "stepM": [0.46, 0, 0]}, "tex": "steel", "shade": 0.8},
+      {"shape": "cylinder", "name": "wheel stem", "atM": [0.5, 0.53, 0.1], "radiusM": 0.025, "lengthM": 0.06, "axis": "z",
+       "tex": "trim"},
+      {"shape": "cylinder", "name": "handwheel", "atM": [0.5, 0.53, 0.14], "radiusM": 0.17, "lengthM": 0.025, "axis": "z", "roundM": 0.01,
+       "faces": {"ends": "wheel", "side": "orange"}}
+    ]},
+    {"shape": "model", "name": "status lamp", "src": "raw_assets/parts/status_lamp/status_lamp-v1.model.json", "atM": [0.74, 0.17, 0.07]}
+  ]
+}

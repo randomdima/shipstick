@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/fil_resinvat/fil_resinvat-v7.png",
- "model": "raw_assets/devices/fil_resinvat/fil_resinvat-v7.model.json",
+ "variant": "raw_assets/devices/fil_resinvat/fil_resinvat-v8.png",
+ "model": "raw_assets/devices/fil_resinvat/fil_resinvat-v8.model.json",
  "boundsM": [
   [
    0,
@@ -13,33 +13,33 @@
    1.2
   ]
  ],
- "triangles": 2510,
+ "triangles": 2958,
  "bin": "fil_resinvat.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 22590
+   "length": 26622
   },
   "UV": {
-   "offset": 90360,
+   "offset": 106488,
    "type": "float32",
-   "length": 15060
+   "length": 17748
   },
   "N": {
-   "offset": 150600,
+   "offset": 177480,
    "type": "int8",
-   "length": 22590
+   "length": 26622
   },
   "order": {
-   "offset": 173192,
+   "offset": 204104,
    "type": "uint16",
-   "length": 7530
+   "length": 8874
   },
   "live": {
-   "offset": 188252,
+   "offset": 221852,
    "type": "uint8",
-   "length": 7530
+   "length": 8874
   }
  },
  "looks": [
@@ -126,67 +126,67 @@
   [
    0,
    0,
-   524
+   748
   ],
   [
    1,
-   524,
+   748,
    2
   ],
   [
    2,
-   526,
+   750,
    404
   ],
   [
    3,
-   930,
+   1154,
    584
   ],
   [
    4,
-   1514,
+   1738,
    80
   ],
   [
    5,
-   1594,
+   1818,
    2
   ],
   [
    6,
-   1596,
+   1820,
    6
   ],
   [
    7,
-   1602,
+   1826,
    2
   ],
   [
    8,
-   1604,
+   1828,
    2
   ],
   [
    9,
-   1606,
+   1830,
    200
   ],
   [
    10,
-   1806,
+   2030,
    480
   ],
   [
    11,
-   2286,
+   2510,
    112
   ],
   [
    12,
-   2398,
-   112
+   2622,
+   336
   ]
  ],
  "light": {

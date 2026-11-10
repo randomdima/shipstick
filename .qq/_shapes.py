@@ -43,6 +43,13 @@ FACET_SAG_M = 0.0005
 SEGMENTS_MIN, SEGMENTS_MAX = 8, 64
 #: Of a box's `bevelM`, the most it may take: this share of its smallest half-size, so a thin plate keeps a flat face.
 BEVEL_SHARE = 0.5
+#: A rounded edge (`roundM`) is drawn in facets each within ROUND_SAG_M of its arc, and a face's half of the arc in at
+#: most ROUND_STEPS_MOST of them: its normals are smooth, so the light reads round whatever the count, and only the
+#: outline shows the facets. A millimetre is about half a pixel of a 1080-pixel page at the floor camera's nearest
+#: (scene.js ZOOM.most, a ten-cell capsule); two steps keep a box at 300 triangles and a 5 cm radius within it.
+ROUND_SAG_M = 0.001
+ROUND_STEPS_MOST = 2
+AXES = {"x": 0, "y": 1, "z": 2}
 #: How far a face may stretch the picture it shows (GAM-14) — the region's proportion over the picture's, either way —
 #: and still be its own proportions: a cut asked square comes out up to 4–5% off it (the kept ones 0.96–1.05), and an
 #: inset rounds to whole pixels. Under it a round bolt does not read as oval.
@@ -62,11 +69,11 @@ BOX_FACES = {
 }
 FACING = {"south": "south", "north": "north", "east": "east", "west": "west", "up": "top", "down": "bottom"}
 SHAPE_KEYS = {
-    "box": {"atM", "sizeM", "bevelM"},
-    "cylinder": {"atM", "radiusM", "radiusEndM", "lengthM", "axis"},
+    "box": {"atM", "sizeM", "bevelM", "roundM", "roundAlong"},
+    "cylinder": {"atM", "radiusM", "radiusEndM", "lengthM", "axis", "roundM"},
     "sphere": {"atM", "radiusM", "sizeM", "half"},
     "quad": {"atM", "sizeM", "facing"},
-    "group": {"atM", "parts", "bevelM"},
+    "group": {"atM", "parts", "bevelM", "roundM", "roundAlong"},
     "model": {"atM", "src"},
 }
 SHAPE_FACES = {"box": set(BOX_FACES), "cylinder": {"side", "ends"}, "sphere": {"surface"}, "quad": {"face"}}
@@ -295,7 +302,7 @@ def build(model: dict) -> dict:
 
     looks, labels, specs, items, frames, lives, batches = [], [], [], [], [], [], []
     walk(model, model["parts"], np.eye(4),
-         {"tex": None, "shade": 1.0, "ns": "", "item": None, "bevel": None, "live": 0, "show": None}, looks,
+         {"tex": None, "shade": 1.0, "ns": "", "item": None, "edge": {}, "live": 0, "show": None}, looks,
          (labels, specs, items, frames, lives), batches, "parts")
     if not batches:
         cli.fail("the model draws nothing")
@@ -464,7 +471,7 @@ def walk(model, parts, parent, inherited, looks, named, batches, where) -> None:
             cli.fail(f"{here}: shape is {shape!r}; known are {', '.join(SHAPE_KEYS)}")
         strict(part, PART_KEYS | SHAPE_KEYS[shape], here)
         own = {"tex": part.get("tex", inherited["tex"]), "shade": inherited["shade"] * part.get("shade", 1.0),
-               "ns": inherited["ns"], "item": inherited["item"], "bevel": part.get("bevelM", inherited["bevel"]),
+               "ns": inherited["ns"], "item": inherited["item"], "edge": edge(part, inherited["edge"], here),
                "live": inherited["live"], "show": inherited["show"]}
         if shape == "model" and ({"tex", "faces"} & set(part)):
             cli.fail(f"{here}: a placed model wears its own textures; tex and faces are not for it")
@@ -503,7 +510,7 @@ def walk(model, parts, parent, inherited, looks, named, batches, where) -> None:
                 sub = model["subs"][part["src"]]
                 walk(model, sub["parts"], matrix,
                      {"tex": None, "shade": own["shade"], "ns": f"{own['ns']}{sub['id']}.", "item": item,
-                      "bevel": None, "live": element, "show": own["show"]}, looks, named, batches,
+                      "edge": {}, "live": element, "show": own["show"]}, looks, named, batches,
                      f"{label} <{sub['id']}>.parts")
                 continue
             labels, specs, items, frames, _ = named
@@ -511,7 +518,7 @@ def walk(model, parts, parent, inherited, looks, named, batches, where) -> None:
             labels.append(label)
             items.append(item)
             specs.append(part | {"atWorldM": matrix[:3, 3].round(4).tolist()})
-            faces = primitive(shape, part | {"bevelM": own["bevel"]}, here)
+            faces = primitive(shape, {k: v for k, v in part.items() if k not in EDGE_KEYS} | own["edge"], here)
             local = np.concatenate([P.reshape(-1, 3) for P, _, _ in faces.values()])
             lo, hi = local.min(axis=0), local.max(axis=0)
             frames.append((matrix[:3, :3] @ ((lo + hi) / 2) + matrix[:3, 3], matrix[:3, :3], (hi - lo) / 2))
@@ -524,6 +531,24 @@ def walk(model, parts, parent, inherited, looks, named, batches, where) -> None:
                 looks.append(look | {"face": face, "part": order})
                 batches.append((P @ matrix[:3, :3].T + matrix[:3, 3], N @ matrix[:3, :3].T, UV, len(looks) - 1, order,
                                 element))
+
+
+EDGE_KEYS = ("bevelM", "roundM", "roundAlong")
+
+
+def edge(part: dict, inherited: dict, here: str) -> dict:
+    """
+    How a part's edges are finished: its own `bevelM` or `roundM` (with `roundAlong`), else its group's — a part
+    giving either replaces both. A group's pass to its boxes; a cylinder's `roundM` is its own alone.
+    """
+    own = {k: part[k] for k in EDGE_KEYS if k in part}
+    if "bevelM" in own and "roundM" in own:
+        cli.fail(f"{here}: an edge is bevelled or rounded, not both: bevelM or roundM")
+    if "roundAlong" in own and "roundM" not in own:
+        cli.fail(f"{here}: roundAlong says which edges roundM rounds, and there is no roundM")
+    if part.get("shape") == "cylinder":
+        return own
+    return own if ("bevelM" in own or "roundM" in own) else inherited
 
 
 def face_look(model, part, face, own, here) -> dict | None:
@@ -656,12 +681,13 @@ def primitive(shape, part, here) -> dict:
 
     if shape == "box":
         half = np.array(vector(part.get("sizeM"), here, "sizeM")) / 2
-        bevel = part.get("bevelM") or 0
-        if not isinstance(bevel, (int, float)) or bevel < 0:
-            cli.fail(f"{here}: bevelM wants a number of 0 or more")
+        bevel = not_negative(part, "bevelM", here)
         bevel = min(bevel, BEVEL_SHARE * half.min())
         if bevel > 0:
             return {face: bevelled(half, bevel, n, r, up) for face, (n, r, up) in BOX_FACES.items()}
+        radii = round_radii(half, not_negative(part, "roundM", here), part.get("roundAlong"), here)
+        if radii.any():
+            return {face: rounded(half, radii, n, r, up) for face, (n, r, up) in BOX_FACES.items()}
         return {face: planar(np.array(n) * half, n, r, up, abs(np.dot(r, half)), abs(np.dot(up, half)))
                 for face, (n, r, up) in BOX_FACES.items()}
     if shape == "quad":
@@ -674,7 +700,11 @@ def primitive(shape, part, here) -> dict:
     if shape == "cylinder":
         radius = positive(part, "radiusM", here)
         radius_end = part.get("radiusEndM", radius)
-        faces = cylinder(radius, radius_end, positive(part, "lengthM", here), segments(max(radius, radius_end)))
+        length = positive(part, "lengthM", here)
+        rim = not_negative(part, "roundM", here)
+        if rim and radius_end != radius:
+            cli.fail(f"{here}: roundM rounds the rims of a straight cylinder; this one tapers (radiusEndM)")
+        faces = cylinder(radius, radius_end, length, segments(max(radius, radius_end)), min(rim, radius, length / 2))
         axis = part.get("axis", "z")
         turn = {"z": np.eye(3), "x": rotation([0, 90, 0])[:3, :3], "y": rotation([-90, 0, 0])[:3, :3]}.get(axis)
         if turn is None:
@@ -685,6 +715,37 @@ def primitive(shape, part, here) -> dict:
     else:
         radii = np.full(3, positive(part, "radiusM", here))
     return {"surface": sphere(radii, bool(part.get("half")), segments(radii.max()))}
+
+
+def not_negative(part, key, here) -> float:
+    value = part.get(key) or 0
+    if not isinstance(value, (int, float)) or value < 0:
+        cli.fail(f"{here}: {key} wants a number of 0 or more")
+    return value
+
+
+def round_radii(half, radius: float, along: str | None, here: str):
+    """
+    How far a rounded box's corners are drawn in along x, y and z: `radius` on every axis, or with `along` on the two
+    across it alone — the edges running along that axis rounded, the faces across it flat with rounded corners. Each is
+    at most the smallest half-size it rounds, where the arcs of two edges meet and the face between them is all round.
+    """
+    import numpy as np
+
+    if along is not None and along not in AXES:
+        cli.fail(f"{here}: roundAlong is {along!r}; known are {', '.join(AXES)}")
+    rounds = np.ones(3, bool)
+    if along is not None:
+        rounds[AXES[along]] = False
+    return np.where(rounds, min(radius, half[rounds].min()), 0.0)
+
+
+def round_steps(radius_m: float) -> int:
+    """Facets in a face's half of a rounded edge's quarter arc: each within ROUND_SAG_M of it, at most ROUND_STEPS_MOST."""
+    if radius_m <= ROUND_SAG_M:
+        return 1
+    facet = 2 * math.acos(1 - ROUND_SAG_M / radius_m)
+    return min(max(math.ceil(math.pi / 4 / facet), 1), ROUND_STEPS_MOST)
 
 
 def segments(radius_m: float) -> int:
@@ -742,6 +803,75 @@ def bevelled(half, bevel, n, r, up):
     return np.array(P), np.array(N), {"fit": np.array(fit), "m": np.array(metres)}
 
 
+def rounded(half, radii, n, r, up):
+    """
+    One face of a box with its edges rounded, `radii` the corner's inset along x, y and z: the face's flat middle and
+    its half of each rounded edge round it, so six faces close the box with no gap.
+
+    <remarks>A point on a face's half of an edge is the inner corner pushed out along the direction `n + tan(a)·r +
+    tan(b)·up` — a turn of `a` across one edge and `b` across the other, up to 45° each — so two faces meeting on an
+    edge's midline, and three at a corner, share every vertex there. Normals are that direction, smooth across the
+    arc. A face across the axis left sharp (`roundAlong`) stays flat, its corners cut round to meet the arcs of the
+    sides. The texture lies as on the unrounded face: along an arc each point at its turn's share of the radius past
+    the inner corner, so the picture runs on to the edge's midline as on a bevel; on a flat face at the point's place.
+    </remarks>
+    """
+    import numpy as np
+
+    n, r, up = (np.array(v, dtype=float) for v in (n, r, up))
+    h_n, h_r, h_up = abs(n @ half), abs(r @ half), abs(up @ half)
+    reach_n, reach_r, reach_up = abs(n @ radii), abs(r @ radii), abs(up @ radii)
+
+    def stations(h: float, reach: float) -> list[tuple[float, float]]:
+        """Across the face along one axis: each vertex column as (inner coordinate, turn in radians)."""
+        if reach <= 0:
+            return [(-h, 0.0), (h, 0.0)]
+        steps, inner = round_steps(reach), h - reach
+        arc = [math.pi / 4 * s / steps for s in range(1, steps + 1)]
+        middle = [(-inner, 0.0)] + ([(inner, 0.0)] if inner > 0 else [])
+        return [(-inner, -a) for a in reversed(arc)] + middle + [(inner, a) for a in arc]
+
+    def unrolled(inner: float, turn: float, reach: float) -> float:
+        return inner + reach * turn / (math.pi / 4)
+
+    across, down = stations(h_r, reach_r), stations(h_up, reach_up)
+    P, N, place = [], [], []
+    for x, a in across:
+        for y, b in down:
+            ta, tb = math.tan(a), math.tan(b)
+            if reach_n > 0:
+                d = n + ta * r + tb * up
+                d /= np.linalg.norm(d)
+                P.append(n * (h_n - reach_n) + r * x + up * y + radii * d)
+                N.append(d)
+                place.append((unrolled(x, a, reach_r), unrolled(y, b, reach_up)))
+            else:
+                most = max(abs(ta), abs(tb))
+                out = np.array([ta, tb]) * (most * reach_r / math.hypot(ta, tb)) if most else np.zeros(2)
+                P.append(n * h_n + r * (x + out[0]) + up * (y + out[1]))
+                N.append(n)
+                place.append((x + out[0], y + out[1]))
+    columns, rows = len(across), len(down)
+    if reach_n > 0:
+        tris = [t for i in range(columns - 1) for j in range(rows - 1)
+                for t in (((i * rows + j + 1), (i + 1) * rows + j + 1, (i + 1) * rows + j),
+                          ((i * rows + j + 1), (i + 1) * rows + j, i * rows + j))]
+    else:
+        # Flat, and convex: a fan from its middle to its outline, not the grid, whose inner cells are one plane.
+        outline = ([(i, 0) for i in range(columns)] + [(columns - 1, j) for j in range(1, rows)]
+                   + [(i, rows - 1) for i in range(columns - 2, -1, -1)] + [(0, j) for j in range(rows - 2, 0, -1)])
+        ring = [i * rows + j for i, j in outline]
+        middle = len(P)
+        P.append(n * h_n)
+        N.append(n)
+        place.append((0.0, 0.0))
+        tris = [(middle, ring[s], ring[(s + 1) % len(ring)]) for s in range(len(ring))]
+    place = np.array(place)
+    fit = np.stack([(place[:, 0] + h_r) / (2 * h_r), (h_up - place[:, 1]) / (2 * h_up)], axis=1)
+    metres = np.stack([place[:, 0], -place[:, 1]], axis=1)
+    return mesh(np.array(P), np.array(N), fit, metres, tris)
+
+
 def planar(centre, n, r, up, half_r, half_up):
     import numpy as np
 
@@ -753,38 +883,68 @@ def planar(centre, n, r, up, half_r, half_up):
     return mesh(corners, np.tile(n, (4, 1)), fit, metres, [(0, 1, 2), (0, 2, 3)])
 
 
-def cylinder(r0: float, r1: float, length: float, count: int) -> dict:
+def cylinder(r0: float, r1: float, length: float, count: int, rim: float = 0.0) -> dict:
     """
     Round the z axis in `count` facets, from radius r0 at the foot to r1 at the head; the side's texture starts
-    facing south.
+    facing south. `rim` rounds both rims of a straight one by that radius.
+
+    <remarks>Built ring by ring along its profile. A rounded rim's quarter arc is split at 45°: the side owns the half
+    turned outward, each end the half turned along the axis, and each wears its picture as on the sharp cylinder — the
+    side's down the whole length, an end's across the whole diameter — each point at its turn's share of the radius
+    past the arc's start. Normals are smooth round the arc.</remarks>
     """
     import numpy as np
 
     theta = np.linspace(0, 2 * np.pi, count + 1)
     around = np.stack([np.sin(theta), -np.cos(theta), np.zeros_like(theta)], axis=1)
-    head = around * r1 + [0, 0, length / 2]
-    foot = around * r0 + [0, 0, -length / 2]
-    normal = around * length + np.array([0, 0, r0 - r1])
-    normal /= np.linalg.norm(normal, axis=1, keepdims=True)
-    u = theta / (2 * np.pi)
-    arc = theta * (r0 + r1) / 2
-    P = np.concatenate([head, foot])
-    fit = np.concatenate([np.stack([u, np.zeros_like(u)], 1), np.stack([u, np.ones_like(u)], 1)])
-    metres = np.concatenate([np.stack([arc, np.zeros_like(u)], 1), np.stack([arc, np.full_like(u, length)], 1)])
     k = count + 1
-    tris = [t for i in range(count) for t in ((i, i + 1, k + i + 1), (i, k + i + 1, k + i))]
-    faces = {"side": mesh(P, np.concatenate([normal, normal]), fit, metres, tris)}
+    taper = np.array([length, r0 - r1]) / math.hypot(length, r0 - r1)
+    steps = round_steps(rim)
+    turns = [math.pi / 4 * s / steps for s in range(2 * steps + 1)] if rim else []
+
+    def arc(turn: float, sign: int) -> tuple:
+        """A rim's point `turn` from the end's normal toward the side, as (ρ, z, normal ρ, normal z)."""
+        return (r1 - rim + rim * math.sin(turn), sign * (length / 2 - rim + rim * math.cos(turn)),
+                math.sin(turn), sign * math.cos(turn))
+
+    # The side, head first: (ρ, z, normal ρ, normal z, metres down from the head).
+    if rim:
+        reach = lambda turn: length / 2 - rim + rim * (math.pi / 2 - turn) / (math.pi / 4)
+        head = [arc(t, 1) + (length / 2 - reach(t),) for t in turns if t >= math.pi / 4]
+        # Rounded to half its length, the two rims' arcs meet at the middle, which is one ring, not two.
+        foot = head[:-1] if rim >= length / 2 else head
+        profile = head + [(rho, -z, n_rho, -n_z, length - m) for rho, z, n_rho, n_z, m in reversed(foot)]
+    else:
+        profile = [(r1, length / 2, *taper, 0.0), (r0, -length / 2, *taper, length)]
+    arc_m = theta * (r0 + r1) / 2
+    P = np.concatenate([around * rho + [0, 0, z] for rho, z, _, _, _ in profile])
+    N = np.concatenate([around * n_rho + [0, 0, n_z] for _, _, n_rho, n_z, _ in profile])
+    fit = np.concatenate([np.stack([theta / (2 * np.pi), np.full_like(theta, m / length)], 1) for *_, m in profile])
+    metres = np.concatenate([np.stack([arc_m, np.full_like(theta, m)], 1) for *_, m in profile])
+    tris = [t for j in range(len(profile) - 1) for i in range(count)
+            for t in ((j * k + i, j * k + i + 1, (j + 1) * k + i + 1), (j * k + i, (j + 1) * k + i + 1, (j + 1) * k + i))]
+    faces = {"side": mesh(P, N, fit, metres, tris)}
     P, N, fit, metres, tris = [], [], [], [], []
-    for radius, z, sign in ((r1, length / 2, 1), (r0, -length / 2, -1)):
-        if radius > 0:
-            start = sum(len(p) for p in P)
-            disc = np.concatenate([[[0, 0, z]], around[:-1] * radius + [0, 0, z]])
-            flat = disc[:, :2] * [sign, -1]
-            P.append(disc)
-            N.append(np.tile([0, 0, sign], (len(disc), 1)))
-            fit.append(0.5 + flat / (2 * radius))
-            metres.append(flat)
-            tris += [(start, start + 1 + i, start + 1 + (i + 1) % count) for i in range(count)]
+    for radius, sign in ((r1, 1), (r0, -1)):
+        if radius <= 0:
+            continue
+        # Each ring of the end from its middle out: (ρ, z, normal ρ, normal z, ρ its picture is laid at).
+        rings = ([arc(t, sign) + (radius - rim + rim * t / (math.pi / 4),) for t in turns if t <= math.pi / 4]
+                 if rim else [(radius, sign * length / 2, 0.0, sign, radius)])
+        if rim >= radius:
+            rings = rings[1:]  # the arc starts at the middle, which is the fan's own
+        start = sum(len(p) for p in P)
+        z = sign * length / 2
+        P.append(np.concatenate([[[0, 0, z]]] + [around[:-1] * rho + [0, 0, zr] for rho, zr, _, _, _ in rings]))
+        N.append(np.concatenate([[[0, 0, sign]]] + [around[:-1] * n_rho + [0, 0, n_z] for _, _, n_rho, n_z, _ in rings]))
+        flat = np.concatenate([[[0, 0]]] + [around[:-1, :2] * laid for *_, laid in rings]) * [sign, -1]
+        fit.append(0.5 + flat / (2 * radius))
+        metres.append(flat)
+        tris += [(start, start + 1 + i, start + 1 + (i + 1) % count) for i in range(count)]
+        for j in range(len(rings) - 1):
+            a, b = start + 1 + j * count, start + 1 + (j + 1) * count
+            tris += [t for i in range(count)
+                     for t in ((a + i, b + i, b + (i + 1) % count), (a + i, b + (i + 1) % count, a + (i + 1) % count))]
     if P:
         faces["ends"] = mesh(*(np.concatenate(v) for v in (P, N, fit, metres)), tris)
     return faces

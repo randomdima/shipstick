@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/any_chest/any_chest-v8.png",
- "model": "raw_assets/devices/any_chest/any_chest-v8.model.json",
+ "variant": "raw_assets/devices/any_chest/any_chest-v9.png",
+ "model": "raw_assets/devices/any_chest/any_chest-v9.model.json",
  "boundsM": [
   [
    0,
@@ -13,33 +13,33 @@
    0.55
   ]
  ],
- "triangles": 344,
+ "triangles": 1112,
  "bin": "any_chest.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 3096
+   "length": 10008
   },
   "UV": {
-   "offset": 12384,
+   "offset": 40032,
    "type": "float32",
-   "length": 2064
+   "length": 6672
   },
   "N": {
-   "offset": 20640,
+   "offset": 66720,
    "type": "int8",
-   "length": 3096
+   "length": 10008
   },
   "order": {
-   "offset": 23736,
+   "offset": 76728,
    "type": "uint16",
-   "length": 1032
+   "length": 3336
   },
   "live": {
-   "offset": 25800,
+   "offset": 83400,
    "type": "uint8",
-   "length": 1032
+   "length": 3336
   }
  },
  "looks": [
@@ -111,26 +111,26 @@
   [
    3,
    54,
-   96
+   864
   ],
   [
    4,
-   150,
+   918,
    4
   ],
   [
    5,
-   154,
+   922,
    2
   ],
   [
    6,
-   156,
+   924,
    172
   ],
   [
    7,
-   328,
+   1096,
    16
   ]
  ],

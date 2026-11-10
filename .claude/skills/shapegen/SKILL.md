@@ -183,11 +183,11 @@ picture: crop such a swatch to whole periods with `insetPct [across, down]` (`qq
 
 | `shape` | Keys | Faces |
 |---|---|---|
-| `box` | `sizeM` [x, y, z], `bevelM` (edges chamfered this deep) | `south` `north` `east` `west` `top` `bottom` |
-| `cylinder` | `radiusM`, `lengthM`, `axis` x/y/z (z), `radiusEndM` (a cone or a taper; 0 is a point) | `side`, `ends` |
+| `box` | `sizeM` [x, y, z], `bevelM` (edges chamfered this deep) or `roundM` (edges rounded to this radius), `roundAlong` x/y/z (only the edges running along that axis) | `south` `north` `east` `west` `top` `bottom` |
+| `cylinder` | `radiusM`, `lengthM`, `axis` x/y/z (z), `radiusEndM` (a cone or a taper; 0 is a point), `roundM` (both rims rounded, a straight one only) | `side`, `ends` |
 | `sphere` | `radiusM`, or `sizeM` for an ellipsoid; `half: true` is the upper dome alone | `surface` |
 | `quad` | `sizeM` [w, h], `facing` south/north/east/west/up/down | `face` |
-| `group` | `parts`; its `tex`, `shade` and `bevelM` pass to them | — |
+| `group` | `parts`; its `tex`, `shade`, and `bevelM` or `roundM` with `roundAlong`, pass to them (a box's edges only) | — |
 | `model` | `src`, a part's model file; its origin goes to `atM`; `shade` passes to it | its own |
 
 A face spec is a texture name or `{tex, turnDeg (90s), tileM, shade}`.
@@ -196,8 +196,9 @@ A face spec is a texture name or `{tex, turnDeg (90s), tileM, shade}`.
 north is up; `bottom` is seen from below with south up. **A cylinder's side runs the picture's width round it and its
 height along the axis**, so a lying pipe whose streaks should run along it takes `turnDeg: 90`; `tileM` is then
 `[round, along]` — the circumference is 2π·r. A cylinder end and a sphere are fitted; a sphere's picture runs round
-it pole to pole, a dome's (`half`) lies on it as on a box's top, north up. A bevelled box's chamfers wear the
-picture of the face they turn from, running on unsqueezed.
+it pole to pole, a dome's (`half`) lies on it as on a box's top, north up. A bevelled or rounded box's edges wear the
+picture of the face they turn from to the edge's midline, as on the sharp box; a rounded cylinder's side and ends
+likewise. The flat face of a `roundAlong` box (a table top) is the picture with its corners cut round.
 
 **A picture keeps its own proportions (GAM-14, `P2`).** Every render measures each face: the region one fitting or
 one repeat covers (metres across and down, after `turnDeg`) against the picture's pixels after `insetPct`. Past 5%
@@ -331,6 +332,19 @@ The page's housings, plates, keys, bezels, trim and sky (`assets/app/web/kit/`, 
   bright chamfer turned to the sun, a dark one away — where a sharp box shows only the drawn outline. It is capped at
   half the part's thinnest half-size, so a plate keeps a flat face; give it to a group to bevel every box in it, and
   leave it off a decal, which is meant to lie flush.
+- **Round what is moulded, padded, cast or gripped**, and leave the rest square — sheet steel, panels and frames that
+  join their neighbours flush, decals. `roundM` lights an edge as a smooth arc rather than a facet:
+  - soft goods all round — a cushion, a mattress 30–40 mm, a pillow up to half its height, a towel or blanket 12–15 mm;
+  - ceramic and moulded bodies in plan, `roundAlong: "z"` — a basin, a toilet's pan 50–80 mm; a lid seen face on,
+    along its thin axis;
+  - a table or tray top in plan, `roundAlong: "z"` 20–60 mm, its picture's corners cut off with it: keep what is drawn
+    there (bolts, a rim) clear of the radius;
+  - cast caps, handles and housings 12–20 mm; a cylinder's rim (a lid, a cap, a handwheel) 10–12 mm.
+  Never under a picture laid over the face (a seat on its bowl): the rounded edge drops away under the picture's
+  corner. **It costs triangles the page carries** (WEB-13): a sharp box is 12, a bevelled or a rounded one up to about
+  1.3 cm 108, larger 300; a slab rounded along one axis 48, or 80; a cylinder's rims two to four times its sharp count, so
+  round a large-radius one only where the camera sees the rim. `render` prints the model's count: compare it with the
+  kept one's.
 - The light is fixed, from above, west and a little south — the briefs' "top left". The renderer adds what the
   drawings have: cast shadows, darkening where parts crowd each other, a dark outline where a part passes in front
   of another, a light line along an edge facing the sun, and — with `boundsM` — the shadow on the deck inside the

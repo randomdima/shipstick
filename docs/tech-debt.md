@@ -154,7 +154,8 @@ is not closed without one. **_tool_** is a fault or a gap in a `qq` tool, closed
   the page holding a dragged item where it was dropped, marked as waiting, until the answer.
 - **The floor's 3D scene is a first cut** ([scene.js](../src/app/web/wwwroot/scene.js)): faces turned from the camera
   are culled by pixel where `qq shapes` culls by triangle; the triangles (`.mesh.bin`) are float32 and unindexed —
-  2.9 MB held for all 23 models, 0.43 MB compressed. Indexed (about a third of the corners are distinct) and positions
+  3.3 MB held for all 21 models, about 0.5 MB compressed, a tenth of it the rounded edges (`roundM`), whose smooth
+  arcs share the most corners. Indexed (about a third of the corners are distinct) and positions
   quantized to 16 bits, they would be 0.8 MB held but only a tenth less over the line, and tiled faces' texture
   coordinates stay float32. Costs a seat about 1.4 MB of the GPU's 90 MB. Closed by triangle culling exported with the
   mesh, and the triangles indexed and quantized by `qq sprites use`.

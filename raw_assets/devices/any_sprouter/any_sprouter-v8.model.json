@@ -1,0 +1,61 @@
+{
+  "id": "any_sprouter",
+  "about": "A sprout tray rack: three stacked trays of seedlings, a yellow grow-lamp hood on posts over the back of the top tray that glows while it runs, a control column with a run lamp and a fault lamp and a sight glass filling with its water beside it.",
+  "sets": ["issue_steel", "growing", "controls"],
+  "boundsM": [[0, 0, 0], [1, 1, 1.1]],
+  "textures": {
+    "sprouts": {"src": "raw_assets/textures/tex_sprouts/tex_sprouts-v1.png", "insetPct": [4.5, 2]},
+    "lamp":    {"src": "raw_assets/textures/tex_grow_lamp/tex_grow_lamp-v1.png", "insetPct": 3},
+    "lampedge": {"src": "raw_assets/textures/tex_grow_lamp/tex_grow_lamp-v1.png", "insetPct": [3, 46.7]},
+    "yellow":  {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": [0.4, null]},
+    "steel":   {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "panel":   {"src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png", "insetPct": 4, "tileM": [0.6, null]},
+    "trim":    {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3},
+    "control": {"src": "raw_assets/textures/tex_control_panel/tex_control_panel-v1.png", "insetPct": 3},
+    "glass":   {"src": "raw_assets/textures/tex_glass_wired/tex_glass_wired-v1.png", "insetPct": 3, "tileM": [0.22, null]},
+    "lens":    {"src": "raw_assets/textures/tex_lamp_lens_green/tex_lamp_lens_green-v1.png", "insetPct": 12},
+    "amber":   {"src": "raw_assets/textures/tex_amber_glass/tex_amber_glass-v1.png", "insetPct": 3}
+  },
+  "parts": [
+    {"shape": "group", "name": "rack", "parts": [
+      {"shape": "box", "name": "base", "atM": [0.41, 0.5, 0.03], "sizeM": [0.78, 0.84, 0.06],
+       "faces": {"*": "trim", "bottom": null}},
+      {"shape": "box", "name": "front posts", "atM": [0.04, 0.10, 0.39], "sizeM": [0.04, 0.04, 0.66],
+       "repeat": {"count": 2, "stepM": [0.74, 0, 0]}, "tex": "panel", "shade": 0.8},
+      {"shape": "box", "name": "back posts", "atM": [0.04, 0.88, 0.535], "sizeM": [0.04, 0.04, 0.95],
+       "repeat": {"count": 2, "stepM": [0.74, 0, 0]}, "tex": "panel", "shade": 0.8},
+      {"shape": "box", "name": "tray", "atM": [0.41, 0.49, 0.13], "sizeM": [0.70, 0.78, 0.10],
+       "repeat": {"count": 3, "stepM": [0, 0, 0.26]},
+       "faces": {"top": {"tex": "sprouts", "tileM": [0.70, 0.39]}, "*": "steel", "bottom": null}},
+      {"shape": "box", "name": "tray lip", "atM": [0.41, 0.085, 0.12], "sizeM": [0.74, 0.03, 0.09],
+       "repeat": {"count": 3, "stepM": [0, 0, 0.26]}, "tex": "panel", "shade": 0.9},
+      {"shape": "box", "name": "hood", "atM": [0.41, 0.72, 1.0], "sizeM": [0.80, 0.40, 0.12], "roundM": 0.03,
+       "faces": {"*": "yellow", "bottom": {"tex": "trim", "shade": 0.6}}},
+      {"shape": "group", "name": "lamp panel", "live": {"as": "glow", "show": "run"}, "parts": [
+        {"shape": "box", "name": "lamp body", "atM": [0.41, 0.72, 0.915], "sizeM": [0.70, 0.34, 0.05],
+         "faces": {"south": {"tex": "lampedge", "shade": 1.2}, "*": "trim"}},
+        {"shape": "quad", "name": "lamp", "atM": [0.235, 0.72, 0.888], "sizeM": [0.35, 0.34], "facing": "down", "tex": "lamp",
+         "repeat": {"count": 2, "stepM": [0.35, 0, 0]}}
+      ]}
+    ]},
+    {"shape": "group", "name": "control column", "parts": [
+      {"shape": "box", "name": "column", "atM": [0.905, 0.30, 0.55], "sizeM": [0.17, 0.40, 1.10],
+       "faces": {"*": "panel", "top": "yellow", "bottom": null}},
+      {"shape": "box", "name": "control head", "atM": [0.905, 0.097, 0.86], "sizeM": [0.15, 0.01, 0.338],
+       "faces": {"south": {"tex": "control", "turnDeg": 90}, "*": "yellow", "north": null}},
+      {"shape": "box", "name": "sight glass", "atM": [0.905, 0.097, 0.35], "sizeM": [0.11, 0.01, 0.52],
+       "faces": {"south": {"tex": "glass", "shade": 0.6}, "*": "trim", "north": null},
+       "live": {"as": "fill", "show": "input", "toward": "up"}},
+      {"shape": "group", "name": "run lamp", "atM": [0.942, 0, 0.797], "parts": [
+        {"shape": "cylinder", "name": "bezel", "atM": [0, 0.089, 0], "radiusM": 0.021, "lengthM": 0.006, "axis": "y", "tex": "trim"},
+        {"shape": "sphere", "name": "lens", "atM": [0, 0.086, 0], "sizeM": [0.032, 0.032, 0.012], "half": true,
+         "rotDeg": [90, 0, 0], "tex": "lens", "live": {"as": "lamp", "show": "run"}}
+      ]},
+      {"shape": "group", "name": "fault lamp", "atM": [0.941, 0, 0.731], "parts": [
+        {"shape": "cylinder", "name": "bezel", "atM": [0, 0.089, 0], "radiusM": 0.021, "lengthM": 0.006, "axis": "y", "tex": "trim"},
+        {"shape": "sphere", "name": "lens", "atM": [0, 0.086, 0], "sizeM": [0.032, 0.032, 0.012], "half": true,
+         "rotDeg": [90, 0, 0], "tex": "amber", "shade": 1.8, "live": {"as": "lamp", "show": "fault"}}
+      ]}
+    ]}
+  ]
+}

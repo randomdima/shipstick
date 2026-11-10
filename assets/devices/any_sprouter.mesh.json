@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/any_sprouter/any_sprouter-v7.png",
- "model": "raw_assets/devices/any_sprouter/any_sprouter-v7.model.json",
+ "variant": "raw_assets/devices/any_sprouter/any_sprouter-v8.png",
+ "model": "raw_assets/devices/any_sprouter/any_sprouter-v8.model.json",
  "boundsM": [
   [
    0,
@@ -13,33 +13,33 @@
    1.1
   ]
  ],
- "triangles": 566,
+ "triangles": 854,
  "bin": "any_sprouter.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 5094
+   "length": 7686
   },
   "UV": {
-   "offset": 20376,
+   "offset": 30744,
    "type": "float32",
-   "length": 3396
+   "length": 5124
   },
   "N": {
-   "offset": 33960,
+   "offset": 51240,
    "type": "int8",
-   "length": 5094
+   "length": 7686
   },
   "order": {
-   "offset": 39056,
+   "offset": 58928,
    "type": "uint16",
-   "length": 1698
+   "length": 2562
   },
   "live": {
-   "offset": 42452,
+   "offset": 64052,
    "type": "uint8",
-   "length": 1698
+   "length": 2562
   }
  },
  "looks": [
@@ -157,46 +157,46 @@
   [
    5,
    270,
-   20
+   260
   ],
   [
    6,
-   290,
-   2
+   530,
+   50
   ],
   [
    7,
-   292,
+   580,
    2
   ],
   [
    8,
-   294,
+   582,
    4
   ],
   [
    9,
-   298,
+   586,
    8
   ],
   [
    10,
-   306,
+   594,
    2
   ],
   [
    11,
-   308,
+   596,
    2
   ],
   [
    12,
-   310,
+   598,
    128
   ],
   [
    13,
-   438,
+   726,
    128
   ]
  ],

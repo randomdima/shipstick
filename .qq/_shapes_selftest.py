@@ -150,8 +150,59 @@ STRETCH_CASES = [
 ]
 
 
+CRATE = box("crate", [0.5, 0.5, 0.2], [0.6, 0.4, 0.4])
+DRUM = {"shape": "cylinder", "name": "drum", "atM": [0.5, 0.5, 0.3], "radiusM": 0.25, "lengthM": 0.6, "tex": "t"}
+
+#: Each case: what it shows, the part, the most triangles it may take (ROUND_STEPS_MOST holds the cost).
+ROUND_CASES = [
+    ("a box rounded 1 cm, a step to each half arc", CRATE | {"roundM": 0.01}, 108),
+    ("a box rounded 5 cm, at most two", CRATE | {"roundM": 0.05}, 300),
+    ("a box rounded past its half-size, all round on that axis", CRATE | {"roundM": 0.5}, 300),
+    ("a slab rounded along z, its top a rounded rectangle", CRATE | {"roundM": 0.08, "roundAlong": "z"}, 80),
+    ("a slab rounded along x on a part turned about z", CRATE | {"roundM": 0.03, "roundAlong": "x",
+                                                                 "rotDeg": [0, 0, 30]}, 80),
+    ("a slab rounded along z to its half-depth, its ends half discs", CRATE | {"roundM": 0.5, "roundAlong": "z"}, 80),
+    ("a drum with rounded rims", DRUM | {"roundM": 0.04}, None),
+    ("a drum rounded past half its length", DRUM | {"roundM": 0.25, "lengthM": 0.3}, None),
+]
+
+
+def round_found(part: dict, most: int | None) -> list[str]:
+    """
+    What is wrong with a rounded part's triangles: a gap (an edge of a triangle not shared by exactly two), an extent
+    other than the sharp part's, a normal not of unit length or turned inward, or more triangles than `most`.
+    """
+    import numpy as np
+
+    rounded, sharp = (_shapes.build(model([p])) for p in (part, {k: v for k, v in part.items()
+                                                                if k not in ("roundM", "roundAlong")}))
+    P, N = rounded["P"], rounded["N"]
+    found = []
+    corners = np.round(P, 6)
+    edges: dict = {}
+    for tri in corners:
+        for a, b in ((0, 1), (1, 2), (2, 0)):
+            key = tuple(sorted((tuple(tri[a]), tuple(tri[b]))))
+            if key[0] != key[1]:
+                edges[key] = edges.get(key, 0) + 1
+    open_edges = sum(1 for c in edges.values() if c != 2)
+    if open_edges:
+        found.append(f"{open_edges} edge(s) not shared by two triangles")
+    extent = [np.ptp(t["P"].reshape(-1, 3), axis=0) for t in (rounded, sharp)]
+    if not np.allclose(*extent, atol=1e-6):
+        found.append(f"extent {extent[0].round(4)}, the sharp part's {extent[1].round(4)}")
+    if not np.allclose(np.linalg.norm(N, axis=2), 1, atol=1e-6):
+        found.append("a normal not of unit length")
+    centre = P.reshape(-1, 3).mean(axis=0)
+    if ((P - centre) * N).sum(axis=2).min() < -1e-9:
+        found.append("a normal turned inward")
+    if most is not None and len(P) > most:
+        found.append(f"{len(P)} triangles, past {most}")
+    return found
+
+
 def count() -> int:
-    return len(CASES) + len(FLOATING_CASES) + len(LIVE_CASES) + len(STRETCH_CASES)
+    return len(CASES) + len(FLOATING_CASES) + len(LIVE_CASES) + len(STRETCH_CASES) + len(ROUND_CASES)
 
 
 def run() -> list[str]:
@@ -179,6 +230,10 @@ def run() -> list[str]:
         found = sorted((s["part"], s["face"]) for s in _shapes.stretched(_shapes.build(fixture), fixture))
         if found != sorted(expected):
             failed.append(f"{what}: stretched {found}, {sorted(expected)} expected")
+    for what, part, most in ROUND_CASES:
+        found = round_found(part, most)
+        if found:
+            failed.append(f"{what}: {'; '.join(found)}")
     turned = _shapes.build(model([NEEDLE]))["lives"][0]
     if turned["axis"] != [0.0, 0.0, 1.0] or turned["pivotM"] != [0.5, 0.5, 0.5]:
         failed.append(f"a turned needle's axis and pivot: {turned['axis']} round {turned['pivotM']}, up round its origin "

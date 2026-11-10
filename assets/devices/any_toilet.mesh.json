@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/any_toilet/any_toilet-v8.png",
- "model": "raw_assets/devices/any_toilet/any_toilet-v8.model.json",
+ "variant": "raw_assets/devices/any_toilet/any_toilet-v9.png",
+ "model": "raw_assets/devices/any_toilet/any_toilet-v9.model.json",
  "boundsM": [
   [
    0,
@@ -13,33 +13,33 @@
    0.95
   ]
  ],
- "triangles": 828,
+ "triangles": 946,
  "bin": "any_toilet.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 7452
+   "length": 8514
   },
   "UV": {
-   "offset": 29808,
+   "offset": 34056,
    "type": "float32",
-   "length": 4968
+   "length": 5676
   },
   "N": {
-   "offset": 49680,
+   "offset": 56760,
    "type": "int8",
-   "length": 7452
+   "length": 8514
   },
   "order": {
-   "offset": 57132,
+   "offset": 65276,
    "type": "uint16",
-   "length": 2484
+   "length": 2838
   },
   "live": {
-   "offset": 62100,
+   "offset": 70952,
    "type": "uint8",
-   "length": 2484
+   "length": 2838
   }
  },
  "looks": [
@@ -136,56 +136,56 @@
   [
    2,
    278,
-   20
+   70
   ],
   [
    3,
-   298,
+   348,
    2
   ],
   [
    4,
-   300,
+   350,
    2
   ],
   [
    5,
-   302,
+   352,
    12
   ],
   [
    6,
-   314,
-   2
+   364,
+   20
   ],
   [
    7,
-   316,
-   10
+   384,
+   60
   ],
   [
    8,
-   326,
+   444,
    480
   ],
   [
    9,
-   806,
+   924,
    2
   ],
   [
    10,
-   808,
+   926,
    2
   ],
   [
    11,
-   810,
+   928,
    2
   ],
   [
    12,
-   812,
+   930,
    16
   ]
  ],
