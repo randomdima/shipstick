@@ -1,5 +1,8 @@
 # Device interfaces — what the wording did
 
+**Retired.** These panels stretched to their windows; GAM-14 replaced them with the console kit's housings
+(`raw_assets/app/web/kit/`), one a paint, read off these panels' colours. Kept for what each wording did.
+
 Briefs: `.tmp/gen/briefs/ui_*.txt`. `ui_a` is asked with the devices' style picture; `ui_b` to `ui_f` with a style
 picture of four `ui_a` panels and "match its panel layout".
 
@@ -24,6 +27,6 @@ picture of four `ui_a` panels and "match its panel layout".
 - The guide's layout, which the stylesheet slices by: the top band 29% of the height, the frame 8.5% at each side and
   14% at the foot; the nameplate from 12% to 44% across, 6% to 23% down; the bay from 70.5% to 89.5% across, 5% to
   24% down, two sockets 7% wide in it. The model drifts the bay by up to 2% of the width (~8 px), too far for a key
-  to sit in a socket by a fixed offset, so `qq panels` measures every panel's bay into `bays.json` beside them. On
+  to sit in a socket by a fixed offset, so a tool (since retired) measured every panel's bay beside them. On
   dark or striped bands its box can sit 3–5 px off vertically (`ui_any_solarstrip`, `ui_ore_tether`); on the thin-rim
   `tui_c` panels it boxes the two sockets rather than the rim, which centres the keys the same.

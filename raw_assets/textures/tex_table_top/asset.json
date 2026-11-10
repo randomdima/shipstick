@@ -1,0 +1,18 @@
+{
+ "about": "The whole table top seen straight down: pale worn cream-grey painted steel, the paint thinner and greyer toward the edges, a slightly darker narrow lip along all four edges. Nothing lying on it.",
+ "kind": "face",
+ "sets": [
+  "quarters",
+  "galley"
+ ],
+ "tags": [
+  "table",
+  "top",
+  "cream",
+  "painted"
+ ],
+ "material": "steel",
+ "fits": [
+  "top"
+ ]
+}

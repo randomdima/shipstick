@@ -1,0 +1,10 @@
+{
+ "about": "A charcoal kiln two cells square: a horizontal steel drum with yellow end bands that turns while it fires, and a front door on a base plate, a yellow control column with a chimney, a run lamp and a fault lamp on its status panel and a readout lit while it fires, and an open bin of charcoal.",
+ "kind": "device",
+ "sets": [
+  "issue_steel",
+  "workshop",
+  "controls"
+ ],
+ "tags": []
+}

@@ -1,0 +1,10 @@
+{
+ "about": "Life support: a grey cabinet with two fan grilles on top and four gas bottles racked in a front recess, an orange control unit beside it with a green screen lit while it runs, a status lamp, a dial gauge reading its emptiest input, a round grille, a vent and a filter.",
+ "kind": "device",
+ "sets": [
+  "issue_steel",
+  "airworks",
+  "controls"
+ ],
+ "tags": []
+}

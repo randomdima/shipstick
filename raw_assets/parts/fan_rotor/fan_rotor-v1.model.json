@@ -1,0 +1,47 @@
+{
+  "id": "fan_rotor",
+  "about": "A part: a cooling fan's works, 0.34 m across, laid over the round middle of a tex_fan_grille face 0.42–0.52 m square — a dark well, five pitched grey blades on a hub that turn while the device runs, and a steel guard of three rings and two crossed bars over them. Origin at the fan's centre on its face, facing up; turned up (rotDeg x 90) it faces south.",
+  "sets": ["airworks", "issue_steel"],
+  "textures": {
+    "trim":  {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3},
+    "grey":  {"src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png", "insetPct": 4, "tileM": 0.6},
+    "steel": {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3}
+  },
+  "parts": [
+    {"shape": "group", "name": "fan", "parts": [
+      {"shape": "cylinder", "name": "well", "atM": [0, 0, 0.0015], "radiusM": 0.17, "lengthM": 0.003,
+       "faces": {"ends": {"tex": "trim", "shade": 0.3}, "side": "trim"}},
+      {"shape": "group", "name": "rotor", "atM": [0, 0, 0.005],
+       "live": {"as": "spin", "show": "run", "facing": "up", "degPerS": 360}, "parts": [
+        {"shape": "cylinder", "name": "hub", "atM": [0, 0, 0.006], "radiusM": 0.03, "lengthM": 0.012, "tex": "trim"},
+        {"shape": "group", "name": "blade", "rotDeg": [0, 0, 0], "parts": [
+          {"shape": "box", "name": "blade plate", "atM": [0, 0.097, 0.005], "sizeM": [0.055, 0.13, 0.003], "rotDeg": [0, 16, 0],
+           "tex": "grey", "shade": 0.8}]},
+        {"shape": "group", "name": "blade", "rotDeg": [0, 0, 72], "parts": [
+          {"shape": "box", "name": "blade plate", "atM": [0, 0.097, 0.005], "sizeM": [0.055, 0.13, 0.003], "rotDeg": [0, 16, 0],
+           "tex": "grey", "shade": 0.8}]},
+        {"shape": "group", "name": "blade", "rotDeg": [0, 0, 144], "parts": [
+          {"shape": "box", "name": "blade plate", "atM": [0, 0.097, 0.005], "sizeM": [0.055, 0.13, 0.003], "rotDeg": [0, 16, 0],
+           "tex": "grey", "shade": 0.8}]},
+        {"shape": "group", "name": "blade", "rotDeg": [0, 0, 216], "parts": [
+          {"shape": "box", "name": "blade plate", "atM": [0, 0.097, 0.005], "sizeM": [0.055, 0.13, 0.003], "rotDeg": [0, 16, 0],
+           "tex": "grey", "shade": 0.8}]},
+        {"shape": "group", "name": "blade", "rotDeg": [0, 0, 288], "parts": [
+          {"shape": "box", "name": "blade plate", "atM": [0, 0.097, 0.005], "sizeM": [0.055, 0.13, 0.003], "rotDeg": [0, 16, 0],
+           "tex": "grey", "shade": 0.8}]}
+      ]},
+      {"shape": "group", "name": "guard", "atM": [0, 0, 0.02], "tex": "steel", "parts": [
+        {"shape": "cylinder", "name": "outer ring", "atM": [0, 0, 0], "radiusM": 0.17, "radiusEndM": 0.158, "lengthM": 0.002,
+         "faces": {"side": "steel", "ends": null}},
+        {"shape": "cylinder", "name": "middle ring", "atM": [0, 0, 0], "radiusM": 0.115, "radiusEndM": 0.107, "lengthM": 0.002,
+         "faces": {"side": "steel", "ends": null}},
+        {"shape": "cylinder", "name": "inner ring", "atM": [0, 0, 0], "radiusM": 0.06, "radiusEndM": 0.053, "lengthM": 0.002,
+         "faces": {"side": "steel", "ends": null}},
+        {"shape": "box", "name": "cross bar", "atM": [0, 0, 0.002], "sizeM": [0.33, 0.012, 0.005], "rotDeg": [0, 0, 45]},
+        {"shape": "box", "name": "cross bar", "atM": [0, 0, 0.002], "sizeM": [0.33, 0.012, 0.005], "rotDeg": [0, 0, -45]},
+        {"shape": "cylinder", "name": "boss", "atM": [0, 0, 0.004], "radiusM": 0.022, "lengthM": 0.008, "tex": "trim"},
+        {"shape": "box", "name": "guard stay", "atM": [0, 0, -0.006], "sizeM": [0.008, 0.008, 0.012], "tex": "trim"}
+      ]}
+    ]}
+  ]
+}

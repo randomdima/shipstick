@@ -1,0 +1,65 @@
+{
+  "id": "any_cot",
+  "about": "A cot two cells long: a low steel frame over three drawers, a yellow head rail, a green quilted mattress, an off-white pillow, a folded blanket; a small yellow-trimmed side unit behind the foot with a mug on it, its control panel's two lamps live — green while it runs, amber or red on a fault.",
+  "sets": ["issue_steel", "quarters", "controls"],
+  "boundsM": [[0, 0, 0], [2, 1, 0.9]],
+  "textures": {
+    "quilt":   {"src": "raw_assets/textures/tex_seat_quilted/tex_seat_quilted-v1.png", "insetPct": 3, "tileM": 0.4},
+    "vinyl":   {"src": "raw_assets/textures/tex_vinyl_padded/tex_vinyl_padded-v1.png", "insetPct": 4, "tileM": 0.4},
+    "canvas":  {"src": "raw_assets/textures/tex_canvas_offwhite/tex_canvas_offwhite-v1.png", "insetPct": 4, "tileM": 0.3},
+    "drawer":  {"src": "raw_assets/textures/tex_label_plate/tex_label_plate-v1.png", "insetPct": 3},
+    "panel":   {"src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png", "insetPct": 4, "tileM": 0.6},
+    "plate":   {"src": "raw_assets/textures/tex_top_steel_rimmed/tex_top_steel_rimmed-v1.png", "insetPct": 2},
+    "control": {"src": "raw_assets/textures/tex_control_panel/tex_control_panel-v1.png", "insetPct": 3},
+    "yellow":  {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "steel":   {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "trim":    {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3},
+    "lens":    {"src": "raw_assets/textures/tex_lamp_lens_green/tex_lamp_lens_green-v1.png", "insetPct": 12},
+    "amber":   {"src": "raw_assets/textures/tex_amber_glass/tex_amber_glass-v1.png", "insetPct": 8}
+  },
+  "parts": [
+    {"shape": "group", "name": "cot", "parts": [
+      {"shape": "box", "name": "frame", "atM": [1.01, 0.42, 0.165], "sizeM": [1.86, 0.8, 0.33],
+       "faces": {"*": "panel", "south": {"tex": "trim", "shade": 0.5}, "top": {"tex": "trim", "shade": 0.6}, "bottom": null}},
+      {"shape": "box", "name": "drawer front", "atM": [0.38, 0.016, 0.155], "sizeM": [0.58, 0.012, 0.23],
+       "repeat": {"count": 3, "stepM": [0.6, 0, 0]},
+       "faces": {"south": "drawer", "*": {"tex": "trim", "shade": 0.8}, "north": null}},
+      {"shape": "box", "name": "drawer handle", "atM": [0.38, 0.006, 0.225], "sizeM": [0.2, 0.012, 0.025],
+       "repeat": {"count": 3, "stepM": [0.6, 0, 0]}, "tex": "yellow", "shade": 0.9},
+      {"shape": "box", "name": "side rail", "atM": [1.01, 0.42, 0.315], "sizeM": [1.86, 0.8, 0.03],
+       "faces": {"*": "steel", "top": null, "bottom": null}},
+      {"shape": "box", "name": "head rail", "atM": [0.06, 0.42, 0.27], "sizeM": [0.07, 0.72, 0.54],
+       "faces": {"*": "panel", "top": "steel", "bottom": null}},
+      {"shape": "box", "name": "head post", "atM": [0.06, 0.06, 0.29], "sizeM": [0.08, 0.08, 0.58],
+       "repeat": {"count": 2, "stepM": [0, 0.72, 0]}, "faces": {"*": "yellow", "bottom": null}},
+      {"shape": "box", "name": "mattress", "atM": [1.02, 0.42, 0.39], "sizeM": [1.8, 0.76, 0.12],
+       "faces": {"top": "quilt", "*": "vinyl", "bottom": null}},
+      {"shape": "box", "name": "pillow", "atM": [0.34, 0.42, 0.495], "sizeM": [0.34, 0.58, 0.09],
+       "faces": {"*": {"tex": "canvas", "shade": 0.85}, "top": "canvas", "bottom": null}},
+      {"shape": "box", "name": "blanket lower fold", "atM": [1.6, 0.42, 0.47], "sizeM": [0.38, 0.74, 0.04],
+       "faces": {"*": {"tex": "vinyl", "shade": 0.75}, "bottom": null}},
+      {"shape": "box", "name": "blanket upper fold", "atM": [1.62, 0.42, 0.505], "sizeM": [0.26, 0.72, 0.03],
+       "faces": {"*": {"tex": "vinyl", "shade": 0.9}, "bottom": null}}
+    ]},
+
+    {"shape": "group", "name": "side unit", "parts": [
+      {"shape": "box", "name": "unit body", "atM": [1.76, 0.915, 0.37], "sizeM": [0.4, 0.15, 0.74],
+       "faces": {"*": "panel", "top": "plate", "bottom": null}},
+      {"shape": "box", "name": "unit corner", "atM": [1.575, 0.845, 0.37], "sizeM": [0.03, 0.03, 0.74],
+       "repeat": {"count": 2, "stepM": [0.37, 0, 0]}, "tex": "yellow"},
+      {"shape": "box", "name": "unit panel", "atM": [1.76, 0.837, 0.6], "sizeM": [0.3, 0.004, 0.14],
+       "faces": {"south": "control", "*": {"tex": "trim", "shade": 0.8}, "north": null}},
+      {"shape": "group", "name": "run lamp", "atM": [1.8175, 0, 0.634], "parts": [
+        {"shape": "cylinder", "name": "bezel", "atM": [0, 0.832, 0], "radiusM": 0.021, "lengthM": 0.006, "axis": "y", "tex": "trim"},
+        {"shape": "sphere", "name": "lens", "atM": [0, 0.829, 0], "sizeM": [0.032, 0.032, 0.014], "half": true, "rotDeg": [90, 0, 0],
+         "tex": "lens", "live": {"as": "lamp", "show": "run"}}
+      ]},
+      {"shape": "group", "name": "fault lamp", "atM": [1.8745, 0, 0.634], "parts": [
+        {"shape": "cylinder", "name": "bezel", "atM": [0, 0.832, 0], "radiusM": 0.021, "lengthM": 0.006, "axis": "y", "tex": "trim"},
+        {"shape": "sphere", "name": "lens", "atM": [0, 0.829, 0], "sizeM": [0.032, 0.032, 0.014], "half": true, "rotDeg": [90, 0, 0],
+         "tex": "amber", "live": {"as": "lamp", "show": "fault"}}
+      ]}
+    ]},
+    {"shape": "model", "name": "mug", "src": "raw_assets/parts/mug/mug-v1.model.json", "atM": [1.66, 0.915, 0.74]}
+  ]
+}

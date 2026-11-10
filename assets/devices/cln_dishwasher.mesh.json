@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/cln_dishwasher/cln_dishwasher-v6.png",
- "model": "raw_assets/devices/cln_dishwasher/cln_dishwasher-v6.model.json",
+ "variant": "raw_assets/devices/cln_dishwasher/cln_dishwasher-v8.png",
+ "model": "raw_assets/devices/cln_dishwasher/cln_dishwasher-v8.model.json",
  "boundsM": [
   [
    0,
@@ -13,28 +13,33 @@
    1.25
   ]
  ],
- "triangles": 1060,
+ "triangles": 896,
  "bin": "cln_dishwasher.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 9540
+   "length": 8064
   },
   "UV": {
-   "offset": 38160,
+   "offset": 32256,
    "type": "float32",
-   "length": 6360
+   "length": 5376
   },
   "N": {
-   "offset": 63600,
+   "offset": 53760,
    "type": "int8",
-   "length": 9540
+   "length": 8064
   },
   "order": {
-   "offset": 73140,
+   "offset": 61824,
    "type": "uint16",
-   "length": 3180
+   "length": 2688
+  },
+  "live": {
+   "offset": 67200,
+   "type": "uint8",
+   "length": 2688
   }
  },
  "looks": [
@@ -51,7 +56,7 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_bench_panel-v1-i4-seamless.webp",
+   "texture": "assets/textures/tex_panel_grey-v1-i4-seamless.webp",
    "wrap": true,
    "shade": 1.0,
    "cutout": false
@@ -93,7 +98,7 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_bench_top-v1-i2.webp",
+   "texture": "assets/textures/tex_top_steel_rimmed-v1-i2.webp",
    "wrap": false,
    "shade": 1.0,
    "cutout": false
@@ -106,6 +111,12 @@
   },
   {
    "texture": "assets/textures/tex_sink_steel-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_lamp_lens_green-v1-i30.webp",
    "wrap": false,
    "shade": 1.0,
    "cutout": false
@@ -177,77 +188,82 @@
   [
    4,
    22,
-   176
+   284
   ],
   [
    5,
-   198,
+   306,
    12
   ],
   [
    6,
-   210,
+   318,
    2
   ],
   [
    7,
-   212,
-   64
+   320,
+   32
   ],
   [
    8,
-   276,
-   336
+   352,
+   224
   ],
   [
    9,
-   612,
+   576,
    2
   ],
   [
    10,
-   614,
+   578,
    2
   ],
   [
    11,
-   616,
+   580,
    2
   ],
   [
    12,
-   618,
-   12
+   582,
+   16
   ],
   [
    13,
-   630,
-   256
+   598,
+   12
   ],
   [
    14,
-   886,
-   8
+   610,
+   128
   ],
   [
    15,
-   894,
-   2
+   738,
+   8
   ],
   [
    16,
-   896,
-   6
+   746,
+   2
   ],
   [
    17,
-   902,
-   30
+   748,
+   6
   ],
   [
    18,
-   932,
-   128
+   754,
+   30
+  ],
+  [
+   19,
+   784,
+   112
   ]
  ],
  "light": {
@@ -278,5 +294,51 @@
   "deckFadeM": 0.06,
   "cutoutAlpha": 0.5,
   "supersample": 3
- }
+ },
+ "live": [
+  {
+   "as": "lamp",
+   "show": "state",
+   "part": "parts[0] (counter).parts[7] (lamp)",
+   "boxM": [
+    [
+     1.685,
+     0.03,
+     0.655
+    ],
+    [
+     1.735,
+     0.05,
+     0.705
+    ]
+   ]
+  },
+  {
+   "as": "fill",
+   "show": "output",
+   "part": "parts[0] (counter).parts[10] (clean stock bar) <level_bar>.parts[0] (level bar).parts[1] (segments)",
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "steps": 8,
+   "boxM": [
+    [
+     1.242,
+     0.099,
+     0.912
+    ],
+    [
+     1.658,
+     0.141,
+     0.916
+    ]
+   ],
+   "spanM": [
+    1.242,
+    1.658
+   ]
+  }
+ ]
 }

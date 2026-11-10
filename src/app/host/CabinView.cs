@@ -39,7 +39,7 @@ sealed record CabinView(int CellsAcross, CapsuleAt At, bool Failing, FixtureView
 
     /// <summary>Whether the capsule's life support starved on its last cycle (DEV-3).</summary>
     public static bool IsFailing(Capsule capsule) =>
-        capsule.Fixtures.Any(f => f.Entry?.Id == Catalogue.LifeSupport && f.Device?.Last == CycleOutcome.Starved);
+        capsule.Fixtures.Any(f => f.Entry.Id == Catalogue.LifeSupport && f.Device?.Last == CycleOutcome.Starved);
 }
 
 /// <summary>
@@ -60,7 +60,7 @@ sealed record FixtureView(
 {
     public static FixtureView Of(Vessel vessel, Fixture fixture, WayIndex ways)
     {
-        var kind = fixture.Entry?.Id ?? "";
+        var kind = fixture.Entry.Id;
         if (fixture.Device is not { } device)
             return new FixtureView(fixture.Area, kind, null, [], CycleOutcome.NotYet, Item.None, 0, 0,
                 InventoryView.Of(vessel, fixture.Inventory));
@@ -76,7 +76,8 @@ sealed record LayoutView(SlotUse Use, Item Item, int Count, int From, int To);
 /// <summary>A door in one wall; <see cref="Beyond"/> is the capsule it opens on, known to the admin alone.</summary>
 sealed record DoorView(Side Side, CapsuleAt? Beyond, InventoryView Inventory);
 
-sealed record InventoryView(int Id, SlotView[] Slots)
+/// <summary>An inventory's slots; <see cref="StackMost"/> is the most of one item each holds (ITM-2).</summary>
+sealed record InventoryView(int Id, SlotView[] Slots, int StackMost)
 {
     /// <param name="device">The device that owns the inventory, if one does: it says what each slot holds.</param>
     public static InventoryView Of(Vessel vessel, Inventory inventory, Device? device = null)
@@ -89,7 +90,7 @@ sealed record InventoryView(int Id, SlotView[] Slots)
             slots[slot] = new SlotView(item, count, filter.IsUniversal, filter.Accepted(), device?.SlotItem(slot));
         }
 
-        return new InventoryView(vessel.IdOf(inventory), slots);
+        return new InventoryView(vessel.IdOf(inventory), slots, inventory.StackMost);
     }
 }
 

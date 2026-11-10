@@ -57,14 +57,6 @@ cells so the room inside stays 10 across. At first two neighbours stood two wall
 should be shared and not duplicated". So SHP-8, at `P2`: two neighbours' facing edges are the same cells of the ship,
 each one wall section standing in both capsules, as a door already was one door in both.
 
-Then: "Lets try small side camera tilt as well for assets, so plan props like sidewall dont look 2d". So for the
-walls the camera stands a little west too: a narrow west face shows beside each top. Shown a trial device sheet
-(`sdev_b`) with only a faint side face, the owner: "Its ok we can keep this for walls only." Devices keep no side
-faces. Then: "Lets try making wallg tilt outside the room". So the walls' camera stands over the middle of the room
-instead, and every wall leans out and shows its inner face. Shown it, the owner: "yes it looks better this way - keep
-layout". A shared wall (SHP-8) can lean only one way, so the walls' one camera stands over the middle of the view,
-which the player's room fills.
-
 The image settings — Sunburst at quality low, transparent, nine or more to a sheet, three attempts — were confirmed by
 the owner ("Good.") when shown with the plan of sheets. A floor tile is asked to fill its cell edge to edge on the
 transparent canvas, so its sheet keeps those settings.
@@ -111,6 +103,16 @@ three attempts — and one sheet textures a model or a family. The how is the as
 view is exact, a grid cell one metre square as the deck tiles were briefed, the device camera at 18° (GAM-10's "about
 15–20°"), and a kept render tracing through its model to each texture's prompt.
 
+## 2026-11-10 — a generated image is never stretched
+
+The owner, in as many words: "we should not stretch generated images - it looks bad. We can resize them, but without
+stretching. This applies to all elements - labels, menus, buttons, etc. You can generate new images if needed. Or
+repeat pattern ( generated images must allow this )". Asked, the owner set it at `P2`, extended it to a model's
+textures ("Yes, models too"), and chose for the device interfaces a kit of parts over one picture a device. So GAM-14,
+at `P2`. The how is the assistant's: a frame, plate or key is cut into end pieces drawn at their own proportions and a
+middle made to repeat; a device's panel is assembled from its paint family's kit — corners, edge strips and face that
+tile, a nameplate and a key bay placed whole — modelled with `qq shapes` like any asset (GAM-13).
+
 ## 2026-11-05 — the working tooling comes from traffic-dotnet, cut to what applies
 
 The owner asked for this project to keep the tooling and helpers of traffic-dotnet usable and to stand on its own. What
@@ -147,3 +149,20 @@ assistant's ([priority.md](priority.md)). `P2` was the assistant's game-wide run
 rung (`P2` became `P3`, and so on), with the instrument and detail rungs merged at `P9`. The readme's rules (GAM) and
 the other former `P2` rules went to `P3` with the rest: they are the assistant's restatement until the owner names a
 rung. The first `P2` granted is DEV-2, the owner's words on recycling.
+
+## 2026-11-10 — kept art is catalogued by set and kind, and reuse is a soft limit
+
+The owner asked that agents not generate an asset where a kept one fits, and not wear one texture everywhere either:
+"we need to keep some middle ground", with context — "mug from kitchen set != mug from other" — and the catalogue
+"clear, contains metadata and searchable". On sets: "set is abstract term of assets with similar style and function
+… its more of a reuse concept", not one set to a model. On the limit: "i dont want to lock specific cap as p0, we can
+test and see how it works and change it if its better". On names: "you can rename anything you want, current assets
+are just demo for now".
+
+So every kept texture, part and model has an entry (`asset.json`: about, kind, sets, tags, a texture's material and
+faces), the sets are [raw_assets/sets.md](../raw_assets/sets.md), and `qq shapes library` searches them
+([raw_assets/index.md](../raw_assets/index.md#the-catalogue)). The how is the assistant's: reuse is governed by kind —
+a material is free, a face or a decal is recognised so has a soft cap of wearers, a part is placed wherever it is the
+same object — and by set only as a note, never a refusal. The caps are a trial at the assistant's rung, tuned by
+looking at the floor. Ids name what an asset is (`tex_drawers_yellow`, not `tex_bench_drawers`), renamed by
+`qq sprites rename` so the ledger, which is never edited, still resolves through `raw_assets/_renamed.jsonl`.

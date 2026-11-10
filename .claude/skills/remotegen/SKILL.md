@@ -43,10 +43,16 @@ These were the owner's in the project this tooling came from; they hold here unt
   (quality, background, aspect), and how many generations one asset is made from. Another model, setting, a second
   call for the same asset or a pre/post pass is asked first and generated only on a yes — never "one trial to see".
   Only the brief's wording, a `--mask` redo and the attempts the cap allows are yours.
-- **What is kept is used, never asked again.** Before a brief, `qq shapes library` (textures and 3D parts) and
-  `raw_assets/` (every kept asset): a cell goes only to what nothing kept can be. The script refuses, before billing,
-  a cell whose id is kept already — except one kept from this sheet's own earlier attempt or from the frame a `--mask`
-  redo edits; another generation of a kept asset is `--again=ID,…`, on the owner's word only.
+- **What is kept is used, never asked again.** Before a brief, search `qq shapes library` for each cell (the catalogue
+  of kept textures, parts and models; [raw_assets/index.md](../../../raw_assets/index.md#the-catalogue)): a cell goes
+  only to what nothing kept can be, or to a face or decal past its soft cap. The script refuses, before billing, a
+  cell whose id is kept already, under its name or a former one — except one kept from this sheet's own earlier
+  attempt or from the frame a `--mask` redo edits; another generation of a kept asset is `--again=ID,…`, on the
+  owner's word only. It prints `near: <cell> reads N% like kept <id>` for a cell's line that matches a kept entry:
+  stop, and either wear the kept one or say in the brief how the new one differs.
+- **Name a cell for what it is, not what it is first made for**: `tex_drawers_yellow`, not `tex_bench_drawers` — it
+  will be worn by other models. Keeping it, catalogue it (`qq sprites catalog`): `qq sprites check` fails until its
+  kind, sets, material, fits and tags are filled.
 - **Defaults**: `openai/gpt-image-2.5-sunburst`, quality `low`, background `transparent`. `--model`, `--quality`,
   `--background`, `--past-cap` and `--again` are for the owner's word only. A sheet is `--aspect 3:2` (1536×1024).
 - **At least nine assets to a frame**, 3×3; smaller assets more to a sheet. Never a frame of one: a lone asset drifts
@@ -56,9 +62,8 @@ These were the owner's in the project this tooling came from; they hold here unt
   yellow, yellow and orange over grey and black with occasional hazard stripes, glass reinforced and blue-green,
   ceramic plain, fabric bulky and padded, green phosphor screens, muted colours, red only on a fault lamp, no legible
   text, no real brand. A device is compact, automated equipment one operator runs in a capsule that is also their
-  home in space — not heavy plant, nothing that digs — worn but kept, never grimy (GAM-12). A device is drawn from the one fixed camera, tilted a little from straight down so its top and
-  a little of its front show; a human is one cell. An interface is the device's flat front, face on. A frame that
-  drifts from any of it is a defect a redo fixes.
+  home in space — not heavy plant, nothing that digs — worn but kept, never grimy (GAM-12). A swatch is a flat face of
+  one material, seen straight on; a human is one cell. A frame that drifts from any of it is a defect a redo fixes.
 - **Get it in one go.** Before v1, read the family's `prompting.md` under `raw_assets/` and write the brief to avoid
   its recorded faults. A v2 needs a real defect a kept cell cannot carry; a v3 a stronger reason still.
 - **Three attempts per generation at most** (one `--name`): v1, v2, v3, a mask redo included. The script refuses a
@@ -68,7 +73,8 @@ These were the owner's in the project this tooling came from; they hold here unt
   asked, no text, no corruption, the grid kept so `cut` can tell which is which. Few wrong → `--mask` redo on the frame
   itself (image 1, nothing else sent); most wrong → a whole re-roll with a line naming each fault.
 
-Sunburst at low is ~$0.034 and ~15 s a 3×3 sheet.
+Sunburst at low is ~15 s a 3×3 sheet, and as billed (`_spend.jsonl`): ~$0.008 a `gen`, ~$0.0095 an `edit` whose
+image 1 is a small sprite, ~$0.021 one whose image 1 is full size — the picture sent is most of an edit's price.
 
 ## From frame to the game
 
@@ -77,16 +83,13 @@ A frame is scratch; what goes into git is each asset's cut with the record of ho
 
 ```bash
 # 1. read the family's raw_assets/<path>/prompting.md, if any; write the brief to .tmp/gen/briefs/<sheet>.txt —
-#    the grid, the style line from docs/style.md "Art", then each cell in reading order: what it is, its footprint in
-#    cells (a human is one), its proportion, the view (a device from the fixed slightly tilted camera, an interface
-#    face on, a floor tile straight down and edge to edge), "transparent background, no ground, no frame, no text";
-#    the ids in that order as one JSON list, .tmp/gen/briefs/<sheet>.cells.json
-$R gen "$(cat .tmp/gen/briefs/devices_a.txt)" --cells .tmp/gen/briefs/devices_a.cells.json --aspect 3:2 --name devices_a
-qq sprites cut devices_a-v1                      # drawings found in the cells' order; read _overlay.png
-qq sprites mask devices_a-v1 food_farm           # the --mask for a redo of that drawing
-qq sprites keep devices_a-v1 oxygen_generator food_farm --at=ship/devices --score=4
-qq sprites use oxygen_generator-v1 --px=128      # into assets/ship/devices/, with oxygen_generator.src.json
-qq sprites trace oxygen_generator                # sprite -> variant -> frame(s) -> prompt and inputs
+#    the grid, the style line from docs/style.md "Art", then each cell in reading order: what material it is, seen
+#    straight on, filling its cell edge to edge, "no frame, no text"; the ids in that order as one JSON list,
+#    .tmp/gen/briefs/<sheet>.cells.json
+$R gen "$(cat .tmp/gen/briefs/tex_a.txt)" --cells .tmp/gen/briefs/tex_a.cells.json --aspect 3:2 --name tex_a
+qq sprites cut tex_a-v1                          # drawings found in the cells' order; read _overlay.png
+qq sprites mask tex_a-v1 steel_panel             # the --mask for a redo of that drawing
+# keeping a swatch and wearing it on a model is the shapegen skill's
 # 2. the set's lesson into raw_assets/<path>/prompting.md, citing the variants
 ```
 

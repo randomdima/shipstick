@@ -17,6 +17,8 @@ public class CabinViewTests
     static readonly Vessel Ship = StarterShip.Lay(GameConfig.Default, Catalogue.Embedded);
     static readonly WayIndex Ways = new(Catalogue.Embedded);
     static readonly CapsuleAt Middle = new(1, 1);
+    // A capsule is walled on every edge cell of its floor (SHP-7): four sides, each a cell short so no corner counts twice.
+    static readonly int EdgeCells = 4 * (Ship.CellsAcross - 1);
 
     [Fact]
     public void APlayersDoorsNameNoCapsuleBeyond()
@@ -40,8 +42,7 @@ public class CabinViewTests
         var fogged = SeatView.Of(Ship, Middle, Ways).Fogged;
 
         Assert.All(fogged.SelectMany(f => f.Walls), wall => Assert.True(Catalogue.IsStructure(wall.Kind)));
-        Assert.All(fogged, f => Assert.Equal(Ship.CapsuleOn(f.At)!.Fixtures.Count(x => Catalogue.IsStructure(x.Entry?.Id ?? "")),
-            f.Walls.Length));
+        Assert.All(fogged, f => Assert.Equal(EdgeCells, f.Walls.Length));
     }
 
     [Fact]

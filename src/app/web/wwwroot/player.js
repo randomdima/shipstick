@@ -1,7 +1,7 @@
-import { $, hooks, drawShip, begin, busy } from './cabin.js'
-import { line, nowS, open, send } from './host.js'
+import { hooks, drawShip, begin, busy } from './cabin.js'
+import { line, nowS, open } from './host.js'
 import { loaded } from './codex.js'
-import { patch, setText } from './dom.js'
+import { $, patch, setText } from './dom.js'
 
 /** What a player is told: their own floor and doors, never who is beyond a door (WEB-7, WEB-1). */
 const LOOK = {
@@ -22,8 +22,15 @@ export function startPlayer(seatText) {
 
 const CLOCK_DIGITS = 7;
 
-/** The ship's time as the header's readout prints it: whole seconds, zero-padded to a fixed width. */
-export const clockText = () => `ship time ${String(Math.floor(nowS())).padStart(CLOCK_DIGITS, '0')} s`;
+/**
+ * The header's readout: the ship's time, in whole seconds zero-padded to a fixed width, and `status`, marked an alarm
+ * when `alarm`.
+ */
+export function showState(status, alarm) {
+  setText($('clock'), `ship time ${String(Math.floor(nowS())).padStart(CLOCK_DIGITS, '0')} s`);
+  setText($('status'), status);
+  $('status').classList.toggle('alarm', alarm);
+}
 
 /** The line is closed: the page keeps what it last drew, and says why. */
 export function refused(reason) {
@@ -42,8 +49,6 @@ export function sit(seatOf) {
   patch($('controls'), '');
   Object.assign(hooks, {
     draw: () => drawSeat(seatOf),
-    move: (from, fromSlot, to, toSlot) => send('move', { from, fromSlot, to, toSlot }),
-    select: (inventory, way) => send('select', { inventory, way }),
     slotClicked: null,
     escape: () => false,
     editing: () => false,
@@ -55,8 +60,6 @@ export function sit(seatOf) {
 function drawSeat(seatOf) {
   if (!line.frame || !loaded()) return;
   const { columns, rows, cabin, fogged } = seatOf(line.frame);
-  setText($('clock'), clockText());
-  setText($('status'), cabin.failing ? 'life support starved: capsule failing' : 'life support nominal');
-  $('status').classList.toggle('alarm', Boolean(cabin.failing));
+  showState(cabin.failing ? 'life support starved: capsule failing' : 'life support nominal', Boolean(cabin.failing));
   drawShip({ columns, rows, heading: LOOK.heading, rooms: [{ cabin, look: LOOK }], fogged, focus: cabin.at });
 }

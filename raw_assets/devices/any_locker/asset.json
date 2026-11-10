@@ -1,0 +1,10 @@
+{
+ "about": "A tall yellow steel clothes locker: steel carcass, a door with two vents, a hazard band and a handle, and a level bar along the front of its top showing how full it is.",
+ "kind": "device",
+ "sets": [
+  "issue_steel",
+  "quarters",
+  "controls"
+ ],
+ "tags": []
+}

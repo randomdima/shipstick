@@ -1,0 +1,10 @@
+{
+ "about": "A washbasin: a white ceramic basin on a grey vented pedestal, a mirror on the wall above with a lamp beside it lit while water runs, a green towel on a hook, a cup of toothbrushes on a bracket.",
+ "kind": "device",
+ "sets": [
+  "issue_steel",
+  "hygiene",
+  "controls"
+ ],
+ "tags": []
+}

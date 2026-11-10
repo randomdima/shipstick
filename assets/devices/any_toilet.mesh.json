@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/any_toilet/any_toilet-v6.png",
- "model": "raw_assets/devices/any_toilet/any_toilet-v6.model.json",
+ "variant": "raw_assets/devices/any_toilet/any_toilet-v8.png",
+ "model": "raw_assets/devices/any_toilet/any_toilet-v8.model.json",
  "boundsM": [
   [
    0,
@@ -13,28 +13,33 @@
    0.95
   ]
  ],
- "triangles": 1356,
+ "triangles": 828,
  "bin": "any_toilet.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 12204
+   "length": 7452
   },
   "UV": {
-   "offset": 48816,
+   "offset": 29808,
    "type": "float32",
-   "length": 8136
+   "length": 4968
   },
   "N": {
-   "offset": 81360,
+   "offset": 49680,
    "type": "int8",
-   "length": 12204
+   "length": 7452
   },
   "order": {
-   "offset": 93564,
+   "offset": 57132,
    "type": "uint16",
-   "length": 4068
+   "length": 2484
+  },
+  "live": {
+   "offset": 62100,
+   "type": "uint8",
+   "length": 2484
   }
  },
  "looks": [
@@ -45,7 +50,7 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_bench_panel-v1-i4-seamless.webp",
+   "texture": "assets/textures/tex_panel_grey-v1-i4-seamless.webp",
    "wrap": true,
    "shade": 1.0,
    "cutout": false
@@ -53,12 +58,6 @@
   {
    "texture": "assets/textures/tex_ceramic_white-v1-i4-seamless.webp",
    "wrap": true,
-   "shade": 1.0,
-   "cutout": false
-  },
-  {
-   "texture": "assets/textures/tex_toilet_bowl-v1-i2.webp",
-   "wrap": false,
    "shade": 1.0,
    "cutout": false
   },
@@ -66,6 +65,12 @@
    "texture": "assets/textures/tex_ceramic_white-v1-i4-seamless.webp",
    "wrap": true,
    "shade": 0.7,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_toilet_bowl-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
    "cutout": false
   },
   {
@@ -93,9 +98,9 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_pipe-v1-i6.webp",
-   "wrap": false,
-   "shade": 1.0,
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 0.6,
    "cutout": false
   },
   {
@@ -105,14 +110,14 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "texture": "assets/textures/tex_yellow_enamel-v1-i4-seamless.webp",
    "wrap": true,
-   "shade": 0.6,
+   "shade": 1.0,
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_yellow_enamel-v1-i4-seamless.webp",
-   "wrap": true,
+   "texture": "assets/textures/tex_lamp_lens_green-v1-i30.webp",
+   "wrap": false,
    "shade": 1.0,
    "cutout": false
   }
@@ -121,67 +126,67 @@
   [
    0,
    0,
-   152
+   276
   ],
   [
    1,
-   152,
+   276,
    2
   ],
   [
    2,
-   154,
-   18
+   278,
+   20
   ],
   [
    3,
-   172,
+   298,
    2
   ],
   [
    4,
-   174,
+   300,
    2
   ],
   [
    5,
-   176,
-   10
+   302,
+   12
   ],
   [
    6,
-   186,
+   314,
    2
   ],
   [
    7,
-   188,
+   316,
    10
   ],
   [
    8,
-   198,
-   128
+   326,
+   480
   ],
   [
    9,
-   326,
-   1024
+   806,
+   2
   ],
   [
    10,
-   1350,
+   808,
    2
   ],
   [
    11,
-   1352,
+   810,
    2
   ],
   [
    12,
-   1354,
-   2
+   812,
+   16
   ]
  ],
  "light": {
@@ -212,5 +217,34 @@
   "deckFadeM": 0.06,
   "cutoutAlpha": 0.5,
   "supersample": 3
- }
+ },
+ "live": [
+  {
+   "as": "fill",
+   "show": "output",
+   "part": "parts[1] (toilet).parts[11] (waste level) <level_bar>.parts[0] (level bar).parts[1] (segments)",
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "steps": 8,
+   "boxM": [
+    [
+     0.889,
+     0.584,
+     0.357
+    ],
+    [
+     0.931,
+     0.588,
+     0.773
+    ]
+   ],
+   "spanM": [
+    0.357,
+    0.773
+   ]
+  }
+ ]
 }

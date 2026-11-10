@@ -1,0 +1,10 @@
+{
+ "about": "A sprout tray rack: three stacked trays of seedlings, a yellow grow-lamp hood on posts over the back of the top tray that glows while it runs, a control column with a run lamp and a fault lamp and a sight glass filling with its water beside it.",
+ "kind": "device",
+ "sets": [
+  "issue_steel",
+  "growing",
+  "controls"
+ ],
+ "tags": []
+}

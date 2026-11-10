@@ -1,0 +1,21 @@
+{
+ "about": "A small flush access hatch seen face on: a grey steel panel with a fine recessed seam round it and a recessed pull handle, a plain grey steel margin round it.",
+ "kind": "decal",
+ "sets": [
+  "hull",
+  "issue_steel"
+ ],
+ "tags": [
+  "hatch",
+  "access",
+  "panel",
+  "handle",
+  "flush",
+  "service"
+ ],
+ "material": "steel",
+ "fits": [
+  "front",
+  "side"
+ ]
+}

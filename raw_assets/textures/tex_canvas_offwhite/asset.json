@@ -1,0 +1,19 @@
+{
+ "about": "Plain off-white heavy canvas fabric, a fine weave, faint soft creases, repeating.",
+ "kind": "material",
+ "sets": [
+  "quarters"
+ ],
+ "tags": [
+  "canvas",
+  "cloth",
+  "fabric",
+  "offwhite",
+  "cover",
+  "sling"
+ ],
+ "material": "fabric",
+ "fits": [
+  "any"
+ ]
+}

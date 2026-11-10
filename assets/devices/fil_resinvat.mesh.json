@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/fil_resinvat/fil_resinvat-v5.png",
- "model": "raw_assets/devices/fil_resinvat/fil_resinvat-v5.model.json",
+ "variant": "raw_assets/devices/fil_resinvat/fil_resinvat-v7.png",
+ "model": "raw_assets/devices/fil_resinvat/fil_resinvat-v7.model.json",
  "boundsM": [
   [
    0,
@@ -13,28 +13,33 @@
    1.2
   ]
  ],
- "triangles": 2246,
+ "triangles": 2510,
  "bin": "fil_resinvat.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 20214
+   "length": 22590
   },
   "UV": {
-   "offset": 80856,
+   "offset": 90360,
    "type": "float32",
-   "length": 13476
+   "length": 15060
   },
   "N": {
-   "offset": 134760,
+   "offset": 150600,
    "type": "int8",
-   "length": 20214
+   "length": 22590
   },
   "order": {
-   "offset": 154976,
+   "offset": 173192,
    "type": "uint16",
-   "length": 6738
+   "length": 7530
+  },
+  "live": {
+   "offset": 188252,
+   "type": "uint8",
+   "length": 7530
   }
  },
  "looks": [
@@ -45,7 +50,7 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_bench_panel-v1-i4-seamless.webp",
+   "texture": "assets/textures/tex_panel_grey-v1-i4-seamless.webp",
    "wrap": true,
    "shade": 1.0,
    "cutout": false
@@ -69,25 +74,31 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_motor_ribs-v1-i3.webp",
+   "texture": "assets/textures/tex_cast_ribs-v1-i26x3.webp",
    "wrap": false,
    "shade": 0.9,
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_bench_panel-v1-i4-seamless.webp",
+   "texture": "assets/textures/tex_panel_grey-v1-i4-seamless.webp",
    "wrap": true,
    "shade": 0.7,
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_bench_panel-v1-i4-seamless.webp",
+   "texture": "assets/textures/tex_panel_grey-v1-i4-seamless.webp",
    "wrap": true,
    "shade": 0.75,
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_tank_liquid-v1-i4.webp",
+   "texture": "assets/textures/tex_tank_liquid-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_lamp_lens_green-v1-i12.webp",
    "wrap": false,
    "shade": 1.0,
    "cutout": false
@@ -105,7 +116,7 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_jug_lid-v1-i3.webp",
+   "texture": "assets/textures/tex_lid_round_steel-v1-i3.webp",
    "wrap": false,
    "shade": 1.0,
    "cutout": false
@@ -115,62 +126,67 @@
   [
    0,
    0,
-   348
+   524
   ],
   [
    1,
-   348,
+   524,
    2
   ],
   [
    2,
-   350,
-   212
+   526,
+   404
   ],
   [
    3,
-   562,
-   328
+   930,
+   584
   ],
   [
    4,
-   890,
-   64
+   1514,
+   80
   ],
   [
    5,
-   954,
+   1594,
    2
   ],
   [
    6,
-   956,
+   1596,
    6
   ],
   [
    7,
-   962,
+   1602,
    2
   ],
   [
    8,
-   964,
+   1604,
    2
   ],
   [
    9,
-   966,
-   1152
+   1606,
+   200
   ],
   [
    10,
-   2118,
-   64
+   1806,
+   480
   ],
   [
    11,
-   2182,
-   64
+   2286,
+   112
+  ],
+  [
+   12,
+   2398,
+   112
   ]
  ],
  "light": {
@@ -201,5 +217,50 @@
   "deckFadeM": 0.06,
   "cutoutAlpha": 0.5,
   "supersample": 3
- }
+ },
+ "live": [
+  {
+   "as": "fill",
+   "show": "input",
+   "part": "parts[1] (resin vat).parts[6] (sight glass)",
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "boxM": [
+    [
+     0.56,
+     0.016,
+     0.215
+    ],
+    [
+     0.64,
+     0.02,
+     0.545
+    ]
+   ],
+   "spanM": [
+    0.215,
+    0.545
+   ]
+  },
+  {
+   "as": "lamp",
+   "show": "state",
+   "part": "parts[1] (resin vat).parts[7] (status lamp) <status_lamp>.parts[0] (status lamp).parts[1] (lens)",
+   "boxM": [
+    [
+     0.423,
+     0.143,
+     0.856
+    ],
+    [
+     0.477,
+     0.197,
+     0.869
+    ]
+   ]
+  }
+ ]
 }

@@ -21,9 +21,10 @@ textures': a kept render's row names its model and every texture variant, each o
 ## Workflow
 
 ```bash
-# 0. what is kept already: wear a texture where it is the same material in the same role, place a part where it is
-#    the same thing; remotegen refuses a cell already kept
-qq shapes library                                             # Read .tmp/shapes/library.png
+# 0. what is kept already: the sets, then a search for each thing the model needs; wear a texture where it is the
+#    same material in the same role, place a part where it is the same thing; remotegen refuses a cell already kept
+qq shapes library                                             # the sets (raw_assets/sets.md) and the reuse notes
+qq shapes library drawer front --set=workshop                 # Read .tmp/shapes/library.png; all fields in library.md
 # 1. textures: one remotegen sheet of nine swatches for the model (or its family), the owner's shape of generation.
 #    Read raw_assets/textures/prompting.md first; brief and cells as in the remotegen skill.
 R=.claude/skills/remotegen/remotegen.py
@@ -31,12 +32,14 @@ $R edit --image .tmp/gen/style/smooth_style.png -p "$(cat .tmp/gen/briefs/wallte
    --cells .tmp/gen/briefs/walltex_a.cells.json --name walltex_a --aspect 3:2
 qq sprites cut walltex_a-v1                                   # Read _overlay.png
 qq sprites keep walltex_a-v1 tex_wall_cap tex_pipe ... --at=textures --score=4
+qq sprites catalog tex_wall_cap --kind=material --material=enamel --fits=top --sets=hull --tags=wall,cap,yellow
 # 2. the model: .tmp/shapes/<id>.json, textures pointing at the kept variants
 qq shapes render .tmp/shapes/any_wall_segment.json            # Read .tmp/shapes/any_wall_segment/_views.png
-#    with a sprite to match: --view=device --tilt-deg=60 --cell-px=96, and Read it beside the sprite
+#    with a sprite to match: --tilt-deg=60 --against=assets/devices/any_wall_segment.png puts it on the sheet
+#    which part is which: --light=parts, each part coloured and numbered, an overlapping or floating one red
 #    fix and re-render until every view is right — rendering is free, generating is billed
-#    and until it prints no overlap and nothing floating: one item inside another, or resting on nothing, is never
-#    right (keep refuses both)
+#    and until it prints no overlap, nothing floating and nothing stretched: one item inside another, resting on
+#    nothing, or a picture drawn at other than its own proportions (GAM-14) is never right (keep refuses all three)
 #    every render also refreshes the viewer, so a page the owner keeps open shows it at once
 # 3. keep the game's view and install it
 qq shapes keep .tmp/shapes/any_wall_segment.json --at=devices --view=device --score=4
@@ -53,41 +56,47 @@ the floor turned and zoomed in.
 
 Textures may point into `.tmp/gen/cuts/<frame>/` while drafting; `keep` refuses until every one is a kept variant.
 
-## The viewer
+## The catalogue page
 
-`.tmp/shapes/viewer.html` is a page opened from disk and kept open: every `render` and `keep` writes its data again
-(every draft in `.tmp/shapes/` and every kept model), and the page follows within a second, camera kept.
-`qq shapes view` does the same on every save of a model or a texture, for hand edits, and stops itself after an hour;
-`--once` writes it once. It draws the triangles `qq shapes` builds, so it shows the shape a render will.
+`.tmp/shapes/viewer.html` is the asset catalogue, a page opened from disk and kept open; the owner opens it from VS Code
+(**assets: catalogue**, which runs `qq shapes view` to keep its data current). Every `render` and `keep` writes its
+data again and an open page turns to the model just rendered, camera kept; `qq shapes view` does the same on every save
+of a model, a texture or a catalogue entry, for an hour; `--once` writes it once.
 
-On the model: orbit, pan, zoom; the six views on 1–6; flat light, triangle edges, the deck grid and `boundsM` as
-toggles; click a part to select it, H to hide it. Beside it, everything known about the model: **model** — its
-numbers, the kept renders and the sprite installed from them, the last renders (marked stale when older than the
-model or a texture), its source; **parts** — each part as written, its centre, and which texture each face wears,
-turned and tiled how; **textures** — each picture with its inset marked, its settings, every face that wears it
-(hovering one lights them on the model), and where it came from: the kept variant, the frame, the cell, the prompt.
-**billing** is the selected model's cost, draft or kept, as three figures: **all time** (every frame that drew the id
-or a texture it wears, its retries priced apart, in amber), **current** (only the frames the textures it wears now
-were cut from), **reusable** (textures another model wears too, and the current cost with them split); then each
-texture's, and every call that drew any of it, newest first, with its share and what was kept. The list and the
-**model** tab carry its current and all-time cost; a texture's own history is on its card. The project's whole spend
-is `qq sprites cost` alone.
-A model that fails shows its error in the list.
+- **Left, the filters**: a search box (the library's ranking: a word an entry is filed under counts most, a rare word
+  more than a common one), and chips for kind, set, face, material and tag, each counting what it would show; flags for
+  what has reuse notes, is past its cap, is worn by nothing, or is catalogued incompletely.
+- **Middle, the cards**: picture, id, kind, `worn 5/3` (red past the cap), current cost. The header switches to the
+  **notes** (every reuse note, its ids linked) and the **ledger** (every billed call, its cells linked, kept in bold).
+- **Right, the asset**: its entry (chips filter by that set or tag), its notes, the `qq sprites catalog` line to edit
+  it; a stage drawing the model — the asset itself, or for a texture or a part the first model wearing it, its faces lit
+  and the rest dimmed — with the six views on 1–6, flat light, edges, grid and bounds, click a part, H to hide it. Its
+  tabs: **use** (who wears or places it and on which faces, a row puts that model on the stage; of a model, every
+  texture and part it wears, hovering one lights its faces), **billing** (all time with its retries in amber, current,
+  shared; every call that drew it or a texture it wears), **history** (renames, every kept variant with a 3D view of a
+  kept model, drafts, each frame that drew it with its prompt and inputs), and of a model **model**, **parts** and
+  **textures** as written.
 
-Point the owner at it for a look; to see it yourself, photograph it headless —
-`qq web --shot .tmp/web/shapes.png --page .tmp/shapes/viewer.html`, with `--click` and `--key` as for the game's page.
-Never open it in a window.
+It draws the triangles `qq shapes` builds, so the stage shows the shape a render will. Point the owner at it; to see it
+yourself, photograph it headless — `qq web --shot .tmp/web/catalog.png --page .tmp/shapes/viewer.html`, with
+`--eval "selectAsset('tex_vent')"` to open an asset. Never open it in a window.
 
 ## Texture briefs
 
 What remotegen asks is unchanged — model, settings, nine to a sheet, three attempts — only the subject is a swatch:
 
-- **Reuse before you brief.** `qq shapes library` lists every kept swatch and part, its cost and who uses it how, and writes
-  `.tmp/shapes/library.png`: Read it first. A part wears a kept swatch wherever it is the same material in the same
-  role — a repeating steel, a paint, the dark trim, a vent — and the sheet's cells go only to what none can be. Swap,
-  render, and set the views beside the old ones: keep the swap only where nothing reads worse. A large face seen whole
-  (a table's top) keeps its own picture: a repeating swatch tiled over it shows its repeat, fitted it shows its grain
-  stretched (`any_galley_table`). The viewer's billing tab shows what is shared.
+- **Reuse before you brief, by kind** ([raw_assets/index.md](../../../raw_assets/index.md#the-catalogue)). Search
+  `qq shapes library` for each thing the model needs, its own sets first; Read `.tmp/shapes/library.png`.
+  - A `material` (a repeating steel, a paint, the dark trim, a fabric) is worn wherever it is the same material in the
+    same role, by any number of models.
+  - A `face` or a `decal` is recognised where it appears again. Wear one from the model's own sets where it is the
+    same thing; past its soft cap (`worn 5/3` in the listing) the model gets a picture of its own, a $0.002 cell. A
+    large face seen whole (a top, a door) keeps its own picture: a repeating swatch tiled over it shows its repeat,
+    and fitted to a face of another proportion it is stretched, which `keep` refuses (GAM-14).
+  - A `part` is placed wherever it is the same thing. A galley mug on a washbasin is reuse across sets: named by the
+    render, and fine where it is the same object.
+  Swap, render, and set the views beside the old ones: keep the swap only where nothing reads worse. The sheet's cells
+  go only to what nothing kept can be; remotegen names a kept entry a cell's line reads like (`near:`) before billing.
 
 - **A model of an asset that has a sprite is textured from that sprite**: `edit --image assets/<path>/<id>.png` as
   the only image, "Image 1 is the <thing> these swatches texture: match its colours, paints, materials and wear
@@ -108,7 +117,8 @@ What remotegen asks is unchanged — model, settings, nine to a sheet, three att
   depth, no cast shadow and no outline, evenly lit … fills its rectangle edge to edge with square corners." The
   renderer lights the model; a swatch with its own shading is lit twice.
 - **Name each swatch's proportion** as the face it goes on: "square", "twice as wide as tall", "four times as wide as
-  tall". A fitted texture is stretched to its face, so a wrong proportion distorts.
+  tall". A fitted picture is shown at its own proportions or not at all (GAM-14): the face is sized to the cut, or the
+  cut cropped to the face (`insetPct [across, down]`), within 5%.
 - **Say "repeating"** for a surface that tiles (cap plate, steel, pipe, rubber) and what that means: "continues
   seamlessly out of every edge into a copy of itself: no seam, no rim, no bevel and no line along any edge".
 - A decal (vent, hatch, label plate, porthole) is its own swatch with a plain margin, fitted to a thin box or a quad.
@@ -126,17 +136,18 @@ the front. Every key is checked: an unknown key or an untextured face is an erro
 {
   "id": "any_wall_segment",
   "about": "what it is, one line",
+  "sets": ["hull", "issue_steel"],
   "boundsM": [[0, 0, 0], [1, 1, 0.5]],
   "textures": {
     "cap":  {"src": "raw_assets/textures/tex_wall_cap/tex_wall_cap-v1.png", "insetPct": 3},
-    "pipe": {"src": "raw_assets/textures/tex_pipe/tex_pipe-v1.png", "insetPct": 6, "tileM": [1, 0.19]},
+    "pipe": {"src": "raw_assets/textures/tex_pipe/tex_pipe-v1.png", "insetPct": 6, "tileM": [0.3, null]},
     "vent": "raw_assets/textures/tex_vent/tex_vent-v1.png"
   },
   "parts": [
     {"shape": "box", "name": "core", "atM": [0.5, 0.5, 0.25], "sizeM": [1, 0.84, 0.44],
      "faces": {"top": "cap", "south": "face", "*": "trim", "bottom": null}},
     {"shape": "cylinder", "atM": [0.5, 0.045, 0.34], "radiusM": 0.03, "lengthM": 1, "axis": "x",
-     "faces": {"side": {"tex": "pipe", "turnDeg": 90, "tileM": [0.19, 1]}, "ends": "trim"}},
+     "faces": {"side": {"tex": "pipe", "turnDeg": 90, "tileM": [0.19, null]}, "ends": "trim"}},
     {"shape": "group", "atM": [0, 0, 0], "tex": "trim", "parts": [
       {"shape": "box", "atM": [0.15, 0.06, 0.34], "sizeM": [0.04, 0.04, 0.09], "repeat": {"count": 2, "stepM": [0.7, 0, 0]}}
     ]}
@@ -144,27 +155,39 @@ the front. Every key is checked: an unknown key or an untextured face is an erro
 }
 ```
 
-**Model keys.** `id` (the asset id), `textures`, `parts`; optional `about`, and `boundsM` — two corners of a box the
+**Model keys.** `id` (the asset id), `textures`, `parts`; optional `about` and `sets` — the families of
+[raw_assets/sets.md](../../../raw_assets/sets.md) it draws from, which `keep` writes into its catalogue entry and
+refuses a model without — and `boundsM` — two corners of a box the
 picture is framed on. With it every view of a kit shares one frame and a part reaching past it is cut off; without it
-the picture is cropped to what is drawn.
+the picture is cropped to what is drawn. `frame: "exact"` (with `boundsM`) frames it on the box and nothing round it —
+no margin, and no outline where a part runs on past the frame — for a tile or a sliced piece of the page's
+("The page's art").
 
-**Textures.** A path, or `src` with: `insetPct` — cropped off each edge, for the dark fringe a cut leaves (3–8);
-`tileM` — the metres one repeat covers, a number or `[across, down]`, else the texture is fitted once over each face;
+**Textures.** A path, or `src` with: `insetPct` — cropped off each edge, for the dark fringe a cut leaves (3–8), or
+`[across, down]` to crop each axis on its own, the way a picture is cut to its face's proportion;
+`tileM` — the metres one repeat covers, a number (a square repeat) or `[across, down]`, else the texture is fitted
+once over each face; **`[across, null]` or `[null, down]` derives the other from the picture**, so one repeat keeps
+its proportions on every face and turn — the form a repeating material takes;
 a texture given `tileM` here has its outer quarter cross-faded to meet its opposite edge, since no generated
 "repeating" swatch quite repeats (a face's own `tileM` on a fitted picture is not blended);
-`cutout: true` — alpha below half is a hole, for a decal whose shape is not its rectangle.
+`cutout: true` — alpha below half is a hole, for a decal whose shape is not its rectangle. The cross-fade keeps the
+swatch's contrast and its exact tones, so a tiled face shows no faded bands where it repeats. It lays a copy rolled
+half a picture over the edges, which doubles a regular pattern — stripes, ribs — whose period does not divide the
+picture: crop such a swatch to whole periods with `insetPct [across, down]` (`qq fit seams` measures it) and give
+`repeats: true`, tiled as it is, unblended (`ui_hazard_strip`).
 
 **Parts.** Every part has `shape` and `atM`, the centre of the shape. Common keys: `name` (named in errors), `rotDeg`
 `[x, y, z]` about the part's centre (x first, then y, then z), `repeat` `{count, stepM}`, `tex` (every face), `faces`
-(per face, `"*"` for the rest, `null` to leave one undrawn), `shade` (a multiplier, e.g. 0.6 for a recess).
+(per face, `"*"` for the rest, `null` to leave one undrawn), `shade` (a multiplier, e.g. 0.6 for a recess), `live`
+(what it shows of its device in the game: "Live parts").
 
 | `shape` | Keys | Faces |
 |---|---|---|
-| `box` | `sizeM` [x, y, z] | `south` `north` `east` `west` `top` `bottom` |
+| `box` | `sizeM` [x, y, z], `bevelM` (edges chamfered this deep) | `south` `north` `east` `west` `top` `bottom` |
 | `cylinder` | `radiusM`, `lengthM`, `axis` x/y/z (z), `radiusEndM` (a cone or a taper; 0 is a point) | `side`, `ends` |
 | `sphere` | `radiusM`, or `sizeM` for an ellipsoid; `half: true` is the upper dome alone | `surface` |
 | `quad` | `sizeM` [w, h], `facing` south/north/east/west/up/down | `face` |
-| `group` | `parts`; its `tex` and `shade` pass to them | — |
+| `group` | `parts`; its `tex`, `shade` and `bevelM` pass to them | — |
 | `model` | `src`, a part's model file; its origin goes to `atM`; `shade` passes to it | its own |
 
 A face spec is a texture name or `{tex, turnDeg (90s), tileM, shade}`.
@@ -172,7 +195,24 @@ A face spec is a texture name or `{tex, turnDeg (90s), tileM, shade}`.
 **How a texture lies on a face.** On a box or quad side face the picture stands upright, seen from outside; on `top`,
 north is up; `bottom` is seen from below with south up. **A cylinder's side runs the picture's width round it and its
 height along the axis**, so a lying pipe whose streaks should run along it takes `turnDeg: 90`; `tileM` is then
-`[round, along]` — the circumference is 2π·r. A cylinder end and a sphere are fitted.
+`[round, along]` — the circumference is 2π·r. A cylinder end and a sphere are fitted; a sphere's picture runs round
+it pole to pole, a dome's (`half`) lies on it as on a box's top, north up. A bevelled box's chamfers wear the
+picture of the face they turn from, running on unsqueezed.
+
+**A picture keeps its own proportions (GAM-14, `P2`).** Every render measures each face: the region one fitting or
+one repeat covers (metres across and down, after `turnDeg`) against the picture's pixels after `insetPct`. Past 5%
+either way it prints the face as stretched, the viewer lists it, and `keep` refuses it (`_shapes.stretched`, proved
+by `qq shapes selftest`). A whole sphere is measured at its equator, so it wants a picture twice as wide as tall; a
+dome or a cylinder end is its diameter square. A face under 1 cm across is an edge and passes. The fixes, cheapest
+first:
+- a repeating material: `tileM [across, null]`;
+- a picture close to its face: crop it, `insetPct [across, down]`, where what is cut is margin;
+- a decal, a plate, a lamp, a panel: size the part to its picture, and move what is laid over the drawn picture
+  (lamps over drawn lamps) with it;
+- a picture on a face larger than it: a part of its own the picture's size (a seat on its bowl, two lamps under a
+  hood, six cell modules on a panel) — a picture tiled on a box or quad face is centred on the face, so an odd count
+  of repeats is split down the middle; a cylinder side's repeats start at its edge;
+- else a picture of its own proportion, a $0.002 cell.
 
 ## Parts
 
@@ -187,17 +227,66 @@ crate, a lamp: its own model, placed by every model that has one, so it is model
 - Keep it as its own asset: `qq shapes keep .tmp/shapes/jug.json --at=parts --view=iso` puts its model and a picture
   under `raw_assets/parts/jug/`; point every `src` at the kept `jug-v1.model.json`. A model is kept only when every
   part it places is kept, as with textures, and its row names them.
-- `qq shapes library` lists the kept parts beside the textures, and who places each.
+- `qq shapes library --kind=part` lists the kept parts, and who places each.
+
+## Live parts
+
+**What a device has to show, it shows on itself, in the scene** — never a label or a lamp laid over the page. A part
+given `live` is driven by its device as the game runs (`.qq/_shapes.py` LIVE; the page's `scene.js` draws it); a
+render, a sprite and the catalogue show it as modelled.
+
+| `as` | What it does | `show` | Keys |
+|---|---|---|---|
+| `lamp` | its picture's coloured part (a lens, not its rim) lights green running, amber short of the next cycle, blinks red on a fault, dark at rest | `state`, `run` (green or dark), `fault` (amber, red or dark) | — |
+| `glow` | its picture glows while the device runs, dimmed at rest: a screen, a grow lamp, a hotplate | `run` | — |
+| `needle` | turns about `facing` (the way its dial faces), clockwise as seen from it, `sweepDeg` (270) from the reading 0 it is modelled at, round `pivotM` (from its origin) | a share | `facing`, `sweepDeg`, `pivotM` |
+| `fill` | lights from its far end `toward` the way it grows, the rest dimmed; in `steps` | a share | `toward`, `steps` |
+| `spin` | turns about `facing` at `degPerS` while the device runs: a drum, a roller, a cowl, a fan's blades — not a picture of a fan, whose bars would turn too | `run` | `facing`, `degPerS`, `pivotM` |
+| `stroke` | travels `strokeM` `toward` and back every `periodS` while the device runs, at an even pace: a feed arm, a shuttle, a piston | `run` | `toward`, `strokeM`, `periodS` |
+
+The shares, 0–1: `cycle` (of the cycle under way), `input` (the emptiest input's slots), `output` (the fullest
+output's), `held` (all its slots). Put `live` on the part, or on a group to drive it whole (a needle and its hub);
+a lamp, a glow or a fill repeated is one, a needle or a spin repeated is one each. On a group or a placed model, `"live":
+{"show": …}` alone says what the live parts inside show — the outermost says last. At most 12 to a model. `render`
+lists them (`live N: …`).
+
+The kept parts for it: `status_lamp` (a domed lamp 0.07 m across, `state`), `dial_needle` (the plate, needle and hub
+laid over a `tex_gauge_dial` face 0.2–0.24 m across, hiding its drawn needle; `input`), `level_bar` (a line of eight
+segments 0.46 m long, `held`; the door's gauge too), `fan_rotor` and `fan_rotor_small` (a well, spinning blades and a
+guard laid over the round middle of a `tex_fan_grille` face 0.42–0.52 m, or 0.2–0.3 m, square). Each faces up; `rotDeg` `[90, 0, 0]` turns it to face south. A
+picture with lamps drawn on it (`tex_control_panel`) gets a lamp laid over each drawn one, or the drawn ones read as
+lamps that never change.
+
+## The page's art
+
+The page's housings, plates, keys, bezels, trim and sky (`assets/app/web/kit/`, `assets/app/web/space/`, set
+`console` or `space`) are models like any asset, shown flat and never stretched (GAM-14): a **tile** repeats whole, a
+**sliced piece** keeps its ends whole and repeats its middle (`border-image … repeat`, every side at one scale).
+
+- Render and keep at `--view=front` (the sky, a quad facing up, at `--view=top`: a front face is lit to two thirds)
+  and `--cell-px=1000`, a pixel a millimetre, so a slice in the stylesheet reads in the model's millimetres; give
+  `frame: "exact"`. `qq sprites use` installs it with no mesh: the page's art is not in the floor's scene.
+- **A tile** is one period of its texture: a quad three periods each way centred on `boundsM`, so the frame's corner
+  is the texture's own.
+- **A sliced piece** keeps every feature — a bolt, a bracket, a corner, a cast shadow — inside its slices, so what
+  repeats is plain material; and each repeated region is a whole number of every texture's periods along it, each
+  texture's `tileM` at its swatch's proportions. Every window housing shares one layout — a band 64 mm over a 14 mm
+  lip, side and foot frames 32 mm over 14 — so the stylesheet slices each at 78, 46 and 46. A new paint: copy a kept
+  housing's model, swap its paint, choose its `tileM` to fit the band's and the side's repeats, and
+  `qq fit seams <render> --slice=78,46,46,46` says whether it holds.
+- `qq fit` (inside `qq checks`) fails a stretched image or a repeat with a seam anywhere in the stylesheet.
 
 ## Getting it right
 
 - **Read `_views.png` every time**: iso and rear (south-west and north-east from above) show the shape, device is the
-  game's camera (about 18° from straight down), top, front and side are exact elevations for measuring.
+  game's camera (about 18° from straight down), top, front and side are exact elevations for measuring — each with a
+  ruler in model metres, a tick a decimetre. `--light=parts` writes `_views-parts.png`: each part its own colour and
+  its number, the numbers listed on stdout, a part in an overlap or floating in red.
 - **Set a render against the sprite it replaces**, at the sprite's scale (`--cell-px` ≈ its pixels a metre, ~96).
-  The generated sprites are drawn steeper than the device camera — about as much front as top, ~60° —
-  ([tech-debt](../../../docs/tech-debt.md), _owner_): `render --tilt-deg=60` adds a `tilt` view to compare against;
-  `keep` takes only the game's cameras. Upscale the sprite ×4 into `.tmp/` and **list everything in it before
-  modelling** — each item on it and each section of its body (a cabinet beside the drawers, a vent, a rag), left to
+  The generated sprites are drawn steeper than the device camera — about as much front as top, ~60° — an angle the
+  owner no longer aims for (GAM-13): `render --tilt-deg=60` adds a `tilt` view to compare against;
+  `keep` takes only the game's cameras. `--against=<sprite>` sets the sprite on the sheet at the tilt view's width.
+  Upscale the sprite ×4 into `.tmp/` and **list everything in it before modelling** — each item on it and each section of its body (a cabinet beside the drawers, a vent, a rag), left to
   right: a model that drops one reads as a different object. Measure each (where it sits, how big, in metres from
   the sprite's width) and place the model's parts to match before judging the textures.
 - **Build to a human's size.** A cell is a real metre and a human fills one (style.md).
@@ -234,9 +323,14 @@ crate, a lamp: its own model, placed by every model that has one, so it is model
 - **Build to a kit's grid**: a wall cell is exactly `[0, 1]` in x and y so cells join; give it `boundsM`.
 - **Tile at the real size of the material**, not the size of a thin face: squeezed into a narrow face a texture is
   averaged down to a smear.
-- **The thin edges of a part wearing a picture** (a cutting board with a knife drawn on it): a large `tileM`, e.g. 2,
-  shows only a plain corner of the picture on them, instead of the whole picture squeezed into a strip.
+- **The thin edges of a part wearing a picture** (a cutting board with a knife drawn on it): a large `tileM`,
+  e.g. `[2, null]`, shows only a plain corner of the picture on them, instead of the whole picture squeezed into a
+  strip.
 - **Leave hidden faces undrawn** (`"bottom": null`) — it is free, and says which faces were thought about.
+- **Bevel hardware, not decals.** A `bevelM` of 5–15 mm on a body, a post or a lid gives its edges real light — a
+  bright chamfer turned to the sun, a dark one away — where a sharp box shows only the drawn outline. It is capped at
+  half the part's thinnest half-size, so a plate keeps a flat face; give it to a group to bevel every box in it, and
+  leave it off a decal, which is meant to lie flush.
 - The light is fixed, from above, west and a little south — the briefs' "top left". The renderer adds what the
   drawings have: cast shadows, darkening where parts crowd each other, a dark outline where a part passes in front
   of another, a light line along an edge facing the sun, and — with `boundsM` — the shadow on the deck inside the
@@ -245,6 +339,8 @@ crate, a lamp: its own model, placed by every model that has one, so it is model
 
 ## Reporting back
 
-The sprite's path, the views read, that the render printed no overlap and nothing floating, the texture sheet and its cost, the model's whole cost and its retries (the viewer's
-**model** tab, or `qq sprites cost <id>` once installed: its own earlier drawings and every texture it wears), and
+The sprite's path, the views read, that the render printed no overlap, nothing floating and nothing stretched, its
+`reuse:` notes and
+what was done about each, the texture sheet and its cost, the model's whole cost and its retries (the catalogue's
+**billing** tab, or `qq sprites cost <id>` once installed: its own earlier drawings and every texture it wears), and
 what a model of it still lacks.

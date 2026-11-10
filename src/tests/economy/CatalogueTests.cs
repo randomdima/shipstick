@@ -39,7 +39,7 @@ public class CatalogueTests
         var named = Catalogue.Items.SelectMany(i => i.Leaves.Select(c => c.Item).Concat(i.DecaysTo is { } to ? [to] : []));
         var devices = Catalogue.Items.SelectMany(i => i.Fits.Concat(i.Installs));
 
-        Assert.Empty(named.Where(id => Catalogue.Item(id) is null));
-        Assert.Empty(devices.Where(id => Catalogue.Device(id) is null));
+        Assert.DoesNotContain(named, id => Catalogue.Item(id) is null);
+        Assert.DoesNotContain(devices, id => Catalogue.Device(id) is null);
     }
 }

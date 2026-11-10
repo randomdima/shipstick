@@ -10,7 +10,7 @@
   <!-- Everything the page loads, asked for at once rather than as each import is read. -->
   <link rel="preload" href="codex.json" as="fetch" crossorigin>
   <link rel="preload" href="assets.json" as="fetch" crossorigin>
-  <link rel="preload" href="assets/app/web/interfaces/bays.json" as="fetch" crossorigin>
+  <link rel="preload" href="assets/app/web/kit/paints.json" as="fetch" crossorigin>
   <link rel="modulepreload" href="art.js">
   <link rel="modulepreload" href="scene.js">
   <link rel="preload" href="assets/app/web/fonts/Michroma-Regular.ttf" as="font" type="font/ttf" crossorigin>
@@ -32,8 +32,8 @@
   </main>
   <svg id="leaders"></svg>
   <div id="windows"></div>
-  <div id="editor" class="window" hidden></div>
-  <div id="codex" class="window" hidden></div>
+  <div id="editor" class="window" data-paint="grey" hidden></div>
+  <div id="codex" class="window" data-paint="hazard" hidden></div>
   <footer id="hint"></footer>
 </body>
 

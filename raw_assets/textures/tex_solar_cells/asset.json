@@ -1,0 +1,17 @@
+{
+ "about": "A solar panel seen face on: a grid of dark blue-green photovoltaic cells, four across and two down, thin silver lines between them, inside a narrow brushed steel frame along all four edges.",
+ "kind": "face",
+ "sets": [
+  "power"
+ ],
+ "tags": [
+  "solar",
+  "panel",
+  "cells",
+  "photovoltaic"
+ ],
+ "material": "glass",
+ "fits": [
+  "top"
+ ]
+}

@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/any_solarstrip/any_solarstrip-v5.png",
- "model": "raw_assets/devices/any_solarstrip/any_solarstrip-v5.model.json",
+ "variant": "raw_assets/devices/any_solarstrip/any_solarstrip-v8.png",
+ "model": "raw_assets/devices/any_solarstrip/any_solarstrip-v8.model.json",
  "boundsM": [
   [
    0,
@@ -13,28 +13,33 @@
    1.15
   ]
  ],
- "triangles": 874,
+ "triangles": 958,
  "bin": "any_solarstrip.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 7866
+   "length": 8622
   },
   "UV": {
-   "offset": 31464,
+   "offset": 34488,
    "type": "float32",
-   "length": 5244
+   "length": 5748
   },
   "N": {
-   "offset": 52440,
+   "offset": 57480,
    "type": "int8",
-   "length": 7866
+   "length": 8622
   },
   "order": {
-   "offset": 60308,
+   "offset": 66104,
    "type": "uint16",
-   "length": 2622
+   "length": 2874
+  },
+  "live": {
+   "offset": 71852,
+   "type": "uint8",
+   "length": 2874
   }
  },
  "looks": [
@@ -69,7 +74,13 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_hatch-v1-i4.webp",
+   "texture": "assets/textures/tex_access_panel-v1-i4.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_lamp_lens_green-v1-i12.webp",
    "wrap": false,
    "shade": 1.0,
    "cutout": false
@@ -79,32 +90,37 @@
   [
    0,
    0,
-   392
+   370
   ],
   [
    1,
-   392,
-   238
+   370,
+   230
   ],
   [
    2,
-   630,
-   192
+   600,
+   96
   ],
   [
    3,
-   822,
-   2
+   696,
+   12
   ],
   [
    4,
-   824,
+   708,
    48
   ],
   [
    5,
-   872,
+   756,
    2
+  ],
+  [
+   6,
+   758,
+   200
   ]
  ],
  "light": {
@@ -135,5 +151,52 @@
   "deckFadeM": 0.06,
   "cutoutAlpha": 0.5,
   "supersample": 3
- }
+ },
+ "live": [
+  {
+   "as": "needle",
+   "show": "cycle",
+   "part": "parts[0] (solar stand).parts[6] (panel)",
+   "axis": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "pivotM": [
+    0.42,
+    0.5,
+    0.85
+   ],
+   "sweepDeg": 24,
+   "boxM": [
+    [
+     0.1,
+     0.1341,
+     0.649
+    ],
+    [
+     0.74,
+     0.8602,
+     1.0616
+    ]
+   ]
+  },
+  {
+   "as": "lamp",
+   "show": "run",
+   "part": "parts[2] (status lamp) <status_lamp>.parts[0] (status lamp).parts[1] (lens)",
+   "boxM": [
+    [
+     0.743,
+     0.143,
+     0.116
+    ],
+    [
+     0.797,
+     0.197,
+     0.129
+    ]
+   ]
+  }
+ ]
 }

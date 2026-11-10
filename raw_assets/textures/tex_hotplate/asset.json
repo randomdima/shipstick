@@ -1,0 +1,18 @@
+{
+ "about": "A small hotplate set into the table, seen straight down: a dark grey ceramic cooking plate with a faint darker spiral heating ring at its centre, framed by a brushed steel rim, and along the front edge a narrow dark strip holding a row of four tiny round indicator lamps, two dull green and one amber, one dark.",
+ "kind": "decal",
+ "sets": [
+  "galley"
+ ],
+ "tags": [
+  "hotplate",
+  "cooker",
+  "stove",
+  "cooking",
+  "heater"
+ ],
+ "material": "ceramic",
+ "fits": [
+  "top"
+ ]
+}

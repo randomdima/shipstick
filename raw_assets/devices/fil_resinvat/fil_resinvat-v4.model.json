@@ -5,12 +5,12 @@
   "textures": {
     "yellow": {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.3},
     "steel":  {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
-    "panel":  {"src": "raw_assets/textures/tex_bench_panel/tex_bench_panel-v1.png", "insetPct": 4, "tileM": 0.6},
+    "panel":  {"src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png", "insetPct": 4, "tileM": 0.6},
     "trim":   {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3},
-    "ribs":   {"src": "raw_assets/textures/tex_motor_ribs/tex_motor_ribs-v1.png", "insetPct": 3},
+    "ribs":   {"src": "raw_assets/textures/tex_cast_ribs/tex_cast_ribs-v1.png", "insetPct": 3},
     "hose":   {"src": "raw_assets/textures/tex_rubber_hose/tex_rubber_hose-v1.png", "insetPct": 4, "tileM": 0.25},
     "liquid": {"src": "raw_assets/textures/tex_tank_liquid/tex_tank_liquid-v1.png", "insetPct": 4},
-    "lid":    {"src": "raw_assets/textures/tex_jug_lid/tex_jug_lid-v1.png", "insetPct": 3}
+    "lid":    {"src": "raw_assets/textures/tex_lid_round_steel/tex_lid_round_steel-v1.png", "insetPct": 3}
   },
   "parts": [
     {"shape": "box", "name": "base plate", "atM": [1, 0.5, 0.04], "sizeM": [1.96, 0.96, 0.08],

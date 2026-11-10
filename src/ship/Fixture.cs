@@ -23,15 +23,15 @@ public readonly record struct FloorArea(int Column, int Row, int Columns, int Ro
 /// A thing standing on a capsule's floor, covering a rectangle of cells (SHP-5): a device running a way, or a fixture
 /// that only holds things, as a chest or a locker does.
 /// </summary>
-public sealed class Fixture(FloorArea area, Inventory inventory, DeviceEntry? entry, Device? device)
+public sealed class Fixture(FloorArea area, Inventory inventory, DeviceEntry entry, Device? device)
 {
     public FloorArea Area { get; } = area;
 
     /// <summary>A holding fixture's slots, or the device's (<see cref="Device.Inventory"/>).</summary>
     public Inventory Inventory { get; } = inventory;
 
-    /// <summary>What the catalogue calls it; null only for a bare inventory stood on a floor by a test.</summary>
-    public DeviceEntry? Entry { get; } = entry;
+    /// <summary>What the catalogue calls it.</summary>
+    public DeviceEntry Entry { get; } = entry;
 
     /// <summary>The device, or null for a fixture that only holds things.</summary>
     public Device? Device { get; } = device;

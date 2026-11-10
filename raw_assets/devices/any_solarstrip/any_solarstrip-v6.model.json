@@ -1,0 +1,41 @@
+{
+  "id": "any_solarstrip",
+  "about": "A solar strip: a cell panel tilted south on a yoke and a round pedestal, its conduit running down to a junction box on the floor, a status lamp on its lid lit while the strip delivers.",
+  "sets": ["issue_steel", "power", "controls"],
+  "boundsM": [[0, 0, 0], [1, 1, 1.15]],
+  "textures": {
+    "cells":  {"src": "raw_assets/textures/tex_solar_cells/tex_solar_cells-v1.png", "insetPct": 3},
+    "steel":  {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "trim":   {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3},
+    "yellow": {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "hose":   {"src": "raw_assets/textures/tex_rubber_hose/tex_rubber_hose-v1.png", "insetPct": 4, "tileM": [0.16, 0.16]},
+    "lid":    {"src": "raw_assets/textures/tex_access_panel/tex_access_panel-v1.png", "insetPct": 4}
+  },
+  "parts": [
+    {"shape": "group", "name": "solar stand", "atM": [0, 0, 0], "tex": "steel", "parts": [
+      {"shape": "cylinder", "name": "base disk", "atM": [0.42, 0.50, 0.02], "radiusM": 0.18, "lengthM": 0.04,
+       "faces": {"side": "trim", "ends": "steel"}},
+      {"shape": "cylinder", "name": "column", "atM": [0.42, 0.50, 0.29], "radiusM": 0.05, "lengthM": 0.50},
+      {"shape": "box", "name": "yoke bar", "atM": [0.42, 0.50, 0.555], "sizeM": [0.70, 0.05, 0.05]},
+      {"shape": "box", "name": "yoke arm", "atM": [0.09, 0.50, 0.72], "sizeM": [0.04, 0.05, 0.28],
+       "repeat": {"count": 2, "stepM": [0.66, 0, 0]}},
+      {"shape": "cylinder", "name": "riser conduit", "atM": [0.75, 0.50, 0.29], "radiusM": 0.025, "lengthM": 0.52, "tex": "hose"},
+      {"shape": "cylinder", "name": "floor conduit", "atM": [0.75, 0.40, 0.03], "radiusM": 0.025, "lengthM": 0.20, "axis": "y",
+       "faces": {"side": "hose", "ends": "trim"}},
+      {"shape": "group", "name": "panel", "atM": [0.42, 0.50, 0.85], "rotDeg": [40, 0, 0], "parts": [
+        {"shape": "box", "name": "cell panel", "atM": [0, 0, 0], "sizeM": [0.56, 0.80, 0.03],
+         "faces": {"top": {"tex": "cells", "turnDeg": 90}, "bottom": "steel", "*": "trim"}},
+        {"shape": "box", "name": "corner cap", "atM": [-0.26, -0.38, 0.021], "sizeM": [0.04, 0.04, 0.012], "tex": "yellow",
+         "repeat": {"count": 2, "stepM": [0.52, 0, 0]}},
+        {"shape": "box", "name": "corner cap", "atM": [-0.26, 0.38, 0.021], "sizeM": [0.04, 0.04, 0.012], "tex": "yellow",
+         "repeat": {"count": 2, "stepM": [0.52, 0, 0]}},
+        {"shape": "cylinder", "name": "pivot pin", "atM": [-0.30, 0, 0], "radiusM": 0.03, "lengthM": 0.04, "axis": "x", "tex": "trim",
+         "repeat": {"count": 2, "stepM": [0.60, 0, 0]}}
+      ]}
+    ]},
+    {"shape": "box", "name": "junction box", "atM": [0.75, 0.21, 0.05], "sizeM": [0.18, 0.18, 0.10],
+     "faces": {"top": "lid", "*": "steel", "bottom": null}},
+    {"shape": "model", "name": "status lamp", "src": "raw_assets/parts/status_lamp/status_lamp-v1.model.json", "atM": [0.77, 0.17, 0.10],
+     "live": {"show": "run"}}
+  ]
+}

@@ -1,0 +1,18 @@
+{
+ "about": "The storage chest's lid seen straight down: dull dark-yellow painted steel with raised stiffening ribs running across from top to bottom edge, evenly spaced, black and yellow hazard stripes across the two corners at each end, a small plain steel plate centred near the bottom edge.",
+ "kind": "face",
+ "sets": [
+  "quarters"
+ ],
+ "tags": [
+  "chest",
+  "lid",
+  "storage",
+  "ribbed",
+  "yellow"
+ ],
+ "material": "steel",
+ "fits": [
+  "top"
+ ]
+}

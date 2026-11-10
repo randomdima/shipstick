@@ -61,23 +61,6 @@ public sealed class ShipGrid
 
     public static Side Opposite(Side side) => (Side)(((int)side + MostNeighbours / 2) % MostNeighbours);
 
-    /// <summary>
-    /// Writes the held places on <paramref name="at"/>'s four sides into <paramref name="into"/> and returns how many
-    /// there are.
-    /// </summary>
-    /// <remarks><paramref name="into"/> must hold <see cref="MostNeighbours"/>.</remarks>
-    public int NeighboursOf(CapsuleAt at, Span<CapsuleAt> into)
-    {
-        var count = 0;
-        for (var side = Side.North; side <= Side.West; side++)
-        {
-            var beside = Beside(at, side);
-            if (Holds(beside)) into[count++] = beside;
-        }
-
-        return count;
-    }
-
     /// <summary>A held or empty place's index in reading order, row by row from the top left.</summary>
     public int IndexOf(CapsuleAt at) => at.Row * Columns + at.Column;
 }

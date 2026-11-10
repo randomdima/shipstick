@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/brw_fermenter/brw_fermenter-v6.png",
- "model": "raw_assets/devices/brw_fermenter/brw_fermenter-v6.model.json",
+ "variant": "raw_assets/devices/brw_fermenter/brw_fermenter-v8.png",
+ "model": "raw_assets/devices/brw_fermenter/brw_fermenter-v8.model.json",
  "boundsM": [
   [
    0,
@@ -13,39 +13,44 @@
    1.85
   ]
  ],
- "triangles": 4682,
+ "triangles": 6066,
  "bin": "brw_fermenter.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 42138
+   "length": 54594
   },
   "UV": {
-   "offset": 168552,
+   "offset": 218376,
    "type": "float32",
-   "length": 28092
+   "length": 36396
   },
   "N": {
-   "offset": 280920,
+   "offset": 363960,
    "type": "int8",
-   "length": 42138
+   "length": 54594
   },
   "order": {
-   "offset": 323060,
+   "offset": 418556,
    "type": "uint16",
-   "length": 14046
+   "length": 18198
+  },
+  "live": {
+   "offset": 454952,
+   "type": "uint8",
+   "length": 18198
   }
  },
  "looks": [
   {
-   "texture": "assets/textures/tex_bench_panel-v1-i4-seamless.webp",
+   "texture": "assets/textures/tex_panel_grey-v1-i4-seamless.webp",
    "wrap": true,
    "shade": 0.8,
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_bench_panel-v1-i4-seamless.webp",
+   "texture": "assets/textures/tex_panel_grey-v1-i4-seamless.webp",
    "wrap": true,
    "shade": 1.0,
    "cutout": false
@@ -60,6 +65,18 @@
    "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
    "wrap": true,
    "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_lamp_lens_green-v1-i12.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_amber_glass-v1-i3.webp",
+   "wrap": false,
+   "shade": 1.8,
    "cutout": false
   },
   {
@@ -81,7 +98,7 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_jug_lid-v1-i3.webp",
+   "texture": "assets/textures/tex_lid_round_steel-v1-i3.webp",
    "wrap": false,
    "shade": 1.0,
    "cutout": false
@@ -118,36 +135,46 @@
   [
    3,
    22,
-   800
+   1056
   ],
   [
    4,
-   822,
-   72
+   1078,
+   272
   ],
   [
    5,
-   894,
-   1216
+   1350,
+   72
   ],
   [
    6,
-   2110,
-   204
+   1422,
+   72
   ],
   [
    7,
-   2314,
-   64
+   1494,
+   2824
   ],
   [
    8,
-   2378,
-   2240
+   4318,
+   316
   ],
   [
    9,
-   4618,
+   4634,
+   96
+  ],
+  [
+   10,
+   4730,
+   1272
+  ],
+  [
+   11,
+   6002,
    64
   ]
  ],
@@ -179,5 +206,84 @@
   "deckFadeM": 0.06,
   "cutoutAlpha": 0.5,
   "supersample": 3
- }
+ },
+ "live": [
+  {
+   "as": "lamp",
+   "show": "run",
+   "part": "parts[0] (frame).parts[3] (run lamp).parts[1] (lens)",
+   "boxM": [
+    [
+     0.2013,
+     0.437,
+     0.9159
+    ],
+    [
+     0.2183,
+     0.441,
+     0.9329
+    ]
+   ]
+  },
+  {
+   "as": "lamp",
+   "show": "fault",
+   "part": "parts[0] (frame).parts[4] (fault lamp).parts[1] (lens)",
+   "boxM": [
+    [
+     0.2433,
+     0.437,
+     0.915
+    ],
+    [
+     0.2603,
+     0.441,
+     0.932
+    ]
+   ]
+  },
+  {
+   "as": "lamp",
+   "show": "state",
+   "part": "parts[0] (frame).parts[5] (status lamp) <status_lamp>.parts[0] (status lamp).parts[1] (lens)",
+   "boxM": [
+    [
+     0.143,
+     0.533,
+     1.154
+    ],
+    [
+     0.197,
+     0.587,
+     1.167
+    ]
+   ]
+  },
+  {
+   "as": "fill",
+   "show": "output",
+   "part": "parts[1] (vessel).parts[17] (sight glass)",
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "boxM": [
+    [
+     1.48,
+     0.81,
+     1.5105
+    ],
+    [
+     1.66,
+     0.99,
+     1.7735
+    ]
+   ],
+   "spanM": [
+    1.5105,
+    1.7735
+   ]
+  }
+ ]
 }

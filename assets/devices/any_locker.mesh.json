@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/any_locker/any_locker-v5.png",
- "model": "raw_assets/devices/any_locker/any_locker-v5.model.json",
+ "variant": "raw_assets/devices/any_locker/any_locker-v7.png",
+ "model": "raw_assets/devices/any_locker/any_locker-v7.model.json",
  "boundsM": [
   [
    0,
@@ -13,28 +13,33 @@
    1.85
   ]
  ],
- "triangles": 94,
+ "triangles": 282,
  "bin": "any_locker.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 846
+   "length": 2538
   },
   "UV": {
-   "offset": 3384,
+   "offset": 10152,
    "type": "float32",
-   "length": 564
+   "length": 1692
   },
   "N": {
-   "offset": 5640,
+   "offset": 16920,
    "type": "int8",
-   "length": 846
+   "length": 2538
   },
   "order": {
-   "offset": 6488,
+   "offset": 19460,
    "type": "uint16",
-   "length": 282
+   "length": 846
+  },
+  "live": {
+   "offset": 21152,
+   "type": "uint8",
+   "length": 846
   }
  },
  "looks": [
@@ -57,7 +62,7 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_hazard-v1-i4.webp",
+   "texture": "assets/textures/tex_hazard-v1-i4x9.webp",
    "wrap": false,
    "shade": 1.0,
    "cutout": false
@@ -71,6 +76,18 @@
   {
    "texture": "assets/textures/tex_trim_dark-v1-i4-seamless.webp",
    "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_lamp_lens_green-v1-i30.webp",
+   "wrap": false,
    "shade": 1.0,
    "cutout": false
   }
@@ -105,6 +122,16 @@
    5,
    70,
    24
+  ],
+  [
+   6,
+   94,
+   172
+  ],
+  [
+   7,
+   266,
+   16
   ]
  ],
  "light": {
@@ -135,5 +162,34 @@
   "deckFadeM": 0.06,
   "cutoutAlpha": 0.5,
   "supersample": 3
- }
+ },
+ "live": [
+  {
+   "as": "fill",
+   "show": "held",
+   "part": "parts[0] (locker).parts[7] (fill gauge) <level_bar>.parts[0] (level bar).parts[1] (segments)",
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "steps": 8,
+   "boxM": [
+    [
+     0.292,
+     0.289,
+     1.812
+    ],
+    [
+     0.708,
+     0.331,
+     1.816
+    ]
+   ],
+   "spanM": [
+    0.292,
+    0.708
+   ]
+  }
+ ]
 }

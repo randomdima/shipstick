@@ -1,0 +1,19 @@
+{
+ "about": "Matt black-grey steel for brackets and trim, lightly scuffed, repeating.",
+ "kind": "material",
+ "sets": [
+  "issue_steel"
+ ],
+ "tags": [
+  "trim",
+  "dark",
+  "black",
+  "brackets",
+  "frame"
+ ],
+ "material": "steel",
+ "fits": [
+  "trim",
+  "any"
+ ]
+}

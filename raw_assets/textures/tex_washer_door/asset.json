@@ -1,0 +1,18 @@
+{
+ "about": "a dishwasher's front door seen face on \u2014 brushed grey steel, a long recessed pull handle across the top, a narrow row of vent slots along the bottom, a thin dark gasket line along all four edges.",
+ "kind": "face",
+ "sets": [
+  "galley"
+ ],
+ "tags": [
+  "dishwasher",
+  "washer",
+  "door",
+  "handle"
+ ],
+ "material": "steel",
+ "fits": [
+  "front",
+  "door"
+ ]
+}

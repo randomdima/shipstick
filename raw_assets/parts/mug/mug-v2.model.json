@@ -1,0 +1,17 @@
+{
+  "id": "mug",
+  "about": "A part: a big steel mug of coffee with a side handle, 0.14 m tall; origin at the centre of its foot.",
+  "textures": {
+    "steel": {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "top":   {"src": "raw_assets/textures/tex_mug_top/tex_mug_top-v1.png", "insetPct": 2}
+  },
+  "parts": [
+    {"shape": "group", "name": "mug", "parts": [
+      {"shape": "cylinder", "name": "mug body", "atM": [0, 0, 0.07], "radiusM": 0.07, "lengthM": 0.14,
+       "faces": {"side": {"tex": "steel", "tileM": [0.44, null]}, "ends": "top"}},
+      {"shape": "box", "name": "mug handle", "atM": [0.095, 0, 0.07], "sizeM": [0.022, 0.02, 0.1], "tex": "steel", "shade": 0.8},
+      {"shape": "box", "name": "handle arms", "atM": [0.078, 0, 0.03], "sizeM": [0.036, 0.02, 0.016],
+       "repeat": {"count": 2, "stepM": [0, 0, 0.08]}, "tex": "steel", "shade": 0.8}
+    ]}
+  ]
+}

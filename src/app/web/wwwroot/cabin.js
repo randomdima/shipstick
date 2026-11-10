@@ -2,13 +2,13 @@
 // is made from, and what a click on a slot does, are the view's, handed in through `hooks`. What a fixture or an item
 // is called, and every way a device can run, are the codex's.
 
-import { nameOf, codeOf, roleOf, waysOf, way, chipLook, go, openCodex } from './codex.js'
-import { meshOf, structureLook, interfaceOf, doorInterface, deckOf, bayOf } from './art.js'
+import { nameOf, codeOf, roleOf, waysOf, way, chipLook, go, openCodex, effectText } from './codex.js'
+import { meshOf, structureLook, paintOf, doorPaint, deckOf, doorGaugeOf } from './art.js'
 import {
-  PITCH, ZOOM, aim, camera, deckAt, drawable, hasModel, pick, pointOf, rectOf, sceneCanvas, setMarks, setScene,
+  PITCH, WALL_HIGH_M, ZOOM, aim, camera, deckAt, drawable, pick, rectOf, sceneCanvas, setLive, setMarks, setScene,
 } from './scene.js'
-import { line, nowS } from './host.js'
-import { inFrame, patch, reconcile, setAttributes, setStyle, setText } from './dom.js'
+import { line, nowS, send } from './host.js'
+import { $, esc, inFrame, keepInside, patch, reconcile, setAttributes, setStyle, setText } from './dom.js'
 
 // How far the pointer travels before a press on an item is a drag.
 const DRAG_START_PX = 4;
@@ -19,8 +19,6 @@ const CHEST_SLOTS_ACROSS = 4;
 // What on a window does something of its own when pressed; a press anywhere else drags the window.
 const CONTROLS = 'button, select, input, label, a, .slot';
 
-export const $ = id => document.getElementById(id);
-const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 const STATE = { NotYet: 'standby', Ran: 'running', Starved: 'input short', Full: 'output full' };
 
 // windows: inventory id → { x, y, z } of each open window, in page pixels. press: a pointer held down on a slot.
@@ -30,13 +28,13 @@ const STATE = { NotYet: 'standby', Ran: 'running', Starved: 'input short', Full:
 const ui = { windows: new Map(), topZ: 1, press: null, grip: null, view: null, pan: null, panned: false };
 
 /**
- * What the view in charge does: `draw()` redraws the page, `move(fromId, fromSlot, toId, toSlot)` makes a drag from its
- * seat, `select(id, way)` sets a device to run a way from its seat, `slotClicked(slot)` takes a click on a slot that was
- * not a drag, `escape()` closes something of its own first and says whether it did, `editing(id, slot)` says whether a
- * slot is the one being edited, `reach(at)` takes a click on the capsule at `at` before what it opens.
+ * What the view in charge does: `draw()` redraws the page, `slotClicked(slot)` takes a click on a slot that was not a
+ * drag, `escape()` closes something of its own first and says whether it did, `editing(id, slot)` says whether a slot is
+ * the one being edited, `reach(at)` takes a click on the capsule at `at` before what it opens. A drag and a way chosen
+ * are sent from the seat the host has the line at, whichever view is in charge.
  */
 export const hooks = {
-  draw() {}, move() {}, select() {}, slotClicked: null, escape: () => false, editing: () => false, reach() {},
+  draw() {}, slotClicked: null, escape: () => false, editing: () => false, reach() {},
 };
 
 /**
@@ -83,8 +81,8 @@ export function drawShip({ columns, rows, heading, rooms, fogged, focus }) {
 let floorFrom = null;
 
 /**
- * The floor in 3D (scene.js): its deck, walls, doors and devices handed to the scene, and over it what is laid on the
- * page — each running device's lamp and each door's tag — set where the camera puts them.
+ * The floor in 3D (scene.js): its deck, walls, doors and devices handed to the scene, and what each lit device and
+ * door shows on its live parts — its lamps, gauges and bars.
  */
 function drawFloor({ columns, rows, heading, rooms, fogged, focus }) {
   const n = rooms[0].cabin.cellsAcross, stride = n - 1;
@@ -93,36 +91,52 @@ function drawFloor({ columns, rows, heading, rooms, fogged, focus }) {
   const places = [...rooms.map(r => ({ ...foggedOf(r.cabin), room: r })), ...fogged];
   const walls = new Set(places.flatMap(p => p.walls.map(w => cellKey(originOf(p.at), w.area))));
   const floorOf = { n, walls, isWall: (column, row) => walls.has(`${column},${row}`), laid: new Set(), built: new Set() };
-  const scene = { cells: [], walls: [], devices: [] }, laid = [];
-  for (const p of places) placeOn(scene, laid, p, originOf(p.at), floorOf);
+  const scene = { cells: [], walls: [], devices: [], parts: [] };
+  for (const p of places) placeOn(scene, p, originOf(p.at), floorOf);
   Object.assign(ship, { across, down, cells: n });
   ui.view ??= { column: focus.column * stride + n / 2, row: focus.row * stride + n / 2 };
-  const { title, overlay } = floorParts();
+  const title = floorParts();
   setText(title, heading);
   setScene(scene);
+  setLive(new Map(rooms.flatMap(({ cabin }) => [...cabin.fixtures, ...cabin.doors]).map(f => [f.inventory.id, signalsOf(f)])),
+    () => ({ nowS: nowS(), rate: line.frame?.rate ?? 0 }));
   setMarks({ hover: ui.hover?.thing ?? 0, open: [...ui.windows.keys()] });
   showView();
-  if (reconcile(overlay, laid)) inFrame(placeOverlay);
+}
+
+/**
+ * What a fixture's or a door's live parts show (scene.js setLive): whether it runs, how its last cycle ended, whether
+ * it is short of the next, its cycle, and how full it is — of its inputs the emptiest, of its outputs the fullest, and
+ * of all its slots, each as a share of what they hold at most.
+ */
+function signalsOf(f) {
+  const { slots, stackMost } = f.inventory;
+  const share = (from, to) => to > from ? slots.slice(from, to).reduce((sum, s) => sum + s.count, 0) / ((to - from) * stackMost) : 0;
+  const shares = use => (f.layout ?? []).filter(g => g.use === use).map(g => share(g.from, g.to));
+  const inputs = shares('Input'), outputs = shares('Output');
+  return {
+    runs: runs(f), last: f.last, short: Boolean(f.shortOf), cycleFromS: f.dueS - f.cycleS, cycleS: f.cycleS,
+    input: inputs.length ? Math.min(...inputs) : 0, output: outputs.length ? Math.max(...outputs) : 0,
+    held: share(0, slots.length),
+  };
 }
 
 // The ship's size, in cells across and down, and a capsule's, as the last draw found them.
 const ship = { across: 0, down: 0, cells: 0 };
 
 /**
- * The floor's heading, its scene and the layer over it, made on the first draw and kept. A browser with no WebGL2 has
- * no floor to draw, and says so where it would be.
+ * The floor's heading and its scene, made on the first draw and kept; the heading returned. A browser with no WebGL2
+ * has no floor to draw, and says so where it would be.
  */
 function floorParts() {
   const floor = $('floor');
   if (!floor.childElementCount) {
-    const overlay = document.createElement('div');
-    overlay.className = 'overlay';
     const scene = drawable() ? sceneCanvas() : Object.assign(document.createElement('p'), {
       className: 'no-scene', textContent: 'floor display offline: this terminal lacks WebGL2',
     });
-    floor.append(document.createElement('h2'), scene, overlay);
+    floor.append(document.createElement('h2'), scene);
   }
-  return { title: floor.querySelector('h2'), overlay: floor.querySelector('.overlay') };
+  return floor.querySelector('h2');
 }
 
 /**
@@ -157,17 +171,7 @@ const TILT_DEG_PER_PX = .25;
 /** Aims the scene's camera at the ship's cell `ui.view`, turned and tilted as `ui.turn` says, and follows it. */
 function showView() {
   aim({ ...ui.view, ...ui.turn, cells: ship.cells });
-  placeOverlay();
   drawLeaders();
-}
-
-/** Puts each lamp and tag over the point of the world it is laid on (`data-point`, in metres), where the camera has it. */
-function placeOverlay() {
-  for (const el of document.querySelectorAll('#floor .overlay [data-point]')) {
-    const at = pointOf(el.dataset.point.split(',').map(Number));
-    const box = el.parentElement.getBoundingClientRect();
-    setStyle(el, at ? { translate: `${at.x - box.left}px ${at.y - box.top}px`, visibility: 'visible' } : { visibility: 'hidden' });
-  }
 }
 
 const clamp = (value, least, most) => Math.min(most, Math.max(least, value));
@@ -217,12 +221,11 @@ const cellKey = (origin, area) => `${origin.column + area.column},${origin.row +
 /**
  * One capsule's part of the ship's floor, from its `origin` there, put in the `scene` (scene.js setScene): its deck but
  * under its walls, each cell not yet `laid` by a neighbour; its walls and doors not yet `built`; and — lit — what stands
- * on it. Laid over it (`over`, as [key, html]): each running device's lamp and each door's tag, at a point of the world
- * (`data-point`). Lit, everything on it says which capsule it is in (`at`); fogged (WEB-7), every door is shut and
- * nothing answers the pointer.
+ * on it, and on the cap of each of its doors, along its inner edge, the gauge of how full the door is. Lit, everything
+ * on it says which capsule it is in (`at`); fogged (WEB-7), every door is shut and nothing answers the pointer.
  */
-function placeOn(scene, over, { at, walls, room }, origin, { n, walls: wallCells, isWall, laid, built }) {
-  const lit = room ? `${at.column},${at.row}` : null;
+function placeOn(scene, { at, walls, room }, origin, { n, walls: wallCells, isWall, laid, built }) {
+  const lit = room ? at : null;
   const fog = !room;
   const claim = (taken, key) => !taken.has(key) && Boolean(taken.add(key));
   deckOf(n, walls.filter(w => w.kind === DOOR).map(w => w.area)).forEach(({ src, deg, tint }, i) => {
@@ -238,26 +241,29 @@ function placeOn(scene, over, { at, walls, room }, origin, { n, walls: wallCells
       w.kind === DOOR ? { open: Boolean(room) && ui.windows.has(w.inventory.id) } : null);
     const title = !room ? '' : door ? `door ${door.side.toLowerCase()}, ${room.look.beyond(door)}` : nameOf(w.kind);
     scene.walls.push({ column, row, ...look, id: room ? w.inventory.id : null, at: lit, title, fog });
-    if (door) over.push([`tag ${w.inventory.id}`, `<span class="door-tag" data-point="${column + CELL_MIDDLE},${
-      -row - 1},0">${held(door.inventory) || 'empty'}</span>`]);
+    const gauge = door && doorGaugeOf();
+    if (gauge) {
+      const [east, north] = INWARD[door.side];
+      scene.parts.push({ mesh: gauge, id: w.inventory.id, at: lit, title, turnDeg: east ? 90 : 0,
+        atM: [column + CELL_MIDDLE + east * GAUGE_INSET_M, -row - CELL_MIDDLE + north * GAUGE_INSET_M, WALL_HIGH_M] });
+    }
   }
   for (const f of room?.cabin.fixtures ?? []) {
     if (STRUCTURE.has(f.kind)) continue;
     const { columns, rows } = f.area;
     const column = origin.column + f.area.column, row = origin.row + f.area.row;
-    const mesh = meshOf(f.kind);
-    scene.devices.push({ column, row, columns, rows, mesh: mesh && hasModel(mesh) ? mesh : null, id: f.inventory.id,
-      at: lit, title: nameOf(f.kind) });
-    if (runs(f)) over.push([`lamp ${f.inventory.id}`, `<i class="lamp ${f.last}" title="${STATE[f.last]}" data-point="${
-      column + columns - LAMP_INSET_M},${-row - rows + LAMP_INSET_M},0"></i>`]);
+    scene.devices.push({ column, row, columns, rows, mesh: meshOf(f.kind), id: f.inventory.id, at: lit,
+      title: nameOf(f.kind) });
   }
 }
 
 const DOOR = 'any.door';
 const STRUCTURE = new Set(['any.wall', DOOR]);
 const CELL_MIDDLE = .5;
-// A device's lamp is laid at its footprint's south-east corner, this far in.
-const LAMP_INSET_M = .12;
+// A door's gauge lies along its cap this far in from the middle, toward the room it is in: [east, north] by the wall
+// the door is in. It runs along the wall, turned for an east or a west one.
+const INWARD = { North: [0, -1], South: [0, 1], East: [-1, 0], West: [1, 0] };
+const GAUGE_INSET_M = .36;
 
 const runs = f => f.way != null;
 const held = inventory => inventory.slots.reduce((sum, s) => sum + s.count, 0);
@@ -281,7 +287,7 @@ function drawWindows(rooms) {
   const things = openable(rooms);
   const shown = [...ui.windows].filter(([id]) => things.has(id));
   const host = $('windows');
-  let changed = reconcile(host, shown.map(([id]) => [id, windowShell(id, things.get(id).panel)]));
+  let changed = reconcile(host, shown.map(([id]) => [id, windowShell(id, things.get(id).paint)]));
   for (const [id, w] of shown) {
     const el = host.querySelector(`:scope > [data-win="${id}"]`);
     changed = placeWindow(el, w) || changed;
@@ -316,11 +322,7 @@ function runCycles() {
 
 const MS_PER_S = 1000;
 
-function windowShell(id, panel) {
-  const { aspect, bay: [x0, y0, x1, y1] } = bayOf(panel);
-  return `<div class="window" data-win="${id}" style="--panel: url(${panel}); --aspect: ${aspect}; --bay-x0: ${x0};
-    --bay-y0: ${y0}; --bay-x1: ${x1}; --bay-y1: ${y1}"></div>`;
-}
+const windowShell = (id, paint) => `<div class="window" data-win="${id}" data-paint="${paint}"></div>`;
 
 const windowInner = (id, { title, where, help, body }) => `<span class="nameplate">${esc(title)}</span>
   <div class="bay"><button class="key-manual" data-go="${help}" title="codex record">?</button>
@@ -343,15 +345,15 @@ function deviceWindow(f, look) {
   const left = closed && f.inventory.slots.slice(closed.from, closed.to).some(s => s.count)
     ? `<div class="labelled"><h3>residue, previous procedure</h3>${slotRow(f.inventory, closed.from, closed.to, 'remove by hand')}</div>` : '';
   const now = nowS();
-  const gives = w.gives.map(e => `${e.stat} ${e.amount > 0 ? '+' : ''}${e.amount}`).join(', ');
+  const gives = w.gives.map(effectText).join(', ');
   const short = f.shortOf ? `, short: ${go(`item:${f.shortOf}`, nameOf(f.shortOf))}` : '';
   const choices = waysOf(f.kind).map(k => `<option value="${k}"${k === f.way ? ' selected' : ''}>${esc(way(k).name)}</option>`).join('');
   return {
     title: nameOf(f.kind), where: `${codeOf(f.kind)}· ${look.where}`, help: `device:${f.kind}`,
-    panel: interfaceOf(f.kind, roleOf(f.kind), false),
+    paint: paintOf(f.kind, roleOf(f.kind), false),
     body: `<label class="pick">procedure <select data-way="${f.inventory.id}">${choices}</select></label>
       <div class="machine">
-      ${column('Tool') || ''}${column('Input') || '<div class="io"><h3>in</h3><div class="none">no input</div></div>'}
+      ${column('Tool')}${column('Input') || '<div class="io"><h3>in</h3><div class="none">no input</div></div>'}
       <div class="process"><span class="arrow">→</span><div class="bar"><i data-cycle-from-s="${f.dueS - f.cycleS}" data-cycle-s="${
         f.cycleS}"></i></div>
         <small>cycle ${f.cycleS} s</small></div>
@@ -368,14 +370,14 @@ function deviceWindow(f, look) {
 function holderWindow(f) {
   return {
     title: nameOf(f.kind), where: `${codeOf(f.kind)}· ${held(f.inventory)} units held`, help: `device:${f.kind}`,
-    panel: interfaceOf(f.kind, roleOf(f.kind), true),
+    paint: paintOf(f.kind, roleOf(f.kind), true),
     body: slotGrid(f.inventory, CHEST_SLOTS_ACROSS),
   };
 }
 
 function doorWindow(d, look) {
   return {
-    title: `door ${d.side.toLowerCase()}`, where: look.beyond(d), help: 'page:doors', panel: doorInterface,
+    title: `door ${d.side.toLowerCase()}`, where: look.beyond(d), help: 'page:doors', paint: doorPaint(),
     body: `${slotGrid(d.inventory, Math.round(Math.sqrt(d.inventory.slots.length)))}
       <p class="note">${look.shared(d)}</p>`,
   };
@@ -451,8 +453,7 @@ function keepOnPage(id) {
   const w = ui.windows.get(id);
   const el = document.querySelector(`[data-win="${id}"]`);
   if (!w || !el) return;
-  w.x = Math.max(WINDOW_MARGIN_PX, Math.min(w.x, innerWidth - el.offsetWidth - WINDOW_MARGIN_PX));
-  w.y = Math.max(WINDOW_MARGIN_PX, Math.min(w.y, innerHeight - el.offsetHeight - WINDOW_MARGIN_PX));
+  Object.assign(w, keepInside(el, w.x, w.y, WINDOW_MARGIN_PX));
   placeWindow(el, w);
   inFrame(drawLeaders);
 }
@@ -473,10 +474,7 @@ document.addEventListener('click', e => {
   }
   const hit = e.target.closest('#floor canvas') && pick(e.clientX, e.clientY);
   if (!hit) return;
-  if (hit.at) {
-    const [column, row] = hit.at.split(',').map(Number);
-    hooks.reach({ column, row });
-  }
+  if (hit.at) hooks.reach(hit.at);
   if (hit.id == null) return;
   if (ui.windows.has(hit.id)) {
     ui.windows.delete(hit.id);
@@ -487,7 +485,7 @@ document.addEventListener('click', e => {
 document.addEventListener('change', e => {
   const choice = e.target.closest('#windows [data-way]');
   if (!choice) return;
-  hooks.select(Number(choice.dataset.way), Number(choice.value));
+  send('select', { inventory: Number(choice.dataset.way), way: Number(choice.value) });
   choice.blur();
   hooks.draw();
 });
@@ -517,7 +515,7 @@ document.addEventListener('pointerdown', e => {
     if (turn) e.preventDefault();
     return;
   }
-  const win = e.target.closest('.window');
+  const win = e.target.closest('#windows > .window');
   if (win) raise(win);
   const slot = e.target.closest('.slot');
   if (slot) {
@@ -625,7 +623,7 @@ document.addEventListener('pointerup', e => {
   press.ghost?.remove();
   press.target?.classList.remove('target');
   const onto = press.ghost && slotUnder(e);
-  if (onto) hooks.move(press.inv, press.slot, Number(onto.dataset.inv), Number(onto.dataset.slot));
+  if (onto) send('move', { from: press.inv, fromSlot: press.slot, to: Number(onto.dataset.inv), toSlot: Number(onto.dataset.slot) });
   else if (!press.ghost) hooks.slotClicked?.(press.el);
   hooks.draw();
 });

@@ -1,0 +1,16 @@
+{
+ "about": "plain dull blue moulded plastic, faint matte grain, repeating.",
+ "kind": "material",
+ "sets": [
+  "hygiene"
+ ],
+ "tags": [
+  "plastic",
+  "blue",
+  "moulded"
+ ],
+ "material": "plastic",
+ "fits": [
+  "any"
+ ]
+}

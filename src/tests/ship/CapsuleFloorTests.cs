@@ -48,7 +48,7 @@ public class CapsuleFloorTests
     {
         var vessel = new Vessel(new ShipGrid(1, 1), CellsAcross);
         var capsule = vessel.Place(new CapsuleAt(0, 0));
-        vessel.Install(capsule.At, area, Inventory.Open(1, 1));
+        vessel.Install(capsule.At, area, Inventory.Open(1, 1), TestItems.Chest);
         return capsule;
     }
 

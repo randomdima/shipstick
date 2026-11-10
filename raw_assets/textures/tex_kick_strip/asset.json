@@ -1,0 +1,18 @@
+{
+ "about": "Matt black rubber kick strip with fine horizontal ribs, repeating left to right.",
+ "kind": "material",
+ "sets": [
+  "hull"
+ ],
+ "tags": [
+  "kick",
+  "strip",
+  "rubber",
+  "ribbed",
+  "skirting"
+ ],
+ "material": "rubber",
+ "fits": [
+  "trim"
+ ]
+}

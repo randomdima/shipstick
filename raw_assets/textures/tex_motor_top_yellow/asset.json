@@ -1,0 +1,18 @@
+{
+ "about": "The top of a small yellow motor seen straight down: dull dark-yellow painted casing, a dark slotted vent grille across its middle, a small grey steel cover plate near one end.",
+ "kind": "decal",
+ "sets": [
+  "workshop"
+ ],
+ "tags": [
+  "motor",
+  "top",
+  "vent",
+  "yellow",
+  "casing"
+ ],
+ "material": "steel",
+ "fits": [
+  "top"
+ ]
+}

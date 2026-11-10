@@ -1,0 +1,19 @@
+{
+ "about": "A brushed steel sink seen straight down: a deep rectangular steel bowl with a round drain in its middle, a narrow flat steel rim along all four edges.",
+ "kind": "face",
+ "sets": [
+  "galley",
+  "hygiene"
+ ],
+ "tags": [
+  "sink",
+  "basin",
+  "drain",
+  "steel",
+  "bowl"
+ ],
+ "material": "steel",
+ "fits": [
+  "top"
+ ]
+}

@@ -6,7 +6,7 @@ Swatches for models (the [shapegen](../../.claude/skills/shapegen/SKILL.md) skil
   "A sheet of 9 separate flat material swatches for texturing simple 3D game models, each swatch a flat rectangle seen
   exactly face on, with no perspective, no depth, no cast shadow and no outline, evenly lit", each "fills its
   rectangle edge to edge with square corners". Every asked proportion held — square, "twice as wide as tall", "four
-  times as wide as tall" — and the decals (`tex_vent`, `tex_hatch`) came with the plain margin asked.
+  times as wide as tall" — and the decals (`tex_vent`, `tex_access_panel`) came with the plain margin asked.
 - **"Repeating" gave even surfaces** with no rim, but **the pipe swatch (`tex_pipe-v1`) has its roundness painted in**,
   lighter across its middle: on a cylinder that is lit twice. Ask a pipe as "flat painted steel, evenly lit, no
   roundness, no highlight".

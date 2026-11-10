@@ -1,0 +1,20 @@
+{
+ "about": "Thick blue-green tinted glass with clear pale blue-green liquid behind it, faint streams of tiny bubbles, repeating.",
+ "kind": "material",
+ "sets": [
+  "growing",
+  "airworks"
+ ],
+ "tags": [
+  "tank",
+  "liquid",
+  "water",
+  "bubbles",
+  "glass"
+ ],
+ "material": "glass",
+ "fits": [
+  "side",
+  "front"
+ ]
+}

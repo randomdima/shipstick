@@ -1,0 +1,19 @@
+{
+ "about": "Thick grey-green fabric quilted in a diamond pattern of stitched seams, softly puffed between them, repeating: seat and bunk upholstery.",
+ "kind": "material",
+ "sets": [
+  "quarters"
+ ],
+ "tags": [
+  "quilted",
+  "upholstery",
+  "cushion",
+  "seat",
+  "padded"
+ ],
+ "material": "fabric",
+ "fits": [
+  "top",
+  "front"
+ ]
+}

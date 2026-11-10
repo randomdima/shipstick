@@ -3,8 +3,8 @@
   "about": "A part: the plain Company crate the game stands in a device's place until it has a model of its own — a grey panelled box on a dark plinth, a riveted steel top, dark corner posts and a blank label plate; the page stretches it to the device's footprint.",
   "boundsM": [[0, 0, 0], [1, 1, 0.9]],
   "textures": {
-    "panel": {"src": "raw_assets/textures/tex_bench_panel/tex_bench_panel-v1.png", "insetPct": 4, "tileM": 0.6},
-    "top":   {"src": "raw_assets/textures/tex_bench_top/tex_bench_top-v1.png", "insetPct": 2},
+    "panel": {"src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png", "insetPct": 4, "tileM": 0.6},
+    "top":   {"src": "raw_assets/textures/tex_top_steel_rimmed/tex_top_steel_rimmed-v1.png", "insetPct": 2},
     "label": {"src": "raw_assets/textures/tex_label_plate/tex_label_plate-v1.png", "insetPct": 3},
     "trim":  {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3}
   },

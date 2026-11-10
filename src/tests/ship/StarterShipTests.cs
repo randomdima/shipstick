@@ -23,7 +23,7 @@ public class StarterShipTests
     [Fact]
     public void EveryCapsuleHasALifeSupportThatRuns()
     {
-        var without = Capsules().Where(c => !c.Fixtures.Any(f => f.Entry?.Id == Catalogue.LifeSupport && f.Device is not null));
+        var without = Starter.Capsules.Where(c => !c.Fixtures.Any(f => f.Entry.Id == Catalogue.LifeSupport && f.Device is not null));
 
         Assert.Empty(without);
     }
@@ -31,7 +31,7 @@ public class StarterShipTests
     [Fact]
     public void EveryCapsuleIsLaidWithItsRolesDevices()
     {
-        Assert.All(Capsules(), c => Assert.NotNull(RoleOf(c.At)));
+        Assert.All(Starter.Capsules, c => Assert.NotNull(RoleOf(c.At)));
     }
 
     [Fact]
@@ -42,13 +42,6 @@ public class StarterShipTests
         Assert.Empty(twins);
     }
 
-    static IEnumerable<Capsule> Capsules()
-    {
-        for (var row = 0; row < Starter.Grid.Rows; row++)
-            for (var column = 0; column < Starter.Grid.Columns; column++)
-                yield return Starter.CapsuleOn(new CapsuleAt(column, row))!;
-    }
-
     static string? RoleOf(CapsuleAt at) =>
-        Starter.CapsuleOn(at)!.Fixtures.Select(f => f.Entry?.Role).FirstOrDefault(r => r is not null && r != Catalogue.Universal);
+        Starter.CapsuleOn(at)!.Fixtures.Select(f => f.Entry.Role).FirstOrDefault(r => r != Catalogue.Universal);
 }

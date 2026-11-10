@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/any_bench/any_bench-v5.png",
- "model": "raw_assets/devices/any_bench/any_bench-v5.model.json",
+ "variant": "raw_assets/devices/any_bench/any_bench-v7.png",
+ "model": "raw_assets/devices/any_bench/any_bench-v7.model.json",
  "boundsM": [
   [
    0,
@@ -13,28 +13,33 @@
    1.35
   ]
  ],
- "triangles": 1500,
+ "triangles": 1964,
  "bin": "any_bench.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 13500
+   "length": 17676
   },
   "UV": {
-   "offset": 54000,
+   "offset": 70704,
    "type": "float32",
-   "length": 9000
+   "length": 11784
   },
   "N": {
-   "offset": 90000,
+   "offset": 117840,
    "type": "int8",
-   "length": 13500
+   "length": 17676
   },
   "order": {
-   "offset": 103500,
+   "offset": 135516,
    "type": "uint16",
-   "length": 4500
+   "length": 5892
+  },
+  "live": {
+   "offset": 147300,
+   "type": "uint8",
+   "length": 5892
   }
  },
  "looks": [
@@ -51,13 +56,13 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_bench_panel-v1-i4-seamless.webp",
+   "texture": "assets/textures/tex_panel_grey-v1-i4-seamless.webp",
    "wrap": true,
    "shade": 1.0,
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_bench_drawers-v1-i2.webp",
+   "texture": "assets/textures/tex_drawers_yellow-v1-i2.webp",
    "wrap": false,
    "shade": 1.0,
    "cutout": false
@@ -81,13 +86,19 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_bench_panel-v1-i4-seamless.webp",
+   "texture": "assets/textures/tex_panel_grey-v1-i4-seamless.webp",
    "wrap": true,
    "shade": 0.85,
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_bench_top-v1-i2.webp",
+   "texture": "assets/textures/tex_top_steel_rimmed-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_lamp_lens_green-v1-i12.webp",
    "wrap": false,
    "shade": 1.0,
    "cutout": false
@@ -99,7 +110,7 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_motor_ribs-v1-i3.webp",
+   "texture": "assets/textures/tex_cast_ribs-v1-i3x14.webp",
    "wrap": false,
    "shade": 1.0,
    "cutout": false
@@ -129,7 +140,7 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_small_motor_top-v1-i3.webp",
+   "texture": "assets/textures/tex_motor_top_yellow-v1-i3.webp",
    "wrap": false,
    "shade": 1.0,
    "cutout": false
@@ -153,7 +164,7 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_jug_lid-v1-i2.webp",
+   "texture": "assets/textures/tex_lid_round_steel-v1-i2.webp",
    "wrap": false,
    "shade": 1.0,
    "cutout": false
@@ -163,102 +174,107 @@
   [
    0,
    0,
-   30
+   110
   ],
   [
    1,
-   30,
-   4
-  ],
-  [
-   2,
-   34,
-   8
-  ],
-  [
-   3,
-   42,
-   12
-  ],
-  [
-   4,
-   54,
-   56
-  ],
-  [
-   5,
    110,
    4
   ],
   [
-   6,
+   2,
    114,
+   8
+  ],
+  [
+   3,
+   122,
+   12
+  ],
+  [
+   4,
+   134,
+   56
+  ],
+  [
+   5,
+   190,
+   4
+  ],
+  [
+   6,
+   194,
    16
   ],
   [
    7,
-   130,
+   210,
    8
   ],
   [
    8,
-   138,
+   218,
    2
   ],
   [
    9,
-   140,
-   176
-  ],
-  [
-   10,
-   316,
-   64
-  ],
-  [
-   11,
-   380,
-   192
-  ],
-  [
-   12,
-   572,
+   220,
    200
   ],
   [
+   10,
+   420,
+   152
+  ],
+  [
+   11,
+   572,
+   72
+  ],
+  [
+   12,
+   644,
+   184
+  ],
+  [
    13,
-   772,
-   128
+   828,
+   232
   ],
   [
    14,
-   900,
-   12
+   1060,
+   160
   ],
   [
    15,
-   912,
-   2
+   1220,
+   12
   ],
   [
    16,
-   914,
-   512
-  ],
-  [
-   17,
-   1426,
-   8
-  ],
-  [
-   18,
-   1434,
+   1232,
    2
   ],
   [
+   17,
+   1234,
+   648
+  ],
+  [
+   18,
+   1882,
+   8
+  ],
+  [
    19,
-   1436,
-   64
+   1890,
+   2
+  ],
+  [
+   20,
+   1892,
+   72
   ]
  ],
  "light": {
@@ -289,5 +305,24 @@
   "deckFadeM": 0.06,
   "cutoutAlpha": 0.5,
   "supersample": 3
- }
+ },
+ "live": [
+  {
+   "as": "lamp",
+   "show": "state",
+   "part": "parts[0] (bench body).parts[7] (status lamp) <status_lamp>.parts[0] (status lamp).parts[1] (lens)",
+   "boxM": [
+    [
+     0.653,
+     0.113,
+     0.916
+    ],
+    [
+     0.707,
+     0.167,
+     0.929
+    ]
+   ]
+  }
+ ]
 }

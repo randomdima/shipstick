@@ -1,0 +1,18 @@
+{
+ "about": "A wire dish rack seen straight down: dull steel wire bars holding three plates standing on edge and two cups upside down, dark grey steel tray below.",
+ "kind": "face",
+ "sets": [
+  "galley"
+ ],
+ "tags": [
+  "dish",
+  "rack",
+  "plates",
+  "cups",
+  "dishwasher"
+ ],
+ "material": "steel",
+ "fits": [
+  "top"
+ ]
+}

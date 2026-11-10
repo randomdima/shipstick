@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/any_algaejar/any_algaejar-v5.png",
- "model": "raw_assets/devices/any_algaejar/any_algaejar-v5.model.json",
+ "variant": "raw_assets/devices/any_algaejar/any_algaejar-v7.png",
+ "model": "raw_assets/devices/any_algaejar/any_algaejar-v7.model.json",
  "boundsM": [
   [
    0,
@@ -13,28 +13,33 @@
    1.1
   ]
  ],
- "triangles": 3934,
+ "triangles": 2838,
  "bin": "any_algaejar.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 35406
+   "length": 25542
   },
   "UV": {
-   "offset": 141624,
+   "offset": 102168,
    "type": "float32",
-   "length": 23604
+   "length": 17028
   },
   "N": {
-   "offset": 236040,
+   "offset": 170280,
    "type": "int8",
-   "length": 35406
+   "length": 25542
   },
   "order": {
-   "offset": 271448,
+   "offset": 195824,
    "type": "uint16",
-   "length": 11802
+   "length": 8514
+  },
+  "live": {
+   "offset": 212852,
+   "type": "uint8",
+   "length": 8514
   }
  },
  "looks": [
@@ -45,7 +50,7 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_bench_panel-v1-i4-seamless.webp",
+   "texture": "assets/textures/tex_panel_grey-v1-i4-seamless.webp",
    "wrap": true,
    "shade": 1.0,
    "cutout": false
@@ -75,7 +80,7 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_jug_lid-v1-i3.webp",
+   "texture": "assets/textures/tex_lid_round_steel-v1-i3.webp",
    "wrap": false,
    "shade": 1.0,
    "cutout": false
@@ -89,6 +94,12 @@
   {
    "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
    "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_lamp_lens_green-v1-i12.webp",
+   "wrap": false,
    "shade": 1.0,
    "cutout": false
   }
@@ -112,32 +123,37 @@
   [
    3,
    34,
-   1136
+   1408
   ],
   [
    4,
-   1170,
-   64
+   1442,
+   112
   ],
   [
    5,
-   1234,
-   64
+   1554,
+   112
   ],
   [
    6,
-   1298,
-   64
+   1666,
+   112
   ],
   [
    7,
-   1362,
-   2240
+   1778,
+   608
   ],
   [
    8,
-   3602,
-   332
+   2386,
+   252
+  ],
+  [
+   9,
+   2638,
+   200
   ]
  ],
  "light": {
@@ -168,5 +184,24 @@
   "deckFadeM": 0.06,
   "cutoutAlpha": 0.5,
   "supersample": 3
- }
+ },
+ "live": [
+  {
+   "as": "lamp",
+   "show": "state",
+   "part": "parts[3] (status lamp) <status_lamp>.parts[0] (status lamp).parts[1] (lens)",
+   "boxM": [
+    [
+     0.833,
+     0.133,
+     0.136
+    ],
+    [
+     0.887,
+     0.187,
+     0.149
+    ]
+   ]
+  }
+ ]
 }

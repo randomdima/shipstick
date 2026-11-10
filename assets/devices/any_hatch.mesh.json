@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/any_hatch/any_hatch-v6.png",
- "model": "raw_assets/devices/any_hatch/any_hatch-v6.model.json",
+ "variant": "raw_assets/devices/any_hatch/any_hatch-v7.png",
+ "model": "raw_assets/devices/any_hatch/any_hatch-v7.model.json",
  "boundsM": [
   [
    0,
@@ -13,28 +13,33 @@
    0.2
   ]
  ],
- "triangles": 532,
+ "triangles": 668,
  "bin": "any_hatch.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 4788
+   "length": 6012
   },
   "UV": {
-   "offset": 19152,
+   "offset": 24048,
    "type": "float32",
-   "length": 3192
+   "length": 4008
   },
   "N": {
-   "offset": 31920,
+   "offset": 40080,
    "type": "int8",
-   "length": 4788
+   "length": 6012
   },
   "order": {
-   "offset": 36708,
+   "offset": 46092,
    "type": "uint16",
-   "length": 1596
+   "length": 2004
+  },
+  "live": {
+   "offset": 50100,
+   "type": "uint8",
+   "length": 2004
   }
  },
  "looks": [
@@ -51,7 +56,7 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_hatch_plate-v1-i4.webp",
+   "texture": "assets/textures/tex_floor_hatch_plate-v1-i4.webp",
    "wrap": false,
    "shade": 1.0,
    "cutout": false
@@ -73,6 +78,18 @@
    "wrap": false,
    "shade": 1.0,
    "cutout": true
+  },
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_lamp_lens_green-v1-i12.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
   }
  ],
  "draws": [
@@ -84,27 +101,37 @@
   [
    1,
    10,
-   136
+   72
   ],
   [
    2,
-   146,
+   82,
    2
   ],
   [
    3,
-   148,
-   256
+   84,
+   128
   ],
   [
    4,
-   404,
-   64
+   212,
+   88
   ],
   [
    5,
+   300,
+   88
+  ],
+  [
+   6,
+   388,
+   80
+  ],
+  [
+   7,
    468,
-   64
+   200
   ]
  ],
  "light": {
@@ -135,5 +162,24 @@
   "deckFadeM": 0.06,
   "cutoutAlpha": 0.5,
   "supersample": 3
- }
+ },
+ "live": [
+  {
+   "as": "lamp",
+   "show": "state",
+   "part": "parts[1] (status lamp) <status_lamp>.parts[0] (status lamp).parts[1] (lens)",
+   "boxM": [
+    [
+     0.713,
+     0.143,
+     0.086
+    ],
+    [
+     0.767,
+     0.197,
+     0.099
+    ]
+   ]
+  }
+ ]
 }

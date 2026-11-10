@@ -49,8 +49,28 @@ raw_assets/textures/<id>/<id>-vN.png          a kept swatch, with variants.jsonl
 raw_assets/parts/<id>/<id>-vN.model.json      a kept part, and <id>-vN.png its picture; never installed
 raw_assets/<path>/<id>/<id>-vN.png            a kept render
 raw_assets/<path>/<id>/<id>-vN.model.json     the model it was rendered from, as it was
+raw_assets/<path>/<id>/asset.json             its catalogue entry: what it is, its kind, sets and search words
+raw_assets/sets.md                            the sets: families of assets alike in style and function
+raw_assets/_renamed.jsonl                     every rename, old id to new, so the ledger and frames still resolve
 .tmp/shapes/<id>.json, <id>/<view>.png        a draft model and its views, scratch
 ```
+
+## The catalogue
+
+**Every kept texture, part and model has an entry, `asset.json`, beside its variants** (`.qq/_catalog.py` holds its
+fields): `about` in plain words, `kind`, `sets`, `tags` — the words someone looking for it would use — and of a
+texture its `material` and the faces it `fits`. `qq sprites keep` begins a texture's entry from its brief line,
+`qq shapes keep` a model's from its `about` and `sets`; `qq sprites catalog` fills the rest. `qq shapes library`
+searches it, by words and by `--set`, `--kind` and `--fits`, and remotegen names a kept entry a new cell's line reads
+like before the sheet is billed.
+
+**The kind says how freely an asset is reused.** A `material` tiles and repeats unnoticed: worn anywhere, by any number.
+A `face` is a whole face's picture and a `decal` a small fitted mark: each is recognised where it appears again, so
+past a soft cap of wearers `qq shapes library` and `render` name it. A `part` is a small model others place.
+
+**A set is a family of style and function** ([sets.md](sets.md)), and a reuse hint, not a fence: a model lists every
+set it draws from, an asset every set it suits. A face, a decal or a part worn by a model in none of its sets is named
+for a second look — reuse across families, or a set the model should list — never refused.
 
 A file under `assets/` that was not generated — a font — carries a `.src.json` too, naming where it was downloaded
 from (address, commit, hash) and its licence, kept beside it.
@@ -60,8 +80,9 @@ from (address, commit, hash) and its licence, kept beside it.
 1. **Every image under `assets/` has a `.src.json` beside it or is on `legacy.txt`.** `qq sprites check` (inside
    `qq checks`) fails otherwise. Nothing is ever added to the legacy list.
 2. **A sheet is never committed; its kept drawings are**, with the frame's record and inputs (`qq sprites keep`).
-3. **What is kept is never edited or renamed.** A new attempt is a new version; a variant a `.src.json` names is never
-   deleted.
+3. **What is kept is never edited.** A new attempt is a new version; a variant a `.src.json` names is never deleted. An
+   asset is renamed only by `qq sprites rename`, so that every reference moves with it and its cost history follows
+   (`_renamed.jsonl`); its id says what it is, never what it was first made for.
 4. **Every frame says which asset each drawing is**: its record lists the ids in the brief's order (remotegen
    `--cells`), and `cut` matches the drawings to them in reading order.
 5. **Each kept variant gets its score when it is judged**, and the lesson of a set goes into its family's
@@ -71,7 +92,12 @@ from (address, commit, hash) and its licence, kept beside it.
    same variant. A model is kept only when every texture it wears and every part it places is kept.
 8. **Every billed call is on `_spend.jsonl`**, written as it is billed and never edited: an attempt nothing was kept
    from is a cost too. `qq sprites check` fails on a kept frame the ledger lacks.
-9. **What is kept is used before anything is generated.** `qq shapes library` lists the kept textures and parts; a
-   model wears and places them wherever they are the same thing in the same role. remotegen refuses, before billing,
-   a cell already kept, but for its own sheet's retry or `--mask` redo; another generation of it is the owner's word
-   (`--again`).
+9. **What is kept is used before anything is generated.** `qq shapes library` searches the kept textures, parts and
+   models; a model wears and places them wherever they are the same thing in the same role. remotegen refuses, before
+   billing, a cell already kept, but for its own sheet's retry or `--mask` redo; another generation of it is the
+   owner's word (`--again`).
+10. **What is recognised is not worn everywhere.** A face, a decal or a part past its kind's soft cap
+    (`_catalog.WEARERS_SOFT_CAP`, a trial value tuned by looking at the floor) gets a picture of its own on the next
+    model that needs one — a cell costs about $0.002 — rather than one more wearer.
+11. **Every kept texture, part and model is catalogued**, its sets defined in [sets.md](sets.md). `qq sprites check`
+    (inside `qq checks`) fails otherwise.

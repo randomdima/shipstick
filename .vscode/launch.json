@@ -32,6 +32,16 @@
       }
     },
     {
+      // The asset catalogue (qq shapes view): every kept texture, part and model, searched and filtered, each with
+      // its use, billing and history. Opened from disk; the watch task keeps its data current while it runs.
+      "name": "assets: catalogue",
+      "type": "chrome",
+      "request": "launch",
+      "runtimeExecutable": "/usr/bin/chromium-browser",
+      "file": "${workspaceFolder}/.tmp/shapes/viewer.html",
+      "preLaunchTask": "catalogue: watch"
+    },
+    {
       "name": "page: admin",
       "type": "chrome",
       "request": "launch",

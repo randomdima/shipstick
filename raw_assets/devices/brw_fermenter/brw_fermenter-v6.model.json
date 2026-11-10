@@ -3,10 +3,10 @@
   "about": "A fermenter on two by two cells, 1.8 m to the top of its sight glass: a steel vessel with a conical bottom and an orange band, hung in a yellow frame over a steel deck plate, a cabinet on its west, a gooseneck vent and a sight glass on its dome, a tap under the cone.",
   "boundsM": [[0, 0, 0], [2, 2, 1.85]],
   "textures": {
-    "panel":  {"src": "raw_assets/textures/tex_bench_panel/tex_bench_panel-v1.png", "insetPct": 4, "tileM": 0.6},
+    "panel":  {"src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png", "insetPct": 4, "tileM": 0.6},
     "steel":  {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.4},
     "pipe":   {"src": "raw_assets/textures/tex_pipe/tex_pipe-v1.png", "insetPct": 6, "tileM": 0.3},
-    "lid":    {"src": "raw_assets/textures/tex_jug_lid/tex_jug_lid-v1.png", "insetPct": 3},
+    "lid":    {"src": "raw_assets/textures/tex_lid_round_steel/tex_lid_round_steel-v1.png", "insetPct": 3},
     "yellow": {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.3},
     "orange": {"src": "raw_assets/textures/tex_orange_enamel/tex_orange_enamel-v1.png", "insetPct": 4, "tileM": 0.3},
     "glass":  {"src": "raw_assets/textures/tex_amber_glass/tex_amber_glass-v1.png", "insetPct": 3, "tileM": 0.15},

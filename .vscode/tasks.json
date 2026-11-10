@@ -9,6 +9,22 @@
       "args": ["build", "${workspaceFolder}/src/app/host/shipstick.host.csproj", "-v", "q", "--nologo"],
       "problemMatcher": "$msCompile",
       "presentation": { "reveal": "silent", "panel": "dedicated" }
+    },
+    {
+      // The asset catalogue's data (qq shapes view): written at once, then again on every change to a model, a
+      // texture or the catalogue, for an hour. Ready once the first write is done; a model that fails is a problem.
+      "label": "catalogue: watch",
+      "type": "process",
+      "command": "${env:HOME}/.local/bin/qq",
+      "args": ["shapes", "view"],
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "qq-shapes",
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "pattern": { "regexp": "^  (\\S+\\.json): (.+)$", "file": 1, "message": 2 },
+        "background": { "activeBegins": true, "beginsPattern": "^viewer: ", "endsPattern": "\\d+ model\\(s\\)" }
+      },
+      "presentation": { "reveal": "silent", "panel": "dedicated" }
     }
   ]
 }

@@ -30,7 +30,7 @@ public class VesselEditTests
         var output = Group(farm, Food).Slots;
 
         Assert.True(vessel.Set(vessel.IdOf(farm.Inventory), output.Start.Value, Food, 1));
-        Assert.Equal(1, farm.Inventory.CountIn(output));
+        Assert.Equal(1, farm.Inventory.CountIn(output, Food));
     }
 
     [Fact]
@@ -67,7 +67,7 @@ public class VesselEditTests
         var vessel = new Vessel(new ShipGrid(1, 1), Config.Capsule.CellsAcross);
         vessel.Place(At);
         var chest = Inventory.Open(Config.Capsule.ChestSlots, Config.Items.StackMost);
-        vessel.Install(At, new FloorArea(0, 0, 1, 1), chest);
+        vessel.Install(At, new FloorArea(0, 0, 1, 1), chest, Chest);
         var farm = Farm(Config, vessel.NowS);
         vessel.Install(At, 1, 0, farm);
         return (vessel, chest, farm);

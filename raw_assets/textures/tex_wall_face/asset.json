@@ -1,0 +1,17 @@
+{
+ "about": "The wall's face: smooth dull grey steel, repeating, with faint vertical brushing.",
+ "kind": "material",
+ "sets": [
+  "hull"
+ ],
+ "tags": [
+  "wall",
+  "face",
+  "grey"
+ ],
+ "material": "steel",
+ "fits": [
+  "front",
+  "side"
+ ]
+}

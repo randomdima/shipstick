@@ -19,7 +19,7 @@ sealed record SeatView(int Columns, int Rows, CabinView Cabin, FoggedView[] Fogg
 sealed record FoggedView(CapsuleAt At, WallView[] Walls)
 {
     public static FoggedView Of(Capsule capsule) => new(capsule.At,
-        [.. capsule.Fixtures.Where(f => f.Entry is { } e && Catalogue.IsStructure(e.Id)).Select(f => new WallView(f.Area, f.Entry!.Id))]);
+        [.. capsule.Fixtures.Where(f => Catalogue.IsStructure(f.Entry.Id)).Select(f => new WallView(f.Area, f.Entry.Id))]);
 }
 
 /// <summary>A wall or door cell; <see cref="Kind"/> is its catalogue device id.</summary>

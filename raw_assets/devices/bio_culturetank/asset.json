@@ -1,0 +1,10 @@
+{
+ "about": "A culture tank on two by two cells: a strapped glass tank of blue-green culture under a vented stirrer motor, on a steel plinth, piped to a gas bottle on its west and a yellow control box on its east whose panel carries a run lamp and a fault lamp and whose top a status lamp.",
+ "kind": "device",
+ "sets": [
+  "issue_steel",
+  "growing",
+  "controls"
+ ],
+ "tags": []
+}

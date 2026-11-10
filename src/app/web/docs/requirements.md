@@ -17,6 +17,10 @@ differs, and never rebuilds the page or a whole part of it.
 **WEB-11** `P2` What moves on the page — whatever follows the pointer, and every animation — moves at the display's
 own refresh rate.
 
+**WEB-12** `P2` What the floor shows of the ship is in the 3D scene, on the models: a device's lamps, gauges, indicators
+and screens show how it runs and what it holds, working and moving as it does; nothing is laid over the floor as an
+element of the page.
+
 **WEB-1** `P5` What WEB-7 is: a player's page shows their own capsule — its floor, its fixtures, the doors in its walls
 and what each holds — and the clock, in its place among every other capsule's walls, doors and deck, shaded. Of another
 capsule nothing else: not what stands on its floor, not what its doors hold, and no name or code for the capsule beyond

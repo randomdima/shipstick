@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/any_table/any_table-v5.png",
- "model": "raw_assets/devices/any_table/any_table-v5.model.json",
+ "variant": "raw_assets/devices/any_table/any_table-v7.png",
+ "model": "raw_assets/devices/any_table/any_table-v7.model.json",
  "boundsM": [
   [
    0,
@@ -13,28 +13,33 @@
    0.95
   ]
  ],
- "triangles": 312,
+ "triangles": 808,
  "bin": "any_table.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 2808
+   "length": 7272
   },
   "UV": {
-   "offset": 11232,
+   "offset": 29088,
    "type": "float32",
-   "length": 1872
+   "length": 4848
   },
   "N": {
-   "offset": 18720,
+   "offset": 48480,
    "type": "int8",
-   "length": 2808
+   "length": 7272
   },
   "order": {
-   "offset": 21528,
+   "offset": 55752,
    "type": "uint16",
-   "length": 936
+   "length": 2424
+  },
+  "live": {
+   "offset": 60600,
+   "type": "uint8",
+   "length": 2424
   }
  },
  "looks": [
@@ -57,7 +62,7 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_table_top-v1-i2.webp",
+   "texture": "assets/textures/tex_table_top-v1-i2x21.3.webp",
    "wrap": false,
    "shade": 1.0,
    "cutout": false
@@ -106,6 +111,12 @@
   },
   {
    "texture": "assets/textures/tex_hotplate-v1-i2.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_lamp_lens_green-v1-i12.webp",
    "wrap": false,
    "shade": 1.0,
    "cutout": false
@@ -172,26 +183,31 @@
   [
    9,
    126,
-   80
+   72
   ],
   [
    10,
-   206,
+   198,
    4
   ],
   [
    11,
-   210,
+   202,
    2
   ],
   [
    12,
-   212,
-   64
+   204,
+   512
   ],
   [
    13,
-   276,
+   716,
+   56
+  ],
+  [
+   14,
+   772,
    36
   ]
  ],
@@ -223,5 +239,92 @@
   "deckFadeM": 0.06,
   "cutoutAlpha": 0.5,
   "supersample": 3
- }
+ },
+ "live": [
+  {
+   "as": "glow",
+   "show": "run",
+   "part": "parts[5] (hotplate).parts[0] (hob)",
+   "boxM": [
+    [
+     1.09,
+     0.06,
+     0.75
+    ],
+    [
+     1.49,
+     0.46,
+     0.762
+    ]
+   ]
+  },
+  {
+   "as": "lamp",
+   "show": "run",
+   "part": "parts[5] (hotplate).parts[1] (run lamp)",
+   "boxM": [
+    [
+     1.1336,
+     0.0819,
+     0.762
+    ],
+    [
+     1.1656,
+     0.1139,
+     0.766
+    ]
+   ]
+  },
+  {
+   "as": "lamp",
+   "show": "state",
+   "part": "parts[5] (hotplate).parts[2] (state lamp)",
+   "boxM": [
+    [
+     1.2266,
+     0.0819,
+     0.762
+    ],
+    [
+     1.2586,
+     0.1139,
+     0.766
+    ]
+   ]
+  },
+  {
+   "as": "lamp",
+   "show": "fault",
+   "part": "parts[5] (hotplate).parts[3] (fault lamp)",
+   "boxM": [
+    [
+     1.3187,
+     0.0799,
+     0.762
+    ],
+    [
+     1.3547,
+     0.1159,
+     0.766
+    ]
+   ]
+  },
+  {
+   "as": "lamp",
+   "show": "run",
+   "part": "parts[5] (hotplate).parts[4] (heat lamp)",
+   "boxM": [
+    [
+     1.414,
+     0.0819,
+     0.762
+    ],
+    [
+     1.446,
+     0.1139,
+     0.766
+    ]
+   ]
+  }
+ ]
 }

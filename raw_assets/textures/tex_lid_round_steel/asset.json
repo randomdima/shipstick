@@ -1,0 +1,19 @@
+{
+ "about": "A round dull steel lid seen straight down, a small hinged thumb tab, its rim touching all four edges, the corners outside it plain grey steel: a jug's, a jar's or a vessel's lid.",
+ "kind": "decal",
+ "sets": [
+  "galley",
+  "issue_steel"
+ ],
+ "tags": [
+  "lid",
+  "round",
+  "cap",
+  "cover",
+  "tab"
+ ],
+ "material": "steel",
+ "fits": [
+  "top"
+ ]
+}

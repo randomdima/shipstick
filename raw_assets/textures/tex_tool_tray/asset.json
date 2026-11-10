@@ -1,0 +1,18 @@
+{
+ "about": "A shallow dull orange painted steel tool tray seen straight down, its rim at all four edges, holding hand tools laid flat side by side: two open-ended spanners, a ring spanner, a screwdriver and a pair of pliers, all dull grey steel with black grips.",
+ "kind": "face",
+ "sets": [
+  "workshop"
+ ],
+ "tags": [
+  "tools",
+  "tray",
+  "spanners",
+  "pliers",
+  "screwdriver"
+ ],
+ "material": "steel",
+ "fits": [
+  "top"
+ ]
+}

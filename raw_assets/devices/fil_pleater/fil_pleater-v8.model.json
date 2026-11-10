@@ -1,0 +1,74 @@
+{
+  "id": "fil_pleater",
+  "about": "A filter pleater two cells long: a vented grey base, a roll of white filter media on a spindle, a stack of yellow-ended rollers between a yellow upright and a grey control column with a run lamp and a fault lamp, the roll and rollers turning while it runs, and a stack of pleated filters.",
+  "sets": ["issue_steel", "workshop", "airworks", "controls"],
+  "boundsM": [[0, 0, 0], [2, 1, 1.0]],
+  "textures": {
+    "panel":   {"src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png", "insetPct": 4, "tileM": [0.6, null]},
+    "steel":   {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "yellow":  {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": [0.3, null]},
+    "trim":    {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3},
+    "perf":    {"src": "raw_assets/textures/tex_perforated_steel/tex_perforated_steel-v1.png", "insetPct": 4, "tileM": 0.12},
+    "canvas":  {"src": "raw_assets/textures/tex_canvas_offwhite/tex_canvas_offwhite-v1.png", "insetPct": 4, "tileM": 0.4},
+    "pleats":  {"src": "raw_assets/textures/tex_pleated_filter/tex_pleated_filter-v1.png", "insetPct": 4, "tileM": [0.42, null]},
+    "ctrl":    {"src": "raw_assets/textures/tex_control_panel/tex_control_panel-v1.png", "insetPct": 2},
+    "pipe":    {"src": "raw_assets/textures/tex_pipe/tex_pipe-v1.png", "insetPct": [10.3, 6]},
+    "lens":    {"src": "raw_assets/textures/tex_lamp_lens_green/tex_lamp_lens_green-v1.png", "insetPct": 12}
+  },
+  "parts": [
+    {"shape": "group", "name": "base", "parts": [
+      {"shape": "box", "name": "base body", "atM": [1, 0.5, 0.2], "sizeM": [1.96, 0.92, 0.4],
+       "faces": {"top": {"tex": "trim", "shade": 0.8}, "*": "panel", "bottom": null}},
+      {"shape": "box", "name": "rim front", "atM": [1, 0.07, 0.43], "sizeM": [1.96, 0.06, 0.06], "tex": "panel"},
+      {"shape": "box", "name": "rim back", "atM": [1, 0.93, 0.43], "sizeM": [1.96, 0.06, 0.06], "tex": "panel"},
+      {"shape": "box", "name": "rim end", "atM": [0.05, 0.5, 0.43], "sizeM": [0.06, 0.8, 0.06],
+       "repeat": {"count": 2, "stepM": [1.9, 0, 0]}, "tex": "panel"},
+      {"shape": "box", "name": "vent frame", "atM": [0.34, 0.038, 0.2], "sizeM": [0.34, 0.004, 0.18],
+       "repeat": {"count": 3, "stepM": [0.66, 0, 0]},
+       "faces": {"south": "yellow", "*": "trim", "north": null}},
+      {"shape": "box", "name": "vent mesh", "atM": [0.34, 0.034, 0.2], "sizeM": [0.3, 0.004, 0.14],
+       "repeat": {"count": 3, "stepM": [0.66, 0, 0]},
+       "faces": {"south": {"tex": "perf", "shade": 0.7}, "*": "trim", "north": null}}
+    ]},
+
+    {"shape": "group", "name": "media roll", "parts": [
+      {"shape": "cylinder", "name": "turntable", "atM": [0.34, 0.45, 0.43], "radiusM": 0.09, "lengthM": 0.06,
+       "faces": {"side": "trim", "ends": "steel"}},
+      {"shape": "box", "name": "feed arm", "atM": [0.52, 0.42, 0.43], "sizeM": [0.2, 0.05, 0.05], "tex": "trim",
+       "live": {"as": "stroke", "show": "run", "toward": "north", "strokeM": 0.06, "periodS": 2.5}},
+      {"shape": "group", "name": "turning roll", "atM": [0.34, 0.45, 0.71],
+       "live": {"as": "spin", "show": "run", "facing": "up", "degPerS": 15}, "parts": [
+        {"shape": "cylinder", "name": "roll", "atM": [0, 0, 0], "radiusM": 0.18, "lengthM": 0.5,
+         "faces": {"side": {"tex": "canvas", "tileM": [0.57, null]}, "ends": {"tex": "canvas", "shade": 0.95}}},
+        {"shape": "cylinder", "name": "roll core", "atM": [0, 0, 0.265], "radiusM": 0.045, "lengthM": 0.03,
+         "faces": {"side": "steel", "ends": {"tex": "pipe", "shade": 0.8}}}
+      ]}
+    ]},
+
+    {"shape": "group", "name": "roller bed", "parts": [
+      {"shape": "box", "name": "yellow side beam", "atM": [0.685, 0.5, 0.59], "sizeM": [0.13, 0.8, 0.38],
+       "faces": {"*": "yellow", "bottom": null}},
+      {"shape": "box", "name": "control beam", "atM": [1.3, 0.5, 0.59], "sizeM": [0.12, 0.8, 0.38],
+       "faces": {"*": "panel", "bottom": null}},
+      {"shape": "box", "name": "status lights", "atM": [1.3, 0.5, 0.782], "sizeM": [0.09, 0.202, 0.004],
+       "faces": {"top": {"tex": "ctrl", "turnDeg": 90}, "*": "trim", "bottom": null}},
+      {"shape": "sphere", "name": "run lamp", "atM": [1.3219, 0.4631, 0.784], "sizeM": [0.018, 0.018, 0.009], "half": true,
+       "tex": "lens", "live": {"as": "lamp", "show": "run"}},
+      {"shape": "sphere", "name": "fault lamp", "atM": [1.3215, 0.4242, 0.784], "sizeM": [0.021, 0.021, 0.009], "half": true,
+       "tex": "lens", "live": {"as": "lamp", "show": "fault"}},
+      {"shape": "box", "name": "bed floor", "atM": [0.995, 0.5, 0.47], "sizeM": [0.49, 0.8, 0.14],
+       "faces": {"top": {"tex": "trim", "shade": 0.6}, "*": "panel", "bottom": null}},
+      {"shape": "group", "name": "turning roller", "atM": [0.995, 0.2, 0.62], "repeat": {"count": 5, "stepM": [0, 0.15, 0]},
+       "live": {"as": "spin", "show": "run", "facing": "east", "degPerS": 40}, "parts": [
+        {"shape": "cylinder", "name": "roller", "atM": [0, 0, 0], "radiusM": 0.065, "lengthM": 0.43, "axis": "x",
+         "faces": {"side": {"tex": "steel", "turnDeg": 90}, "ends": "steel"}},
+        {"shape": "cylinder", "name": "roller collar", "atM": [-0.23, 0, 0], "radiusM": 0.07, "lengthM": 0.03, "axis": "x",
+         "repeat": {"count": 2, "stepM": [0.46, 0, 0]},
+         "faces": {"side": {"tex": "yellow", "turnDeg": 90}, "ends": "yellow"}}
+      ]}
+    ]},
+
+    {"shape": "box", "name": "pleated filter stack", "atM": [1.67, 0.5, 0.48], "sizeM": [0.42, 0.62, 0.16],
+     "faces": {"top": "pleats", "*": {"tex": "pleats", "tileM": 0.42, "shade": 0.9}, "bottom": null}}
+  ]
+}

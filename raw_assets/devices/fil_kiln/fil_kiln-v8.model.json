@@ -1,0 +1,82 @@
+{
+  "id": "fil_kiln",
+  "about": "A charcoal kiln two cells square: a horizontal steel drum with yellow end bands that turns while it fires, and a front door on a base plate, a yellow control column with a chimney, a run lamp and a fault lamp on its status panel and a readout lit while it fires, and an open bin of charcoal.",
+  "sets": ["issue_steel", "workshop", "controls"],
+  "boundsM": [[0, 0, 0], [2, 2, 1.85]],
+  "textures": {
+    "drum":     {"src": "raw_assets/textures/tex_drum_welded/tex_drum_welded-v1.png", "insetPct": 3, "tileM": 0.8},
+    "steel":    {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "yellow":   {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "trim":     {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3},
+    "door":     {"src": "raw_assets/textures/tex_door_hinged_steel/tex_door_hinged_steel-v1.png", "insetPct": 2},
+    "ctrl":     {"src": "raw_assets/textures/tex_control_panel/tex_control_panel-v1.png", "insetPct": 2},
+    "lens":     {"src": "raw_assets/textures/tex_lamp_lens_green/tex_lamp_lens_green-v1.png", "insetPct": 12},
+    "vent":     {"src": "raw_assets/textures/tex_vent/tex_vent-v1.png", "insetPct": 2},
+    "screen":   {"src": "raw_assets/textures/tex_screen_green/tex_screen_green-v1.png", "insetPct": 6},
+    "perf":     {"src": "raw_assets/textures/tex_perforated_steel/tex_perforated_steel-v1.png", "insetPct": 4, "tileM": 0.15},
+    "pipe":     {"src": "raw_assets/textures/tex_pipe/tex_pipe-v1.png", "insetPct": 6},
+    "charcoal": {"src": "raw_assets/textures/tex_charcoal/tex_charcoal-v1.png", "insetPct": 4, "tileM": 0.35},
+    "label":    {"src": "raw_assets/textures/tex_label_plate/tex_label_plate-v1.png", "insetPct": 3}
+  },
+  "parts": [
+    {"shape": "group", "name": "drum on base", "parts": [
+      {"shape": "box", "name": "base plate", "atM": [0.66, 1.0, 0.04], "sizeM": [1.28, 1.1, 0.08],
+       "faces": {"top": "steel", "*": "trim", "bottom": null}},
+      {"shape": "box", "name": "saddle", "atM": [0.24, 1.0, 0.16], "sizeM": [0.08, 0.8, 0.16],
+       "repeat": {"count": 2, "stepM": [0.56, 0, 0]}, "tex": "trim"},
+      {"shape": "group", "name": "turning drum", "live": {"as": "spin", "show": "run", "facing": "east", "degPerS": 20, "pivotM": [0.52, 1.0, 0.6]}, "parts": [
+        {"shape": "cylinder", "name": "drum", "atM": [0.52, 1.0, 0.6], "radiusM": 0.48, "lengthM": 0.8, "axis": "x",
+         "faces": {"side": {"tex": "drum", "turnDeg": 90}, "ends": "drum"}},
+        {"shape": "cylinder", "name": "end band", "atM": [0.08, 1.0, 0.6], "radiusM": 0.485, "lengthM": 0.08, "axis": "x",
+         "repeat": {"count": 2, "stepM": [0.88, 0, 0]},
+         "faces": {"side": {"tex": "yellow", "turnDeg": 90}, "ends": "yellow"}},
+        {"shape": "cylinder", "name": "end cap", "atM": [0.025, 1.0, 0.6], "radiusM": 0.36, "radiusEndM": 0.44, "lengthM": 0.05, "axis": "x",
+         "faces": {"side": "yellow", "ends": {"tex": "yellow", "shade": 0.9}}},
+        {"shape": "cylinder", "name": "strap", "atM": [0.22, 1.0, 0.6], "radiusM": 0.492, "lengthM": 0.045, "axis": "x",
+         "repeat": {"count": 2, "stepM": [0.6, 0, 0]},
+         "faces": {"side": {"tex": "trim", "turnDeg": 90}, "ends": "trim"}}
+      ]},
+      {"shape": "box", "name": "kiln door", "atM": [0.52, 0.62, 0.47], "sizeM": [0.5, 0.24, 0.44],
+       "faces": {"south": "door", "top": "steel", "*": {"tex": "steel", "shade": 0.8}, "north": null, "bottom": null}}
+    ]},
+
+    {"shape": "group", "name": "control column", "parts": [
+      {"shape": "box", "name": "column", "atM": [1.16, 0.8, 0.59], "sizeM": [0.28, 0.5, 1.02],
+       "faces": {"*": "yellow", "bottom": null}},
+      {"shape": "box", "name": "status panel", "atM": [1.16, 0.548, 0.92], "sizeM": [0.22, 0.004, 0.1],
+       "faces": {"south": "ctrl", "*": "trim", "north": null}},
+      {"shape": "sphere", "name": "run lamp", "atM": [1.2, 0.546, 0.9444], "sizeM": [0.019, 0.019, 0.008], "half": true,
+       "rotDeg": [90, 0, 0], "tex": "lens", "live": {"as": "lamp", "show": "run"}},
+      {"shape": "sphere", "name": "fault lamp", "atM": [1.2425, 0.546, 0.9438], "sizeM": [0.021, 0.021, 0.008], "half": true,
+       "rotDeg": [90, 0, 0], "tex": "lens", "live": {"as": "lamp", "show": "fault"}},
+      {"shape": "box", "name": "column vent", "atM": [1.16, 0.548, 0.62], "sizeM": [0.2, 0.004, 0.24],
+       "faces": {"south": {"tex": "vent", "turnDeg": 90}, "*": "trim", "north": null}},
+      {"shape": "box", "name": "readout", "atM": [1.16, 0.548, 0.26], "sizeM": [0.18, 0.004, 0.1],
+       "faces": {"south": "screen", "*": "trim", "north": null}, "live": {"as": "glow", "show": "run"}},
+      {"shape": "box", "name": "chimney collar", "atM": [1.16, 0.86, 1.13], "sizeM": [0.22, 0.22, 0.06],
+       "tex": "trim"},
+      {"shape": "cylinder", "name": "chimney", "atM": [1.16, 0.86, 1.43], "radiusM": 0.065, "lengthM": 0.56,
+       "faces": {"side": {"tex": "pipe", "turnDeg": 90}, "ends": "trim"}},
+      {"shape": "cylinder", "name": "chimney cap", "atM": [1.16, 0.86, 1.76], "radiusM": 0.1, "lengthM": 0.18,
+       "faces": {"side": {"tex": "perf", "tileM": [0.2, 0.18]}, "ends": {"tex": "trim", "shade": 0.4}},
+       "live": {"as": "spin", "show": "run", "facing": "up", "degPerS": 90}}
+    ]},
+
+    {"shape": "group", "name": "charcoal bin", "parts": [
+      {"shape": "box", "name": "charcoal", "atM": [1.67, 0.96, 0.22], "sizeM": [0.54, 0.72, 0.44],
+       "faces": {"top": "charcoal", "*": "trim", "bottom": null}},
+      {"shape": "box", "name": "bin front", "atM": [1.67, 0.58, 0.25], "sizeM": [0.62, 0.04, 0.5],
+       "faces": {"*": "steel", "bottom": null}},
+      {"shape": "box", "name": "bin back", "atM": [1.67, 1.34, 0.25], "sizeM": [0.62, 0.04, 0.5],
+       "faces": {"*": "steel", "bottom": null}},
+      {"shape": "box", "name": "bin side", "atM": [1.38, 0.96, 0.25], "sizeM": [0.04, 0.72, 0.5],
+       "repeat": {"count": 2, "stepM": [0.58, 0, 0]}, "faces": {"*": "steel", "bottom": null}},
+      {"shape": "box", "name": "bin rim band", "atM": [1.67, 0.558, 0.46], "sizeM": [0.62, 0.004, 0.06],
+       "faces": {"south": {"tex": "trim", "shade": 1.3}, "*": "trim", "north": null}},
+      {"shape": "box", "name": "bin latch", "atM": [1.67, 0.55, 0.39], "sizeM": [0.08, 0.02, 0.1],
+       "tex": "trim"},
+      {"shape": "box", "name": "bin label", "atM": [1.67, 0.558, 0.2], "sizeM": [0.3, 0.004, 0.14],
+       "faces": {"south": "label", "*": "trim", "north": null}}
+    ]}
+  ]
+}

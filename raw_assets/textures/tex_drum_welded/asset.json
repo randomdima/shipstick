@@ -1,0 +1,18 @@
+{
+ "about": "dull grey painted steel drum plating, two faint straight weld seams running from the left edge to the right edge, repeating.",
+ "kind": "material",
+ "sets": [
+  "workshop"
+ ],
+ "tags": [
+  "drum",
+  "welded",
+  "seam",
+  "vessel",
+  "tank"
+ ],
+ "material": "steel",
+ "fits": [
+  "side"
+ ]
+}

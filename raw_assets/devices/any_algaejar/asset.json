@@ -1,0 +1,11 @@
+{
+ "about": "An algae jar on one cell: a strapped glass jar of green algae on a steel plinth with yellow corner clamps, a gas bottle beside it piped to the lid, a status lamp on the plinth's front corner.",
+ "kind": "device",
+ "sets": [
+  "issue_steel",
+  "growing",
+  "airworks",
+  "controls"
+ ],
+ "tags": []
+}

@@ -1,0 +1,10 @@
+{
+ "about": "A moisture condenser: grey cabinet with a fan grille and a cooling-fin block on top, a water basin in a front recess, a yellow side column with a status lamp, a level bar on top showing the water it holds, a gas bottle standing in front.",
+ "kind": "device",
+ "sets": [
+  "issue_steel",
+  "airworks",
+  "controls"
+ ],
+ "tags": []
+}

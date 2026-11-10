@@ -1,0 +1,18 @@
+{
+ "about": "White pleated filter paper seen face on: even narrow pleats running from the top edge to the bottom edge, soft grey shadow in each fold, repeating.",
+ "kind": "material",
+ "sets": [
+  "airworks"
+ ],
+ "tags": [
+  "filter",
+  "pleated",
+  "paper",
+  "cartridge"
+ ],
+ "material": "paper",
+ "fits": [
+  "front",
+  "side"
+ ]
+}

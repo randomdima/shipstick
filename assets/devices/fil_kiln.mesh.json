@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/fil_kiln/fil_kiln-v6.png",
- "model": "raw_assets/devices/fil_kiln/fil_kiln-v6.model.json",
+ "variant": "raw_assets/devices/fil_kiln/fil_kiln-v9.png",
+ "model": "raw_assets/devices/fil_kiln/fil_kiln-v9.model.json",
  "boundsM": [
   [
    0,
@@ -13,28 +13,33 @@
    1.85
   ]
  ],
- "triangles": 1200,
+ "triangles": 2096,
  "bin": "fil_kiln.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 10800
+   "length": 18864
   },
   "UV": {
-   "offset": 43200,
+   "offset": 75456,
    "type": "float32",
-   "length": 7200
+   "length": 12576
   },
   "N": {
-   "offset": 72000,
+   "offset": 125760,
    "type": "int8",
-   "length": 10800
+   "length": 18864
   },
   "order": {
-   "offset": 82800,
+   "offset": 144624,
    "type": "uint16",
-   "length": 3600
+   "length": 6288
+  },
+  "live": {
+   "offset": 157200,
+   "type": "uint8",
+   "length": 6288
   }
  },
  "looks": [
@@ -69,7 +74,7 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_kiln_door-v1-i2.webp",
+   "texture": "assets/textures/tex_door_hinged_steel-v1-i2.webp",
    "wrap": false,
    "shade": 1.0,
    "cutout": false
@@ -87,6 +92,12 @@
    "cutout": false
   },
   {
+   "texture": "assets/textures/tex_lamp_lens_green-v1-i12.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
    "texture": "assets/textures/tex_vent-v1-i2.webp",
    "wrap": false,
    "shade": 1.0,
@@ -99,8 +110,8 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_pipe-v1-i6.webp",
-   "wrap": false,
+   "texture": "assets/textures/tex_pipe-v1-i6-seamless.webp",
+   "wrap": true,
    "shade": 1.0,
    "cutout": false
   },
@@ -139,81 +150,86 @@
   [
    0,
    0,
-   424
+   672
   ],
   [
    1,
-   424,
+   672,
    44
   ],
   [
    2,
-   468,
-   128
+   716,
+   256
   ],
   [
    3,
-   596,
-   330
+   972,
+   650
   ],
   [
    4,
-   926,
-   64
+   1622,
+   128
   ],
   [
    5,
-   990,
+   1750,
    2
   ],
   [
    6,
-   992,
+   1752,
    4
   ],
   [
    7,
-   996,
+   1756,
    2
   ],
   [
    8,
-   998,
-   2
+   1758,
+   144
   ],
   [
    9,
-   1000,
+   1902,
    2
   ],
   [
    10,
-   1002,
-   64
+   1904,
+   2
   ],
   [
    11,
-   1066,
-   64
+   1906,
+   56
   ],
   [
    12,
-   1130,
+   1962,
    64
   ],
   [
    13,
-   1194,
-   2
+   2026,
+   64
   ],
   [
    14,
-   1196,
+   2090,
    2
   ],
   [
    15,
-   1198,
+   2092,
+   2
+  ],
+  [
+   16,
+   2094,
    2
   ]
  ],
@@ -245,5 +261,114 @@
   "deckFadeM": 0.06,
   "cutoutAlpha": 0.5,
   "supersample": 3
- }
+ },
+ "live": [
+  {
+   "as": "spin",
+   "show": "run",
+   "part": "parts[0] (drum on base).parts[2] (turning drum)",
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pivotM": [
+    0.52,
+    1.0,
+    0.6
+   ],
+   "degPerS": 20,
+   "boxM": [
+    [
+     -0.0,
+     0.508,
+     0.108
+    ],
+    [
+     1.0,
+     1.492,
+     1.092
+    ]
+   ]
+  },
+  {
+   "as": "lamp",
+   "show": "run",
+   "part": "parts[1] (control column).parts[2] (run lamp)",
+   "boxM": [
+    [
+     1.1905,
+     0.542,
+     0.9349
+    ],
+    [
+     1.2095,
+     0.546,
+     0.9539
+    ]
+   ]
+  },
+  {
+   "as": "lamp",
+   "show": "fault",
+   "part": "parts[1] (control column).parts[3] (fault lamp)",
+   "boxM": [
+    [
+     1.232,
+     0.542,
+     0.9333
+    ],
+    [
+     1.253,
+     0.546,
+     0.9543
+    ]
+   ]
+  },
+  {
+   "as": "glow",
+   "show": "run",
+   "part": "parts[1] (control column).parts[5] (readout)",
+   "boxM": [
+    [
+     1.11,
+     0.546,
+     0.21
+    ],
+    [
+     1.21,
+     0.55,
+     0.31
+    ]
+   ]
+  },
+  {
+   "as": "spin",
+   "show": "run",
+   "part": "parts[1] (control column).parts[8] (chimney cap)",
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "pivotM": [
+    1.16,
+    0.86,
+    1.76
+   ],
+   "degPerS": 90,
+   "boxM": [
+    [
+     1.06,
+     0.76,
+     1.67
+    ],
+    [
+     1.26,
+     0.96,
+     1.85
+    ]
+   ]
+  }
+ ]
 }

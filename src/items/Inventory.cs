@@ -48,14 +48,6 @@ public sealed class Inventory
         filters.CopyTo(this.filters);
     }
 
-    /// <summary>The items held across a run of slots.</summary>
-    public int CountIn(Range slots)
-    {
-        var count = 0;
-        foreach (var stack in stacks.AsSpan(slots)) count += stack.Count;
-        return count;
-    }
-
     /// <summary>How many of <paramref name="item"/> a run of slots holds.</summary>
     public int CountIn(Range slots, Item item)
     {

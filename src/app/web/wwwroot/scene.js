@@ -4,7 +4,11 @@
 // model as `qq sprites use` wrote it (assets/<path>/<id>.mesh.json, .qq/_shapes_mesh.py), or the plain crate stretched
 // to its footprint until it has one; walls and doors are the kit's caps and panels on blocks a cell square; the deck is
 // its plates. What the pointer is over is read back from the picture (`pick`); where a thing stands on the page comes
-// from the camera (`rectOf`, `pointOf`), for the windows, leaders, lamps and tags laid over it.
+// from the camera (`rectOf`, `pointOf`), for the windows and their leaders.
+//
+// A model's live parts (`live` in its .mesh.json, .qq/_shapes.py LIVE) show their device as it runs (`setLive`, WEB-12): a
+// lamp lights, a screen glows, a needle swings, a bar fills, a fan turns, an arm travels to and fro. While one moves the scene is drawn every
+// display frame (WEB-11), its costly passes only over what moved.
 //
 // World space is the ship's, in metres, a cell a metre: x east from its west edge, y north from its north edge (so
 // every row is below 0), z up from the deck.
@@ -20,12 +24,12 @@ export const ZOOM = { start: 1, least: .35, most: 5 };
 // how far each piece of the kit lies off what it covers.
 const WALL_COURSE_M = .5;
 const WALL_COURSES = 3;
-const WALL_HIGH_M = WALL_COURSE_M * WALL_COURSES;
+export const WALL_HIGH_M = WALL_COURSE_M * WALL_COURSES;
 const LAID_M = .003;
 // The kit's pieces and the deck's tiles are cut with a dark fringe: this share of each edge is left off.
 const JOIN_INSET = (1 - 1 / 1.04) / 2;
 const DECK_INSET = (1 - 1 / 1.12) / 2;
-// The deck and the caps are drawn darker than they are lit, as the stylesheet drew them; a fogged capsule darker still.
+// The deck and the caps are drawn darker than they are lit; a fogged capsule darker still.
 const DECK_TONE = .85;
 const CAP_TONE = .85;
 const FOG_TONE = .4;
@@ -43,9 +47,35 @@ const OPEN_MAX = 16;
 const ORDER_M = 3e-5;
 // The shadow map's largest side, and what stands taller than a wall, for its extent.
 const SHADOW_MAX_PX = 4096;
+// The shadow map's pixels read round a point's own, each way: its shadow's edge is softened over them.
+const SHADOW_KERNEL_PX = 1;
 const TALLEST_M = 3;
 // The stand-in for a device with no model of its own: the crate, stretched to its footprint.
 const CRATE = 'assets/parts/any_crate.mesh.json';
+// The live parts one model has at most: the shaders' arrays are this long (.qq/_shapes.py LIVE_MOST).
+const LIVE_MAX = 12;
+// How each way of showing draws its picture: as modelled (what turns), multiplied by its tone (a glow, a fill), or its
+// coloured part — a lamp's lens, not its rim — in the tone's colour, as bright as the picture is there.
+const MODE = { needle: 0, spin: 0, stroke: 0, glow: 1, fill: 1, lamp: 2 };
+// What moves from where the sun's map has it casts no shadow if it is small (a needle, an arm) — a large one (a panel
+// tracking the sun) casts the shadow of where it was modelled; what spins turns in its own outline.
+const UNSHADOWED = new Set(['needle', 'stroke']);
+const SHADOWED_FROM_M = .2;
+const castsNone = e => UNSHADOWED.has(e.as) && Math.max(...e.boxM[1].map((v, i) => v - e.boxM[0][i])) < SHADOWED_FROM_M;
+// A tone is [r, g, b, glow]. A lamp is green, amber for caution, red for a fault alone (docs/style.md), or dark; a glow
+// and a fill's lit steps are their picture lit, the rest dimmed.
+const LAMP = { running: [.42, 1, .5, 1], short: [...AMBER, 1], fault: [1, .25, .18, 1], off: [.2, .23, .21, 0] };
+const LIT = [1, 1, 1, 1], DIMMED = [.3, .3, .3, 0];
+// What glows is drawn this much brighter than its picture, unshaded, and lights the pixels round it this far and this
+// much.
+const GLOW_GAIN = 1.3;
+const HALO_PX = 3;
+const HALO = .45;
+// A fault lamp blinks this many times a second; a needle swings at an even pace, this share of its sweep a second.
+const BLINK_HZ = 1;
+const NEEDLE_PER_S = .5;
+// A partial draw is widened this far round what moved, for the outlines, occlusion and halo measured across it.
+const MOVED_PAD_PX = 24;
 
 const metas = new Map();      // mesh path → its .mesh.json
 const meshes = new Map();     // mesh path → { meta, vao } once loaded, or a Promise
@@ -57,7 +87,11 @@ let targets = null;           // the pictures each pass draws into, at one size
 const marks = { hover: 0, open: [] };
 const view = { target: [0, 0, 0], yaw: 0, pitch: PITCH.start, zoom: ZOOM.start, cells: 10, matrix: null, inverse: null,
   eye: null };
-let queued = false;
+// What each device's live parts show (setLive): its signals by inventory id, and the ship's clock; each needle's reading
+// as shown and each spin's angle, by device and part, kept across scenes; when the last frame was drawn.
+const live = { byId: new Map(), clock: () => ({ nowS: 0, rate: 0 }), shown: new Map(), lastMs: 0, moving: false };
+// queued: a frame is asked for; whole: it must draw everything, not only what moved.
+let queued = false, whole = true;
 
 /** Reads every model the host serves (its .mesh.json alone; its triangles and textures load when first drawn). */
 export async function loadScene(paths) {
@@ -93,13 +127,11 @@ function context() {
   return gl;
 }
 
-/** Whether `path` names a model of a device (its own) the scene can draw. */
-export const hasModel = path => metas.has(path);
-
 /**
  * What the floor shows: `cells` of deck ({ column, row, src, deg, tint, fog, at }), `walls` ({ column, row, cap,
- * capDeg, faces: [{ side, src }], lintel, lintelAcross, leaf, id, at, title, fog }) and `devices` ({ column, row,
- * columns, rows, mesh, id, at, title }), each at its ship cell; `id` is what a click opens, `at` the capsule it is in.
+ * capDeg, faces: [{ side, src }], lintel, lintelAcross, leaf, id, at, title, fog }), `devices` ({ column, row,
+ * columns, rows, mesh, id, at, title }), each at its ship cell, and `parts` ({ mesh, atM, turnDeg, id, at, title }), a
+ * model set down at a point of the world turned clockwise; `id` is what a click opens, `at` the capsule it is in.
  * Built again only when it changed.
  */
 export function setScene(description) {
@@ -112,8 +144,17 @@ export function setScene(description) {
     const height = metas.get(path)?.boundsM[1][2] ?? 1;
     const offset = [d.column, -(d.row + d.rows), 0];
     const scale = d.mesh ? [1, 1, 1] : [d.columns, d.rows, 1];
-    return { path, offset, scale, thing: thing(d.id, d.at, d.title, [offset, [d.column + d.columns, -d.row, height]]), tint: 1 };
+    return { path, offset, scale, turn: turned(0), id: d.id,
+      thing: thing(d.id, d.at, d.title, [offset, [d.column + d.columns, -d.row, height]]) };
   });
+  for (const p of description.parts ?? []) {
+    const meta = metas.get(p.mesh);
+    if (!meta) continue;
+    const turn = turned(p.turnDeg);
+    const corners = cornersOf(meta.boundsM).map(c => apply(turn, c).map((v, i) => v + p.atM[i]));
+    const box = [0, 1].map(end => [0, 1, 2].map(i => (end ? Math.max : Math.min)(...corners.map(c => c[i]))));
+    devices.push({ path: p.mesh, offset: p.atM, scale: [1, 1, 1], turn, id: p.id, thing: thing(p.id, p.at, p.title, box) });
+  }
   scene = { key, description, things, devices, statics: null, extent: extentOf(description) };
   scene.wallThings = description.walls.map(w => w.id != null || w.at
     ? thing(w.id, w.at, w.title, [[w.column, -(w.row + 1), 0], [w.column + 1, -w.row, WALL_HIGH_M]]) : 0);
@@ -134,6 +175,18 @@ export function setMarks({ hover = 0, open = [] }) {
   const next = { hover, open: ids.slice(0, OPEN_MAX) };
   if (next.hover === marks.hover && `${next.open}` === `${marks.open}`) return;
   Object.assign(marks, next);
+  request();
+}
+
+/**
+ * What each thing's live parts show, by inventory id: `{ runs, last, short, cycleFromS, cycleS, input, output, held }`
+ * — whether it runs a way, how its last cycle ended (a CycleOutcome), whether it is short of the next, when the cycle
+ * under way began and how long it is, in ship seconds, and the shares 0–1 of what its slots hold at most. `clock()`
+ * is the ship's `{ nowS, rate }`.
+ */
+export function setLive(byId, clock) {
+  live.byId = byId;
+  live.clock = clock;
   request();
 }
 
@@ -200,16 +253,17 @@ export function pointOf([x, y, z]) {
   return { x: r.left + (cx * .5 + .5) * r.width, y: r.top + (.5 - cy * .5) * r.height };
 }
 
-/** The box on the page round what opens `id`, as a DOMRect-like; null when nothing in view does. */
+/** The box on the page round what opens `id`, `{ left, right, top, bottom }`; null when nothing in view does. */
 export function rectOf(id) {
   const boxes = scene?.things.filter(t => t && t.id === id).map(t => t.box) ?? [];
-  const points = boxes.flatMap(([lo, hi]) => [0, 1, 2, 3, 4, 5, 6, 7]
-    .map(i => pointOf([(i & 1 ? hi : lo)[0], (i & 2 ? hi : lo)[1], (i & 4 ? hi : lo)[2]]))).filter(Boolean);
+  const points = boxes.flatMap(box => cornersOf(box).map(pointOf)).filter(Boolean);
   if (!points.length) return null;
-  const left = Math.min(...points.map(p => p.x)), right = Math.max(...points.map(p => p.x));
-  const top = Math.min(...points.map(p => p.y)), bottom = Math.max(...points.map(p => p.y));
-  return { left, right, top, bottom, width: right - left, height: bottom - top, x: left, y: top };
+  const [left, right] = range(points.map(p => p.x)), [top, bottom] = range(points.map(p => p.y));
+  return { left, right, top, bottom };
 }
+
+/** The eight corners of the box `[lo, hi]`. */
+const cornersOf = ([lo, hi]) => [0, 1, 2, 3, 4, 5, 6, 7].map(i => [(i & 1 ? hi : lo)[0], (i & 2 ? hi : lo)[1], (i & 4 ? hi : lo)[2]]);
 
 /** What is drawn at a point of the page: { id, at, title } of a thing, or null over the bare deck of fog or space. */
 export function pick(clientX, clientY) {
@@ -227,12 +281,22 @@ export function pick(clientX, clientY) {
   return n ? { thing: n, ...scene.things[n] } : null;
 }
 
-function request() {
+/**
+ * Asks for a frame: of everything, or — `everything` false — of what moves alone, if nothing else asks for more. The
+ * animation tick: while a live part moves, the frame after is asked for at once, whatever this one's draw did, so the
+ * parts move every display frame (WEB-11) and stop asking once none moves; `setLive` starts it again.
+ */
+function request(everything = true) {
+  whole ||= everything;
   if (queued) return;
   queued = true;
-  requestAnimationFrame(() => {
+  requestAnimationFrame(ms => {
     queued = false;
-    draw();
+    try {
+      draw(ms);
+    } finally {
+      if (live.moving) request(false);
+    }
   });
 }
 
@@ -287,7 +351,7 @@ function textureOf(src) {
 }
 
 /** A model's triangles on the card, once; null until they have loaded, when the scene is drawn again. */
-function meshOf(path) {
+function loadedMesh(path) {
   const known = meshes.get(path);
   if (known && !(known instanceof Promise)) return known;
   if (!known) meshes.set(path, (async () => {
@@ -296,9 +360,10 @@ function meshOf(path) {
     const vao = gl.createVertexArray();
     gl.bindVertexArray(vao);
     for (const [location, name, size, type, normalized] of [[0, 'P', 3, gl.FLOAT, false], [1, 'N', 3, gl.BYTE, true],
-      [2, 'UV', 2, gl.FLOAT, false], [3, 'order', 1, gl.UNSIGNED_SHORT, false]]) {
+      [2, 'UV', 2, gl.FLOAT, false], [3, 'order', 1, gl.UNSIGNED_SHORT, false], [6, 'live', 1, gl.UNSIGNED_BYTE, false]]) {
+      if (!meta.layout[name]) continue;
       const { offset, length, type: kind } = meta.layout[name];
-      const Typed = { float32: Float32Array, int8: Int8Array, uint16: Uint16Array }[kind];
+      const Typed = { float32: Float32Array, int8: Int8Array, uint16: Uint16Array, uint8: Uint8Array }[kind];
       attribute(location, new Typed(bin, offset, length), size, type, normalized);
     }
     gl.bindVertexArray(null);
@@ -402,8 +467,13 @@ function face(column, row, side, from, to, out, lowM = 0, highM = WALL_HIGH_M) {
   return [[[...l, highM], [...r, highM], [...r, lowM], [...l, lowM]], normal];
 }
 
-/** Each thing's draws: the statics, then every device as its model's looks, each with its own place and stretch. */
+/**
+ * Each thing's draws: the statics, then every device as its model's looks, each with its own place, turn and stretch,
+ * and its live parts as they stand (`liveFrame`). The sun's map is drawn once for a scene, so what swings casts nothing.
+ */
 function drawScene(u, forSun) {
+  gl.vertexAttrib1f(6, 0);
+  gl.uniformMatrix3fv(u.uTurn, false, turned(0));
   if (scene.statics) {
     gl.uniform3fv(u.uOffset, [0, 0, 0]);
     gl.uniform3fv(u.uScale, [1, 1, 1]);
@@ -418,7 +488,7 @@ function drawScene(u, forSun) {
   }
   let complete = true;
   for (const d of scene.devices) {
-    const mesh = meshOf(d.path);
+    const mesh = loadedMesh(d.path);
     if (!mesh) {
       complete = false;
       continue;
@@ -426,8 +496,17 @@ function drawScene(u, forSun) {
     gl.bindVertexArray(mesh.vao);
     gl.uniform3fv(u.uOffset, d.offset);
     gl.uniform3fv(u.uScale, d.scale);
+    gl.uniformMatrix3fv(u.uTurn, false, d.turn);
     gl.vertexAttrib1f(4, d.thing);
-    gl.vertexAttrib1f(5, d.tint);
+    gl.vertexAttrib1f(5, 1);
+    if (forSun) gl.uniform1i(u.uSwings, (mesh.meta.live ?? []).reduce((bits, e, i) => castsNone(e) ? bits | 1 << i : bits, 0));
+    else if (d.live) {
+      gl.uniformMatrix4fv(u.uLiveMove, false, d.live.move);
+      gl.uniform4fv(u.uLiveOn, d.live.on);
+      gl.uniform4fv(u.uLiveOff, d.live.off);
+      gl.uniform4fv(u.uLiveSplit, d.live.split);
+      gl.uniform1iv(u.uLiveMode, d.live.mode);
+    }
     const folder = d.path.slice(0, d.path.lastIndexOf('/') + 1);
     for (const [look, first, count] of mesh.meta.draws) {
       const l = mesh.meta.looks[look];
@@ -498,8 +577,7 @@ function storage(format, [w, h]) {
 /** The sun's view of the whole scene, as depth: drawn again only when the scene or what it has loaded changes. */
 function sunMap() {
   const s = light.sun, across = unit(cross([0, 0, 1], s)), along = cross(s, across);
-  const [lo, hi] = scene.extent;
-  const corners = [0, 1, 2, 3, 4, 5, 6, 7].map(i => [(i & 1 ? hi : lo)[0], (i & 2 ? hi : lo)[1], (i & 4 ? hi : lo)[2]]);
+  const corners = cornersOf(scene.extent);
   const [a0, a1] = range(corners.map(c => dot(c, across))), [b0, b1] = range(corners.map(c => dot(c, along)));
   const [s0, s1] = range(corners.map(c => dot(c, s)));
   const pxM = Math.min(light.shadowPxM, Math.min(SHADOW_MAX_PX, gl.getParameter(gl.MAX_TEXTURE_SIZE)) / Math.max(a1 - a0, b1 - b0));
@@ -523,16 +601,36 @@ function sunMap() {
   gl.uniformMatrix4fv(u.uMatrix, false, matrix);
   const complete = drawScene(u, true);
   gl.deleteFramebuffer(f);
-  return { key: scene.key, map, size, matrix, depth, complete };
+  return { key: scene.key, map, size, matrix, depth, texelM: 1 / pxM, complete };
 }
 
-function draw() {
+/**
+ * Draws a frame at `ms` (the display's clock): everything, or — when only live parts moved since the last — the
+ * costly passes over the box round them alone, the rest of the picture kept from the frame before.
+ */
+function draw(ms) {
   if (!scene || !canvas || !drawable() || !canvas.clientWidth) return;
   const width = Math.round(canvas.clientWidth * devicePixelRatio), height = Math.round(canvas.clientHeight * devicePixelRatio);
   if (canvas.width !== width || canvas.height !== height) Object.assign(canvas, { width, height });
-  scene.statics ??= buildStatics(scene.description, scene.cellThings, scene.wallThings);
-  if (!sun || sun.key !== scene.key || !sun.complete) sun = sunMap();
-  const t = targetsFor(width, height);
+  if (!scene.statics) {
+    scene.statics = buildStatics(scene.description, scene.cellThings, scene.wallThings);
+    whole = true;
+  }
+  if (!sun || sun.key !== scene.key || !sun.complete) {
+    sun = sunMap();
+    whole = true;
+  }
+  const before = targets, t = targetsFor(width, height);
+  if (t !== before) whole = true;
+  const moved = liveFrame(ms);
+  live.moving = moved.length > 0;
+  const box = whole ? null : movedBox(moved, t);
+  if (!whole && !box) return;
+  whole = false;
+  if (box) {
+    gl.enable(gl.SCISSOR_TEST);
+    gl.scissor(...box);
+  }
 
   gl.bindFramebuffer(gl.FRAMEBUFFER, t.gbuffer);
   gl.viewport(0, 0, ...t.size);
@@ -569,13 +667,15 @@ function draw() {
   gl.uniform1i(u.uHover, marks.hover);
   gl.uniform1iv(u.uOpen, Int32Array.from({ length: OPEN_MAX }, (_, i) => marks.open[i] ?? -1));
   const scalars = {
-    uPxPerMetre: t.size[1] / (2 * Math.tan(FOV_DEG * Math.PI / 360)), uSunDepth: sun.depth, uAmbient: light.ambient,
+    uPxPerMetre: t.size[1] / (2 * Math.tan(FOV_DEG * Math.PI / 360)), uSunDepth: sun.depth, uShadowTexelM: sun.texelM, uAmbient: light.ambient,
     uKeep: light.shadowKeep, uLift: light.shadowLiftM, uBias: light.shadowBiasM, uAoStrength: light.aoStrength,
     uAoMargin: light.aoMarginM, uEdgeM: light.edgeM, uEdgeShade: light.edgeShade, uFoldCos: light.foldCos,
-    uFoldLight: light.foldLight, uHoverLight: HOVER_LIGHT,
+    uFoldLight: light.foldLight, uHoverLight: HOVER_LIGHT, uGlowGain: GLOW_GAIN, uHalo: HALO,
   };
   for (const [name, v] of Object.entries(scalars)) gl.uniform1f(u[name], v);
+  gl.uniform1i(u.uHaloPx, HALO_PX * t.ss);
   gl.drawArrays(gl.TRIANGLES, 0, 3);
+  gl.disable(gl.SCISSOR_TEST);
 
   gl.bindFramebuffer(gl.FRAMEBUFFER, null);
   gl.viewport(0, 0, width, height);
@@ -588,6 +688,138 @@ function draw() {
   gl.uniform1i(u.uSS, t.ss);
   gl.drawArrays(gl.TRIANGLES, 0, 3);
 }
+
+/**
+ * Sets every device's live parts as they stand at `ms` (`d.live`, the shaders' arrays) from what `setLive` was last
+ * told, and says what moves of its own — a needle swinging, a cycle filling, a fan turning, a fault blinking — as the
+ * corners of the world box each sweeps, so the frame after is asked for while any does.
+ */
+function liveFrame(ms) {
+  const { nowS, rate } = live.clock();
+  const dtS = live.lastMs ? Math.min((ms - live.lastMs) / MS_PER_S, LONGEST_STEP_S) : 0;
+  live.lastMs = ms;
+  const blinkOn = Math.floor(ms / MS_PER_S * BLINK_HZ * 2) % 2 === 0;
+  const moved = [];
+  for (const d of scene.devices) {
+    const mesh = meshes.get(d.path);
+    const parts = mesh && !(mesh instanceof Promise) ? mesh.meta.live : null;
+    if (!parts) {
+      d.live = null;
+      continue;
+    }
+    const s = live.byId.get(d.id);
+    const ticking = Boolean(s?.runs) && rate > 0;
+    const fault = s?.last === 'Starved' || s?.last === 'Full';
+    const running = ticking && !fault;
+    const share = show => !s ? 0 : clamp01(show === 'cycle' ? (s.runs && s.cycleS ? (nowS - s.cycleFromS) / s.cycleS : 0) : s[show] ?? 0);
+    const l = d.live ??= { move: new Float32Array(16 * LIVE_MAX), on: new Float32Array(4 * LIVE_MAX),
+      off: new Float32Array(4 * LIVE_MAX), split: new Float32Array(4 * LIVE_MAX), mode: new Int32Array(LIVE_MAX) };
+    parts.forEach((e, i) => {
+      const key = `${d.id} ${d.path} ${i}`;
+      let move = IDENTITY, on = LIT, split = ALWAYS, moves = false;
+      if (e.as === 'lamp') {
+        const tone = e.show === 'run' ? (running ? 'running' : 'off') : fault ? (blinkOn ? 'fault' : 'off')
+          : s?.short && s.runs ? 'short' : e.show === 'state' && running ? 'running' : 'off';
+        on = LAMP[tone];
+        moves = fault && e.show !== 'run';
+      } else if (e.as === 'glow') {
+        on = running ? LIT : DIMMED;
+      } else if (e.as === 'fill') {
+        const v = e.steps ? Math.floor(share(e.show) * e.steps + 1e-6) / e.steps : share(e.show);
+        const [lo, hi] = e.spanM;
+        split = [...e.axis, v <= 0 ? lo - 1 : v >= 1 ? hi + 1 : lo + v * (hi - lo)];
+        moves = e.show === 'cycle' && ticking;
+      } else if (e.as === 'needle') {
+        const target = share(e.show), was = live.shown.get(key) ?? target;
+        const reading = was + Math.sign(target - was) * Math.min(Math.abs(target - was), NEEDLE_PER_S * dtS);
+        live.shown.set(key, reading);
+        move = turnAbout(e.pivotM, e.axis, -reading * e.sweepDeg);
+        moves = reading !== target || (e.show === 'cycle' && ticking);
+      } else if (e.as === 'spin') {
+        const angle = ((live.shown.get(key) ?? 0) + (running ? e.degPerS * dtS : 0)) % 360;
+        live.shown.set(key, angle);
+        move = turnAbout(e.pivotM, e.axis, -angle);
+        moves = running;
+      } else if (e.as === 'stroke') {
+        const phase = ((live.shown.get(key) ?? 0) + (running ? dtS / e.periodS : 0)) % 1;
+        live.shown.set(key, phase);
+        const out = (1 - Math.abs(1 - 2 * phase)) * e.strokeM;
+        move = new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, ...e.axis.map(v => v * out), 1]);
+        moves = running;
+      }
+      l.move.set(move, 16 * i);
+      l.on.set(on, 4 * i);
+      l.off.set(DIMMED, 4 * i);
+      l.split.set(split, 4 * i);
+      l.mode[i] = MODE[e.as];
+      if (moves) moved.push(sweptCorners(d, e));
+    });
+  }
+  return moved;
+}
+
+const MS_PER_S = 1000;
+// A frame after a pause moves what turns on by no more than this, so nothing jumps.
+const LONGEST_STEP_S = .1;
+const IDENTITY = new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);
+// A split every point of a part is on the lit side of.
+const ALWAYS = [0, 0, 0, 1];
+const clamp01 = v => Math.min(1, Math.max(0, v));
+
+/** The world corners of the box a live part of device `d` stays in: what turns, as far round its pivot as it reaches. */
+function sweptCorners(d, e) {
+  let box = e.boxM;
+  if (e.pivotM) {
+    const reach = Math.max(...cornersOf(e.boxM).map(c => Math.hypot(...c.map((v, i) => v - e.pivotM[i]))));
+    box = [e.pivotM.map(v => v - reach), e.pivotM.map(v => v + reach)];
+  } else if (e.strokeM) {
+    const far = e.boxM.map(c => c.map((v, i) => v + e.axis[i] * e.strokeM));
+    box = [0, 1].map(end => [0, 1, 2].map(i => (end ? Math.max : Math.min)(e.boxM[end][i], far[end][i])));
+  }
+  return cornersOf(box).map(c => apply(d.turn, c.map((v, i) => v * d.scale[i])).map((v, i) => v + d.offset[i]));
+}
+
+/**
+ * The box on the targets round every point of `moved`, `[x, y, width, height]`, widened by the reach of what is
+ * measured across a pixel; null when none of it is in view, the whole picture when some is behind the eye.
+ */
+function movedBox(moved, t) {
+  const [w, h] = t.size, m = view.matrix;
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity, nearest = Infinity;
+  for (const [x, y, z] of moved.flat()) {
+    const cw = m[3] * x + m[7] * y + m[11] * z + m[15];
+    if (cw <= 0) return [0, 0, w, h];
+    const px = ((m[0] * x + m[4] * y + m[8] * z + m[12]) / cw * .5 + .5) * w;
+    const py = ((m[1] * x + m[5] * y + m[9] * z + m[13]) / cw * .5 + .5) * h;
+    [x0, x1, y0, y1] = [Math.min(x0, px), Math.max(x1, px), Math.min(y0, py), Math.max(y1, py)];
+    nearest = Math.min(nearest, Math.hypot(x - view.eye[0], y - view.eye[1], z - view.eye[2]));
+  }
+  if (!moved.length) return null;
+  const pxPerMetre = h / (2 * Math.tan(FOV_DEG * Math.PI / 360)) / nearest;
+  const pad = MOVED_PAD_PX * t.ss + Math.max(...light.aoRadiiM) * 4 * pxPerMetre;
+  const [left, bottom] = [Math.max(0, Math.floor(x0 - pad)), Math.max(0, Math.floor(y0 - pad))];
+  const [right, top] = [Math.min(w, Math.ceil(x1 + pad)), Math.min(h, Math.ceil(y1 + pad))];
+  return right > left && top > bottom ? [left, bottom, right - left, top - bottom] : null;
+}
+
+/** A turn of `deg` about the axis `[x, y, z]` (a unit vector) through `pivot`, counter-clockwise seen from its tip. */
+function turnAbout(pivot, [x, y, z], deg) {
+  const a = deg * Math.PI / 180, c = Math.cos(a), s = Math.sin(a), k = 1 - c;
+  const r = [c + x * x * k, y * x * k + z * s, z * x * k - y * s, x * y * k - z * s, c + y * y * k, z * y * k + x * s,
+    x * z * k + y * s, y * z * k - x * s, c + z * z * k];
+  const moved = apply(r, pivot);
+  return new Float32Array([...r.slice(0, 3), 0, ...r.slice(3, 6), 0, ...r.slice(6), 0,
+    pivot[0] - moved[0], pivot[1] - moved[1], pivot[2] - moved[2], 1]);
+}
+
+/** A turn about the vertical of `deg` clockwise seen from above, as a 3×3 matrix. */
+function turned(deg) {
+  const a = -deg * Math.PI / 180, c = Math.cos(a), s = Math.sin(a);
+  return new Float32Array([c, s, 0, -s, c, 0, 0, 0, 1]);
+}
+
+/** A 3×3 column-major matrix `m` times the vector `v`. */
+const apply = (m, v) => [0, 1, 2].map(i => m[i] * v[0] + m[3 + i] * v[1] + m[6 + i] * v[2]);
 
 const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
@@ -634,8 +866,8 @@ function invert(m) {
   return inv;
 }
 
-// Each vertex: its place in its model (aP) put in the world (uScale, then uOffset), nudged toward the eye by its part's
-// order; its normal turned as the stretch turns it.
+// Each vertex: its place in its model (aP) moved as its live part stands (aLive, from 1), put in the world (uScale,
+// uTurn, then uOffset), nudged toward the eye by its part's order; its normal turned as the stretch turns it.
 const G_VERTEX = `#version 300 es
 layout(location = 0) in vec3 aP;
 layout(location = 1) in vec3 aN;
@@ -643,36 +875,52 @@ layout(location = 2) in vec2 aUV;
 layout(location = 3) in float aOrder;
 layout(location = 4) in float aThing;
 layout(location = 5) in float aTint;
+layout(location = 6) in float aLive;
 uniform mat4 uMatrix;
+uniform mat4 uLiveMove[${LIVE_MAX}];
+uniform mat3 uTurn;
 uniform vec3 uOffset, uScale, uEye;
 uniform float uOrderM;
-out vec3 vN, vWorld;
+out vec3 vN, vWorld, vModel;
 out vec2 vUV;
 flat out float vThing;
+flat out int vLive;
 out float vTint;
 void main() {
-  vec3 p = aP * uScale + uOffset;
+  vLive = int(aLive + .5);
+  vec3 m = aP, n = aN;
+  if (vLive > 0) {
+    m = (uLiveMove[vLive - 1] * vec4(aP, 1.)).xyz;
+    n = mat3(uLiveMove[vLive - 1]) * aN;
+  }
+  vec3 p = uTurn * (m * uScale) + uOffset;
   p += normalize(uEye - p) * aOrder * uOrderM;
   gl_Position = uMatrix * vec4(p, 1.);
-  vN = aN / uScale;
+  vN = uTurn * (n / uScale);
   vWorld = p;
+  vModel = aP;
   vUV = aUV;
   vThing = aThing;
   vTint = aTint;
 }`;
 
 // A face turned from the eye is not drawn, as the renderer culls it; a little past edge-on still is, so a round part's
-// interpolated normal opens no gap along its outline.
+// interpolated normal opens no gap along its outline. A live part takes its tone — uLiveOn on the lit side of its
+// split (a fill's reach along its axis), uLiveOff past it — as its MODE says; how much it glows goes out in the
+// albedo's alpha.
 const G_FRAGMENT = `#version 300 es
 precision highp float;
-in vec3 vN, vWorld;
+in vec3 vN, vWorld, vModel;
 in vec2 vUV;
 flat in float vThing;
+flat in int vLive;
 in float vTint;
 uniform sampler2D uTex;
 uniform float uShade, uCutAlpha;
 uniform bool uCutout;
 uniform vec3 uEye;
+uniform vec4 uLiveOn[${LIVE_MAX}], uLiveOff[${LIVE_MAX}], uLiveSplit[${LIVE_MAX}];
+uniform int uLiveMode[${LIVE_MAX}];
 layout(location = 0) out vec4 oAlbedo;
 layout(location = 1) out vec4 oNormal;
 layout(location = 2) out vec4 oThing;
@@ -681,20 +929,37 @@ void main() {
   if (dot(n, normalize(uEye - vWorld)) < -.2) discard;
   vec4 t = texture(uTex, vUV);
   if (uCutout && t.a < uCutAlpha) discard;
-  oAlbedo = vec4(t.rgb * uShade * vTint, 1.);
+  vec3 c = t.rgb;
+  float glow = 0.;
+  int mode = vLive > 0 ? uLiveMode[vLive - 1] : 0;
+  if (mode > 0) {
+    vec4 split = uLiveSplit[vLive - 1];
+    vec4 tone = dot(vModel, split.xyz) <= split.w ? uLiveOn[vLive - 1] : uLiveOff[vLive - 1];
+    float most = max(c.r, max(c.g, c.b));
+    float lens = mode == 2 ? smoothstep(.08, .25, most - min(c.r, min(c.g, c.b))) : 1.;
+    c = mix(c, (mode == 2 ? vec3(min(1., most * 1.4)) : c) * tone.rgb, lens);
+    glow = tone.a * lens;
+  }
+  oAlbedo = vec4(c * mix(uShade * vTint, 1., glow), glow);
   oNormal = vec4(n * .5 + .5, 1.);
   uint id = uint(vThing + .5);
   oThing = vec4(float(id & 255u), float((id >> 8) & 255u), float((id >> 16) & 255u), 255.) / 255.;
 }`;
 
+// A live part that swings (uSwings, a bit each) is left out: the map is drawn once for a scene.
 const SUN_VERTEX = `#version 300 es
 layout(location = 0) in vec3 aP;
 layout(location = 2) in vec2 aUV;
+layout(location = 6) in float aLive;
 uniform mat4 uMatrix;
+uniform mat3 uTurn;
 uniform vec3 uOffset, uScale;
+uniform int uSwings;
 out vec2 vUV;
 void main() {
-  gl_Position = uMatrix * vec4(aP * uScale + uOffset, 1.);
+  int live = int(aLive + .5);
+  gl_Position = live > 0 && ((uSwings >> (live - 1)) & 1) == 1 ? vec4(2., 2., 2., 1.)
+    : uMatrix * vec4(uTurn * (aP * uScale) + uOffset, 1.);
   vUV = aUV;
 }`;
 
@@ -717,16 +982,16 @@ void main() {
 // The renderer's light pass (_shapes_render.lit) for a camera in perspective: the sun by the normal and its shadow map;
 // ambient occlusion and the outlines measured as how far a neighbour stands off a pixel's own plane, the neighbours
 // taken as far apart on the page as the renderer's radii are at that distance; then what is pointed at, lit, and what
-// is open, ringed.
+// is open, ringed. What glows (the albedo's alpha) is lit by itself, and lights the pixels round it.
 const LIGHT_FRAGMENT = `#version 300 es
 precision highp float;
 uniform sampler2D uAlbedo, uNormal, uDepthTex, uShadowTex, uThingTex;
 uniform mat4 uInverse, uSunMatrix;
 uniform vec3 uEye, uSun, uAmber;
 uniform vec2 uShadowSize, uAoRadii;
-uniform float uPxPerMetre, uSunDepth, uAmbient, uKeep, uLift, uBias, uAoStrength, uAoMargin, uEdgeM, uEdgeShade,
-              uFoldCos, uFoldLight, uHoverLight;
-uniform int uAoDirs, uStep, uGlowPx, uHover;
+uniform float uPxPerMetre, uSunDepth, uShadowTexelM, uAmbient, uKeep, uLift, uBias, uAoStrength, uAoMargin, uEdgeM, uEdgeShade,
+              uFoldCos, uFoldLight, uHoverLight, uGlowGain, uHalo;
+uniform int uAoDirs, uStep, uGlowPx, uHover, uHaloPx;
 uniform int uOpen[${OPEN_MAX}];
 out vec4 oColour;
 ivec2 size;
@@ -762,17 +1027,23 @@ void main() {
   vec3 n = normalize(texelFetch(uNormal, p, 0).xyz * 2. - 1.);
   float pxPerM = uPxPerMetre / distance(P, uEye);
 
-  vec3 q = P + n * uLift;
+  float toSun = dot(n, uSun);
+  // A map pixel holds its surface's depth at the pixel's centre, and a plane slanted off the sun departs from that by
+  // the slant's tangent a metre across; lifted that far times the slant's sine along its normal, a point clears its
+  // own plane out to the farthest centre read. The renderer's fixed lift alone holds only at its own pixels a metre.
+  float slant = sqrt(max(0., 1. - toSun * toSun));
+  float reachM = (float(${SHADOW_KERNEL_PX}) + .5) * sqrt(2.) * uShadowTexelM;
+  vec3 q = P + n * (uLift + reachM * slant);
   vec4 s = uSunMatrix * vec4(q, 1.);
   vec2 st = (s.xy * .5 + .5) * uShadowSize;
   float qz = s.z * .5 + .5 - uBias / uSunDepth;
   float reached = 0.;
-  for (int dy = -1; dy <= 1; dy++)
-    for (int dx = -1; dx <= 1; dx++) {
+  for (int dy = -${SHADOW_KERNEL_PX}; dy <= ${SHADOW_KERNEL_PX}; dy++)
+    for (int dx = -${SHADOW_KERNEL_PX}; dx <= ${SHADOW_KERNEL_PX}; dx++) {
       ivec2 c = clamp(ivec2(floor(st)) + ivec2(dx, dy), ivec2(0), ivec2(uShadowSize) - 1);
       reached += texelFetch(uShadowTex, c, 0).r >= qz ? 1. : 0.;
     }
-  float sunlit = reached / 9.;
+  float sunlit = reached / float((2 * ${SHADOW_KERNEL_PX} + 1) * (2 * ${SHADOW_KERNEL_PX} + 1));
 
   float blocked = 0.;
   int samples = 0;
@@ -790,7 +1061,6 @@ void main() {
   float ao = 1. - uAoStrength * blocked / float(samples);
 
   bool outline = false, fold = false;
-  float toSun = dot(n, uSun);
   ivec2 steps[4] = ivec2[4](ivec2(uStep, 0), ivec2(-uStep, 0), ivec2(0, uStep), ivec2(0, -uStep));
   for (int i = 0; i < 4; i++) {
     ivec2 o = p + steps[i];
@@ -804,7 +1074,15 @@ void main() {
   float edge = outline ? uEdgeShade : fold ? uFoldLight : 1.;
 
   float light = (uAmbient + (1. - uAmbient) * max(toSun, 0.) * (uKeep + (1. - uKeep) * sunlit)) * ao;
-  vec3 c = texelFetch(uAlbedo, p, 0).rgb * light * edge * (me == uHover && me > 0 ? uHoverLight : 1.);
+  vec4 albedo = texelFetch(uAlbedo, p, 0);
+  vec3 c = albedo.rgb * mix(light, uGlowGain, albedo.a) * edge * (me == uHover && me > 0 ? uHoverLight : 1.);
+  vec3 halo = vec3(0.);
+  for (int k = 0; k < 8; k++) {
+    float a = .7853982 * float(k);
+    vec4 near = texelFetch(uAlbedo, clamp(p + ivec2(round(vec2(cos(a), sin(a)) * float(uHaloPx))), ivec2(0), size - 1), 0);
+    halo += near.rgb * near.a;
+  }
+  c += halo * uHalo / 8.;
   oColour = vec4(mix(c, ring.rgb, ring.a), 1.);
 }`;
 

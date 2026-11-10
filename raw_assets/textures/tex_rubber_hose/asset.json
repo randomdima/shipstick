@@ -1,0 +1,19 @@
+{
+ "about": "Black rubber hose seen face on, unrolled: fine ribs running across from the left edge to the right edge, evenly spaced, repeating.",
+ "kind": "material",
+ "sets": [
+  "airworks",
+  "power"
+ ],
+ "tags": [
+  "hose",
+  "rubber",
+  "cable",
+  "ribbed",
+  "black"
+ ],
+ "material": "rubber",
+ "fits": [
+  "any"
+ ]
+}

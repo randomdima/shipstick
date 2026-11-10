@@ -3,7 +3,7 @@
   "about": "A part: a tapered steel jug with a lid and a side handle, 0.28 m tall; origin at the centre of its foot.",
   "textures": {
     "steel": {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
-    "lid":   {"src": "raw_assets/textures/tex_jug_lid/tex_jug_lid-v1.png", "insetPct": 2}
+    "lid":   {"src": "raw_assets/textures/tex_lid_round_steel/tex_lid_round_steel-v1.png", "insetPct": 2}
   },
   "parts": [
     {"shape": "group", "name": "jug", "parts": [

@@ -1,0 +1,19 @@
+{
+ "about": "A round analogue dial gauge seen face on: off-white face with fine tick marks and one black needle, no numbers, a round steel bezel touching all four edges, the corners outside it plain grey steel.",
+ "kind": "decal",
+ "sets": [
+  "controls"
+ ],
+ "tags": [
+  "gauge",
+  "dial",
+  "needle",
+  "meter",
+  "pressure"
+ ],
+ "material": "steel",
+ "fits": [
+  "front",
+  "side"
+ ]
+}

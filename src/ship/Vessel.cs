@@ -15,7 +15,7 @@ namespace Shipstick.Ship;
 /// actions at the same times give the same ship however the advances fall (SHP-3).
 /// </para>
 /// <para>
-/// An inventory's id is its place in the order it came aboard, stable for the ship's life; a head names slots by it.
+/// An inventory's id is its place in the order it came aboard, stable for the ship's life; a client names slots by it.
 /// </para>
 /// </remarks>
 public sealed class Vessel
@@ -66,19 +66,14 @@ public sealed class Vessel
     /// <summary>Hangs a door of <paramref name="slots"/> slots in every wall two held places share.</summary>
     public void HangDoors(int slots, int stackMost)
     {
-        for (var row = 0; row < Grid.Rows; row++)
-            for (var column = 0; column < Grid.Columns; column++)
+        foreach (var capsule in Capsules)
+            foreach (var side in (ReadOnlySpan<Side>)[Side.East, Side.South])
             {
-                var at = new CapsuleAt(column, row);
-                if (CapsuleOn(at) is not { } capsule) continue;
-                foreach (var side in (ReadOnlySpan<Side>)[Side.East, Side.South])
-                {
-                    if (CapsuleOn(ShipGrid.Beside(at, side)) is not { } neighbour || capsule.DoorOn(side) is not null) continue;
-                    var door = new Door(at, neighbour.At, Board(Inventory.Open(slots, stackMost)));
-                    capsule.Hang(side, door);
-                    neighbour.Hang(ShipGrid.Opposite(side), door);
-                    doors.Add(door);
-                }
+                if (CapsuleOn(ShipGrid.Beside(capsule.At, side)) is not { } neighbour || capsule.DoorOn(side) is not null) continue;
+                var door = new Door(capsule.At, neighbour.At, Board(Inventory.Open(slots, stackMost)));
+                capsule.Hang(side, door);
+                neighbour.Hang(ShipGrid.Opposite(side), door);
+                doors.Add(door);
             }
     }
 
@@ -116,14 +111,13 @@ public sealed class Vessel
         (at.Column * (CellsAcross - 1) + column, at.Row * (CellsAcross - 1) + row);
 
     /// <summary>Stands a fixture that only holds things — a chest, a locker — on a capsule's floor.</summary>
-    /// <param name="entry">What the catalogue calls it; null for a bare inventory.</param>
-    public Fixture Install(CapsuleAt at, FloorArea area, Inventory chest, DeviceEntry? entry = null) =>
+    public Fixture Install(CapsuleAt at, FloorArea area, Inventory chest, DeviceEntry entry) =>
         Stand(at, new Fixture(area, chest, entry, null));
 
     /// <summary>Stands a device on a capsule's floor, its top-left cell at a column and row, and schedules its first cycle.</summary>
     public Fixture Install(CapsuleAt at, int column, int row, Device device)
     {
-        var area = new FloorArea(column, row, device.Footprint.Columns, device.Footprint.Rows);
+        var area = new FloorArea(column, row, device.Entry.Columns, device.Entry.Rows);
         var fixture = Stand(at, new Fixture(area, device.Inventory, device.Entry, device));
         devices.Add(device.Inventory, device);
         Schedule(device);

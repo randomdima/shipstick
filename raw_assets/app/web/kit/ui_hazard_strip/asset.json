@@ -1,0 +1,10 @@
+{
+ "about": "A tile of hazard stripes, one period down, three stripes across: repeats along a strip.",
+ "kind": "device",
+ "sets": [
+  "console",
+  "hull",
+  "issue_steel"
+ ],
+ "tags": []
+}

@@ -7,7 +7,7 @@ Why the item catalogue is shaped this way. Only decisions still binding are here
 The owner asked for fifty logical groups of a hundred items each, fitting a crew member's and a ship's needs, with the
 devices and chains that make them. That is far past what `GameConfig` can hold readably, and content rather than a
 tuning figure. So the catalogue is data, one Markdown table set a subsection under `catalog/`, read by `qq economy`
-and, once the game loads it, by the game. `GameConfig` keeps the figures that tune the whole catalogue (need decay,
+and by the game (ECO-13). `GameConfig` keeps the figures that tune the whole catalogue (need decay,
 wear, stack size); a way's own amounts and minutes stay in its row, as a sprite's prompt stays in its frame record. The
 resource tree is generated from the tables, never written beside them, so it cannot drift.
 

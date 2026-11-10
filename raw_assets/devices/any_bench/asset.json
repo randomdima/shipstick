@@ -1,0 +1,10 @@
+{
+ "about": "A workbench two cells long, a standing worktop at 0.9 m: a steel top over twelve yellow drawers and a vented cabinet, a bench grinder at the back, a small yellow motor, a rag, a tray of hand tools, a steel jug and a status lamp set in the top at the front.",
+ "kind": "device",
+ "sets": [
+  "issue_steel",
+  "workshop",
+  "controls"
+ ],
+ "tags": []
+}

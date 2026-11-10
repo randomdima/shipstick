@@ -1,0 +1,98 @@
+{
+ "id": "ui_key_up",
+ "about": "A console key standing proud: an off-white cap in a dark steel housing, sliced by the page to take any label (GAM-14).",
+ "sets": [
+  "console",
+  "issue_steel",
+  "controls"
+ ],
+ "boundsM": [
+  [
+   0,
+   -0.01,
+   0
+  ],
+  [
+   0.101,
+   0.03,
+   0.062
+  ]
+ ],
+ "frame": "exact",
+ "textures": {
+  "rim": {
+   "src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png",
+   "insetPct": 4,
+   "tileM": [
+    0.0305,
+    0.03
+   ]
+  },
+  "cap": {
+   "src": "raw_assets/textures/tex_ceramic_white/tex_ceramic_white-v1.png",
+   "insetPct": 4,
+   "tileM": [
+    0.0305,
+    0.03
+   ]
+  }
+ },
+ "parts": [
+  {
+   "shape": "group",
+   "name": "key",
+   "parts": [
+    {
+     "shape": "box",
+     "name": "housing",
+     "atM": [
+      0.0505,
+      0.007,
+      0.031
+     ],
+     "sizeM": [
+      0.101,
+      0.01,
+      0.062
+     ],
+     "faces": {
+      "south": {
+       "tex": "rim"
+      },
+      "north": null,
+      "east": null,
+      "west": null,
+      "top": null,
+      "bottom": null
+     }
+    },
+    {
+     "shape": "box",
+     "name": "cap",
+     "atM": [
+      0.0505,
+      -0.001,
+      0.031
+     ],
+     "sizeM": [
+      0.087,
+      0.006,
+      0.048
+     ],
+     "faces": {
+      "south": {
+       "tex": "cap",
+       "shade": 0.92
+      },
+      "north": null,
+      "east": null,
+      "west": null,
+      "top": null,
+      "bottom": null
+     },
+     "bevelM": 0.005
+    }
+   ]
+  }
+ ]
+}

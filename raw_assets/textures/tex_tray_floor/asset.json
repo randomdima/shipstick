@@ -1,0 +1,18 @@
+{
+ "about": "The floor of a shallow empty steel tray seen straight down: dull grey pressed steel with fine scuffs, a raised lip along all four edges.",
+ "kind": "face",
+ "sets": [
+  "galley",
+  "issue_steel"
+ ],
+ "tags": [
+  "tray",
+  "floor",
+  "shallow",
+  "pressed"
+ ],
+ "material": "steel",
+ "fits": [
+  "top"
+ ]
+}

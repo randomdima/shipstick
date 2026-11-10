@@ -1,0 +1,1 @@
+{"variant": "status_lamp-v1", "model": "raw_assets/parts/status_lamp/status_lamp-v1.model.json", "view": "iso", "cellPx": 256, "light": "sun", "textures": ["raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "raw_assets/textures/tex_lamp_lens_green/tex_lamp_lens_green-v1.png"], "parts": [], "score": 4, "status": "candidate", "ts": "2026-11-10T16:28:40"}

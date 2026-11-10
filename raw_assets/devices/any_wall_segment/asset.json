@@ -1,0 +1,9 @@
+{
+ "about": "One straight cell of the low bulkhead wall, running east-west: a cap plate over an inset core, a kick strip at its foot, a pipe on two brackets and a vent along its south face.",
+ "kind": "device",
+ "sets": [
+  "issue_steel",
+  "hull"
+ ],
+ "tags": []
+}

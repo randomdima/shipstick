@@ -23,11 +23,14 @@ import re
 import sys
 import time
 
-sys.dont_write_bytecode = True
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import openrouter  # noqa: E402
+from pathlib import Path
 
+sys.dont_write_bytecode = True
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", ".."))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(1, os.path.join(ROOT, ".qq"))
+import openrouter  # noqa: E402
+import _catalog  # noqa: E402  the asset catalogue, stdlib only
 # A frame is scratch: a sheet never goes into git, only the variants cut from it and kept (raw_assets/index.md).
 GEN_DIR = os.path.join(ROOT, ".tmp", "gen")
 FRAMES_DIR = os.path.join(GEN_DIR, "frames")
@@ -186,12 +189,27 @@ def check_kept(args, name, inputs):
         return any(f and (f in edited or re.sub(r"-v\d+$", "", f) == name) for f in frames)
 
     again = {i for i in (args.again or "").split(",") if i}
-    clash = [i for i in cells_listed(args.cells) if i in kept and i not in again and not this_sheets(kept[i][1])]
+    names = _catalog.renamed(Path(ROOT))
+    cells = cells_listed(args.cells)
+    clash = [i for i in cells
+             if (names.get(i, i)) in kept and i not in again and not this_sheets(kept[names.get(i, i)][1])]
     kept = {i: where for i, (where, _) in kept.items()}
     if clash:
-        sys.exit("already kept: " + ", ".join(f"{i} ({kept[i]})" for i in clash) + ". Wear, place or use what is kept "
-                 "(qq shapes library) and give the cell to something new; another generation of a kept asset is "
-                 "the owner's word only: --again=" + ",".join(clash))
+        sys.exit("already kept: " + ", ".join(f"{i} ({kept[names.get(i, i)]})" for i in clash) + ". Wear, place or use "
+                 "what is kept (qq shapes library) and give the cell to something new; another generation of a kept "
+                 "asset is the owner's word only: --again=" + ",".join(clash))
+    warn_near(args.prompt, cells)
+
+
+def warn_near(prompt, cells):
+    """Names, before billing, a kept asset a cell's line may be asking for again (qq shapes library has it). A warning,
+    not a refusal: a near match can be a new thing, and the brief's author decides."""
+    found = _catalog.entries(Path(ROOT))
+    lines = _catalog.brief_lines({"prompt": prompt, "cells": cells})
+    for cell, line in lines.items():
+        for share, entry in _catalog.near(found, line, {cell})[:3]:
+            print(f"near: {cell} reads {share:.0%} like kept {entry['id']} ({entry.get('kind')}, "
+                  f"{','.join(entry.get('sets', []))}): {entry.get('about', '')[:90]}", file=sys.stderr)
 
 
 def generate(args, name, op, refs, inputs, mask=None):

@@ -1,0 +1,50 @@
+{
+ "id": "ui_steel_dark",
+ "about": "A tile of the console's dark steel, the header's and the footer's plate: repeats every way.",
+ "sets": [
+  "console",
+  "issue_steel"
+ ],
+ "boundsM": [
+  [
+   0,
+   0,
+   0
+  ],
+  [
+   0.25,
+   0.002,
+   0.247
+  ]
+ ],
+ "frame": "exact",
+ "textures": {
+  "t": {
+   "src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png",
+   "insetPct": 4,
+   "tileM": [
+    0.25,
+    0.247
+   ]
+  }
+ },
+ "parts": [
+  {
+   "shape": "quad",
+   "name": "tile",
+   "atM": [
+    0.125,
+    0.001,
+    0.1235
+   ],
+   "sizeM": [
+    0.75,
+    0.741
+   ],
+   "facing": "south",
+   "faces": {
+    "face": "t"
+   }
+  }
+ ]
+}

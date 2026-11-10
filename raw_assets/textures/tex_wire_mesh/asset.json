@@ -1,0 +1,18 @@
+{
+ "about": "Fine dull steel wire mesh, a square weave, dark behind it, repeating.",
+ "kind": "material",
+ "sets": [
+  "airworks",
+  "galley"
+ ],
+ "tags": [
+  "mesh",
+  "wire",
+  "grid",
+  "screen"
+ ],
+ "material": "steel",
+ "fits": [
+  "any"
+ ]
+}

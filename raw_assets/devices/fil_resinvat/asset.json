@@ -1,0 +1,10 @@
+{
+ "about": "A resin vat two cells long: a yellow mixing drum with a mixer motor and a status lamp on its bolted lid and a sight glass showing how much resin it holds, a grey lidded drum beside it, a ribbed hose between them, on a steel base plate.",
+ "kind": "device",
+ "sets": [
+  "issue_steel",
+  "workshop",
+  "controls"
+ ],
+ "tags": []
+}

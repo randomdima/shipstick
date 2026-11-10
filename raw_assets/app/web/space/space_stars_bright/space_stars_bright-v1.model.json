@@ -1,0 +1,49 @@
+{
+ "id": "space_stars_bright",
+ "about": "A patch of bright stars, framed on one period: the sky behind the ship, repeating every way.",
+ "sets": [
+  "space"
+ ],
+ "boundsM": [
+  [
+   0,
+   0,
+   0
+  ],
+  [
+   0.28,
+   0.278,
+   0.002
+  ]
+ ],
+ "frame": "exact",
+ "textures": {
+  "t": {
+   "src": "raw_assets/app/web/space/stars_bright/stars_bright-v1.png",
+   "insetPct": 2,
+   "tileM": [
+    0.28,
+    0.278
+   ]
+  }
+ },
+ "parts": [
+  {
+   "shape": "quad",
+   "name": "tile",
+   "atM": [
+    0.14,
+    0.139,
+    0.001
+   ],
+   "sizeM": [
+    0.84,
+    0.834
+   ],
+   "facing": "up",
+   "faces": {
+    "face": "t"
+   }
+  }
+ ]
+}

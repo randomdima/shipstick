@@ -1,0 +1,9 @@
+{
+ "about": "A screen's bezel: dark steel bars round an open middle, a screw in each corner, sliced by the page round any screen (GAM-14).",
+ "kind": "device",
+ "sets": [
+  "console",
+  "issue_steel"
+ ],
+ "tags": []
+}

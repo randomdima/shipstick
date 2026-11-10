@@ -8,7 +8,7 @@
     "trim":   {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3},
     "yellow": {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.3},
     "hose":   {"src": "raw_assets/textures/tex_rubber_hose/tex_rubber_hose-v1.png", "insetPct": 4, "tileM": [0.16, 0.16]},
-    "lid":    {"src": "raw_assets/textures/tex_hatch/tex_hatch-v1.png", "insetPct": 4}
+    "lid":    {"src": "raw_assets/textures/tex_access_panel/tex_access_panel-v1.png", "insetPct": 4}
   },
   "parts": [
     {"shape": "group", "name": "solar stand", "atM": [0, 0, 0], "tex": "steel", "parts": [

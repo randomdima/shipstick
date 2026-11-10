@@ -1,0 +1,12 @@
+{
+ "about": "the plain Company crate the game stands in a device's place until it has a model of its own \u2014 a grey panelled box on a dark plinth, a riveted steel top, dark corner posts and a blank label plate; the page stretches it to the device's footprint.",
+ "kind": "part",
+ "sets": [
+  "issue_steel"
+ ],
+ "tags": [
+  "crate",
+  "box",
+  "placeholder"
+ ]
+}

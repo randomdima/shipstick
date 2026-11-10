@@ -1,0 +1,16 @@
+{
+ "about": "Heavy smooth steel enamelled dull orange, evenly worn, repeating.",
+ "kind": "material",
+ "sets": [
+  "issue_steel"
+ ],
+ "tags": [
+  "orange",
+  "enamel",
+  "paint"
+ ],
+ "material": "enamel",
+ "fits": [
+  "any"
+ ]
+}

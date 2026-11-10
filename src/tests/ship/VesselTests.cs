@@ -53,8 +53,8 @@ public class VesselReachTests
         var leftChest = Inventory.Open(config.Capsule.ChestSlots, config.Items.StackMost);
         var rightChest = Inventory.Open(config.Capsule.ChestSlots, config.Items.StackMost);
         leftChest.TryAdd(0, Water, 1);
-        vessel.Install(Left, new FloorArea(0, 0, 1, 1), leftChest);
-        vessel.Install(Right, new FloorArea(0, 0, 1, 1), rightChest);
+        vessel.Install(Left, new FloorArea(0, 0, 1, 1), leftChest, Chest);
+        vessel.Install(Right, new FloorArea(0, 0, 1, 1), rightChest, Chest);
         return (vessel, leftChest, rightChest, vessel.Doors[0]);
     }
 }

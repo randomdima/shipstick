@@ -1,0 +1,20 @@
+{
+ "about": "A low louvred vent grille seen face on: horizontal dark grey slats over a dark void, a plain narrow grey steel frame round it.",
+ "kind": "decal",
+ "sets": [
+  "airworks",
+  "hull",
+  "issue_steel"
+ ],
+ "tags": [
+  "vent",
+  "louvre",
+  "grille",
+  "slats"
+ ],
+ "material": "steel",
+ "fits": [
+  "front",
+  "side"
+ ]
+}

@@ -1,0 +1,62 @@
+{
+  "id": "any_lifesupport",
+  "about": "Life support: a grey cabinet with two fan grilles on top and four gas bottles racked in a front recess, an orange control unit beside it with a green screen lit while it runs, a status lamp, a dial gauge reading its emptiest input, a round grille, a vent and a filter.",
+  "sets": ["issue_steel", "airworks", "controls"],
+  "boundsM": [[0, 0, 0], [2, 2, 1.15]],
+  "textures": {
+    "grey":   {"src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png", "insetPct": 4, "tileM": [0.6, null]},
+    "trim":   {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3},
+    "steel":  {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "orange": {"src": "raw_assets/textures/tex_orange_enamel/tex_orange_enamel-v1.png", "insetPct": 4, "tileM": 0.4},
+    "plate":  {"src": "raw_assets/textures/tex_top_steel_rimmed/tex_top_steel_rimmed-v1.png", "insetPct": 4},
+    "fan":    {"src": "raw_assets/textures/tex_fan_grille/tex_fan_grille-v1.png", "insetPct": 4},
+    "screen": {"src": "raw_assets/textures/tex_screen_green/tex_screen_green-v1.png", "insetPct": 4},
+    "lens":   {"src": "raw_assets/textures/tex_lamp_lens_green/tex_lamp_lens_green-v1.png", "insetPct": 12},
+    "dial":   {"src": "raw_assets/textures/tex_gauge_dial/tex_gauge_dial-v1.png", "insetPct": 4},
+    "vent":   {"src": "raw_assets/textures/tex_vent/tex_vent-v1.png", "insetPct": 4},
+    "filter": {"src": "raw_assets/textures/tex_pleated_filter/tex_pleated_filter-v1.png", "insetPct": 4, "tileM": [0.3, null]}
+  },
+  "parts": [
+    {"shape": "group", "name": "grey cabinet", "atM": [0, 0, 0], "tex": "grey", "parts": [
+      {"shape": "box", "name": "plinth", "atM": [0.65, 1.25, 0.04], "sizeM": [1.22, 1.40, 0.08],
+       "faces": {"*": "trim", "bottom": null}},
+      {"shape": "box", "name": "left post", "atM": [0.08, 1.25, 0.515], "sizeM": [0.08, 1.40, 0.87],
+       "faces": {"east": {"tex": "trim", "shade": 0.7}, "*": "grey", "bottom": null}},
+      {"shape": "box", "name": "right post", "atM": [1.235, 1.25, 0.515], "sizeM": [0.05, 1.40, 0.87],
+       "faces": {"west": {"tex": "trim", "shade": 0.7}, "*": "grey", "bottom": null}},
+      {"shape": "box", "name": "recess back", "atM": [0.665, 1.425, 0.515], "sizeM": [1.09, 1.05, 0.87],
+       "faces": {"south": {"tex": "trim", "shade": 0.55}, "*": "grey", "bottom": null}},
+      {"shape": "box", "name": "upper body", "atM": [0.65, 1.25, 1.025], "sizeM": [1.22, 1.40, 0.15],
+       "faces": {"bottom": {"tex": "trim", "shade": 0.5}, "*": "grey"}},
+      {"shape": "box", "name": "fan plate", "atM": [0.65, 1.25, 1.105], "sizeM": [1.14, 0.586, 0.01],
+       "faces": {"top": "plate", "*": "trim", "bottom": null}},
+      {"shape": "quad", "name": "fan grille", "atM": [0.38, 1.25, 1.113], "sizeM": [0.52, 0.52], "facing": "up", "tex": "fan",
+       "repeat": {"count": 2, "stepM": [0.57, 0, 0]}},
+      {"shape": "model", "name": "fan", "src": "raw_assets/parts/fan_rotor/fan_rotor-v2.model.json", "atM": [0.38, 1.25, 1.113],
+       "repeat": {"count": 2, "stepM": [0.57, 0, 0]}},
+      {"shape": "box", "name": "bottle clamp", "atM": [0.26, 0.70, 0.905], "sizeM": [0.05, 0.03, 0.09], "tex": "steel",
+       "repeat": {"count": 4, "stepM": [0.265, 0, 0]}}
+    ]},
+    {"shape": "model", "name": "gas bottle", "src": "raw_assets/parts/gas_bottle/gas_bottle-v1.model.json", "atM": [0.26, 0.70, 0.08],
+     "repeat": {"count": 4, "stepM": [0.265, 0, 0]}},
+    {"shape": "group", "name": "orange unit", "atM": [0, 0, 0], "tex": "orange", "parts": [
+      {"shape": "box", "name": "body", "atM": [1.615, 1.25, 0.55], "sizeM": [0.69, 1.40, 1.10],
+       "faces": {"*": "orange", "bottom": null}},
+      {"shape": "box", "name": "screen", "atM": [1.505, 1.45, 1.115], "sizeM": [0.34, 0.30, 0.03],
+       "faces": {"*": "trim", "bottom": null}},
+      {"shape": "quad", "name": "screen face", "atM": [1.505, 1.45, 1.131], "sizeM": [0.30, 0.30], "facing": "up", "tex": "screen",
+       "live": {"as": "glow", "show": "run"}},
+      {"shape": "cylinder", "name": "lamp", "atM": [1.80, 1.50, 1.12], "radiusM": 0.05, "lengthM": 0.04,
+       "faces": {"ends": "lens", "side": "trim"}, "live": {"as": "lamp", "show": "state"}},
+      {"shape": "quad", "name": "gauge", "atM": [1.485, 0.88, 1.103], "sizeM": [0.21, 0.21], "facing": "up", "tex": "dial"},
+      {"shape": "model", "name": "gauge works", "src": "raw_assets/parts/dial_needle/dial_needle-v1.model.json", "atM": [1.485, 0.88, 1.103]},
+      {"shape": "quad", "name": "round grille", "atM": [1.79, 0.88, 1.103], "sizeM": [0.20, 0.20], "facing": "up", "tex": "fan"},
+      {"shape": "model", "name": "small fan", "src": "raw_assets/parts/fan_rotor_small/fan_rotor_small-v2.model.json",
+       "atM": [1.79, 0.88, 1.103]},
+      {"shape": "box", "name": "vent", "atM": [1.61, 0.545, 0.78], "sizeM": [0.40, 0.01, 0.185],
+       "faces": {"south": "vent", "*": "trim"}},
+      {"shape": "box", "name": "filter", "atM": [1.605, 0.545, 0.29], "sizeM": [0.51, 0.01, 0.36],
+       "faces": {"south": {"tex": "filter", "turnDeg": 90, "shade": 0.6}, "*": "trim"}}
+    ]}
+  ]
+}

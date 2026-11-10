@@ -3,7 +3,7 @@
   "about": "A floor service hatch: a steel frame, a heavy hazard-bordered plate on two hinges, an orange handwheel.",
   "boundsM": [[0, 0, 0], [1, 1, 0.2]],
   "textures": {
-    "plate": {"src": "raw_assets/textures/tex_hatch_plate/tex_hatch_plate-v1.png", "insetPct": 4},
+    "plate": {"src": "raw_assets/textures/tex_floor_hatch_plate/tex_floor_hatch_plate-v1.png", "insetPct": 4},
     "steel": {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
     "trim": {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 4, "tileM": 0.3},
     "wheel": {"src": "raw_assets/textures/tex_handwheel_cutout/tex_handwheel_cutout-v1.png", "insetPct": 1, "cutout": true},

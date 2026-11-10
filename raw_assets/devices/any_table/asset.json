@@ -1,0 +1,10 @@
+{
+ "about": "A mess table two cells long: a pale steel top on a dark trestle, a padded bench seat behind it between yellow end posts, two stacked trays, a hotplate set in the top that glows while it cooks, its row of four lamps live, and a mug of coffee.",
+ "kind": "device",
+ "sets": [
+  "issue_steel",
+  "quarters",
+  "galley"
+ ],
+ "tags": []
+}

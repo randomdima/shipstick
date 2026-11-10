@@ -3,7 +3,7 @@
   "about": "A moisture condenser: grey cabinet with a fan grille and a cooling-fin block on top, a water basin in a front recess, a yellow side column with a lamp, a gas bottle standing in front.",
   "boundsM": [[0, 0, 0], [1, 1, 0.85]],
   "textures": {
-    "grey":   {"src": "raw_assets/textures/tex_bench_panel/tex_bench_panel-v1.png", "insetPct": 4, "tileM": 0.6},
+    "grey":   {"src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png", "insetPct": 4, "tileM": 0.6},
     "trim":   {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3},
     "steel":  {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
     "yellow": {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.3},

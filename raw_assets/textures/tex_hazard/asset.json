@@ -1,0 +1,20 @@
+{
+ "about": "Worn black and yellow diagonal hazard stripes painted on steel, repeating left to right.",
+ "kind": "material",
+ "sets": [
+  "hull",
+  "issue_steel"
+ ],
+ "tags": [
+  "hazard",
+  "stripes",
+  "warning",
+  "yellow",
+  "black"
+ ],
+ "material": "paint",
+ "fits": [
+  "trim",
+  "any"
+ ]
+}

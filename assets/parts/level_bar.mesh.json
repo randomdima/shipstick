@@ -1,0 +1,129 @@
+{
+ "variant": "raw_assets/parts/level_bar/level_bar-v1.png",
+ "model": "raw_assets/parts/level_bar/level_bar-v1.model.json",
+ "boundsM": [
+  [
+   -0.23,
+   -0.035,
+   0.0
+  ],
+  [
+   0.23,
+   0.035,
+   0.016
+  ]
+ ],
+ "triangles": 188,
+ "bin": "level_bar.mesh.bin",
+ "layout": {
+  "P": {
+   "offset": 0,
+   "type": "float32",
+   "length": 1692
+  },
+  "UV": {
+   "offset": 6768,
+   "type": "float32",
+   "length": 1128
+  },
+  "N": {
+   "offset": 11280,
+   "type": "int8",
+   "length": 1692
+  },
+  "order": {
+   "offset": 12972,
+   "type": "uint16",
+   "length": 564
+  },
+  "live": {
+   "offset": 14100,
+   "type": "uint8",
+   "length": 564
+  }
+ },
+ "looks": [
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_lamp_lens_green-v1-i30.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  }
+ ],
+ "draws": [
+  [
+   0,
+   0,
+   172
+  ],
+  [
+   1,
+   172,
+   16
+  ]
+ ],
+ "light": {
+  "sun": [
+   -0.399004,
+   -0.349128,
+   0.847883
+  ],
+  "ambient": 0.5,
+  "tiltDeg": 18,
+  "shadowPxM": 400,
+  "shadowBiasM": 0.004,
+  "shadowLiftM": 0.006,
+  "shadowKeep": 0.35,
+  "aoRadiiM": [
+   0.02,
+   0.06
+  ],
+  "aoDirections": 8,
+  "aoMarginM": 0.003,
+  "aoStrength": 0.5,
+  "edgeM": 0.015,
+  "edgeShade": 0.6,
+  "foldCos": 0.6,
+  "foldLight": 1.2,
+  "grazeCos": 0.15,
+  "deckShadowMax": 0.6,
+  "deckFadeM": 0.06,
+  "cutoutAlpha": 0.5,
+  "supersample": 3
+ },
+ "live": [
+  {
+   "as": "fill",
+   "show": "held",
+   "part": "parts[0] (level bar).parts[1] (segments)",
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "steps": 8,
+   "boxM": [
+    [
+     -0.208,
+     -0.021,
+     0.012
+    ],
+    [
+     0.208,
+     0.021,
+     0.016
+    ]
+   ],
+   "spanM": [
+    -0.208,
+    0.208
+   ]
+  }
+ ]
+}

@@ -1,0 +1,19 @@
+{
+ "about": "Plain padded grey-green vinyl upholstery, smooth, faint creases, repeating.",
+ "kind": "material",
+ "sets": [
+  "quarters"
+ ],
+ "tags": [
+  "vinyl",
+  "padded",
+  "upholstery",
+  "cushion",
+  "mattress"
+ ],
+ "material": "fabric",
+ "fits": [
+  "top",
+  "front"
+ ]
+}

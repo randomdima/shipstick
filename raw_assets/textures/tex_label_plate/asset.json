@@ -1,0 +1,18 @@
+{
+ "about": "A small plain steel name plate seen face on: brushed steel, four corner screws, a few short engraved lines that are not letters.",
+ "kind": "decal",
+ "sets": [
+  "issue_steel"
+ ],
+ "tags": [
+  "label",
+  "plate",
+  "nameplate",
+  "serial"
+ ],
+ "material": "steel",
+ "fits": [
+  "front",
+  "side"
+ ]
+}

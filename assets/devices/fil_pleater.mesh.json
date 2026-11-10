@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/fil_pleater/fil_pleater-v5.png",
- "model": "raw_assets/devices/fil_pleater/fil_pleater-v5.model.json",
+ "variant": "raw_assets/devices/fil_pleater/fil_pleater-v8.png",
+ "model": "raw_assets/devices/fil_pleater/fil_pleater-v8.model.json",
  "boundsM": [
   [
    0,
@@ -13,33 +13,38 @@
    1.0
   ]
  ],
- "triangles": 2484,
+ "triangles": 2404,
  "bin": "fil_pleater.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 22356
+   "length": 21636
   },
   "UV": {
-   "offset": 89424,
+   "offset": 86544,
    "type": "float32",
-   "length": 14904
+   "length": 14424
   },
   "N": {
-   "offset": 149040,
+   "offset": 144240,
    "type": "int8",
-   "length": 22356
+   "length": 21636
   },
   "order": {
-   "offset": 171396,
+   "offset": 165876,
    "type": "uint16",
-   "length": 7452
+   "length": 7212
+  },
+  "live": {
+   "offset": 180300,
+   "type": "uint8",
+   "length": 7212
   }
  },
  "looks": [
   {
-   "texture": "assets/textures/tex_bench_panel-v1-i4-seamless.webp",
+   "texture": "assets/textures/tex_panel_grey-v1-i4-seamless.webp",
    "wrap": true,
    "shade": 1.0,
    "cutout": false
@@ -87,7 +92,7 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_pipe-v1-i6.webp",
+   "texture": "assets/textures/tex_pipe-v1-i10.3x6.webp",
    "wrap": false,
    "shade": 0.8,
    "cutout": false
@@ -99,20 +104,26 @@
    "cutout": false
   },
   {
+   "texture": "assets/textures/tex_lamp_lens_green-v1-i12.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
    "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
    "wrap": true,
    "shade": 0.6,
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_pleated_filter-v1-i4.webp",
+   "texture": "assets/textures/tex_pleated_filter-v1-i4-seamless.webp",
    "wrap": true,
    "shade": 0.9,
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_pleated_filter-v1-i4.webp",
-   "wrap": false,
+   "texture": "assets/textures/tex_pleated_filter-v1-i4-seamless.webp",
+   "wrap": true,
    "shade": 1.0,
    "cutout": false
   }
@@ -131,56 +142,61 @@
   [
    2,
    76,
-   1296
+   1136
   ],
   [
    3,
-   1372,
+   1212,
    132
   ],
   [
    4,
-   1504,
+   1344,
    6
   ],
   [
    5,
-   1510,
-   768
+   1350,
+   672
   ],
   [
    6,
-   2278,
-   64
+   2022,
+   88
   ],
   [
    7,
-   2342,
-   64
+   2110,
+   88
   ],
   [
    8,
-   2406,
-   64
+   2198,
+   48
   ],
   [
    9,
-   2470,
+   2246,
    2
   ],
   [
    10,
-   2472,
-   2
+   2248,
+   144
   ],
   [
    11,
-   2474,
-   8
+   2392,
+   2
   ],
   [
    12,
-   2482,
+   2394,
+   8
+  ],
+  [
+   13,
+   2402,
    2
   ]
  ],
@@ -212,5 +228,233 @@
   "deckFadeM": 0.06,
   "cutoutAlpha": 0.5,
   "supersample": 3
- }
+ },
+ "live": [
+  {
+   "as": "stroke",
+   "show": "run",
+   "part": "parts[1] (media roll).parts[1] (feed arm)",
+   "axis": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "strokeM": 0.06,
+   "periodS": 2.5,
+   "boxM": [
+    [
+     0.42,
+     0.395,
+     0.405
+    ],
+    [
+     0.62,
+     0.445,
+     0.455
+    ]
+   ]
+  },
+  {
+   "as": "spin",
+   "show": "run",
+   "part": "parts[1] (media roll).parts[2] (turning roll)",
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "pivotM": [
+    0.34,
+    0.45,
+    0.71
+   ],
+   "degPerS": 15,
+   "boxM": [
+    [
+     0.16,
+     0.27,
+     0.46
+    ],
+    [
+     0.52,
+     0.63,
+     0.99
+    ]
+   ]
+  },
+  {
+   "as": "lamp",
+   "show": "run",
+   "part": "parts[2] (roller bed).parts[3] (run lamp)",
+   "boxM": [
+    [
+     1.3129,
+     0.4541,
+     0.784
+    ],
+    [
+     1.3309,
+     0.4721,
+     0.7885
+    ]
+   ]
+  },
+  {
+   "as": "lamp",
+   "show": "fault",
+   "part": "parts[2] (roller bed).parts[4] (fault lamp)",
+   "boxM": [
+    [
+     1.311,
+     0.4137,
+     0.784
+    ],
+    [
+     1.332,
+     0.4347,
+     0.7885
+    ]
+   ]
+  },
+  {
+   "as": "spin",
+   "show": "run",
+   "part": "parts[2] (roller bed).parts[6] (turning roller) #1",
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pivotM": [
+    0.995,
+    0.2,
+    0.62
+   ],
+   "degPerS": 40,
+   "boxM": [
+    [
+     0.75,
+     0.13,
+     0.55
+    ],
+    [
+     1.24,
+     0.27,
+     0.69
+    ]
+   ]
+  },
+  {
+   "as": "spin",
+   "show": "run",
+   "part": "parts[2] (roller bed).parts[6] (turning roller) #2",
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pivotM": [
+    0.995,
+    0.35,
+    0.62
+   ],
+   "degPerS": 40,
+   "boxM": [
+    [
+     0.75,
+     0.28,
+     0.55
+    ],
+    [
+     1.24,
+     0.42,
+     0.69
+    ]
+   ]
+  },
+  {
+   "as": "spin",
+   "show": "run",
+   "part": "parts[2] (roller bed).parts[6] (turning roller) #3",
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pivotM": [
+    0.995,
+    0.5,
+    0.62
+   ],
+   "degPerS": 40,
+   "boxM": [
+    [
+     0.75,
+     0.43,
+     0.55
+    ],
+    [
+     1.24,
+     0.57,
+     0.69
+    ]
+   ]
+  },
+  {
+   "as": "spin",
+   "show": "run",
+   "part": "parts[2] (roller bed).parts[6] (turning roller) #4",
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pivotM": [
+    0.995,
+    0.65,
+    0.62
+   ],
+   "degPerS": 40,
+   "boxM": [
+    [
+     0.75,
+     0.58,
+     0.55
+    ],
+    [
+     1.24,
+     0.72,
+     0.69
+    ]
+   ]
+  },
+  {
+   "as": "spin",
+   "show": "run",
+   "part": "parts[2] (roller bed).parts[6] (turning roller) #5",
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pivotM": [
+    0.995,
+    0.8,
+    0.62
+   ],
+   "degPerS": 40,
+   "boxM": [
+    [
+     0.75,
+     0.73,
+     0.55
+    ],
+    [
+     1.24,
+     0.87,
+     0.69
+    ]
+   ]
+  }
+ ]
 }

@@ -4,7 +4,7 @@
   "boundsM": [[0, 0, 0], [2, 1, 0.45]],
   "textures": {
     "seeds":  {"src": "raw_assets/textures/tex_seed_trays/tex_seed_trays-v1.png", "insetPct": 2},
-    "panel":  {"src": "raw_assets/textures/tex_bench_panel/tex_bench_panel-v1.png", "insetPct": 4, "tileM": 0.6},
+    "panel":  {"src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png", "insetPct": 4, "tileM": 0.6},
     "steel":  {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
     "yellow": {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.4},
     "trim":   {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3},

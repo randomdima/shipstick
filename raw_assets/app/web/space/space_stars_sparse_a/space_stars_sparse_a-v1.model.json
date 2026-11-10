@@ -1,0 +1,49 @@
+{
+ "id": "space_stars_sparse_a",
+ "about": "A patch of sparse a stars, framed on one period: the sky behind the ship, repeating every way.",
+ "sets": [
+  "space"
+ ],
+ "boundsM": [
+  [
+   0,
+   0,
+   0
+  ],
+  [
+   0.282,
+   0.279,
+   0.002
+  ]
+ ],
+ "frame": "exact",
+ "textures": {
+  "t": {
+   "src": "raw_assets/app/web/space/stars_sparse_a/stars_sparse_a-v1.png",
+   "insetPct": 2,
+   "tileM": [
+    0.282,
+    0.279
+   ]
+  }
+ },
+ "parts": [
+  {
+   "shape": "quad",
+   "name": "tile",
+   "atM": [
+    0.141,
+    0.1395,
+    0.001
+   ],
+   "sizeM": [
+    0.846,
+    0.837
+   ],
+   "facing": "up",
+   "faces": {
+    "face": "t"
+   }
+  }
+ ]
+}

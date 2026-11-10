@@ -2,10 +2,10 @@
 // and the floor's tiles, each a texture in the floor's scene (scene.js). The host lists what it serves (`assets.json`);
 // a thing with no art of its own takes the shared art of its kind.
 
-const DEVICES = 'assets/devices', INTERFACES = 'assets/app/web/interfaces';
+const DEVICES = 'assets/devices';
 const FLOOR = 'assets/ship/floor';
 
-// A role's devices with no interface of their own take the shared panel of the trade nearest theirs.
+// A role's devices with no paint of their own take the shared one of the trade nearest theirs.
 const GENERIC = {
   agri: 'agri', bio: 'agri', galley: 'agri',
   hydro: 'chem', atmos: 'chem', chem: 'chem', sanit: 'chem',
@@ -34,20 +34,15 @@ const PLATE_TINTS = [1, .94, 1.04, .97, 1.07, .91];
 const TILE_MIX_COLUMN = 73856093, TILE_MIX_ROW = 19349663;
 
 const served = new Set();
-// Each interface panel's key bay, by file name, as `qq panels` measured it: the panel's aspect, and the bay's box as
-// shares of its width and height.
-let bays = {};
-// Where the layout guide (raw_assets/app/web/interfaces/prompting.md) draws the bay, for a panel not yet measured.
-const GUIDE_BAY = { aspect: 1.74, bay: [.705, .05, .895, .24] };
+// The paint each device's window housing wears (assets/app/web/kit/paints.json), by `<kind>` with its dot an
+// underscore, or `storage`, `door` and `generic_<trade>` for the shared ones; the stylesheet maps a paint to its kit.
+let paints = {};
 
-/** Takes the host's list of served images, and the interface panels' measured key bays. */
-export function loadArt(paths, measuredBays) {
+/** Takes the host's list of served images, and the windows' paints. */
+export function loadArt(paths, windowPaints) {
   for (const p of paths) served.add(p);
-  bays = measuredBays;
+  paints = windowPaints;
 }
-
-/** Where an interface panel draws its key bay: its aspect, and the bay's box as shares of its width and height. */
-export const bayOf = panel => bays[panel.slice(panel.lastIndexOf('/') + 1)] ?? GUIDE_BAY;
 
 const file = id => id.replace('.', '_');
 const has = path => served.has(path);
@@ -57,6 +52,10 @@ export function meshOf(kind) {
   const path = `${DEVICES}/${file(kind)}.mesh.json`;
   return has(path) ? path : null;
 }
+
+/** The gauge laid on a door's cap to show how full the door is: the level bar part's model, or null until installed. */
+export const doorGaugeOf = () => has(DOOR_GAUGE) ? DOOR_GAUGE : null;
+const DOOR_GAUGE = 'assets/parts/level_bar.mesh.json';
 
 // A wall is built from the kit (raw_assets/devices/prompting.md), so any layout of wall cells joins: a cap on top
 // chosen by which neighbours are wall too and turned to fit, and a front panel on every edge no wall continues past.
@@ -113,16 +112,15 @@ export function structureLook(column, row, isWall, door) {
   };
 }
 
-/** The interface panel a device's window is drawn on: its own, its storage's, or its role's shared one. */
-export function interfaceOf(kind, role, holdsOnly) {
-  const own = `${INTERFACES}/ui_${file(kind)}.png`;
-  if (has(own)) return own;
-  if (kind === 'any.wall') return doorInterface;
-  if (holdsOnly) return `${INTERFACES}/ui_storage.png`;
-  return `${INTERFACES}/ui_generic_${GENERIC[role] ?? GENERIC_FALLBACK}.png`;
+/** The paint of a device's window housing (GAM-11): its own, its storage's, or its role's shared one. */
+export function paintOf(kind, role, holdsOnly) {
+  if (paints[file(kind)]) return paints[file(kind)];
+  if (kind === 'any.wall') return doorPaint();
+  if (holdsOnly) return paints.storage;
+  return paints[`generic_${GENERIC[role] ?? GENERIC_FALLBACK}`];
 }
 
-export const doorInterface = `${INTERFACES}/ui_door.png`;
+export const doorPaint = () => paints.door;
 
 /**
  * The deck of a floor `across` cells square, cell by cell in reading order: laid in plates of several sizes, each cell

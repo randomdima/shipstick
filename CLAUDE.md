@@ -97,6 +97,7 @@ requirement and fails for nothing else** (VER-1). Every test class carries a `Ti
 | `qq tests all` | before a commit |
 | `qq checks` | before a commit: build, `all`, citations, art provenance, the model rules `qq shapes` holds |
 | `qq web --shot .tmp/web/<name>.png` | a change that draws — then `Read` the picture |
+| `qq fit` | a change to the stylesheet or the page's art: nothing stretched, nothing repeated with a seam (GAM-14) |
 
 **Run the tier the change can have moved, never the whole suite by habit**, and wait for a test run rather than
 backgrounding and polling it. **A run leaves the machine usable**: `qq tests` and `qq checks` are light by default (low

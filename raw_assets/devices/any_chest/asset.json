@@ -1,0 +1,10 @@
+{
+ "about": "A yellow ribbed steel storage chest, steel-capped corners, two front latches, a name plate and a level bar on the lid showing how full it is.",
+ "kind": "device",
+ "sets": [
+  "issue_steel",
+  "quarters",
+  "controls"
+ ],
+ "tags": []
+}

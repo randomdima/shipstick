@@ -1,0 +1,16 @@
+{
+  "id": "status_lamp",
+  "about": "A part: a round indicator lamp, a domed glass lens in a dark steel bezel 0.07 m across and 0.03 m proud, facing up; it lights green while its device runs, amber when it is short of the next cycle, blinks red on a fault and is dark at rest. Origin at the centre of its foot; turned up (rotDeg x 90) it faces south.",
+  "sets": ["controls"],
+  "textures": {
+    "trim": {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3},
+    "lens": {"src": "raw_assets/textures/tex_lamp_lens_green/tex_lamp_lens_green-v1.png", "insetPct": 12}
+  },
+  "parts": [
+    {"shape": "group", "name": "status lamp", "parts": [
+      {"shape": "cylinder", "name": "bezel", "atM": [0, 0, 0.008], "radiusM": 0.035, "lengthM": 0.016, "tex": "trim"},
+      {"shape": "sphere", "name": "lens", "atM": [0, 0, 0.016], "sizeM": [0.054, 0.054, 0.026], "half": true, "tex": "lens",
+       "live": {"as": "lamp", "show": "state"}}
+    ]}
+  ]
+}

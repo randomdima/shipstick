@@ -59,16 +59,11 @@ sealed class ServedShip : BackgroundService
     /// <summary>The codex's entity tag, so a client already holding it is answered "not modified".</summary>
     public string CodexTag { get; }
 
-    public bool Holds(CapsuleAt at) => Vessel.Grid.Holds(at) && Vessel.CapsuleOn(at) is not null;
+    public bool Holds(CapsuleAt at) => Vessel.CapsuleOn(at) is not null;
 
     /// <summary>The first capsule in reading order: where the admin stands on joining.</summary>
-    public CapsuleAt FirstCapsule()
-    {
-        for (var row = 0; row < Vessel.Grid.Rows; row++)
-            for (var column = 0; column < Vessel.Grid.Columns; column++)
-                if (Holds(new CapsuleAt(column, row))) return new CapsuleAt(column, row);
-        throw new InvalidOperationException("the ship holds no capsule");
-    }
+    public CapsuleAt FirstCapsule() =>
+        Vessel.Capsules.FirstOrDefault()?.At ?? throw new InvalidOperationException("the ship holds no capsule");
 
     public void Join(Client client)
     {

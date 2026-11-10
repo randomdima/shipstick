@@ -1,0 +1,18 @@
+{
+ "about": "A small monochrome green phosphor screen seen face on: dark glass glowing with rows of faint green dashes and a small bar graph that are not letters or numbers, a thin black bezel along all four edges.",
+ "kind": "decal",
+ "sets": [
+  "controls"
+ ],
+ "tags": [
+  "screen",
+  "display",
+  "phosphor",
+  "monitor",
+  "green"
+ ],
+ "material": "glass",
+ "fits": [
+  "front"
+ ]
+}

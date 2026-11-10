@@ -1,8 +1,8 @@
-import { $, hooks, drawShip, begin, closeAll, foggedOf, chipHtml, busy } from './cabin.js'
+import { hooks, drawShip, begin, closeAll, foggedOf, chipHtml, busy } from './cabin.js'
 import { line, open, send } from './host.js'
-import { sit, refused, clockText } from './player.js'
-import { nameOf, allItems, loaded } from './codex.js'
-import { patch, setStyle, setText } from './dom.js'
+import { sit, refused, showState } from './player.js'
+import { nameOf, itemsMatching, loaded } from './codex.js'
+import { $, esc, keepInside, patch, setStyle, setText } from './dom.js'
 
 // The rates the admin may run ship time at, in ship seconds a real second.
 const PAUSED_RATE = 0, PLAIN_RATE = 1, FAST_RATE = 10, FASTER_RATE = 100;
@@ -14,7 +14,6 @@ const EDITOR_FINDS_MOST = 12;
 // ship: the last frame's ShipView, its `entered` the capsule the host has this line in. editing: { id, slot, item,
 // query, refused } of the slot edited.
 const admin = { started: false, ship: null, editing: null };
-const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 const same = (a, b) => a.column === b.column && a.row === b.row;
 
 /** What the admin is told: where each capsule is and which is beyond each door (WEB-8, WEB-2). */
@@ -49,8 +48,6 @@ function inspect() {
     + 'operator would; click a slot to set its contents. Esc closes the editor, then a panel.');
   Object.assign(hooks, {
     draw,
-    move: (from, fromSlot, to, toSlot) => send('move', { from, fromSlot, to, toSlot }),
-    select: (inventory, way) => send('select', { inventory, way }),
     slotClicked: edit,
     escape: closeEditor,
     editing: (id, slot) => admin.editing?.id === id && admin.editing.slot === slot,
@@ -76,9 +73,7 @@ function draw() {
   if (!line.frame || !loaded()) return;
   const ship = admin.ship = line.frame.ship;
   const all = ship.cabins.length, failing = ship.cabins.filter(c => c.failing).length;
-  setText($('clock'), clockText());
-  setText($('status'), failing ? `life support failing ${failing}/${all}` : `life support nominal ${all}/${all}`);
-  $('status').classList.toggle('alarm', failing > 0);
+  showState(failing ? `life support failing ${failing}/${all}` : `life support nominal ${all}/${all}`, failing > 0);
   document.querySelectorAll('[data-rate]').forEach(b => b.classList.toggle('on', Number(b.dataset.rate) === line.frame.rate));
   const { entered } = ship;
   drawShip({
@@ -111,7 +106,7 @@ const mayHold = s => s.holds != null ? (s.holds ? [s.holds] : []) : s.universal 
 function found(query) {
   const q = query.trim().toLowerCase();
   if (!q) return [];
-  return allItems().filter(i => i.id.includes(q) || i.name.toLowerCase().includes(q)).slice(0, EDITOR_FINDS_MOST).map(i => i.id);
+  return itemsMatching(q).slice(0, EDITOR_FINDS_MOST).map(i => i.id);
 }
 
 /**
@@ -130,10 +125,8 @@ function drawEditor() {
   if (el.hidden) el.hidden = false;
   patch(el, editorHtml(e));
   const near = slotEl.getBoundingClientRect();
-  setStyle(el, {
-    left: `${Math.max(0, Math.min(near.left, innerWidth - el.offsetWidth))}px`,
-    top: `${Math.max(0, Math.min(near.bottom + EDITOR_GAP_PX, innerHeight - el.offsetHeight))}px`,
-  });
+  const { x, y } = keepInside(el, near.left, near.bottom + EDITOR_GAP_PX, 0);
+  setStyle(el, { left: `${x}px`, top: `${y}px` });
 }
 
 /** The editor: the items the slot may hold — found by a search for a universal slot — and its count. */

@@ -16,7 +16,8 @@ run it is [../readme.md](../readme.md).
 | [slice-map.md](slice-map.md) | The slices, the projects, which way a dependency may point |
 | [decision-log.md](decision-log.md) | Why the cross-cutting rules and the layout read as they do |
 | [tech-debt.md](tech-debt.md) | What is known wrong, unmeasured or waiting on the owner, and what closes each |
-| [../raw_assets/index.md](../raw_assets/index.md) | Where every image came from, and the rules that keep it traceable |
+| [../raw_assets/index.md](../raw_assets/index.md) | Where every image came from, the rules that keep it traceable, and the catalogue reuse is searched in |
+| [../raw_assets/sets.md](../raw_assets/sets.md) | The asset sets: families alike in style and function, a reuse hint |
 
 ## The slices
 
@@ -50,9 +51,12 @@ A slice's `docs/requirements.md` and `docs/decision-log.md` are made when it has
 
 ## Known gaps
 
-- **Most assets are still drawings.** GAM-13 makes every asset a 3D model's render. On the floor, 57 of 77 devices
-  stand as the plain crate until modelled; the walls, doors and deck are blocks and plates wearing the kit's drawn
-  pictures, not models of their own; the space beyond and the interface panels are still drawings, shown flat.
+- **Most assets are still drawings.** GAM-13 makes every asset a 3D model's render. On the floor, every device without
+  a `.mesh.json` under `assets/devices/` stands as the plain crate until modelled — most of the starter ship's and all
+  the rest of the catalogue's; the walls, doors and deck are blocks and plates wearing the kit's drawn
+  pictures, not models of their own. On the page, the console kit — window housings, plates, keys, bezels, trim — and
+  the repeating star fields are renders; the far galaxy, the nebulae and the star cluster, and the props (lamps,
+  sockets, the manual and close keys) are still drawings, shown flat.
   `qq sprites check` traces each; a sprite whose variant has no `model` in its row is one still to model
   ([shapegen](../.claude/skills/shapegen/SKILL.md)).
 

@@ -7,7 +7,7 @@
     "lamp":    {"src": "raw_assets/textures/tex_grow_lamp/tex_grow_lamp-v1.png", "insetPct": 3},
     "yellow":  {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.4},
     "steel":   {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
-    "panel":   {"src": "raw_assets/textures/tex_bench_panel/tex_bench_panel-v1.png", "insetPct": 4, "tileM": 0.6},
+    "panel":   {"src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png", "insetPct": 4, "tileM": 0.6},
     "trim":    {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3},
     "control": {"src": "raw_assets/textures/tex_control_panel/tex_control_panel-v1.png", "insetPct": 3},
     "glass":   {"src": "raw_assets/textures/tex_glass_wired/tex_glass_wired-v1.png", "insetPct": 3}

@@ -7,7 +7,7 @@
     "steel":    {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
     "yellow":   {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.3},
     "trim":     {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3},
-    "door":     {"src": "raw_assets/textures/tex_kiln_door/tex_kiln_door-v1.png", "insetPct": 2},
+    "door":     {"src": "raw_assets/textures/tex_door_hinged_steel/tex_door_hinged_steel-v1.png", "insetPct": 2},
     "ctrl":     {"src": "raw_assets/textures/tex_control_panel/tex_control_panel-v1.png", "insetPct": 2},
     "vent":     {"src": "raw_assets/textures/tex_vent/tex_vent-v1.png", "insetPct": 2},
     "screen":   {"src": "raw_assets/textures/tex_screen_green/tex_screen_green-v1.png", "insetPct": 6},

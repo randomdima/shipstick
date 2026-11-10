@@ -1,0 +1,43 @@
+{
+  "id": "any_toilet",
+  "about": "A toilet on a grey steel base: a white ceramic bowl and seat with its lid open, a yellow cistern box beside it with a level bar up its front showing how full its waste tank is, and the pipe from the cistern into the pan.",
+  "sets": ["issue_steel", "hygiene", "controls"],
+  "boundsM": [[0, 0, 0], [1, 1, 0.95]],
+  "textures": {
+    "bowl":    {"src": "raw_assets/textures/tex_toilet_bowl/tex_toilet_bowl-v1.png", "insetPct": 2},
+    "ceramic": {"src": "raw_assets/textures/tex_ceramic_white/tex_ceramic_white-v1.png", "insetPct": 4, "tileM": 0.4},
+    "lid":     {"src": "raw_assets/textures/tex_toilet_lid/tex_toilet_lid-v1.png", "insetPct": 1, "cutout": true},
+    "label":   {"src": "raw_assets/textures/tex_label_plate/tex_label_plate-v1.png", "insetPct": 3},
+    "panel":   {"src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png", "insetPct": 4, "tileM": 0.6},
+    "yellow":  {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "pipe":    {"src": "raw_assets/textures/tex_pipe/tex_pipe-v1.png", "insetPct": 6},
+    "steel":   {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "trim":    {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3}
+  },
+  "parts": [
+    {"shape": "box", "name": "base", "atM": [0.37, 0.5, 0.02], "sizeM": [0.66, 0.84, 0.04],
+     "faces": {"top": "panel", "*": "trim", "bottom": null}},
+
+    {"shape": "group", "name": "toilet", "parts": [
+      {"shape": "box", "name": "pan foot", "atM": [0.36, 0.44, 0.2], "sizeM": [0.34, 0.46, 0.32],
+       "faces": {"*": "ceramic", "bottom": null}},
+      {"shape": "box", "name": "bowl", "atM": [0.36, 0.43, 0.405], "sizeM": [0.44, 0.58, 0.09],
+       "faces": {"top": "bowl", "*": "ceramic", "bottom": {"tex": "ceramic", "shade": 0.7}}},
+      {"shape": "box", "name": "back block", "atM": [0.36, 0.8, 0.24], "sizeM": [0.48, 0.16, 0.4],
+       "faces": {"*": "trim", "top": "steel", "bottom": null}},
+      {"shape": "box", "name": "open lid", "atM": [0.36, 0.83, 0.68], "sizeM": [0.44, 0.03, 0.48], "rotDeg": [-8, 0, 0],
+       "faces": {"south": {"tex": "lid", "shade": 0.9}, "*": {"tex": "ceramic", "shade": 0.85}}},
+      {"shape": "cylinder", "name": "pipe down", "atM": [0.8, 0.62, 0.195], "radiusM": 0.03, "lengthM": 0.23, "axis": "z",
+       "faces": {"side": {"tex": "pipe", "tileM": [0.19, 0.4]}, "ends": "trim"}},
+      {"shape": "sphere", "name": "pipe elbow", "atM": [0.8, 0.62, 0.08], "radiusM": 0.03, "tex": "pipe"},
+      {"shape": "cylinder", "name": "pipe across", "atM": [0.66, 0.62, 0.08], "radiusM": 0.03, "lengthM": 0.28, "axis": "x",
+       "faces": {"side": {"tex": "pipe", "turnDeg": 90, "tileM": [0.19, 0.4]}, "ends": "trim"}},
+      {"shape": "box", "name": "cistern", "atM": [0.81, 0.73, 0.56], "sizeM": [0.3, 0.26, 0.5],
+       "faces": {"*": "steel", "top": "label", "bottom": {"tex": "trim", "shade": 0.6}}},
+      {"shape": "box", "name": "cistern front", "atM": [0.7675, 0.598, 0.44], "sizeM": [0.195, 0.004, 0.22],
+       "faces": {"south": "yellow", "*": "trim", "north": null}},
+      {"shape": "model", "name": "waste level", "src": "raw_assets/parts/level_bar/level_bar-v1.model.json",
+       "atM": [0.91, 0.6, 0.565], "rotDeg": [90, -90, 0], "live": {"show": "output"}}
+    ]}
+  ]
+}

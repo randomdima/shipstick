@@ -1,0 +1,18 @@
+{
+ "about": "Lumps of black charcoal heaped together, seen straight down, dull grey-black, repeating.",
+ "kind": "material",
+ "sets": [
+  "workshop"
+ ],
+ "tags": [
+  "charcoal",
+  "coal",
+  "fuel",
+  "heap",
+  "black"
+ ],
+ "material": "charcoal",
+ "fits": [
+  "top"
+ ]
+}

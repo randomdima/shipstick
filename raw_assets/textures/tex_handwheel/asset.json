@@ -1,0 +1,19 @@
+{
+ "about": "An orange painted steel spoked handwheel seen straight down: its rim touching all four edges, four spokes to a hub, between the spokes dark grey steel plate.",
+ "kind": "decal",
+ "sets": [
+  "controls",
+  "hull"
+ ],
+ "tags": [
+  "handwheel",
+  "wheel",
+  "valve",
+  "orange",
+  "spokes"
+ ],
+ "material": "steel",
+ "fits": [
+  "top"
+ ]
+}

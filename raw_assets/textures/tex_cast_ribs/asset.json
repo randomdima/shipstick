@@ -1,0 +1,20 @@
+{
+ "about": "Dark grey cast steel with evenly spaced cooling ribs running straight across, repeating: a motor's or a pump's housing.",
+ "kind": "material",
+ "sets": [
+  "workshop",
+  "airworks"
+ ],
+ "tags": [
+  "ribs",
+  "cooling",
+  "fins",
+  "motor",
+  "housing",
+  "cast"
+ ],
+ "material": "steel",
+ "fits": [
+  "side"
+ ]
+}

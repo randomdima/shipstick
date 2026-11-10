@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/bio_seedbank/bio_seedbank-v5.png",
- "model": "raw_assets/devices/bio_seedbank/bio_seedbank-v5.model.json",
+ "variant": "raw_assets/devices/bio_seedbank/bio_seedbank-v7.png",
+ "model": "raw_assets/devices/bio_seedbank/bio_seedbank-v7.model.json",
  "boundsM": [
   [
    0,
@@ -13,33 +13,38 @@
    0.45
   ]
  ],
- "triangles": 256,
+ "triangles": 724,
  "bin": "bio_seedbank.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 2304
+   "length": 6516
   },
   "UV": {
-   "offset": 9216,
+   "offset": 26064,
    "type": "float32",
-   "length": 1536
+   "length": 4344
   },
   "N": {
-   "offset": 15360,
+   "offset": 43440,
    "type": "int8",
-   "length": 2304
+   "length": 6516
   },
   "order": {
-   "offset": 17664,
+   "offset": 49956,
    "type": "uint16",
-   "length": 768
+   "length": 2172
+  },
+  "live": {
+   "offset": 54300,
+   "type": "uint8",
+   "length": 2172
   }
  },
  "looks": [
   {
-   "texture": "assets/textures/tex_bench_panel-v1-i4-seamless.webp",
+   "texture": "assets/textures/tex_panel_grey-v1-i4-seamless.webp",
    "wrap": true,
    "shade": 1.0,
    "cutout": false
@@ -81,6 +86,18 @@
    "cutout": false
   },
   {
+   "texture": "assets/textures/tex_ceramic_white-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_lamp_lens_green-v1-i12.webp",
+   "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
    "texture": "assets/textures/tex_vent-v1-i2.webp",
    "wrap": false,
    "shade": 1.0,
@@ -101,31 +118,41 @@
   [
    2,
    38,
-   72
+   80
   ],
   [
    3,
-   110,
+   118,
    2
   ],
   [
    4,
-   112,
-   64
+   120,
+   204
   ],
   [
    5,
-   176,
+   324,
    12
   ],
   [
    6,
-   188,
-   64
+   336,
+   72
   ],
   [
    7,
-   252,
+   408,
+   112
+  ],
+  [
+   8,
+   520,
+   200
+  ],
+  [
+   9,
+   720,
    4
   ]
  ],
@@ -157,5 +184,52 @@
   "deckFadeM": 0.06,
   "cutoutAlpha": 0.5,
   "supersample": 3
- }
+ },
+ "live": [
+  {
+   "as": "needle",
+   "show": "cycle",
+   "part": "parts[1] (end module).parts[2] (gauge works) <dial_needle>.parts[0] (dial works).parts[1] (needle)",
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "pivotM": [
+    1.78,
+    0.76,
+    0.442
+   ],
+   "sweepDeg": 270,
+   "boxM": [
+    [
+     1.7277,
+     0.7077,
+     0.442
+    ],
+    [
+     1.7887,
+     0.7687,
+     0.446
+    ]
+   ]
+  },
+  {
+   "as": "lamp",
+   "show": "state",
+   "part": "parts[1] (end module).parts[3] (status lamp) <status_lamp>.parts[0] (status lamp).parts[1] (lens)",
+   "boxM": [
+    [
+     1.753,
+     0.113,
+     0.416
+    ],
+    [
+     1.807,
+     0.167,
+     0.429
+    ]
+   ]
+  }
+ ]
 }

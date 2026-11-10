@@ -1,0 +1,10 @@
+{
+ "about": "A dishwasher counter: a steel counter with a sink and tap, a wire rack of plates and cups on it with a level bar in front showing the clean stock, a washer door below with a handle, a status lamp and vent beside it, yellow ends and plinth.",
+ "kind": "device",
+ "sets": [
+  "issue_steel",
+  "galley",
+  "controls"
+ ],
+ "tags": []
+}

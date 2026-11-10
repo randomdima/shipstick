@@ -21,6 +21,12 @@ is not closed without one. **_tool_** is a fault or a gap in a `qq` tool, closed
   owner choosing whether walls take model renders — the `top` and `front` views of a model are a cap and a panel in
   the kit's frame — or the sprite is removed.
 
+- **A model is drawn by two renderers** (_owner_): `qq shapes` lights its views in Python (`.qq/_shapes_render.py`),
+  the game lights the same mesh in WebGL (`src/app/web/wwwroot/scene.js`), kept alike only by the constants each
+  `.mesh.json` carries. A change to one pass that misses the other makes the views an agent reviews differ from what a
+  player sees. Closed by the owner choosing whether `qq shapes` photographs `scene.js` headless (`qq web`) — one
+  renderer, deterministic on one Chromium build only — or keeps both.
+
 - **What an AI capsule does** (_owner_): GAM-1 names it and nothing plays one ([index.md](index.md#known-gaps)).
   Closed by the owner saying how much an AI capsule co-operates — a placeholder that feeds its own devices, or a full
   neighbour that trades through doors.
@@ -81,6 +87,9 @@ is not closed without one. **_tool_** is a fault or a gap in a `qq` tool, closed
   sprites are drawn as sealed intake units at a hull port; their names, codex words and ways still dig. Closed by the
   owner saying how raw matter comes aboard — delivered stock, salvage, tethered rubble fed through a port — and `ore`'s
   devices renamed and reworded to it.
+- **`docs/p0-stats.md` is a draft outside the index** (_owner_): the owner's "Core Stats" — every item must move a core
+  stat, directly or not — stops mid-sentence, its ship stats empty, and states a rule with no ID or rung, so nothing
+  cites or checks it. Closed by the owner finishing it and saying its rung, its rule moved into `GAM` or `ECO`.
 - **Who is the admin, and who sits where** (_owner_): `?admin` opens the admin's line to anyone who types it, and its
   edits make items and its rate runs every player's time (SHP-6, WEB-8); `?seat=` seats anyone anywhere, and two pages
   may sit one seat. The host checks what each line may do, but not who opened it. Closed by the owner saying how a
@@ -88,29 +97,49 @@ is not closed without one. **_tool_** is a fault or a gap in a `qq` tool, closed
 
 ## Left short
 
+- **Olive housings wear grey** (GAM-14, [kit/paints.json](../assets/app/web/kit/paints.json)): `any_cot`,
+  `any_sprouter`, `soi_compostbin`, `toi_compostloo` and `veg_sprouter` wore olive panels before the kit; no olive
+  enamel swatch is kept, so the stylesheet gives `olive` the grey housing, and `fil_kiln`'s rust went to orange.
+  Closed by an olive (and a rust) enamel swatch on the next remotegen sheet (about $0.002 a cell), a `ui_panel_olive`
+  modelled as the shapegen skill's "The page's art" says, and its rule in `style.css`.
+- **The housings are plainer than the panels they replaced**: one paint, a recessed face and four bolts, where the
+  generated panels carried two-tone bands, hazard corners and wear of their own. Closed by more of the kit — corner
+  brackets, a two-tone band, worn paint swatches — each kept inside the slices or made to repeat.
+- **`qq fit` reads one rule at a time** (_tool_, `.qq/fit.py`): a rule giving a background image or a border image's
+  source alone takes its size, slices and repeat from another, so it is passed over (`ui_key_down`, the pressed key, is
+  never measured; its slicing is `ui_key_up`'s). Images placed by the page's scripts in a `style` attribute are not
+  read at all. Closed by the check following the cascade, or measuring every kit image against the one slicing its
+  family shares.
+- **The placeholder crate's top is stretched** (GAM-14, `raw_assets/parts/any_crate/any_crate-v1.model.json`): its
+  body's 0.9 × 0.9 m top wears `tex_top_steel_rimmed` (1.95:1), drawn 1.95× too tall; a crop would cut its rim. Until
+  it has a square riveted steel top, `qq shapes keep` refuses the crate, and the installed `assets/parts/any_crate`
+  keeps the stretch on its top, its grey panels (`tileM 0.6` on a 1.07:1 swatch) and its label plate (0.4 × 0.13 m on
+  a 2.08:1 picture). Closed by one square cell ($0.002), then the crate re-kept with `"panel"` `tileM [0.6, null]` and
+  the label plate 0.192 m high, and installed.
+
 - **Items have no art** (GAM-9, [style.css](../src/app/web/wwwroot/style.css) `.chip`): an item in a slot is a tag the
   stylesheet draws — two letters on its section's colour — not a generated image. Five thousand items is some 560
   sheets at nine a sheet. Closed by icons for the items aboard the starter ship first, then by section, each chip its
   image with the count over it.
-- **Most catalogue devices have no sprite** ([art.js](../src/app/web/wwwroot/art.js)): the 49 the starter ship stands,
-  its doors and walls are drawn; the other ~635 catalogue devices show their model and noun on a plate and
-  take their role's shared interface. Closed by device sheets subsection by subsection, `edit`ed from the devices'
-  style picture ([raw_assets/devices/prompting.md](../raw_assets/devices/prompting.md)).
 - **The art is full-size PNG** (WEB-9): a starter floor asks some 1–2 MB of device sprites, interface panels and trim.
   Closed by serving WebP (or lossy PNG) at the size drawn, made by `qq sprites use`.
 
+- **One steel top is worn by five models** ([catalogue](../raw_assets/index.md#the-catalogue)):
+  `tex_top_steel_rimmed`, the bench's top, is also the top of `any_cot`, `any_crate`, `any_lifesupport` and
+  `cln_dishwasher`, past the face cap of 3, and reads as one object cloned across the floor. `tex_vent` (9 wearers)
+  and `tex_label_plate` (7) are past the decal cap of 6. Closed by own top swatches for the cot, the life support and
+  the dishwasher on their next sheet (about $0.002 a cell), and by looking at the floor to settle whether a vent or a
+  label is Company issue that may repeat — `qq shapes library` lists every such note.
+- **Two kept swatches nothing wears**: `tex_handwheel` (the backed handwheel, superseded by `tex_handwheel_cutout` on
+  `any_hatch`) and `tex_wall_cap_worn` (the worn wall cap the kit never laid). Cost $0.0045, nothing drawn. Closed by a
+  model that wears them, or by the owner's word to delete them.
+- **Two lamp props nothing draws** (`assets/app/web/props/lamp_off.png`, `lamp_amber.png`): the page's lamp over each
+  running device was their wearer, and a device's lamps are its model's now (WEB-12); the header's status lamp wears
+  `lamp_green` and `lamp_red` alone. Closed by a window's prop wearing them, or by deleting them with their `.src.json`.
 - **Every wall and door is 1×1** (GAM-10, [Vessel.Enclose](../src/ship/Vessel.cs)): the owner said some are 1×2 or
   1×3, and the catalogue has only `any.wall` and `any.door`, each one cell. Which pieces run longer — a wide door, a
   wall with a window, a long service panel — is unsaid (_owner_). Closed by those entries in `any.md`, their sprites,
   and `Enclose` laying them along an edge where they fit.
-- **Walls and devices have two cameras** ([style.css](../src/app/web/wwwroot/style.css) `.structure`): the walls'
-  stands over the view's middle, while every device sprite is drawn by one south of it, so a device against the south
-  wall shows its front to a wall that leans away. Closed by devices drawn for the walls' camera, or judged fine as is.
-- **A tall device can rise past its capsule's north wall** ([cabin.js](../src/app/web/wwwroot/cabin.js) `bandOf`): a
-  sprite rises up to 60% of its footprint's depth, so one two or more rows deep against the north wall reaches over
-  the wall into the capsule beyond, whose devices are in a band of their own — which of the two is drawn over is the
-  walls' order, not where they stand. Closed by sprites kept within a cell's rise, or by ordering devices across
-  capsules where they overlap.
 - **The west-camera kit pieces are installed and unused** (`any_side_panel*`, `any_panel_trim`, `any_door_edge_*` under
   `assets/devices/`): the leaning walls use none of them. They cost a few hundred KB in `assets/` and nothing at run
   time. Closed by deleting them with their `.src.json`, the raw variants kept.
@@ -130,13 +159,23 @@ is not closed without one. **_tool_** is a fault or a gap in a `qq` tool, closed
 - **The socket is checked by eye** ([Client](../src/app/host/Client.cs)): which actions a player's line refuses, a
   frame sent only on a change, and the newest frame replacing one unsent are shown by `qq web` pictures, not tests. The
   views a seat is sent are tested (`CabinViewTests`). Closed by a test driving `Client` over an in-memory socket.
+- **What a live part shows is checked by eye** ([cabin.js](../src/app/web/wwwroot/cabin.js) `signalsOf`,
+  [scene.js](../src/app/web/wwwroot/scene.js) `liveFrame`): the shares a gauge reads and the colour a lamp takes are
+  seen in `qq web` pictures, not tested; the page has no test runner (WEB-9). Closed by the signals moved to a module a
+  headless check can call with a frame and read back.
 
 ## Unmeasured
 
-- **The whole ship is redrawn every tick** ([cabin.js](../src/app/web/wwwroot/cabin.js) `drawShip`): every 250 ms the
-  floor's markup is rebuilt — on the admin's page nine decks, every device and some 400 wall blocks in 3D. How long that
-  takes, and whether a slower machine stutters, is unmeasured. Closed by timing a redraw, and drawing the floor only on
-  a frame that changed it, the clock and the cycles apart.
+- **Every frame re-describes the whole floor** ([cabin.js](../src/app/web/wwwroot/cabin.js) `drawFloor`,
+  [scene.js](../src/app/web/wwwroot/scene.js) `setScene`): a frame that changes anything — a count in one slot — has
+  the page lay out every deck cell, wall and device again and compare it with the last as one JSON string, before the
+  scene finds nothing to rebuild. On the admin's page that is nine capsules' worth. Its cost on a slow machine is
+  unmeasured. Closed by timing it, and describing the floor only when what stands on it changed.
+- **Live parts redraw the scene every frame while ship time runs** ([scene.js](../src/app/web/wwwroot/scene.js)
+  `draw`, `movedBox`): the costly passes are drawn only over the box round what moved, but that is one box round every
+  moving part, so on the admin's overview of nine capsules it is most of the picture, every display frame. A zoomed
+  device holds 60 frames a second on this machine's GPU; a weak one is unmeasured. Closed by timing it there, and by a
+  box per moving part, or a lower rate for a part too small to see move.
 - **The starter ship's balance** ([GameConfig](../src/core/config/GameConfig.cs) `Devices`, `Starter`): a way's
   catalogue minute is one ship second, each device starts with three cycles' worth of what it runs on, and chests start
   empty — all set by hand. Whether a capsule can keep its life support powered from its own solar strip, and how much
@@ -160,18 +199,31 @@ is not closed without one. **_tool_** is a fault or a gap in a `qq` tool, closed
 - **The `qq` tools are not in git** (_tool_): `.qq/` is ignored by the machine's global gitignore
   (`~/.config/git/ignore`), as the qq contract wants, so a clone of this repository on another machine has none of
   them. Closed by the owner choosing to commit `.qq/` (a `!.qq/` line in `.gitignore`) or to keep it per machine.
+- **The catalogue page shows live parts at rest** (_tool_, `.qq/_shapes_viewer.html`): a model's lamps, needles and
+  bars are drawn as modelled; only `qq shapes render` lists them (`live N:`) and only the game moves them. Closed by
+  the model tab listing each live part, with a control to drive its signal.
 - **`qq web` has no caption** (_tool_): a picture carries no stamp of what it shows or when, which traffic's captioned
   shots did. Closed once the page says its own state on the console for `qq web` to stamp.
 - **No profiler** (_tool_): traffic's `qq prof` (perf over a running process) was not ported; nothing here runs long
   enough to profile yet.
-- **Nothing checks `bays.json` against the panels** (_tool_): `qq panels` measures every interface panel's key bay
-  into `assets/app/web/interfaces/bays.json`, by hand after `qq sprites use`; a panel regenerated or added without a
-  re-run keeps a stale box, or the layout guide's, and its keys sit off its sockets. Its box is also 3–5 px high on two
-  dark bands (`ui_any_solarstrip`, `ui_ore_tether`). Closed by `qq sprites use` re-measuring an interface panel, or a
-  `qq checks` gate that every panel has a box no older than it.
 - **`any_wall_segment-v1`'s kept model has its cap and kick strip sunk into its core** (_tool_): kept before
   `qq shapes` checked overlaps, so the viewer lists two on it; the draft in `.tmp/shapes/` groups them. Costs nothing
   drawn — the render is right. Closed by keeping `any_wall_segment` again from the draft.
+- **The catalogue's soft caps are guesses** (_tool_): `_catalog.WEARERS_SOFT_CAP` — a face 3, a decal 6, a part 6 —
+  was set before any floor was judged against it; the owner asked for it tested and tuned, not fixed. Closed by a look
+  at a floor of the installed devices, each note of `qq shapes library` judged by eye, and the caps moved to match.
+- **The near-match is words, not pictures** (_tool_): remotegen's `near:` warning scores a cell's brief line against
+  the catalogue's abouts and tags (`_catalog.near`), so a kept swatch described in other words is missed, and an
+  entry's about written loosely matches too much. Closed, if misses show, by comparing the frame's cut against the
+  kept pictures as well.
+- **`any_washbasin-v4`'s kept model has four items resting on nothing** (_tool_): its mirror, cup bracket, cup and
+  toothbrushes, kept before `qq shapes` checked floating items. Costs nothing drawn while v4 is not installed. Closed
+  by keeping `any_washbasin` again from a draft that hangs them on the wall.
+- **Installed meshes predate the tool's last changes** (_tool_): every `assets/devices/*.mesh.json` and
+  `assets/textures/*-seamless.webp` was exported before `qq shapes` gained facets sized to each radius, dome mapping
+  and a contrast-keeping seamless blend; they change only when `qq sprites use` installs them again. Costs faded bands
+  where a tiled texture repeats, on the floor the player sees. Closed by `qq sprites use` again for each installed
+  model render.
 - **The floor's 3D scene is a first cut** (`src/app/web/wwwroot/scene.js`): what the pointer is over is read back
   from the picture at once (`readPixels`), which stalls the GPU a moment each move over the floor; one shadow map
   covers the whole ship, so a large ship's shadows coarsen; faces turned from the camera are culled by pixel where

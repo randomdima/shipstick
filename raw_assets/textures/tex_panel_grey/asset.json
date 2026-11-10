@@ -1,0 +1,19 @@
+{
+ "about": "Worn mid-grey painted steel panelling, faint fine scuffs, repeating: a device's plain sides and casing.",
+ "kind": "material",
+ "sets": [
+  "issue_steel"
+ ],
+ "tags": [
+  "panel",
+  "painted",
+  "grey",
+  "casing"
+ ],
+ "material": "steel",
+ "fits": [
+  "side",
+  "front",
+  "any"
+ ]
+}

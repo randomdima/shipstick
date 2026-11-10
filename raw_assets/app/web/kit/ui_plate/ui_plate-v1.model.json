@@ -1,0 +1,104 @@
+{
+ "id": "ui_plate",
+ "about": "A label plate of off-white enamelled steel, a screw at each end, sliced by the page to any length (GAM-14): titles, nameplates, tags.",
+ "sets": [
+  "console",
+  "issue_steel"
+ ],
+ "boundsM": [
+  [
+   0,
+   -0.01,
+   0
+  ],
+  [
+   0.206,
+   0.03,
+   0.046
+  ]
+ ],
+ "frame": "exact",
+ "textures": {
+  "face": {
+   "src": "raw_assets/textures/tex_ceramic_white/tex_ceramic_white-v1.png",
+   "insetPct": 4,
+   "tileM": [
+    0.0308,
+    0.03
+   ]
+  },
+  "bolt": {
+   "src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png",
+   "insetPct": 4,
+   "tileM": 0.008
+  }
+ },
+ "parts": [
+  {
+   "shape": "group",
+   "name": "plate",
+   "parts": [
+    {
+     "shape": "box",
+     "name": "plate",
+     "atM": [
+      0.103,
+      0.0015,
+      0.023
+     ],
+     "sizeM": [
+      0.206,
+      0.003,
+      0.046
+     ],
+     "faces": {
+      "south": {
+       "tex": "face",
+       "shade": 0.9
+      },
+      "north": null,
+      "east": null,
+      "west": null,
+      "top": null,
+      "bottom": null
+     },
+     "bevelM": 0.003
+    },
+    {
+     "shape": "sphere",
+     "name": "screw_w",
+     "atM": [
+      0.013,
+      -0.0005,
+      0.023
+     ],
+     "sizeM": [
+      0.009,
+      0.004,
+      0.009
+     ],
+     "faces": {
+      "surface": "bolt"
+     }
+    },
+    {
+     "shape": "sphere",
+     "name": "screw_e",
+     "atM": [
+      0.193,
+      -0.0005,
+      0.023
+     ],
+     "sizeM": [
+      0.009,
+      0.004,
+      0.009
+     ],
+     "faces": {
+      "surface": "bolt"
+     }
+    }
+   ]
+  }
+ ]
+}

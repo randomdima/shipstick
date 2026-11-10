@@ -1,0 +1,18 @@
+{
+ "about": "Painted grey pipe steel, faint lengthwise wear streaks running left to right, repeating.",
+ "kind": "material",
+ "sets": [
+  "issue_steel",
+  "airworks"
+ ],
+ "tags": [
+  "pipe",
+  "tube",
+  "conduit",
+  "grey"
+ ],
+ "material": "steel",
+ "fits": [
+  "any"
+ ]
+}

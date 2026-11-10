@@ -1,0 +1,10 @@
+{
+ "about": "A seed bank: a low steel cabinet whose lid is a glass-covered grid of seed compartments, latched and handled at the front, with a yellow end module carrying a dial gauge timing the cycle, a status lamp and vents.",
+ "kind": "device",
+ "sets": [
+  "issue_steel",
+  "growing",
+  "controls"
+ ],
+ "tags": []
+}

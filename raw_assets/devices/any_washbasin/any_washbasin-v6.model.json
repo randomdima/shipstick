@@ -7,7 +7,7 @@
     "ceramic": {"src": "raw_assets/textures/tex_ceramic_white/tex_ceramic_white-v1.png", "insetPct": 4, "tileM": 0.4},
     "mirror":  {"src": "raw_assets/textures/tex_mirror/tex_mirror-v1.png", "insetPct": 2},
     "vent":    {"src": "raw_assets/textures/tex_vent/tex_vent-v1.png", "insetPct": 2},
-    "panel":   {"src": "raw_assets/textures/tex_bench_panel/tex_bench_panel-v1.png", "insetPct": 4, "tileM": 0.6},
+    "panel":   {"src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png", "insetPct": 4, "tileM": 0.6},
     "towel":   {"src": "raw_assets/textures/tex_towel_terry/tex_towel_terry-v1.png", "insetPct": 3, "tileM": 0.25},
     "orange":  {"src": "raw_assets/textures/tex_orange_enamel/tex_orange_enamel-v1.png", "insetPct": 4, "tileM": 0.3},
     "teal":    {"src": "raw_assets/textures/tex_plastic_blue/tex_plastic_blue-v1.png", "insetPct": 3, "tileM": 0.3},

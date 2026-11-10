@@ -1,0 +1,261 @@
+{
+ "id": "ui_panel_grey",
+ "about": "A device window's housing in panel grey, sliced by the page round any face (GAM-14): a band for the nameplate and the key bay, side and foot frames, a recessed face; a bolt in each corner. Every repeated stretch is whole periods of its textures.",
+ "sets": [
+  "console",
+  "issue_steel"
+ ],
+ "boundsM": [
+  [
+   0,
+   -0.01,
+   0
+  ],
+  [
+   0.453,
+   0.03,
+   0.259
+  ]
+ ],
+ "frame": "exact",
+ "textures": {
+  "face": {
+   "src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png",
+   "insetPct": 4,
+   "tileM": [
+    0.0722,
+    0.0675
+   ]
+  },
+  "bolt": {
+   "src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png",
+   "insetPct": 4,
+   "tileM": 0.008
+  },
+  "band": {
+   "src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png",
+   "insetPct": 4,
+   "tileM": [
+    0.0722,
+    0.0675
+   ]
+  },
+  "side": {
+   "src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png",
+   "insetPct": 4,
+   "tileM": [
+    0.0722,
+    0.0675
+   ]
+  },
+  "foot": {
+   "src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png",
+   "insetPct": 4,
+   "tileM": [
+    0.0722,
+    0.0675
+   ]
+  }
+ },
+ "parts": [
+  {
+   "shape": "group",
+   "name": "housing",
+   "parts": [
+    {
+     "shape": "box",
+     "name": "face",
+     "atM": [
+      0.2265,
+      0.009,
+      0.1295
+     ],
+     "sizeM": [
+      0.453,
+      0.01,
+      0.259
+     ],
+     "faces": {
+      "south": {
+       "tex": "face",
+       "shade": 0.55
+      },
+      "north": null,
+      "east": null,
+      "west": null,
+      "top": null,
+      "bottom": null
+     }
+    },
+    {
+     "shape": "box",
+     "name": "band",
+     "atM": [
+      0.2265,
+      0.002,
+      0.227
+     ],
+     "sizeM": [
+      0.453,
+      0.004,
+      0.064
+     ],
+     "faces": {
+      "south": {
+       "tex": "band"
+      },
+      "north": null,
+      "east": null,
+      "west": null,
+      "top": null,
+      "bottom": null
+     },
+     "bevelM": 0.004
+    },
+    {
+     "shape": "box",
+     "name": "foot",
+     "atM": [
+      0.2265,
+      0.002,
+      0.016
+     ],
+     "sizeM": [
+      0.453,
+      0.004,
+      0.032
+     ],
+     "faces": {
+      "south": {
+       "tex": "foot"
+      },
+      "north": null,
+      "east": null,
+      "west": null,
+      "top": null,
+      "bottom": null
+     },
+     "bevelM": 0.004
+    },
+    {
+     "shape": "box",
+     "name": "west",
+     "atM": [
+      0.016,
+      0.002,
+      0.1135
+     ],
+     "sizeM": [
+      0.032,
+      0.004,
+      0.163
+     ],
+     "faces": {
+      "south": {
+       "tex": "side"
+      },
+      "north": null,
+      "east": null,
+      "west": null,
+      "top": null,
+      "bottom": null
+     },
+     "bevelM": 0.004
+    },
+    {
+     "shape": "box",
+     "name": "east",
+     "atM": [
+      0.437,
+      0.002,
+      0.1135
+     ],
+     "sizeM": [
+      0.032,
+      0.004,
+      0.163
+     ],
+     "faces": {
+      "south": {
+       "tex": "side"
+      },
+      "north": null,
+      "east": null,
+      "west": null,
+      "top": null,
+      "bottom": null
+     },
+     "bevelM": 0.004
+    },
+    {
+     "shape": "sphere",
+     "name": "bolt0",
+     "atM": [
+      0.016,
+      -0.001,
+      0.016
+     ],
+     "sizeM": [
+      0.01,
+      0.004,
+      0.01
+     ],
+     "faces": {
+      "surface": "bolt"
+     }
+    },
+    {
+     "shape": "sphere",
+     "name": "bolt1",
+     "atM": [
+      0.437,
+      -0.001,
+      0.016
+     ],
+     "sizeM": [
+      0.01,
+      0.004,
+      0.01
+     ],
+     "faces": {
+      "surface": "bolt"
+     }
+    },
+    {
+     "shape": "sphere",
+     "name": "bolt2",
+     "atM": [
+      0.016,
+      -0.001,
+      0.243
+     ],
+     "sizeM": [
+      0.01,
+      0.004,
+      0.01
+     ],
+     "faces": {
+      "surface": "bolt"
+     }
+    },
+    {
+     "shape": "sphere",
+     "name": "bolt3",
+     "atM": [
+      0.437,
+      -0.001,
+      0.243
+     ],
+     "sizeM": [
+      0.01,
+      0.004,
+      0.01
+     ],
+     "faces": {
+      "surface": "bolt"
+     }
+    }
+   ]
+  }
+ ]
+}

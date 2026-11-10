@@ -1,0 +1,18 @@
+{
+ "about": "Perforated grey steel plate: an even grid of small round holes, dark behind them, repeating.",
+ "kind": "material",
+ "sets": [
+  "workshop",
+  "airworks"
+ ],
+ "tags": [
+  "perforated",
+  "holes",
+  "grille",
+  "plate"
+ ],
+ "material": "steel",
+ "fits": [
+  "any"
+ ]
+}

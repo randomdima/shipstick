@@ -1,0 +1,18 @@
+{
+ "about": "Bare machined steel, dull grey, fine brushing left to right, repeating.",
+ "kind": "material",
+ "sets": [
+  "issue_steel"
+ ],
+ "tags": [
+  "bare",
+  "machined",
+  "brushed",
+  "grey",
+  "metal"
+ ],
+ "material": "steel",
+ "fits": [
+  "any"
+ ]
+}

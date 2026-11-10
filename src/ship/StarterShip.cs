@@ -37,14 +37,13 @@ public static class StarterShip
         var roles = catalogue.Roles.Where(role => RoleDevices(catalogue, role.Id).Any()).ToArray();
         var universal = catalogue.Devices.Where(d => d.Role == Catalogue.Universal && !Catalogue.IsStructure(d.Id))
             .OrderBy(d => d.Id != Catalogue.LifeSupport);
-        for (var row = 0; row < vessel.Grid.Rows; row++)
-            for (var column = 0; column < vessel.Grid.Columns; column++)
-            {
-                var role = roles[(column + row * vessel.Grid.Columns) % roles.Length];
-                var own = RoleDevices(catalogue, role.Id).Take(config.Starter.RoleDevicesMost);
-                foreach (var entry in universal.Concat(own))
-                    Furnish(vessel, new CapsuleAt(column, row), entry, config, catalogue);
-            }
+        foreach (var capsule in vessel.Capsules)
+        {
+            var role = roles[vessel.Grid.IndexOf(capsule.At) % roles.Length];
+            var own = RoleDevices(catalogue, role.Id).Take(config.Starter.RoleDevicesMost);
+            foreach (var entry in universal.Concat(own))
+                Furnish(vessel, capsule, entry, config, catalogue);
+        }
 
         return vessel;
     }
@@ -59,9 +58,9 @@ public static class StarterShip
                 if (round < group.Length) yield return group[round];
     }
 
-    static void Furnish(Vessel vessel, CapsuleAt at, DeviceEntry entry, GameConfig config, Catalogue catalogue)
+    static void Furnish(Vessel vessel, Capsule capsule, DeviceEntry entry, GameConfig config, Catalogue catalogue)
     {
-        var capsule = vessel.CapsuleOn(at)!;
+        var at = capsule.At;
         if (FirstFree(capsule, entry.Columns, entry.Rows) is not { } area) return;
         var ways = catalogue.WaysBy(entry.Id);
         if (ways.Count == 0)

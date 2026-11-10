@@ -1,0 +1,15 @@
+{
+ "about": "A mirror seen face on: dull blue-green tinted mirror glass, faintly cloudy, in a narrow brushed steel frame along all four edges.",
+ "kind": "face",
+ "sets": [
+  "hygiene"
+ ],
+ "tags": [
+  "mirror",
+  "glass"
+ ],
+ "material": "glass",
+ "fits": [
+  "front"
+ ]
+}

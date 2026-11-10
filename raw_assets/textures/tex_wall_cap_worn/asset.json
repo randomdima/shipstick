@@ -1,0 +1,17 @@
+{
+ "about": "The wall's top plate again, dull dark-yellow painted steel, with paint worn through to grey steel along a broad band across its middle where hands rest, repeating.",
+ "kind": "material",
+ "sets": [
+  "hull"
+ ],
+ "tags": [
+  "wall",
+  "cap",
+  "worn",
+  "yellow"
+ ],
+ "material": "enamel",
+ "fits": [
+  "top"
+ ]
+}

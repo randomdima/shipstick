@@ -1,0 +1,9 @@
+{
+ "about": "a cooling fan's works, 0.34 m across, laid over the round middle of a tex_fan_grille face 0.42\u20130.52 m square \u2014 a dark well, five pitched grey blades on a hub that turn while the device runs, and a steel guard of three rings and two crossed bars over them. Origin at the fan's centre on its face, facing up; turned up (rotDeg x 90) it faces south.",
+ "kind": "part",
+ "sets": [
+  "airworks",
+  "issue_steel"
+ ],
+ "tags": []
+}

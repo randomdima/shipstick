@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/any_lifesupport/any_lifesupport-v5.png",
- "model": "raw_assets/devices/any_lifesupport/any_lifesupport-v5.model.json",
+ "variant": "raw_assets/devices/any_lifesupport/any_lifesupport-v8.png",
+ "model": "raw_assets/devices/any_lifesupport/any_lifesupport-v8.model.json",
  "boundsM": [
   [
    0,
@@ -13,28 +13,33 @@
    1.15
   ]
  ],
- "triangles": 3410,
+ "triangles": 5008,
  "bin": "any_lifesupport.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 30690
+   "length": 45072
   },
   "UV": {
-   "offset": 122760,
+   "offset": 180288,
    "type": "float32",
-   "length": 20460
+   "length": 30048
   },
   "N": {
-   "offset": 204600,
+   "offset": 300480,
    "type": "int8",
-   "length": 30690
+   "length": 45072
   },
   "order": {
-   "offset": 235292,
+   "offset": 345552,
    "type": "uint16",
-   "length": 10230
+   "length": 15024
+  },
+  "live": {
+   "offset": 375600,
+   "type": "uint8",
+   "length": 15024
   }
  },
  "looks": [
@@ -45,7 +50,7 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_bench_panel-v1-i4-seamless.webp",
+   "texture": "assets/textures/tex_panel_grey-v1-i4-seamless.webp",
    "wrap": true,
    "shade": 1.0,
    "cutout": false
@@ -69,7 +74,7 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_bench_top-v1-i4.webp",
+   "texture": "assets/textures/tex_top_steel_rimmed-v1-i4.webp",
    "wrap": false,
    "shade": 1.0,
    "cutout": false
@@ -78,6 +83,18 @@
    "texture": "assets/textures/tex_fan_grille-v1-i4.webp",
    "wrap": false,
    "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 0.3,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_panel_grey-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 0.8,
    "cutout": false
   },
   {
@@ -99,14 +116,20 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_orange_enamel-v1-i4-seamless.webp",
-   "wrap": true,
-   "shade": 1.25,
+   "texture": "assets/textures/tex_lamp_lens_green-v1-i12.webp",
+   "wrap": false,
+   "shade": 1.0,
    "cutout": false
   },
   {
    "texture": "assets/textures/tex_gauge_dial-v1-i4.webp",
    "wrap": false,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_ceramic_white-v1-i4-seamless.webp",
+   "wrap": true,
    "shade": 1.0,
    "cutout": false
   },
@@ -117,8 +140,8 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_pleated_filter-v1-i4.webp",
-   "wrap": false,
+   "texture": "assets/textures/tex_pleated_filter-v1-i4-seamless.webp",
+   "wrap": true,
    "shade": 0.6,
    "cutout": false
   }
@@ -127,71 +150,86 @@
   [
    0,
    0,
-   670
+   1136
   ],
   [
    1,
-   670,
+   1136,
    34
   ],
   [
    2,
-   704,
+   1170,
    4
   ],
   [
    3,
-   708,
+   1174,
    2
   ],
   [
    4,
-   710,
+   1176,
    2
   ],
   [
    5,
-   712,
+   1178,
    2
   ],
   [
    6,
-   714,
+   1180,
    6
   ],
   [
    7,
-   720,
-   2608
+   1186,
+   240
   ],
   [
    8,
-   3328,
-   10
+   1426,
+   180
   ],
   [
    9,
-   3338,
-   2
+   1606,
+   3224
   ],
   [
    10,
-   3340,
-   64
+   4830,
+   10
   ],
   [
    11,
-   3404,
+   4840,
    2
   ],
   [
    12,
-   3406,
-   2
+   4842,
+   48
   ],
   [
    13,
-   3408,
+   4890,
+   2
+  ],
+  [
+   14,
+   4892,
+   112
+  ],
+  [
+   15,
+   5004,
+   2
+  ],
+  [
+   16,
+   5006,
    2
   ]
  ],
@@ -223,5 +261,153 @@
   "deckFadeM": 0.06,
   "cutoutAlpha": 0.5,
   "supersample": 3
- }
+ },
+ "live": [
+  {
+   "as": "spin",
+   "show": "run",
+   "part": "parts[0] (grey cabinet).parts[7] (fan) #1 <fan_rotor>.parts[0] (fan).parts[1] (rotor)",
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "pivotM": [
+    0.38,
+    1.25,
+    1.118
+   ],
+   "degPerS": 360,
+   "boxM": [
+    [
+     0.2176,
+     1.1032,
+     1.114
+    ],
+    [
+     0.5424,
+     1.412,
+     1.132
+    ]
+   ]
+  },
+  {
+   "as": "spin",
+   "show": "run",
+   "part": "parts[0] (grey cabinet).parts[7] (fan) #2 <fan_rotor>.parts[0] (fan).parts[1] (rotor)",
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "pivotM": [
+    0.95,
+    1.25,
+    1.118
+   ],
+   "degPerS": 360,
+   "boxM": [
+    [
+     0.7876,
+     1.1032,
+     1.114
+    ],
+    [
+     1.1124,
+     1.412,
+     1.132
+    ]
+   ]
+  },
+  {
+   "as": "glow",
+   "show": "run",
+   "part": "parts[2] (orange unit).parts[2] (screen face)",
+   "boxM": [
+    [
+     1.355,
+     1.3,
+     1.131
+    ],
+    [
+     1.655,
+     1.6,
+     1.131
+    ]
+   ]
+  },
+  {
+   "as": "lamp",
+   "show": "state",
+   "part": "parts[2] (orange unit).parts[3] (lamp)",
+   "boxM": [
+    [
+     1.75,
+     1.45,
+     1.1
+    ],
+    [
+     1.85,
+     1.55,
+     1.14
+    ]
+   ]
+  },
+  {
+   "as": "needle",
+   "show": "input",
+   "part": "parts[2] (orange unit).parts[5] (gauge works) <dial_needle>.parts[0] (dial works).parts[1] (needle)",
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "pivotM": [
+    1.485,
+    0.88,
+    1.105
+   ],
+   "sweepDeg": 270,
+   "boxM": [
+    [
+     1.4327,
+     0.8277,
+     1.105
+    ],
+    [
+     1.4937,
+     0.8887,
+     1.109
+    ]
+   ]
+  },
+  {
+   "as": "spin",
+   "show": "run",
+   "part": "parts[2] (orange unit).parts[7] (small fan) <fan_rotor_small>.parts[0] (fan).parts[1] (rotor)",
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "pivotM": [
+    1.79,
+    0.88,
+    1.106
+   ],
+   "degPerS": 480,
+   "boxM": [
+    [
+     1.7087,
+     0.8064,
+     1.1042
+    ],
+    [
+     1.8713,
+     0.961,
+     1.114
+    ]
+   ]
+  }
+ ]
 }

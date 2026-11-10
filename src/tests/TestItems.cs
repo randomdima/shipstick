@@ -28,6 +28,9 @@ static class TestItems
     /// <summary>A source: nothing in, one power out, three minutes.</summary>
     public static readonly WayEntry Catch = new("catch", "test.strip", 3, [], [], [new(1, Power.Id!)], [], "test");
 
+    /// <summary>A fixture that only holds things, one cell.</summary>
+    public static readonly DeviceEntry Chest = new("test.chest", "Chest", "any", 1, 1, default);
+
     public static Device Farm(GameConfig config, double startS = 0) =>
         new(new DeviceEntry("test.farm", "Farm", "agri", 3, 2, default), [Grow, Tend], config, startS);
 

@@ -1,0 +1,10 @@
+{
+ "about": "A cot two cells long: a low steel frame over three drawers, a yellow head rail, a green quilted mattress, an off-white pillow, a folded blanket; a small yellow-trimmed side unit behind the foot with a mug on it, its control panel's two lamps live \u2014 green while it runs, amber or red on a fault.",
+ "kind": "device",
+ "sets": [
+  "issue_steel",
+  "quarters",
+  "controls"
+ ],
+ "tags": []
+}

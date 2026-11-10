@@ -1,0 +1,20 @@
+{
+ "about": "A small control panel seen face on: dull yellow painted steel frame, at its left a tiny dark screen glowing with faint green phosphor lines that are not letters, at its right two small round indicator lamps, one dull green and one amber, and a small steel toggle switch.",
+ "kind": "decal",
+ "sets": [
+  "controls"
+ ],
+ "tags": [
+  "control",
+  "panel",
+  "screen",
+  "buttons",
+  "lamps",
+  "switches"
+ ],
+ "material": "steel",
+ "fits": [
+  "front",
+  "side"
+ ]
+}

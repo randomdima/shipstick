@@ -3,7 +3,7 @@
 // (`codex.json`, which the host makes from what it runs, fetched once), so nothing here can fall behind the ship. A link anywhere on the page —
 // `data-go="item:wat-001"` — opens its page here.
 
-import { patch } from './dom.js'
+import { $, esc, inFrame, keepInside, patch, setStyle } from './dom.js'
 
 // A long list shows this many before a "show all".
 const LIST_FIRST = 40;
@@ -26,8 +26,6 @@ const book = {
 // history: the targets read, `at` the one shown. more: the lists opened past their first LIST_FIRST.
 const view = { open: false, x: 0, y: 0, history: [], at: -1, more: new Set(), query: '', grip: null };
 
-const $ = id => document.getElementById(id);
-const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 const push = (map, key, value) => (map.get(key) ?? map.set(key, []).get(key)).push(value);
 
 /** Takes the game's codex (a CodexBook) and indexes it both ways: what makes, takes and needs each item. */
@@ -81,21 +79,11 @@ export function chipLook(id) {
   return { label, tag: `var(--tag-${Math.max(0, at) % TAGS})` };
 }
 
-// A device's name opens with the model the Company stamps on it (docs/style.md): `HX200 Moisture Condenser`.
-const MODEL = /^([A-Z]{2,4}\d{1,4}[A-Z]?(?: Mk [IVX]+)?) (.+)$/;
-
-/** A device's model and what it is, `{ model, noun }`; the model is '' for a name that carries none. */
-export function modelOf(id) {
-  const name = nameOf(id);
-  const m = MODEL.exec(name);
-  return m ? { model: m[1], noun: m[2] } : { model: '', noun: name };
-}
-
 /** An id printed as the stock code it reads as on a tag. */
 export const codeOf = id => `<span class="code">${esc(id.toUpperCase())}</span>`;
 
-/** Every item, for an admin's pick: id and name. */
-export const allItems = () => book.data.items;
+/** Every item whose id or name holds `query`, lower-cased and trimmed by the caller. */
+export const itemsMatching = q => book.data.items.filter(i => i.id.includes(q) || i.name.toLowerCase().includes(q));
 
 /** A link to a codex page. */
 export const go = (target, words) => `<a class="go" data-go="${esc(target)}">${esc(words)}</a>`;
@@ -149,12 +137,12 @@ function draw() {
 }
 
 function keepOnPage() {
-  const el = $('codex');
-  view.x = Math.max(MARGIN_PX, Math.min(view.x, innerWidth - el.offsetWidth - MARGIN_PX));
-  view.y = Math.max(MARGIN_PX, Math.min(view.y, innerHeight - el.offsetHeight - MARGIN_PX));
-  el.style.left = `${view.x}px`;
-  el.style.top = `${view.y}px`;
+  Object.assign(view, keepInside($('codex'), view.x, view.y, MARGIN_PX));
+  place();
 }
+
+/** Puts the codex where `view` says, as a move of its layer alone (WEB-11). */
+const place = () => setStyle($('codex'), { translate: `${view.x}px ${view.y}px` });
 
 function page(target) {
   const colon = target.indexOf(':');
@@ -208,7 +196,10 @@ function kindOf(i) {
 }
 
 const signed = n => (n > 0 ? '+' : '') + n;
-const statLink = (e, perHour) => go(`stat:${e.stat}`, `${e.stat} ${signed(e.amount)}${perHour ? '/h' : ''}`);
+
+/** A stat effect as printed: `cabin.o2 +2`. */
+export const effectText = e => `${e.stat} ${signed(e.amount)}`;
+const statLink = (e, perHour) => go(`stat:${e.stat}`, `${effectText(e)}${perHour ? '/h' : ''}`);
 
 function itemPage(id) {
   const i = book.items.get(id);
@@ -344,7 +335,7 @@ function findPage(query) {
   const hits = [
     ...book.data.pages.filter(p => p.title.toLowerCase().includes(q)).map(p => `<li>${go(`page:${p.slug}`, p.title)} <small>page</small></li>`),
     ...book.data.devices.filter(d => d.id.includes(q) || d.name.toLowerCase().includes(q)).map(d => `<li>${deviceLink(d.id)} <small>device</small></li>`),
-    ...book.data.items.filter(i => i.id.includes(q) || i.name.toLowerCase().includes(q)).map(i => `<li>${itemLink(i.id)} <small>${esc(kindOf(i))}</small></li>`),
+    ...itemsMatching(q).map(i => `<li>${itemLink(i.id)} <small>${esc(kindOf(i))}</small></li>`),
   ];
   const shown = hits.slice(0, SEARCH_MOST);
   return {
@@ -404,8 +395,7 @@ document.addEventListener('pointermove', e => {
   if (!view.grip) return;
   view.x = e.clientX - view.grip.dx;
   view.y = e.clientY - view.grip.dy;
-  $('codex').style.left = `${view.x}px`;
-  $('codex').style.top = `${view.y}px`;
+  inFrame(place);
 });
 
 document.addEventListener('pointerup', () => {

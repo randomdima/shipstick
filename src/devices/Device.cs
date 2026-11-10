@@ -84,9 +84,6 @@ public sealed class Device
 
     public WayEntry Way => Ways[WayIndex];
 
-    /// <summary>The floor cells it covers, columns by rows.</summary>
-    public (int Columns, int Rows) Footprint => (Entry.Columns, Entry.Rows);
-
     /// <summary>Its slots, laid out by <see cref="Layout"/>.</summary>
     public Inventory Inventory { get; }
 

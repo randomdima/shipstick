@@ -1,0 +1,212 @@
+{
+ "id": "ui_bezel",
+ "about": "A screen's bezel: dark steel bars round an open middle, a screw in each corner, sliced by the page round any screen (GAM-14).",
+ "sets": [
+  "console",
+  "issue_steel"
+ ],
+ "boundsM": [
+  [
+   0,
+   -0.01,
+   0
+  ],
+  [
+   0.209,
+   0.03,
+   0.128
+  ]
+ ],
+ "frame": "exact",
+ "textures": {
+  "rim": {
+   "src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png",
+   "insetPct": 4,
+   "tileM": [
+    0.0805,
+    0.08
+   ]
+  },
+  "bolt": {
+   "src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png",
+   "insetPct": 4,
+   "tileM": 0.008
+  }
+ },
+ "parts": [
+  {
+   "shape": "group",
+   "name": "bezel",
+   "parts": [
+    {
+     "shape": "box",
+     "name": "top",
+     "atM": [
+      0.1045,
+      0.003,
+      0.12
+     ],
+     "sizeM": [
+      0.209,
+      0.006,
+      0.016
+     ],
+     "faces": {
+      "south": {
+       "tex": "rim"
+      },
+      "north": null,
+      "east": null,
+      "west": null,
+      "top": null,
+      "bottom": null
+     },
+     "bevelM": 0.004
+    },
+    {
+     "shape": "box",
+     "name": "bottom",
+     "atM": [
+      0.1045,
+      0.003,
+      0.008
+     ],
+     "sizeM": [
+      0.209,
+      0.006,
+      0.016
+     ],
+     "faces": {
+      "south": {
+       "tex": "rim"
+      },
+      "north": null,
+      "east": null,
+      "west": null,
+      "top": null,
+      "bottom": null
+     },
+     "bevelM": 0.004
+    },
+    {
+     "shape": "box",
+     "name": "west",
+     "atM": [
+      0.008,
+      0.003,
+      0.064
+     ],
+     "sizeM": [
+      0.016,
+      0.006,
+      0.096
+     ],
+     "faces": {
+      "south": {
+       "tex": "rim"
+      },
+      "north": null,
+      "east": null,
+      "west": null,
+      "top": null,
+      "bottom": null
+     },
+     "bevelM": 0.004
+    },
+    {
+     "shape": "box",
+     "name": "east",
+     "atM": [
+      0.201,
+      0.003,
+      0.064
+     ],
+     "sizeM": [
+      0.016,
+      0.006,
+      0.096
+     ],
+     "faces": {
+      "south": {
+       "tex": "rim"
+      },
+      "north": null,
+      "east": null,
+      "west": null,
+      "top": null,
+      "bottom": null
+     },
+     "bevelM": 0.004
+    },
+    {
+     "shape": "sphere",
+     "name": "screw0",
+     "atM": [
+      0.008,
+      -0.0005,
+      0.008
+     ],
+     "sizeM": [
+      0.007,
+      0.004,
+      0.007
+     ],
+     "faces": {
+      "surface": "bolt"
+     }
+    },
+    {
+     "shape": "sphere",
+     "name": "screw1",
+     "atM": [
+      0.201,
+      -0.0005,
+      0.008
+     ],
+     "sizeM": [
+      0.007,
+      0.004,
+      0.007
+     ],
+     "faces": {
+      "surface": "bolt"
+     }
+    },
+    {
+     "shape": "sphere",
+     "name": "screw2",
+     "atM": [
+      0.008,
+      -0.0005,
+      0.12
+     ],
+     "sizeM": [
+      0.007,
+      0.004,
+      0.007
+     ],
+     "faces": {
+      "surface": "bolt"
+     }
+    },
+    {
+     "shape": "sphere",
+     "name": "screw3",
+     "atM": [
+      0.201,
+      -0.0005,
+      0.12
+     ],
+     "sizeM": [
+      0.007,
+      0.004,
+      0.007
+     ],
+     "faces": {
+      "surface": "bolt"
+     }
+    }
+   ]
+  }
+ ]
+}

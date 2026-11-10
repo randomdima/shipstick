@@ -1,0 +1,10 @@
+{
+ "about": "A toilet on a grey steel base: a white ceramic bowl and seat with its lid open, a yellow cistern box beside it with a level bar up its front showing how full its waste tank is, and the pipe from the cistern into the pan.",
+ "kind": "device",
+ "sets": [
+  "issue_steel",
+  "hygiene",
+  "controls"
+ ],
+ "tags": []
+}

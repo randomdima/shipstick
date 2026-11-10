@@ -1,0 +1,10 @@
+{
+ "about": "A solar strip: a cell panel tilted south on a yoke and a round pedestal, its conduit running down to a junction box on the floor, a status lamp on its lid lit while the strip delivers.",
+ "kind": "device",
+ "sets": [
+  "issue_steel",
+  "power",
+  "controls"
+ ],
+ "tags": []
+}

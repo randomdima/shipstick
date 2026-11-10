@@ -1,0 +1,9 @@
+{
+ "about": "A tile of the console's dark steel, the header's and the footer's plate: repeats every way.",
+ "kind": "device",
+ "sets": [
+  "console",
+  "issue_steel"
+ ],
+ "tags": []
+}

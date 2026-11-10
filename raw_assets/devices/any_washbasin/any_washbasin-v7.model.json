@@ -1,0 +1,53 @@
+{
+  "id": "any_washbasin",
+  "about": "A washbasin: a white ceramic basin on a grey vented pedestal, a mirror on the wall above with a lamp beside it lit while water runs, a green towel on a hook, a cup of toothbrushes on a bracket.",
+  "sets": ["issue_steel", "hygiene", "controls"],
+  "boundsM": [[0, 0, 0], [1, 1, 1.3]],
+  "textures": {
+    "basin":   {"src": "raw_assets/textures/tex_basin_top/tex_basin_top-v1.png", "insetPct": 2},
+    "ceramic": {"src": "raw_assets/textures/tex_ceramic_white/tex_ceramic_white-v1.png", "insetPct": 4, "tileM": 0.4},
+    "mirror":  {"src": "raw_assets/textures/tex_mirror/tex_mirror-v1.png", "insetPct": 2},
+    "vent":    {"src": "raw_assets/textures/tex_vent/tex_vent-v1.png", "insetPct": 2},
+    "panel":   {"src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png", "insetPct": 4, "tileM": 0.6},
+    "towel":   {"src": "raw_assets/textures/tex_towel_terry/tex_towel_terry-v1.png", "insetPct": 3, "tileM": 0.25},
+    "orange":  {"src": "raw_assets/textures/tex_orange_enamel/tex_orange_enamel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "teal":    {"src": "raw_assets/textures/tex_plastic_blue/tex_plastic_blue-v1.png", "insetPct": 3, "tileM": 0.3},
+    "steel":   {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "trim":    {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3}
+  },
+  "parts": [
+    {"shape": "group", "name": "washbasin", "parts": [
+      {"shape": "box", "name": "pedestal", "atM": [0.52, 0.72, 0.35], "sizeM": [0.34, 0.28, 0.7],
+       "faces": {"*": "panel", "top": null, "bottom": null}},
+      {"shape": "box", "name": "pedestal vent", "atM": [0.52, 0.578, 0.2], "sizeM": [0.24, 0.004, 0.11],
+       "faces": {"south": "vent", "*": "trim", "north": null}},
+      {"shape": "box", "name": "basin", "atM": [0.52, 0.66, 0.775], "sizeM": [0.6, 0.48, 0.15],
+       "faces": {"top": "basin", "*": "ceramic", "bottom": {"tex": "ceramic", "shade": 0.7}}},
+      {"shape": "cylinder", "name": "tap", "atM": [0.52, 0.86, 0.89], "radiusM": 0.02, "lengthM": 0.08, "axis": "z",
+       "faces": {"side": "steel", "ends": "steel"}},
+      {"shape": "box", "name": "spout", "atM": [0.52, 0.825, 0.92], "sizeM": [0.03, 0.08, 0.02], "tex": "steel"}
+    ]},
+
+    {"shape": "box", "name": "mirror", "atM": [0.52, 0.985, 1.14], "sizeM": [0.46, 0.03, 0.3],
+     "faces": {"south": "mirror", "*": "trim"}},
+    {"shape": "model", "name": "run lamp", "src": "raw_assets/parts/status_lamp/status_lamp-v1.model.json",
+     "atM": [0.82, 1.0, 1.2], "rotDeg": [90, 0, 0], "live": {"show": "run"}},
+
+    {"shape": "group", "name": "towel on hook", "parts": [
+      {"shape": "cylinder", "name": "hook", "atM": [0.11, 0.95, 0.99], "radiusM": 0.012, "lengthM": 0.1, "axis": "y",
+       "faces": {"side": "steel", "ends": "steel"}},
+      {"shape": "box", "name": "towel", "atM": [0.11, 0.91, 0.72], "sizeM": [0.2, 0.04, 0.54],
+       "faces": {"*": "towel", "top": {"tex": "towel", "shade": 0.8}}}
+    ]},
+
+    {"shape": "group", "name": "toothbrush cup", "parts": [
+      {"shape": "box", "name": "cup bracket", "atM": [0.885, 0.92, 0.885], "sizeM": [0.17, 0.16, 0.02],
+       "faces": {"*": "steel", "bottom": {"tex": "trim", "shade": 0.7}}},
+      {"shape": "model", "name": "cup", "src": "raw_assets/parts/mug/mug-v1.model.json", "atM": [0.875, 0.92, 0.895]},
+      {"shape": "cylinder", "name": "toothbrush blue", "atM": [0.86, 0.91, 1.0], "radiusM": 0.008, "lengthM": 0.16, "axis": "z",
+       "rotDeg": [0, -12, 0], "faces": {"side": "teal", "ends": "teal"}},
+      {"shape": "cylinder", "name": "toothbrush red", "atM": [0.89, 0.93, 1.0], "radiusM": 0.008, "lengthM": 0.16, "axis": "z",
+       "rotDeg": [0, 12, 0], "faces": {"side": "orange", "ends": "orange"}}
+    ]}
+  ]
+}

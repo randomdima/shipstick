@@ -1,0 +1,18 @@
+{
+  "id": "level_bar",
+  "about": "A part: a line indicator — a row of eight green glass segments on a dark steel strip, 0.46 m long and 0.07 m wide, lying flat; its segments light from the west end as what it shows fills. Origin at the centre of its foot; turned up (rotDeg x 90) it faces south.",
+  "sets": ["controls"],
+  "textures": {
+    "trim": {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3},
+    "lens": {"src": "raw_assets/textures/tex_lamp_lens_green/tex_lamp_lens_green-v1.png", "insetPct": 30}
+  },
+  "parts": [
+    {"shape": "group", "name": "level bar", "parts": [
+      {"shape": "box", "name": "strip", "atM": [0, 0, 0.006], "sizeM": [0.46, 0.07, 0.012], "bevelM": 0.003, "tex": "trim"},
+      {"shape": "group", "name": "segments", "live": {"as": "fill", "show": "held", "toward": "east", "steps": 8}, "parts": [
+        {"shape": "box", "name": "segment", "atM": [-0.1855, 0, 0.014], "sizeM": [0.045, 0.042, 0.004],
+         "repeat": {"count": 8, "stepM": [0.053, 0, 0]}, "faces": {"top": "lens", "*": "trim", "bottom": null}}
+      ]}
+    ]}
+  ]
+}

@@ -1,0 +1,20 @@
+{
+ "about": "Thick blue-green tinted glass with dense bright green algae water behind it, small bubbles, repeating.",
+ "kind": "material",
+ "sets": [
+  "growing"
+ ],
+ "tags": [
+  "algae",
+  "tank",
+  "jar",
+  "liquid",
+  "bubbles",
+  "green"
+ ],
+ "material": "glass",
+ "fits": [
+  "side",
+  "front"
+ ]
+}

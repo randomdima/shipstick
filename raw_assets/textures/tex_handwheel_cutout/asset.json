@@ -1,0 +1,21 @@
+{
+ "about": "a dull orange painted steel handwheel seen face on \u2014 a round rim, four straight spokes and a grey steel hub nut in the middle; everything outside the rim and every gap between the rim and the spokes fully transparent.",
+ "kind": "decal",
+ "sets": [
+  "controls",
+  "hull"
+ ],
+ "tags": [
+  "handwheel",
+  "wheel",
+  "valve",
+  "orange",
+  "spokes",
+  "cutout"
+ ],
+ "material": "steel",
+ "fits": [
+  "top",
+  "front"
+ ]
+}

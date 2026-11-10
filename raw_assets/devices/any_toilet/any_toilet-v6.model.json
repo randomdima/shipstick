@@ -7,7 +7,7 @@
     "ceramic": {"src": "raw_assets/textures/tex_ceramic_white/tex_ceramic_white-v1.png", "insetPct": 4, "tileM": 0.4},
     "lid":     {"src": "raw_assets/textures/tex_toilet_lid/tex_toilet_lid-v1.png", "insetPct": 1, "cutout": true},
     "label":   {"src": "raw_assets/textures/tex_label_plate/tex_label_plate-v1.png", "insetPct": 3},
-    "panel":   {"src": "raw_assets/textures/tex_bench_panel/tex_bench_panel-v1.png", "insetPct": 4, "tileM": 0.6},
+    "panel":   {"src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png", "insetPct": 4, "tileM": 0.6},
     "yellow":  {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.3},
     "pipe":    {"src": "raw_assets/textures/tex_pipe/tex_pipe-v1.png", "insetPct": 6},
     "steel":   {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},

@@ -1,0 +1,11 @@
+{
+ "about": "A fermenter on two by two cells, 1.8 m to the top of its sight glass: a steel vessel with a conical bottom and an orange band, hung in a yellow frame over a steel deck plate, a cabinet on its west with a run lamp and a fault lamp on its controls and a status lamp on its top, a gooseneck vent and a sight glass on its dome filling with what it has brewed, a tap under the cone.",
+ "kind": "device",
+ "sets": [
+  "issue_steel",
+  "galley",
+  "growing",
+  "controls"
+ ],
+ "tags": []
+}

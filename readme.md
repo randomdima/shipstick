@@ -38,13 +38,14 @@ reload; a change to C# is a new run of the host.
 
 | Path | Holds |
 |---|---|
-| `src/shipstick.csproj` | the game, engine-free: every slice except the heads and the tests |
+| `src/shipstick.csproj` | the game, engine-free: every slice except the shell (`app/`) and the tests |
 | `src/app/web/` | the client: plain JS and CSS in `wwwroot/`, served as written |
 | `src/app/host/` | the game's host: runs the game and serves the client (client–server, `P0`) |
 | `src/tests/` | the suite, mirroring `src/` |
 | `docs/` | what belongs to no single slice — [docs/index.md](docs/index.md) |
 | `assets/`, `raw_assets/` | the game's images, and where each came from — [raw_assets/index.md](raw_assets/index.md) |
 | `.qq/` | the project's `qq` tools: `qq --help` lists them |
-| `.claude/skills/remotegen/` | image generation through OpenRouter |
+| `.claude/skills/shapegen/` | every asset as a 3D model of simple shapes, rendered by `qq shapes` (GAM-13) |
+| `.claude/skills/remotegen/` | image generation through OpenRouter: the textures the models wear |
 
 How work is done here is [CLAUDE.md](CLAUDE.md).

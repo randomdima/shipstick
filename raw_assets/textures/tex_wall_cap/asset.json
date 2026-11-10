@@ -1,0 +1,17 @@
+{
+ "about": "The wall's top plate: smooth dull dark-yellow painted steel, repeating.",
+ "kind": "material",
+ "sets": [
+  "hull"
+ ],
+ "tags": [
+  "wall",
+  "cap",
+  "top",
+  "yellow"
+ ],
+ "material": "enamel",
+ "fits": [
+  "top"
+ ]
+}

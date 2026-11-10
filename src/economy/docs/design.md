@@ -9,7 +9,7 @@ keeps are [requirements.md](requirements.md).
 
 The game reads this catalogue (ECO-13): every item can sit in a slot, every device stands on a floor and runs whichever
 of its ways its player chooses (DEV-5), and the codex shows all of it (WEB-3). The starter ship lays each capsule with
-the universal fixtures and four devices of one role. What is **not yet aboard** is everything that moves a stat: using
+the universal fixtures and a few devices of one role (`StarterFigures.RoleDevicesMost`). What is **not yet aboard** is everything that moves a stat: using
 an item, a way's `gives`, the needs' drift, decay and wear, fitting a part and installing a kit, and the ways the crew
 runs by hand ([../../../docs/tech-debt.md](../../../docs/tech-debt.md)). The design below is what those will do.
 
@@ -180,7 +180,8 @@ leaves — waste, a dirty dish — is free; what an item decays into costs what 
 for every item and reports how many points of each stat a work-minute of each source buys, so a source that is far
 cheaper or far dearer than its peers stands out.
 
-The levers, each to be authored on `GameConfig` once the catalogue is loaded by the game:
+The levers, each authored on `GameConfig` — stack size, door slots and a way-minute's length already are; the rest as
+what they move comes aboard:
 
 - **Need rates** — the needs table above. A crew-day takes about 96 points of satiety and 144 of hydration.
 - **Way minutes** — minutes to hours, so a chain set up in the evening runs through the night. Raw extraction and
@@ -192,11 +193,6 @@ The levers, each to be authored on `GameConfig` once the catalogue is loaded by 
 - **Decay** — how fast food spoils and durables wear, which makes preserves a real choice over fresh meals and keeps
   laundry and bedding flowing.
 
-**The balance targets**, which `qq economy` checks against the catalogue:
-
-1. Every floor stat has a solo-reach source, so an isolated crew member survives a while, badly.
-2. Every crew and cabin stat has sources that take other capsules, and for a floor stat a better one, so cooperation
-   pays.
-3. Every ship stat is kept only by goods that take more than one role, so no capsule keeps the ship alone.
-4. Every item is made and ended at least one way, and is reached from harvest, salvage or the ship's stock.
-5. No loop gives back all it takes — not yet checked: items carry no mass to weigh a loop by.
+**The balance targets** are ECO-5 to ECO-9 ([requirements.md](requirements.md)): an isolated crew member survives a
+while, badly; cooperation pays; no capsule keeps the ship alone; nothing appears from or vanishes into nothing; and no
+loop runs for free.

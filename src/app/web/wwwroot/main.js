@@ -14,14 +14,14 @@ const FIRST_SEAT = '0,0';
 // comes first waits for it.
 const codex = fetch('codex.json').then(answer => answer.json());
 const art = fetch('assets.json').then(answer => answer.json());
-const bays = fetch('assets/app/web/interfaces/bays.json').then(answer => answer.json());
+const paints = fetch('assets/app/web/kit/paints.json').then(answer => answer.json());
 
 // `?admin` is the admin's page; anything else is a player's, at `?seat=column,row`.
 const query = new URLSearchParams(location.search);
 if (query.has('admin')) startAdmin();
 else startPlayer(query.get('seat') ?? FIRST_SEAT);
 
-loadArt(await art, await bays);
+loadArt(await art, await paints);
 await loadScene(await art);
 loadCodex(await codex);
 hooks.draw();

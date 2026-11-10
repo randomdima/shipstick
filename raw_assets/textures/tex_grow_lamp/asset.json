@@ -1,0 +1,19 @@
+{
+ "about": "A glowing grow-lamp diffuser seen face on: a frosted panel lit warm white, faint even lines of the tubes behind it, a narrow steel frame along all four edges.",
+ "kind": "decal",
+ "sets": [
+  "growing"
+ ],
+ "tags": [
+  "lamp",
+  "light",
+  "grow",
+  "diffuser",
+  "glowing"
+ ],
+ "material": "glass",
+ "fits": [
+  "top",
+  "front"
+ ]
+}

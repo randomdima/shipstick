@@ -4,11 +4,11 @@
   "boundsM": [[0, 0, 0], [2, 2, 1.55]],
   "textures": {
     "liquid": {"src": "raw_assets/textures/tex_tank_liquid/tex_tank_liquid-v1.png", "insetPct": 4, "tileM": 0.7},
-    "panel":  {"src": "raw_assets/textures/tex_bench_panel/tex_bench_panel-v1.png", "insetPct": 4, "tileM": 0.6},
+    "panel":  {"src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png", "insetPct": 4, "tileM": 0.6},
     "steel":  {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
     "pipe":   {"src": "raw_assets/textures/tex_pipe/tex_pipe-v1.png", "insetPct": 6, "tileM": 0.3},
     "copper": {"src": "raw_assets/textures/tex_copper/tex_copper-v1.png", "insetPct": 4, "tileM": 0.3},
-    "lid":    {"src": "raw_assets/textures/tex_jug_lid/tex_jug_lid-v1.png", "insetPct": 3},
+    "lid":    {"src": "raw_assets/textures/tex_lid_round_steel/tex_lid_round_steel-v1.png", "insetPct": 3},
     "vent":   {"src": "raw_assets/textures/tex_vent/tex_vent-v1.png", "insetPct": 2},
     "fan":    {"src": "raw_assets/textures/tex_fan_grille/tex_fan_grille-v1.png", "insetPct": 3},
     "control":{"src": "raw_assets/textures/tex_control_panel/tex_control_panel-v1.png", "insetPct": 2},

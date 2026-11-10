@@ -1,0 +1,45 @@
+{
+  "id": "bio_seedbank",
+  "about": "A seed bank: a low steel cabinet whose lid is a glass-covered grid of seed compartments, latched and handled at the front, with a yellow end module carrying a dial gauge timing the cycle, a status lamp and vents.",
+  "sets": ["issue_steel", "growing", "controls"],
+  "boundsM": [[0, 0, 0], [2, 1, 0.45]],
+  "textures": {
+    "seeds":  {"src": "raw_assets/textures/tex_seed_trays/tex_seed_trays-v1.png", "insetPct": 2},
+    "panel":  {"src": "raw_assets/textures/tex_panel_grey/tex_panel_grey-v1.png", "insetPct": 4, "tileM": 0.6},
+    "steel":  {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "yellow": {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.4},
+    "trim":   {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3},
+    "gauge":  {"src": "raw_assets/textures/tex_gauge_dial/tex_gauge_dial-v1.png", "insetPct": 3},
+    "vent":   {"src": "raw_assets/textures/tex_vent/tex_vent-v1.png", "insetPct": 2}
+  },
+  "parts": [
+    {"shape": "group", "name": "cabinet", "parts": [
+      {"shape": "box", "name": "body", "atM": [0.79, 0.5, 0.15], "sizeM": [1.54, 0.90, 0.30],
+       "faces": {"*": "panel", "top": null, "bottom": null}},
+      {"shape": "box", "name": "kick strip", "atM": [0.79, 0.048, 0.025], "sizeM": [1.54, 0.006, 0.05],
+       "faces": {"*": "yellow", "north": null}},
+      {"shape": "box", "name": "lid", "atM": [0.79, 0.5, 0.35], "sizeM": [1.54, 0.90, 0.10],
+       "faces": {"top": "seeds", "*": "steel", "bottom": null}},
+      {"shape": "box", "name": "lid seam", "atM": [0.79, 0.048, 0.30], "sizeM": [1.54, 0.006, 0.015],
+       "faces": {"*": "yellow", "north": null}},
+      {"shape": "box", "name": "latch", "atM": [0.24, 0.035, 0.29], "sizeM": [0.08, 0.03, 0.12],
+       "repeat": {"count": 2, "stepM": [1.10, 0, 0]}, "tex": "trim"},
+      {"shape": "box", "name": "handle bar", "atM": [0.79, 0.015, 0.17], "sizeM": [0.36, 0.03, 0.04], "tex": "trim", "shade": 1.3},
+      {"shape": "box", "name": "handle stand-offs", "atM": [0.625, 0.035, 0.17], "sizeM": [0.03, 0.03, 0.06],
+       "repeat": {"count": 2, "stepM": [0.33, 0, 0]}, "tex": "trim"}
+    ]},
+    {"shape": "group", "name": "end module", "parts": [
+      {"shape": "box", "name": "end body", "atM": [1.78, 0.5, 0.20], "sizeM": [0.42, 0.90, 0.40],
+       "faces": {"*": "yellow", "bottom": null}},
+      {"shape": "cylinder", "name": "gauge", "atM": [1.78, 0.76, 0.42], "radiusM": 0.12, "lengthM": 0.04,
+       "faces": {"ends": "gauge", "side": "steel"}},
+      {"shape": "model", "name": "gauge works", "src": "raw_assets/parts/dial_needle/dial_needle-v1.model.json", "atM": [1.78, 0.76, 0.44],
+       "live": {"show": "cycle"}},
+      {"shape": "model", "name": "status lamp", "src": "raw_assets/parts/status_lamp/status_lamp-v1.model.json", "atM": [1.78, 0.14, 0.40]},
+      {"shape": "box", "name": "top vent", "atM": [1.78, 0.40, 0.405], "sizeM": [0.30, 0.34, 0.01],
+       "faces": {"top": {"tex": "vent", "turnDeg": 90}, "*": "trim", "bottom": null}},
+      {"shape": "box", "name": "front vent", "atM": [1.78, 0.045, 0.17], "sizeM": [0.28, 0.01, 0.13],
+       "faces": {"south": "vent", "*": "trim", "north": null}}
+    ]}
+  ]
+}

@@ -1,0 +1,20 @@
+{
+ "about": "Thick reinforced glass seen face on, a dull blue-green tint, a fine square wire mesh embedded in it, repeating.",
+ "kind": "material",
+ "sets": [
+  "growing",
+  "hull"
+ ],
+ "tags": [
+  "glass",
+  "wired",
+  "reinforced",
+  "window",
+  "lid"
+ ],
+ "material": "glass",
+ "fits": [
+  "front",
+  "top"
+ ]
+}

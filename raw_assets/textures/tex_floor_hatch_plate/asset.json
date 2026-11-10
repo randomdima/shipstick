@@ -1,0 +1,19 @@
+{
+ "about": "The floor service hatch's plate seen straight down: a heavy worn grey steel plate, two strong hinges along the top edge, a recessed lift handle near the bottom edge, a ring of bolts round its border.",
+ "kind": "face",
+ "sets": [
+  "hull"
+ ],
+ "tags": [
+  "hatch",
+  "floor",
+  "plate",
+  "hinges",
+  "hazard",
+  "trapdoor"
+ ],
+ "material": "steel",
+ "fits": [
+  "top"
+ ]
+}

@@ -1,0 +1,21 @@
+{
+ "about": "A heavy grey steel door plate seen face on, a strong hinge on the left edge, a lever latch handle on the right, rivets round its border.",
+ "kind": "face",
+ "sets": [
+  "workshop",
+  "quarters"
+ ],
+ "tags": [
+  "door",
+  "hinged",
+  "latch",
+  "rivets",
+  "oven",
+  "cabinet"
+ ],
+ "material": "steel",
+ "fits": [
+  "front",
+  "door"
+ ]
+}

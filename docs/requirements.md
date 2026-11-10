@@ -54,3 +54,7 @@ is lived in, worn but kept, never filthy.
 **GAM-13** `P0` Every asset the game shows is a render of a 3D model — a few textured shapes whose textures are
 generated (GAM-9), rendered from the game's cameras: devices, walls and doors, the floor, interface panels, their
 props and the space beyond alike.
+
+**GAM-14** `P2` A generated image is shown at its own proportions — resized, never stretched — on every element of the
+page (panels, frames, plates, labels, keys, menus, trim) and on every face of a model. An element longer or larger
+than its image repeats a part made to tile, or takes an image of its own made to its size.

@@ -1,0 +1,21 @@
+{
+ "about": "thick amber-brown glass with dark amber liquid behind it and a few small bubbles, flat, repeating.",
+ "kind": "material",
+ "sets": [
+  "growing",
+  "galley"
+ ],
+ "tags": [
+  "amber",
+  "brown",
+  "liquid",
+  "brew",
+  "fermenter",
+  "bottle"
+ ],
+ "material": "glass",
+ "fits": [
+  "side",
+  "front"
+ ]
+}

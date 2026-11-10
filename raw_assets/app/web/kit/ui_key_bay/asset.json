@@ -1,0 +1,10 @@
+{
+ "about": "A recessed dark steel bay of two empty square sockets, the window's manual and close keys seated in them; drawn whole.",
+ "kind": "device",
+ "sets": [
+  "console",
+  "issue_steel",
+  "controls"
+ ],
+ "tags": []
+}

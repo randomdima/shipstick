@@ -1,0 +1,13 @@
+{
+ "about": "a big steel mug of coffee with a side handle, 0.14 m tall; origin at the centre of its foot.",
+ "kind": "part",
+ "sets": [
+  "galley",
+  "quarters"
+ ],
+ "tags": [
+  "mug",
+  "cup",
+  "coffee"
+ ]
+}

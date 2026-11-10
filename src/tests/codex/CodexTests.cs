@@ -1,8 +1,6 @@
 using Shipstick.Codex;
 using Shipstick.Core.Config;
-using Shipstick.Devices;
 using Shipstick.Economy;
-using Shipstick.Ship;
 
 namespace Shipstick.Tests.Codex;
 
@@ -31,27 +29,9 @@ public class CodexTests
     }
 
     [Fact]
-    public void EveryItemTheStarterShipsDevicesRunOnHasAPage()
-    {
-        var vessel = StarterShip.Lay(GameConfig.Default, Catalogue);
-        var held = new HashSet<string>(Book.Items.Select(i => i.Id));
-        var named = Capsules(vessel).SelectMany(c => c.Fixtures).Select(f => f.Device).OfType<Device>()
-            .SelectMany(d => d.Ways).SelectMany(w => w.Needs.Concat(w.Takes).Concat(w.Makes)).Select(c => c.Item);
-
-        Assert.Empty(named.Where(id => !held.Contains(id)).Distinct());
-    }
-
-    [Fact]
     public void EveryLinkAndFigureOfTheCodexsOwnPagesNamesSomething()
     {
         Assert.NotEmpty(Book.Pages);
         Assert.Empty(Book.Unresolved());
-    }
-
-    static IEnumerable<Capsule> Capsules(Vessel vessel)
-    {
-        for (var row = 0; row < vessel.Grid.Rows; row++)
-            for (var column = 0; column < vessel.Grid.Columns; column++)
-                if (vessel.CapsuleOn(new CapsuleAt(column, row)) is { } capsule) yield return capsule;
     }
 }

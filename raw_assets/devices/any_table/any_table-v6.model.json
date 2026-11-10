@@ -1,0 +1,56 @@
+{
+  "id": "any_table",
+  "about": "A mess table two cells long: a pale steel top on a dark trestle, a padded bench seat behind it between yellow end posts, two stacked trays, a hotplate set in the top that glows while it cooks, its row of four lamps live, and a mug of coffee.",
+  "sets": ["issue_steel", "quarters", "galley"],
+  "boundsM": [[0, 0, 0], [2, 1, 0.95]],
+  "textures": {
+    "top":    {"src": "raw_assets/textures/tex_table_top/tex_table_top-v1.png", "insetPct": 2},
+    "quilt":  {"src": "raw_assets/textures/tex_seat_quilted/tex_seat_quilted-v1.png", "insetPct": 2, "tileM": 0.35},
+    "vinyl":  {"src": "raw_assets/textures/tex_vinyl_padded/tex_vinyl_padded-v1.png", "insetPct": 3, "tileM": 0.4},
+    "hob":    {"src": "raw_assets/textures/tex_hotplate/tex_hotplate-v1.png", "insetPct": 2},
+    "tray":   {"src": "raw_assets/textures/tex_tray_floor/tex_tray_floor-v1.png", "insetPct": 2},
+    "steel":  {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "yellow": {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.3},
+    "trim":   {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 8, "tileM": 0.3},
+    "lens":   {"src": "raw_assets/textures/tex_lamp_lens_green/tex_lamp_lens_green-v1.png", "insetPct": 12}
+  },
+  "parts": [
+    {"shape": "group", "name": "trestle", "tex": "trim", "parts": [
+      {"shape": "box", "name": "foot", "atM": [0.25, 0.26, 0.02], "sizeM": [0.14, 0.48, 0.04], "repeat": {"count": 2, "stepM": [1.5, 0, 0]},
+       "faces": {"*": "trim", "bottom": null}},
+      {"shape": "box", "name": "leg", "atM": [0.25, 0.26, 0.37], "sizeM": [0.1, 0.36, 0.66], "repeat": {"count": 2, "stepM": [1.5, 0, 0]}},
+      {"shape": "box", "name": "stretcher", "atM": [1, 0.26, 0.15], "sizeM": [1.4, 0.06, 0.08], "shade": 0.8}
+    ]},
+    {"shape": "box", "name": "top", "atM": [1, 0.26, 0.725], "sizeM": [2, 0.52, 0.05],
+     "faces": {"top": "top", "bottom": {"tex": "trim", "shade": 0.5}, "*": {"tex": "top", "tileM": 2, "shade": 0.85}}},
+
+    {"shape": "group", "name": "bench seat", "parts": [
+      {"shape": "box", "name": "seat base", "atM": [1, 0.75, 0.185], "sizeM": [1.76, 0.38, 0.37],
+       "faces": {"*": {"tex": "trim", "shade": 0.7}, "bottom": null}},
+      {"shape": "box", "name": "seat cushion", "atM": [1, 0.74, 0.41], "sizeM": [1.76, 0.4, 0.08],
+       "faces": {"top": "quilt", "*": "vinyl", "bottom": null}},
+      {"shape": "box", "name": "backrest", "atM": [1, 0.97, 0.665], "sizeM": [1.76, 0.06, 0.43],
+       "faces": {"south": "quilt", "*": "vinyl", "bottom": null}},
+      {"shape": "box", "name": "end post", "atM": [0.07, 0.77, 0.45], "sizeM": [0.1, 0.46, 0.9], "repeat": {"count": 2, "stepM": [1.86, 0, 0]},
+       "faces": {"*": "yellow", "bottom": null}}
+    ]},
+
+    {"shape": "box", "name": "tray", "atM": [0.37, 0.24, 0.775], "sizeM": [0.46, 0.25, 0.05],
+     "faces": {"top": "tray", "bottom": null, "*": "steel"}},
+    {"shape": "box", "name": "tray stacked", "atM": [0.39, 0.27, 0.825], "sizeM": [0.46, 0.25, 0.05],
+     "faces": {"top": "tray", "bottom": null, "*": "steel"}},
+    {"shape": "group", "name": "hotplate", "parts": [
+      {"shape": "box", "name": "hob", "atM": [1.29, 0.26, 0.756], "sizeM": [0.4, 0.4, 0.012],
+       "faces": {"top": "hob", "bottom": null, "*": "trim"}, "live": {"as": "glow", "show": "run"}},
+      {"shape": "sphere", "name": "run lamp", "atM": [1.1496, 0.0979, 0.762], "sizeM": [0.032, 0.032, 0.008], "half": true,
+       "tex": "lens", "live": {"as": "lamp", "show": "run"}},
+      {"shape": "sphere", "name": "state lamp", "atM": [1.2426, 0.0979, 0.762], "sizeM": [0.032, 0.032, 0.008], "half": true,
+       "tex": "lens", "live": {"as": "lamp", "show": "state"}},
+      {"shape": "sphere", "name": "fault lamp", "atM": [1.3367, 0.0979, 0.762], "sizeM": [0.036, 0.036, 0.008], "half": true,
+       "tex": "lens", "live": {"as": "lamp", "show": "fault"}},
+      {"shape": "sphere", "name": "heat lamp", "atM": [1.43, 0.0979, 0.762], "sizeM": [0.032, 0.032, 0.008], "half": true,
+       "tex": "lens", "live": {"as": "lamp", "show": "run"}}
+    ]},
+    {"shape": "model", "name": "mug", "src": "raw_assets/parts/mug/mug-v1.model.json", "atM": [1.74, 0.27, 0.75]}
+  ]
+}

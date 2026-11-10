@@ -1,0 +1,19 @@
+{
+ "about": "a round green indicator lamp lens seen face on, softly glowing, filling the square, a thin black bezel ring round it, dark steel in the corners.",
+ "kind": "decal",
+ "sets": [
+  "controls"
+ ],
+ "tags": [
+  "lamp",
+  "lens",
+  "indicator",
+  "green",
+  "light"
+ ],
+ "material": "glass",
+ "fits": [
+  "front",
+  "top"
+ ]
+}

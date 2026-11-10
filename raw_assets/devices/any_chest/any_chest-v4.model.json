@@ -7,7 +7,7 @@
     "yellow": {"src": "raw_assets/textures/tex_yellow_enamel/tex_yellow_enamel-v1.png", "insetPct": 4, "tileM": 0.3},
     "trim": {"src": "raw_assets/textures/tex_trim_dark/tex_trim_dark-v1.png", "insetPct": 4, "tileM": 0.3},
     "steel": {"src": "raw_assets/textures/tex_bare_steel/tex_bare_steel-v1.png", "insetPct": 4, "tileM": 0.3},
-    "latch": {"src": "raw_assets/textures/tex_kiln_door/tex_kiln_door-v1.png", "insetPct": 4},
+    "latch": {"src": "raw_assets/textures/tex_door_hinged_steel/tex_door_hinged_steel-v1.png", "insetPct": 4},
     "plate": {"src": "raw_assets/textures/tex_label_plate/tex_label_plate-v1.png", "insetPct": 4}
   },
   "parts": [

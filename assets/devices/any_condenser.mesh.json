@@ -1,6 +1,6 @@
 {
- "variant": "raw_assets/devices/any_condenser/any_condenser-v6.png",
- "model": "raw_assets/devices/any_condenser/any_condenser-v6.model.json",
+ "variant": "raw_assets/devices/any_condenser/any_condenser-v9.png",
+ "model": "raw_assets/devices/any_condenser/any_condenser-v9.model.json",
  "boundsM": [
   [
    0,
@@ -13,28 +13,33 @@
    0.85
   ]
  ],
- "triangles": 1016,
+ "triangles": 1708,
  "bin": "any_condenser.mesh.bin",
  "layout": {
   "P": {
    "offset": 0,
    "type": "float32",
-   "length": 9144
+   "length": 15372
   },
   "UV": {
-   "offset": 36576,
+   "offset": 61488,
    "type": "float32",
-   "length": 6096
+   "length": 10248
   },
   "N": {
-   "offset": 60960,
+   "offset": 102480,
    "type": "int8",
-   "length": 9144
+   "length": 15372
   },
   "order": {
-   "offset": 70104,
+   "offset": 117852,
    "type": "uint16",
-   "length": 3048
+   "length": 5124
+  },
+  "live": {
+   "offset": 128100,
+   "type": "uint8",
+   "length": 5124
   }
  },
  "looks": [
@@ -45,7 +50,7 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_bench_panel-v1-i4-seamless.webp",
+   "texture": "assets/textures/tex_panel_grey-v1-i4-seamless.webp",
    "wrap": true,
    "shade": 1.0,
    "cutout": false
@@ -81,15 +86,27 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_pleated_filter-v1-i4.webp",
-   "wrap": false,
-   "shade": 0.75,
+   "texture": "assets/textures/tex_trim_dark-v1-i8-seamless.webp",
+   "wrap": true,
+   "shade": 0.3,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_panel_grey-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 0.8,
    "cutout": false
   },
   {
    "texture": "assets/textures/tex_bare_steel-v1-i4-seamless.webp",
    "wrap": true,
    "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_pleated_filter-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 0.75,
    "cutout": false
   },
   {
@@ -105,13 +122,19 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_glass_wired-v1-i4.webp",
-   "wrap": false,
+   "texture": "assets/textures/tex_glass_wired-v1-i4-seamless.webp",
+   "wrap": true,
    "shade": 0.9,
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_tank_liquid-v1-i4.webp",
+   "texture": "assets/textures/tex_tank_liquid-v1-i4-seamless.webp",
+   "wrap": true,
+   "shade": 1.0,
+   "cutout": false
+  },
+  {
+   "texture": "assets/textures/tex_lamp_lens_green-v1-i30.webp",
    "wrap": false,
    "shade": 1.0,
    "cutout": false
@@ -121,67 +144,82 @@
   [
    0,
    0,
-   178
+   530
   ],
   [
    1,
-   178,
+   530,
    36
   ],
   [
    2,
-   214,
+   566,
    2
   ],
   [
    3,
-   216,
+   568,
    2
   ],
   [
    4,
-   218,
+   570,
    2
   ],
   [
    5,
-   220,
+   572,
    10
   ],
   [
    6,
-   230,
+   582,
    2
   ],
   [
    7,
-   232,
-   2
+   584,
+   88
   ],
   [
    8,
-   234,
-   768
+   672,
+   60
   ],
   [
    9,
-   1002,
-   2
+   732,
+   944
   ],
   [
    10,
-   1004,
+   1676,
    2
   ],
   [
    11,
-   1006,
-   8
+   1678,
+   2
   ],
   [
    12,
-   1014,
+   1680,
    2
+  ],
+  [
+   13,
+   1682,
+   8
+  ],
+  [
+   14,
+   1690,
+   2
+  ],
+  [
+   15,
+   1692,
+   16
   ]
  ],
  "light": {
@@ -212,5 +250,79 @@
   "deckFadeM": 0.06,
   "cutoutAlpha": 0.5,
   "supersample": 3
- }
+ },
+ "live": [
+  {
+   "as": "spin",
+   "show": "run",
+   "part": "parts[0] (cabinet).parts[7] (fan) <fan_rotor>.parts[0] (fan).parts[1] (rotor)",
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "pivotM": [
+    0.26,
+    0.6,
+    0.758
+   ],
+   "degPerS": 360,
+   "boxM": [
+    [
+     0.0976,
+     0.4532,
+     0.754
+    ],
+    [
+     0.4224,
+     0.762,
+     0.772
+    ]
+   ]
+  },
+  {
+   "as": "lamp",
+   "show": "state",
+   "part": "parts[0] (cabinet).parts[10] (lamp)",
+   "boxM": [
+    [
+     0.9,
+     0.218,
+     0.6
+    ],
+    [
+     0.94,
+     0.23,
+     0.64
+    ]
+   ]
+  },
+  {
+   "as": "fill",
+   "show": "output",
+   "part": "parts[2] (water level) <level_bar>.parts[0] (level bar).parts[1] (segments)",
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "steps": 8,
+   "boxM": [
+    [
+     0.062,
+     0.289,
+     0.762
+    ],
+    [
+     0.478,
+     0.331,
+     0.766
+    ]
+   ],
+   "spanM": [
+    0.062,
+    0.478
+   ]
+  }
+ ]
 }

@@ -1,0 +1,21 @@
+{
+ "about": "A whole worn mid-grey steel top seen straight down: fine scratches and faint tool marks, a slightly darker raised rim along all four edges, a small round bolt head in each corner. Nothing lying on it.",
+ "kind": "face",
+ "sets": [
+  "workshop",
+  "issue_steel"
+ ],
+ "tags": [
+  "worktop",
+  "work",
+  "surface",
+  "bench",
+  "top",
+  "rim",
+  "grey"
+ ],
+ "material": "steel",
+ "fits": [
+  "top"
+ ]
+}

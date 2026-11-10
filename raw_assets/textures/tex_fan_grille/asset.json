@@ -1,0 +1,19 @@
+{
+ "about": "A round cooling fan seen face on: dark fan blades behind a square steel grille of crossed bars, a steel square frame touching all four edges.",
+ "kind": "decal",
+ "sets": [
+  "airworks"
+ ],
+ "tags": [
+  "fan",
+  "grille",
+  "cooling",
+  "blades"
+ ],
+ "material": "steel",
+ "fits": [
+  "front",
+  "side",
+  "top"
+ ]
+}

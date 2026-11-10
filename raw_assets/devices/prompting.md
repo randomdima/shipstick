@@ -25,8 +25,8 @@ Read before the next device sheet. Briefs: `.tmp/gen/briefs/dev_*.txt`; the fram
   drawers", "a low under-counter dishwasher whose top is a steel worktop with a small sink".
 - **No bolts, and the door as parts** (`kit_d` caps, `kit_e` panels, `doors_d` door parts, score 4, in use; the
   owner: "Lets not use bolted plates because they still add blockiness", "Are doors not build as walls? From parts?").
-  Since the walls lean out from the room (the page's 3D walls), the front panel and the face-on door serve every side;
-  the side panels, the trim panel and the edge-on door are unused.
+  In the floor's 3D scene the front panel and the face-on door serve every side; the side panels, the trim panel and
+  the edge-on door are unused.
   "Smooth, heavy, continuous surfaces: NO bolts, NO rivets, NO screw heads anywhere" held on every sheet; caps take "a
   smooth rounded grey steel edge trim with no bolts". The door is cut-outs laid on the kit: "Each asset is only the
   part itself, with transparent background all round it: no wall, no panel, no backing plate behind it" — the door

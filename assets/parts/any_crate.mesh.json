@@ -45,13 +45,13 @@
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_bench_panel-v1-i4-seamless.webp",
+   "texture": "assets/textures/tex_panel_grey-v1-i4-seamless.webp",
    "wrap": true,
    "shade": 1.0,
    "cutout": false
   },
   {
-   "texture": "assets/textures/tex_bench_top-v1-i2.webp",
+   "texture": "assets/textures/tex_top_steel_rimmed-v1-i2.webp",
    "wrap": false,
    "shade": 1.0,
    "cutout": false

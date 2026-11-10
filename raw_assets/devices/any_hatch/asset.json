@@ -1,0 +1,10 @@
+{
+ "about": "A floor service hatch: a steel frame, a heavy hazard-bordered plate on two hinges, an orange handwheel, a status lamp set in the plate's front corner.",
+ "kind": "device",
+ "sets": [
+  "issue_steel",
+  "hull",
+  "controls"
+ ],
+ "tags": []
+}

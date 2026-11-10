@@ -12,6 +12,19 @@ const template = document.createElement('template');
 // in its own spelling. Forgotten when a morph rewrites the element's style whole.
 const written = new WeakMap();
 
+export const $ = id => document.getElementById(id);
+
+/** `text` safe to write into HTML, as content or a quoted attribute. */
+export const esc = text => String(text).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+
+/** Where `el`, its top left at `x`, `y`, stands kept `marginPx` inside the page on every side. */
+export function keepInside(el, x, y, marginPx) {
+  return {
+    x: Math.max(marginPx, Math.min(x, innerWidth - el.offsetWidth - marginPx)),
+    y: Math.max(marginPx, Math.min(y, innerHeight - el.offsetHeight - marginPx)),
+  };
+}
+
 /** `html` as nodes, in a fragment the next parse empties. */
 function parse(html) {
   template.innerHTML = html;
