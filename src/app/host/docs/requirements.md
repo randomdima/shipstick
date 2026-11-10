@@ -9,4 +9,5 @@ What serves the game and runs it. Each rule carries a rung ([../../../../docs/pr
 **HST-1** `P2` Hosting the game is part of the game's runtime: what serves the page is the game's own .NET host, built
 and shipped with it.
 
-**HST-2** `P2` The `qq` tools are design time only. Nothing the game runs on is one, and none of them is published.
+**HST-2** `P2` The `qq` tools are design time only. Nothing the game runs on is one, and none of them ships with the
+game; their source is in the repository.

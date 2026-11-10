@@ -1,0 +1,271 @@
+<title>Shipstick Stores Manifest</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a ship's stores manifest — a summary strip, then the stores index on the left and the open entry on the right. */
+:root {
+  --bg: #eef1f3; --panel: #ffffff; --ink: #1d262d; --muted: #5d6b75; --line: #d3dade;
+  --accent: #b86a00; --accent-ink: #ffffff; --wash: #e3e8eb;
+  --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #12171b; --panel: #1a2127; --ink: #dfe6ea; --muted: #93a2ac; --line: #2c363d;
+  --accent: #f0a338; --accent-ink: #1a1206; --wash: #222b31; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #12171b; --panel: #1a2127; --ink: #dfe6ea; --muted: #93a2ac; --line: #2c363d;
+  --accent: #f0a338; --accent-ink: #1a1206; --wash: #222b31; color-scheme: dark }
+
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.45 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 16px; box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: .01em; text-wrap: balance; margin: 0; }
+h1 { font-size: 30px; line-height: 1.1; }
+h2 { font-size: 22px; }
+h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-family: var(--body); font-weight: 600; }
+.mono, code { font-family: var(--mono); font-size: 12.5px; }
+button, select, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.page { max-width: 1280px; margin: 0 auto; display: grid; gap: 14px; }
+header { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: baseline; justify-content: space-between; }
+header p { margin: 0; color: var(--muted); max-width: 70ch; }
+
+.strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.figure { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; }
+.figure b { display: block; font: 700 26px/1.1 var(--display); font-variant-numeric: tabular-nums; }
+.figure span { color: var(--muted); font-size: 13px; }
+.reachbar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 8px; background: var(--wash); }
+.reachbar i { display: block; height: 100%; }
+
+.main { display: grid; grid-template-columns: minmax(260px, 340px) minmax(0, 1fr); gap: 14px; align-items: start; }
+@media (max-width: 760px) { .main { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 12px; min-width: 0; }
+
+.index { display: grid; gap: 10px; position: sticky; top: env(safe-area-inset-top, 0px); }
+.index label { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
+.index input, .index select { width: 100%; padding: 7px 9px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); }
+.list { list-style: none; margin: 0; padding: 0; max-height: 60vh; overflow-y: auto; border-top: 1px solid var(--line); }
+@media (max-width: 760px) { .index { position: static; } .list { max-height: 40vh; } }
+.list button { all: unset; box-sizing: border-box; display: grid; grid-template-columns: 64px 1fr auto; gap: 8px; width: 100%;
+  padding: 6px 4px; border-bottom: 1px solid var(--line); cursor: pointer; align-items: baseline; }
+.list button:hover { background: var(--wash); }
+.list button[aria-current="true"] { background: var(--wash); box-shadow: inset 3px 0 0 var(--accent); }
+.list .mono { color: var(--muted); }
+.list .tier { font: 600 11px var(--mono); color: var(--muted); }
+.empty { color: var(--muted); padding: 10px 4px; }
+
+.entry { display: grid; gap: 16px; }
+.entry-head { display: grid; gap: 6px; }
+.entry-head .id { font: 600 13px var(--mono); color: var(--accent); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-flex; gap: 6px; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 12.5px;
+  background: var(--wash); border: 1px solid var(--line); white-space: nowrap; }
+.chip.role { color: #fff; border-color: transparent; }
+.chip.reach { background: var(--accent); color: var(--accent-ink); border-color: transparent; font-weight: 600; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px 16px; margin: 0; }
+.facts div { display: grid; }
+.facts dt { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.facts dd { margin: 0; font-variant-numeric: tabular-nums; }
+
+.tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+.tree ul { padding-left: 18px; border-left: 1px dashed var(--line); margin-left: 7px; }
+.tree li { padding: 2px 0; }
+.tree summary { cursor: pointer; list-style: none; }
+.tree summary::-webkit-details-marker { display: none; }
+.tree summary::before { content: "▸"; display: inline-block; width: 14px; color: var(--muted); }
+.tree details[open] > summary::before { content: "▾"; }
+.tree .leaf::before { content: "·"; display: inline-block; width: 14px; color: var(--muted); text-align: center; }
+.node { display: inline-flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; }
+.node .count { font: 600 12px var(--mono); }
+.node .how { color: var(--muted); font-size: 13px; }
+.node .again { color: var(--muted); font-style: italic; font-size: 13px; }
+a.item { color: inherit; text-decoration: none; border-bottom: 1px solid var(--line); }
+a.item:hover { border-bottom-color: var(--accent); }
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
+.ways { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 6px; }
+.ways li { border: 1px solid var(--line); border-radius: 5px; padding: 6px 9px; display: grid; gap: 3px; }
+.ways .by { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; }
+.ways .by b { font-weight: 600; }
+.ways .how { color: var(--muted); font-size: 13px; }
+.ways .flow { font-size: 14px; }
+.ways .flow .arrow { color: var(--muted); padding: 0 4px; }
+.ways .self { color: var(--accent); font-weight: 600; }
+.scroll { overflow-x: auto; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="page">
+  <header>
+    <div>
+      <h1>Stores Manifest</h1>
+      <p>Every item the ship has: every way it is made — by a device, the crew's hands, a use that leaves it, a decay —
+        and every way it ends. Pick a subsection or search, then follow any way to its inputs.</p>
+    </div>
+  </header>
+  <section class="strip" id="strip" aria-label="Catalogue summary"></section>
+  <div class="main">
+    <aside class="panel index" aria-label="Stores index">
+      <label for="q">Search by name or id<input id="q" type="search" placeholder="bread, wat-002, filter…" autocomplete="off"></label>
+      <label for="group">Subsection<select id="group"></select></label>
+      <ul class="list" id="list"></ul>
+    </aside>
+    <main class="panel entry" id="entry" aria-live="polite"></main>
+  </div>
+</div>
+
+<script>
+const D = /*DATA*/null;
+const REACH = ['solo', 'pair', 'trio', 'crew'];
+const REACH_SAYS = ['the capsule makes it alone', 'one other role', 'two other roles', 'three or more roles: the ship'];
+const START = 'wat-001';
+const byId = new Map(D.items.map(i => [i.id, i]));
+const madeBy = new Map(D.items.map(i => [i.id, []]));
+const endedBy = new Map(D.items.map(i => [i.id, []]));
+const neededBy = new Map(D.items.map(i => [i.id, []]));
+for (const w of D.ways) {
+  for (const [, t] of w.makes) madeBy.get(t)?.push({ way: w });
+  for (const [, t] of w.takes) endedBy.get(t)?.push({ way: w });
+  for (const [, t] of w.needs) neededBy.get(t)?.push(w);
+}
+for (const i of D.items) {
+  for (const m of i.use.matchAll(/leaves (\d+) ([a-z]{3}-\d{3})/g)) madeBy.get(m[2])?.push({ leftBy: i.id });
+  if (i.decaysTo) madeBy.get(i.decaysTo)?.push({ decayOf: i.id });
+}
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const reachOf = i => Math.min(i.reach ?? 0, REACH.length - 1);
+const ROLE_KEYS = Object.keys(D.roles);
+const roleTint = role => role && role !== 'any' ? `hsl(${Math.round(ROLE_KEYS.indexOf(role) * 360 / ROLE_KEYS.length)}, 55%, 48%)` : 'var(--muted)';
+const link = (id, self) => {
+  const i = byId.get(id);
+  if (id === self) return `<span class="self">${esc(i.name)}</span>`;
+  return i ? `<a class="item" href="#${id}" data-id="${id}"><span class="mono">${id}</span> ${esc(i.name)}</a>` : `<span class="mono">${id}</span>`;
+};
+const counted = (list, self) => list.map(([n, t]) => `${n} × ${link(t, self)}`).join(', ');
+const byText = w => w.by === 'crew' ? { name: 'by hand', role: null } : (D.devices[w.by] ?? { name: w.by, role: null });
+const wayCost = w => w.min + w.takes.reduce((s, [n, t]) => s + n * (byId.get(t)?.cost ?? Infinity), 0)
+  + w.needs.reduce((s, [n, t]) => s + n * (byId.get(t)?.cost ?? Infinity) * w.min / 60 / (byId.get(t)?.decayH || D.toolLifeH), 0);
+
+function strip() {
+  const counts = REACH.map((_, k) => D.items.filter(i => reachOf(i) === k).length);
+  const shades = ['var(--muted)', 'color-mix(in srgb, var(--accent) 45%, var(--wash))', 'color-mix(in srgb, var(--accent) 75%, var(--wash))', 'var(--accent)'];
+  const devices = Object.values(D.devices).filter(d => d.role !== 'any').length;
+  const many = D.items.filter(i => madeBy.get(i.id).length > 1).length;
+  $('strip').innerHTML = `
+    <div class="figure"><b>${D.items.length.toLocaleString()}</b><span>items in ${Object.keys(D.subs).length} subsections of ${Object.keys(D.sections).length} sections</span></div>
+    <div class="figure"><b>${D.ways.length.toLocaleString()}</b><span>ways, on ${devices} devices across ${ROLE_KEYS.length} roles</span></div>
+    <div class="figure"><b>${many.toLocaleString()}</b><span>items made more than one way</span></div>
+    <div class="figure" style="grid-column: span 2"><b>${counts.map((n, k) => `${n} <small style="font-size:14px;font-weight:500">${REACH[k]}</small>`).join(' · ')}</b>
+      <span>reach: the fewest other roles any way to an item takes</span>
+      <div class="reachbar" role="img" aria-label="reach split">${counts.map((n, k) => `<i style="width:${100 * n / D.items.length}%;background:${shades[k]}"></i>`).join('')}</div></div>`;
+}
+
+function groupSelect() {
+  const bySection = {};
+  for (const [code, s] of Object.entries(D.subs)) (bySection[s.section] ??= []).push(code);
+  $('group').innerHTML = '<option value="">All subsections</option>' + Object.entries(D.sections).map(([section, name]) =>
+    `<optgroup label="${esc(name)}">${(bySection[section] ?? []).map(c => `<option value="${c}">${c} — ${esc(D.subs[c].name)}</option>`).join('')}</optgroup>`).join('');
+}
+
+function list() {
+  const q = $('q').value.trim().toLowerCase();
+  const group = $('group').value;
+  const current = location.hash.slice(1);
+  const found = D.items.filter(i => (!group || i.id.startsWith(group + '-')) && (!q || i.id.includes(q) || i.name.toLowerCase().includes(q)));
+  const shown = found.slice(0, 200);
+  $('list').innerHTML = shown.length ? shown.map(i => `<li><button data-id="${i.id}" aria-current="${i.id === current}">
+      <span class="mono">${i.id}</span><span>${esc(i.name)}</span><span class="tier" title="made ways · ended ways">${madeBy.get(i.id).length}·${endedBy.get(i.id).length + (i.use || i.decayH != null ? 1 : 0)}</span></button></li>`).join('')
+    + (found.length > shown.length ? `<li class="empty">${found.length - shown.length} more: narrow the search or pick a subsection.</li>` : '')
+    : '<li class="empty">Nothing matches. Try part of a name, like “water”, or an id like wat-002.</li>';
+}
+
+function wayItem(w, self, side) {
+  const dev = byText(w);
+  const gives = w.gives.length ? `<div class="chips">${w.gives.map(g => `<span class="chip">${esc(g)}</span>`).join('')}</div>` : '';
+  const tools = w.needs.length ? `<span class="how">with</span> ${counted(w.needs, self)}<span class="how">;</span> ` : '';
+  const flow = `${tools}${w.takes.length ? counted(w.takes, self) : '<span class="how">nothing</span>'}<span class="arrow">→</span>${w.makes.length ? counted(w.makes, self) : '<span class="how">no item</span>'}`;
+  return `<li><div class="by"><span class="dot" style="background:${roleTint(dev.role)}"></span><b>${esc(w.name)}</b>
+    <span class="how">${esc(dev.name)}${dev.role && dev.role !== 'any' ? ` · ${esc(D.roles[dev.role] ?? dev.role)}` : dev.role === 'any' ? ' · every capsule' : ''} · ${w.min} min</span></div>
+    <div class="flow">${flow}</div>${gives}</li>`;
+}
+
+function madeList(i) {
+  const rows = madeBy.get(i.id).map(s => s.way ? wayItem(s.way, i.id)
+    : s.leftBy ? `<li><div class="by"><b>left behind</b><span class="how">when the crew uses ${link(s.leftBy)}</span></div></li>`
+    : `<li><div class="by"><b>decay</b><span class="how">${link(s.decayOf)} after ${byId.get(s.decayOf).decayH} h</span></div></li>`);
+  if (i.stock) rows.unshift(`<li><div class="by"><b>the ship's stock</b><span class="how">aboard at launch, finite: nothing outside makes it</span></div></li>`);
+  return rows.length ? `<ul class="ways">${rows.join('')}</ul>` : '<p class="empty">Made no way.</p>';
+}
+
+function endedList(i) {
+  const rows = endedBy.get(i.id).map(s => wayItem(s.way, i.id));
+  if (i.use) rows.unshift(`<li><div class="by"><b>used</b><span class="how">by the crew, or in its fixture</span></div><div class="chips">${i.use.split(',').map(u => `<span class="chip">${esc(u.trim()).replace(/([a-z]{3}-\d{3})/g, m => link(m))}</span>`).join('')}</div></li>`);
+  if (i.decayH != null) rows.push(`<li><div class="by"><b>decays</b><span class="how">after ${i.decayH} h${i.kind === 'durable' || i.kind === 'tool' ? ' of use' : ''}${i.decaysTo ? ` into ${link(i.decaysTo)}` : ', gone'}</span></div></li>`);
+  return rows.length ? `<ul class="ways">${rows.join('')}</ul>` : '<p class="empty">Ended no way.</p>';
+}
+
+function tree(id, count, depth, seen) {
+  const i = byId.get(id);
+  const ways = (madeBy.get(id) ?? []).filter(s => s.way).map(s => s.way);
+  const best = ways.length ? ways.reduce((a, b) => wayCost(b) < wayCost(a) ? b : a) : null;
+  const again = seen.has(id) && (best?.takes.length || best?.needs.length);
+  seen.add(id);
+  const how = best ? `${esc(best.name)} · ${esc(byText(best).name)}, ${best.min} min` : 'a leftover';
+  const node = `<span class="node"><span class="count">${count} ×</span><span class="dot" style="background:${roleTint(best && byText(best).role)}"></span>${link(id)}
+    <span class="how">${how}</span>${again ? '<span class="again">shown above</span>' : ''}</span>`;
+  const inputs = best ? [...best.needs, ...best.takes] : [];
+  if (!i || !inputs.length || again || depth > 10) return `<li><span class="leaf"></span>${node}</li>`;
+  return `<li><details${depth < 2 ? ' open' : ''}><summary>${node}</summary><ul>${inputs.map(([n, t]) => tree(t, n, depth + 1, seen)).join('')}</ul></details></li>`;
+}
+
+function entry(id) {
+  const i = byId.get(id) ?? byId.get(START);
+  const sub = D.subs[i.id.slice(0, 3)];
+  const k = reachOf(i);
+  const made = madeBy.get(i.id).length;
+  const ended = endedBy.get(i.id).length + (i.use ? 1 : 0) + (i.decayH != null ? 1 : 0);
+  $('entry').innerHTML = `
+    <div class="entry-head">
+      <span class="id">${i.id} · ${esc(sub.name)} · ${esc(D.sections[sub.section])}</span>
+      <h2>${esc(i.name)}</h2>
+      <div class="chips"><span class="chip">${i.kind}</span><span class="chip reach" title="${REACH_SAYS[k]}">${REACH[k]} reach</span>
+        ${i.roles.map(r => `<span class="chip role" style="background:${roleTint(r)}">${esc(D.roles[r] ?? r)}</span>`).join('')}</div>
+    </div>
+    <dl class="facts">
+      <div><dt>Made</dt><dd>${made} way${made === 1 ? '' : 's'}</dd></div>
+      <div><dt>Ended</dt><dd>${ended} way${ended === 1 ? '' : 's'}</dd></div>
+      <div><dt>Depth</dt><dd title="the fewest rounds of ways from nothing">${i.depth ?? '—'}</dd></div>
+      <div><dt>Work-minutes</dt><dd>${i.cost == null ? '—' : i.cost.toLocaleString()}</dd></div>
+      <div><dt>Door reach</dt><dd title="the fewest other roles whose goods a way to it takes straight in">${i.doorReach ? `${i.doorReach} other role${i.doorReach > 1 ? 's' : ''}` : 'its own role'}</dd></div>
+      <div><dt>Decays</dt><dd>${i.decayH == null ? 'keeps' : `${i.decayH} h`}</dd></div>
+    </dl>
+    <section><h3>Made ${made} way${made === 1 ? '' : 's'}</h3>${madeList(i)}</section>
+    <section><h3>Ended ${ended} way${ended === 1 ? '' : 's'}</h3>${endedList(i)}</section>
+    ${neededBy.get(i.id).length ? `<section><h3>A tool for ${neededBy.get(i.id).length} way${neededBy.get(i.id).length === 1 ? '' : 's'}</h3><ul class="ways">${neededBy.get(i.id).map(w => wayItem(w, i.id)).join('')}</ul></section>` : ''}
+    <section><h3>Cheapest chain, down to nothing</h3><div class="scroll" style="margin-top:6px"><ul class="tree">${tree(i.id, 1, 0, new Set())}</ul></div></section>`;
+}
+
+function show() {
+  const id = location.hash.slice(1);
+  entry(byId.has(id) ? id : START);
+  list();
+}
+
+document.addEventListener('click', e => {
+  const target = e.target.closest('[data-id]');
+  if (!target) return;
+  e.preventDefault();
+  location.hash = target.dataset.id;
+});
+$('q').addEventListener('input', list);
+$('group').addEventListener('change', list);
+addEventListener('hashchange', show);
+strip();
+groupSelect();
+show();
+</script>

@@ -3,3 +3,5 @@ obj/
 *.user
 .tmp/
 __pycache__/
+# Tracked here though a global ignore may drop it: the project's own tools (HST-2).
+!.qq/

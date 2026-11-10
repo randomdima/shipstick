@@ -119,4 +119,4 @@ owner's desktop**: `qq web` drives Chromium headless; `--headed` is for when the
 - **A rule is cited by ID and the citation is checked**: `qq doclint` (inside `qq checks`) fails when a cited ID
   resolves to nothing; `qq req <ID>` looks one up.
 - **The `qq` tools are this project's, in `.qq/`**; extend or fix one rather than routing around it. They are design
-  time only: nothing the game runs on is one, and none is published (HST-2).
+  time only: nothing the game runs on is one, and none ships with the game (HST-2).

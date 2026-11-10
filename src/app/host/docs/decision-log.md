@@ -30,8 +30,9 @@ library (WEB-9) and the host no package.
 
 ## 2026-11-05 — the game is served by a .NET host of its own
 
-The owner, in as many words: "hosting the game is runtime"; "qq tools are design time only and not published". So
-HST-1 and HST-2, at `P2`. Until then the page was served by a Python server inside `qq web`, which was design-time
+The owner, in as many words: "hosting the game is runtime"; "qq tools are design time only". So HST-1 and HST-2, at
+`P2`. On 2026-11-10, with the repository pushed to its public GitHub remote, the owner: "Push everything non tmp" — so
+`.qq/` is tracked and public, and HST-2 keeps the tools out of what ships, not out of the repository. Until then the page was served by a Python server inside `qq web`, which was design-time
 tooling standing in for runtime.
 
 The host is an ASP.NET Core project (`shipstick.host.csproj`) referencing the game. The client's files are copied beside

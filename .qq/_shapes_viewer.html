@@ -1,0 +1,1048 @@
+<!doctype html>
+<!-- qq shapes' asset catalogue (_shapes_view.py, _shapes_catalog.py): copied to .tmp/shapes/viewer.html and opened
+     from disk. It loads viewer-data.js, and loads it again whenever viewer-stamp.js, read every second, says it was
+     written again; a model's triangles and pictures are scripts under viewer-cache/, loaded when it is first shown. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>asset catalogue</title>
+<style>
+  :root { --bg: #2b2b2b; --panel: #1d1d1d; --line: #3a3a3a; --text: #cfcfcf; --dim: #8a8a8a; --hot: #e0a030;
+          --sel: #40b0e0; --bad: #e05040; --ok: #60c070; color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; height: 100vh; display: grid; grid-template: "head head head" auto "filters list detail" 1fr
+         / 230px minmax(320px, 1fr) 640px; background: var(--bg); color: var(--text);
+         font: 12px/1.4 ui-monospace, monospace; }
+  header { grid-area: head; display: flex; gap: 10px; align-items: center; padding: 6px 10px;
+           background: var(--panel); border-bottom: 1px solid var(--line); }
+  header h1 { font-size: 13px; margin: 0; letter-spacing: .1em; white-space: nowrap; }
+  #q { flex: 1; max-width: 520px; font: inherit; color: var(--text); background: #151515; border: 1px solid #484848;
+       padding: 4px 8px; }
+  #q:focus { outline: none; border-color: var(--hot); }
+  select { font: inherit; color: var(--text); background: #2f2f2f; border: 1px solid #484848; padding: 2px; }
+  #filters { grid-area: filters; background: var(--panel); border-right: 1px solid var(--line); overflow: auto;
+             padding: 8px 10px; }
+  #list { grid-area: list; overflow: auto; padding: 10px; }
+  #detail { grid-area: detail; background: var(--panel); border-left: 1px solid var(--line); overflow: auto; }
+  h2 { font-size: 11px; margin: 14px 0 4px; color: var(--dim); letter-spacing: .1em; text-transform: uppercase; }
+  #filters h2:first-child { margin-top: 2px; }
+  button { font: inherit; color: var(--text); background: #2f2f2f; border: 1px solid #484848; padding: 3px 7px;
+           cursor: pointer; }
+  button:hover { border-color: var(--hot); }
+  button.on { background: #4a3b1c; border-color: var(--hot); }
+  .row { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+  .chip { display: inline-block; padding: 1px 6px; border: 1px solid #484848; background: #262626; cursor: pointer;
+          margin: 0 3px 3px 0; white-space: nowrap; }
+  .chip:hover { border-color: var(--hot); }
+  .chip.on { background: #4a3b1c; border-color: var(--hot); }
+  .chip.zero { color: #5c5c5c; }
+  .chip small { color: var(--dim); }
+  .kind { display: inline-block; padding: 0 5px; border-radius: 2px; font-size: 11px; color: #111; }
+  .k-material { background: #8a8a8a; } .k-face { background: #e0a030; } .k-decal { background: #d0c060; }
+  .k-part { background: #60b0d0; } .k-device { background: #70c080; } .k-draft { background: #b080d0; }
+  .over { color: var(--bad); } .dim, small { color: var(--dim); } .warn { color: var(--hot); }
+  .err { color: var(--bad); white-space: pre-wrap; }
+  #grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+  .card { border: 1px solid var(--line); background: #212121; cursor: pointer; padding: 6px; min-width: 0; }
+  .card:hover { border-color: var(--hot); }
+  .card.sel { border-color: var(--sel); background: #24303a; }
+  .card .pic { height: 110px; display: flex; align-items: center; justify-content: center; }
+  .card .id { overflow-wrap: anywhere; margin-top: 4px; }
+  .card .meta { display: flex; justify-content: space-between; gap: 4px; margin-top: 2px; white-space: nowrap;
+                font-size: 11px; }
+  .checker { background: repeating-conic-gradient(#3a3a3a 0 25%, #303030 0 50%) 0 0 / 12px 12px; }
+  .pic img { max-width: 100%; max-height: 100%; display: block; }
+  .group { margin: 4px 0 8px; color: var(--dim); text-transform: uppercase; letter-spacing: .1em; font-size: 11px; }
+  .head { display: grid; grid-template-columns: 150px 1fr; gap: 10px; padding: 10px; }
+  .head .pic { height: 150px; display: flex; align-items: center; justify-content: center; }
+  .head h3 { margin: 0 0 4px; font-size: 14px; overflow-wrap: anywhere; }
+  dl { display: grid; grid-template-columns: max-content 1fr; gap: 2px 10px; margin: 4px 0; }
+  dt { color: var(--dim); } dd { margin: 0; overflow-wrap: anywhere; }
+  .cmd { background: #151515; border: 1px solid var(--line); padding: 3px 6px; cursor: copy; overflow-wrap: anywhere; }
+  #stage { position: relative; height: 340px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+           background: #2b2b2b; }
+  #stage.none { display: none; }
+  canvas#gl { display: block; width: 100%; height: 100%; }
+  #hud { position: absolute; left: 8px; top: 6px; pointer-events: none; text-shadow: 0 1px 2px #000; }
+  #pick { color: var(--hot); }
+  #gizmo { position: absolute; left: 6px; bottom: 34px; width: 70px; height: 70px; pointer-events: none; }
+  #stagebar { position: absolute; left: 0; right: 0; bottom: 0; padding: 4px 6px; background: #1d1d1dcc; }
+  #stagebar button { padding: 1px 5px; }
+  #error { position: absolute; inset: 30px; color: var(--bad); white-space: pre-wrap; pointer-events: none; }
+  .tabs { position: sticky; top: 0; background: var(--panel); display: flex; gap: 2px; padding: 6px 10px;
+          border-bottom: 1px solid var(--line); z-index: 1; }
+  .tabs button { flex: 1; }
+  #tab { padding: 0 10px 20px; }
+  table { border-collapse: collapse; width: 100%; }
+  td, th { text-align: left; padding: 2px 4px; border-bottom: 1px solid var(--line); vertical-align: top;
+           overflow-wrap: anywhere; }
+  th { color: var(--dim); font-weight: normal; }
+  td img.mini { height: 36px; max-width: 72px; object-fit: contain; vertical-align: middle; }
+  tr.hot td, li.hot, .tile.hot { background: #3a3020; }
+  tr.cur td { background: #24303a; }
+  .link { color: var(--sel); cursor: pointer; }
+  .num { text-align: right; white-space: nowrap; overflow-wrap: normal; }
+  tr.retry td, .retry-text { color: var(--hot); }
+  tr.idle td { color: var(--dim); }
+  dl.figures { grid-template-columns: 96px 1fr; gap: 6px 10px; }
+  .total { font-size: 14px; color: var(--hot); }
+  pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #151515; padding: 6px; margin: 4px 0;
+        border: 1px solid var(--line); max-height: 420px; overflow: auto; }
+  details summary { cursor: pointer; color: var(--dim); margin-top: 4px; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { padding: 2px 4px; cursor: pointer; border-left: 2px solid transparent; overflow-wrap: anywhere; }
+  li:hover { border-left-color: var(--hot); background: #262626; }
+  li.sel { border-left-color: var(--sel); background: #24303a; }
+  li.off .name { color: #5c5c5c; text-decoration: line-through; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 6px; }
+  .tile { border: 1px solid var(--line); padding: 4px; cursor: pointer; background: #212121; min-width: 0; }
+  .tile:hover { border-color: var(--hot); }
+  .tile .pic { height: 70px; display: flex; align-items: center; justify-content: center; }
+  .tile div { overflow-wrap: anywhere; }
+  .pics { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pics figure { margin: 0; max-width: 190px; }
+  .pics .pic { height: 140px; display: flex; align-items: center; justify-content: center; }
+  .pics figcaption { color: var(--dim); }
+  .stale { color: var(--bad); }
+  .card.box { cursor: default; }
+  .thumb { position: relative; display: inline-block; max-width: 100%; }
+  .thumb img { display: block; max-width: 100%; max-height: 180px; }
+  .thumb .inset { position: absolute; border: 1px dashed var(--hot); pointer-events: none; }
+</style>
+</head>
+<body>
+<header>
+  <h1>ASSET CATALOGUE</h1>
+  <input id="q" placeholder="search — words: steel worktop, glass, drawer…  ( / )" autocomplete="off">
+  <select id="sort" title="order">
+    <option value="group">by kind</option><option value="name">by name</option>
+    <option value="worn">most worn</option><option value="cost">dearest</option><option value="new">newest</option>
+  </select>
+  <span class="row" id="views"><button data-view="grid">catalogue</button><button data-view="notes">notes</button>
+    <button data-view="ledger">ledger</button></span>
+  <span id="spend" class="dim"></span>
+  <span id="status" class="dim"></span>
+</header>
+<aside id="filters"></aside>
+<main id="list"></main>
+<section id="detail">
+  <div id="head"></div>
+  <div id="stage" class="none">
+    <canvas id="gl"></canvas>
+    <div id="hud"><span id="cam"></span><br><span id="pick"></span></div>
+    <canvas id="gizmo" width="140" height="140"></canvas>
+    <div id="error"></div>
+    <div id="stagebar" class="row">
+      <span id="camviews" class="row"></span>
+      <button id="flat" title="L">flat</button><button id="edges" title="E">edges</button>
+      <button id="grid3d" class="on" title="G">grid</button><button id="box" class="on" title="B">bounds</button>
+      <button id="fit" title="F">fit</button>
+      <span class="dim" title="drag orbit · shift/right-drag pan · wheel zoom · 1–6 views · click a part · H hide it">?</span>
+    </div>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div id="tab"></div>
+</section>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+// An element with its attributes and children; text is set as text, never as markup.
+function h(tag, attrs = {}, ...children) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v == null || v === false) continue;
+    if (k.startsWith('on')) e[k] = v; else if (k === 'style') e.style.cssText = v; else e.setAttribute(k, v);
+  }
+  for (const c of children.flat(Infinity)) if (c != null && c !== false) e.append(c instanceof Node ? c : String(c));
+  return e;
+}
+const store = (key, value) => localStorage.setItem(`catalog:${key}`, JSON.stringify(value));
+const stored = (key, fallback) => { try { return JSON.parse(localStorage.getItem(`catalog:${key}`)) ?? fallback; } catch { return fallback; } };
+
+// ---------------------------------------------------------------- the 3D view: one model, its faces and parts
+const canvas = $('gl');
+const gl = canvas.getContext('webgl2', { antialias: true });
+const show = { flat: false, edges: false, grid3d: true, box: true };
+let data = null, catalog = null, current = null, scene = null, hover = -1, selected = -1, hidden = new Set();
+let lit = [], hoverLit = [];   // texture indices of the shown model to light: the asset looked at, and one hovered
+let cam = { az: -45, el: 35, px: 200, target: [0.5, 0.5, 0.25] };
+
+const MESH_VS = `#version 300 es
+in vec3 aPos; in vec3 aNorm; in vec3 aFace; in vec2 aUv; in vec3 aBary; in float aPart; in float aTex;
+uniform mat4 uView; uniform float uTie;
+out vec3 vNorm; out vec3 vFace; out vec2 vUv; out vec3 vBary; flat out float vPart; flat out float vTex;
+void main() {
+  gl_Position = uView * vec4(aPos, 1.0);
+  gl_Position.z -= aPart * uTie;   // the later part shows where two faces share a plane, as the render's TIE_M
+  vNorm = aNorm; vFace = aFace; vUv = aUv; vBary = aBary; vPart = aPart; vTex = aTex;
+}`;
+const MESH_FS = `#version 300 es
+precision highp float;
+in vec3 vNorm; in vec3 vFace; in vec2 vUv; in vec3 vBary; flat in float vPart; flat in float vTex;
+uniform sampler2D uTex; uniform vec3 uToward; uniform vec3 uSun;
+uniform float uAmbient, uShade, uHover, uSelect, uCutoutAlpha;
+uniform float uLit[16]; uniform int uLitCount; uniform float uHot[16]; uniform int uHotCount;
+uniform bool uCutout, uFlat, uEdges;
+out vec4 colour;
+bool among(float t, float list[16], int count) {
+  for (int i = 0; i < 16; i++) { if (i >= count) break; if (abs(t - list[i]) < 0.5) return true; }
+  return false;
+}
+void main() {
+  if (dot(vFace, uToward) <= 0.0) discard;   // one-sided, as the render: a quad shows from its front alone
+  vec4 t = texture(uTex, vUv);
+  if (uCutout && t.a < uCutoutAlpha) discard;
+  float lit = uFlat ? 1.0 : uAmbient + (1.0 - uAmbient) * max(dot(normalize(vNorm), uSun), 0.0);
+  vec3 c = t.rgb * lit * uShade;
+  if (uLitCount > 0 && !among(vTex, uLit, uLitCount)) c = mix(c, vec3(0.12), 0.65);
+  if (abs(vPart - uSelect) < 0.5) c = mix(c, vec3(0.25, 0.7, 0.9), 0.4);
+  if (abs(vPart - uHover) < 0.5 || among(vTex, uHot, uHotCount)) c = mix(c, vec3(1.0, 0.7, 0.2), 0.45);
+  if (uEdges) {
+    vec3 a = smoothstep(vec3(0.0), fwidth(vBary) * 1.2, vBary);
+    c = mix(vec3(0.3, 1.0, 0.5), c, min(min(a.x, a.y), a.z));
+  }
+  colour = vec4(c, 1.0);
+}`;
+const LINE_VS = `#version 300 es
+in vec3 aPos; uniform mat4 uView;
+void main() { gl_Position = uView * vec4(aPos, 1.0); }`;
+const LINE_FS = `#version 300 es
+precision highp float; uniform vec4 uColour; out vec4 colour;
+void main() { colour = uColour; }`;
+
+function program(vs, fs) {
+  const p = gl.createProgram();
+  for (const [type, text] of [[gl.VERTEX_SHADER, vs], [gl.FRAGMENT_SHADER, fs]]) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, text); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+    gl.attachShader(p, s);
+  }
+  gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+  const u = {};
+  for (let i = 0; i < gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS); i++) {
+    const name = gl.getActiveUniform(p, i).name;
+    u[name.replace('[0]', '')] = gl.getUniformLocation(p, name);
+  }
+  return { p, u };
+}
+const meshProgram = program(MESH_VS, MESH_FS);
+const lineProgram = program(LINE_VS, LINE_FS);
+
+// The heavy data, each a script under viewer-cache/ named by its content: loaded once, when first needed.
+const scripts = new Map(), images = new Map(), geometries = new Map();
+function need(src) {
+  if (!scripts.has(src)) scripts.set(src, new Promise((done, failed) => {
+    const s = h('script', { src });
+    s.onload = () => { s.remove(); done(); };
+    s.onerror = () => { s.remove(); scripts.delete(src); failed(new Error(`could not load ${src}`)); };
+    document.body.append(s);
+  }));
+  return scripts.get(src);
+}
+const TYPES = { float32: Float32Array, uint16: Uint16Array, int8: Int8Array };
+window.shapesImage = (key, uri) => images.set(key, uri);
+window.shapesGeometry = (key, arrays) => geometries.set(key, Object.fromEntries(Object.entries(arrays).map(
+  ([name, { type, b64 }]) => [name, new TYPES[type](Uint8Array.from(atob(b64), c => c.charCodeAt(0)).buffer)])));
+
+// Textures by picture and wrap, uploaded once a picture decodes; grey until then.
+const textures = new Map();
+function texture(model, image, wrap) {
+  const key = `${image}|${wrap}`;
+  if (textures.has(key)) return textures.get(key);
+  const t = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, t);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([128, 128, 128, 255]));
+  const picture = new Image();
+  picture.onload = () => {
+    gl.bindTexture(gl.TEXTURE_2D, t);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, picture);
+    gl.generateMipmap(gl.TEXTURE_2D);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    const mode = wrap ? gl.REPEAT : gl.CLAMP_TO_EDGE;
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, mode);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, mode);
+    draw();
+  };
+  need(model.images[image]).then(() => { picture.src = images.get(image); });
+  textures.set(key, t);
+  return t;
+}
+
+// The model's triangles, the hidden parts left out, ordered by look so each look is one draw.
+function buildScene(model) {
+  const order = [...model.part.keys()].filter(t => !hidden.has(model.part[t]))
+    .sort((a, b) => model.look[a] - model.look[b]);
+  const n = order.length * 3;
+  const pos = new Float32Array(n * 3), norm = new Float32Array(n * 3), face = new Float32Array(n * 3);
+  const uv = new Float32Array(n * 2), bary = new Float32Array(n * 3), part = new Float32Array(n);
+  const tex = new Float32Array(n);
+  const draws = [];
+  order.forEach((t, i) => {
+    const P = model.P.slice(t * 9, t * 9 + 9), N = model.N.slice(t * 9, t * 9 + 9);
+    const e1 = [P[3] - P[0], P[4] - P[1], P[5] - P[2]], e2 = [P[6] - P[0], P[7] - P[1], P[8] - P[2]];
+    let g = [e1[1] * e2[2] - e1[2] * e2[1], e1[2] * e2[0] - e1[0] * e2[2], e1[0] * e2[1] - e1[1] * e2[0]];
+    const m = [N[0] + N[3] + N[6], N[1] + N[4] + N[7], N[2] + N[5] + N[8]];
+    const flip = dot(g, m) < 0 ? -1 : 1, length = Math.hypot(...g) || 1;
+    g = g.map(c => c / length * flip);
+    pos.set(P, i * 9); norm.set(N, i * 9);
+    for (let k = 0; k < 3; k++) {
+      face.set(g, i * 9 + k * 3);
+      bary[i * 9 + k * 3 + k] = 1;
+      part[i * 3 + k] = model.part[t];
+      tex[i * 3 + k] = model.looks[model.look[t]].tex;
+    }
+    uv.set(model.UV.slice(t * 6, t * 6 + 6), i * 6);
+    const look = model.look[t];
+    if (!draws.length || draws.at(-1).look !== look) draws.push({ look, first: i * 3, count: 0 });
+    draws.at(-1).count += 3;
+  });
+  const vao = gl.createVertexArray();
+  gl.bindVertexArray(vao);
+  for (const [name, array, size] of [['aPos', pos, 3], ['aNorm', norm, 3], ['aFace', face, 3], ['aUv', uv, 2],
+                                     ['aBary', bary, 3], ['aPart', part, 1], ['aTex', tex, 1]]) {
+    const at = gl.getAttribLocation(meshProgram.p, name);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, array, gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(at);
+    gl.vertexAttribPointer(at, size, gl.FLOAT, false, 0, 0);
+  }
+  return { vao, draws, lines: buildLines(model) };
+}
+
+function buildLines(model) {
+  const [lo, hi] = model.extent;
+  const grid = [];
+  const x0 = Math.floor(Math.min(lo[0], 0)) - 1, x1 = Math.ceil(Math.max(hi[0], 1)) + 1;
+  const y0 = Math.floor(Math.min(lo[1], 0)) - 1, y1 = Math.ceil(Math.max(hi[1], 1)) + 1;
+  const z = -0.001;
+  for (let x = x0; x <= x1; x++) grid.push(x, y0, z, x, y1, z);
+  for (let y = y0; y <= y1; y++) grid.push(x0, y, z, x1, y, z);
+  const box = [];
+  if (model.bounds) {
+    const [a, b] = model.bounds;
+    const c = i => [i & 1 ? b[0] : a[0], i & 2 ? b[1] : a[1], i & 4 ? b[2] : a[2]];
+    for (let i = 0; i < 8; i++) for (const bit of [1, 2, 4]) if (!(i & bit)) box.push(...c(i), ...c(i | bit));
+  }
+  const vao = gl.createVertexArray();
+  gl.bindVertexArray(vao);
+  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([...grid, ...box]), gl.STATIC_DRAW);
+  const at = gl.getAttribLocation(lineProgram.p, 'aPos');
+  gl.enableVertexAttribArray(at);
+  gl.vertexAttribPointer(at, 3, gl.FLOAT, false, 0, 0);
+  return { vao, grid: grid.length / 3, box: box.length / 3 };
+}
+
+// The camera, as the render's: azimuth from south toward east, elevation above the horizon, orthographic.
+function axes() {
+  const a = cam.az * Math.PI / 180, e = cam.el * Math.PI / 180;
+  const t = [Math.cos(e) * Math.sin(a), -Math.cos(e) * Math.cos(a), Math.sin(e)];
+  const r = [Math.cos(a), Math.sin(a), 0];
+  const u = [t[1] * r[2] - t[2] * r[1], t[2] * r[0] - t[0] * r[2], t[0] * r[1] - t[1] * r[0]];
+  return { t, r, u };
+}
+const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+function viewMatrix() {
+  const { t, r, u } = axes(), c = cam.target, ratio = devicePixelRatio;
+  const sx = 2 * cam.px * ratio / canvas.width, sy = 2 * cam.px * ratio / canvas.height;
+  const [lo, hi] = current.extent;
+  const sz = 1 / (Math.hypot(hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2]) + 4);
+  const rows = [[...r.map(v => v * sx), -sx * dot(r, c)], [...u.map(v => v * sy), -sy * dot(u, c)],
+                [...t.map(v => -v * sz), sz * dot(t, c)], [0, 0, 0, 1]];
+  const m = new Float32Array(16);
+  for (let row = 0; row < 4; row++) for (let col = 0; col < 4; col++) m[col * 4 + row] = rows[row][col];
+  return m;
+}
+const padded = list => { const out = new Float32Array(16); list.slice(0, 16).forEach((v, i) => { out[i] = v; }); return out; };
+
+function draw() {
+  if (!canvas.clientWidth) return;
+  const w = Math.round(canvas.clientWidth * devicePixelRatio), hgt = Math.round(canvas.clientHeight * devicePixelRatio);
+  if (canvas.width !== w || canvas.height !== hgt) { canvas.width = w; canvas.height = hgt; }
+  gl.viewport(0, 0, w, hgt);
+  gl.clearColor(0.17, 0.17, 0.17, 1);
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  if (!scene) return;
+  gl.enable(gl.DEPTH_TEST);
+  const view = viewMatrix(), { t } = axes();
+
+  gl.useProgram(meshProgram.p);
+  const u = meshProgram.u;
+  gl.uniformMatrix4fv(u.uView, false, view);
+  gl.uniform1f(u.uTie, 2e-6);
+  gl.uniform3fv(u.uToward, t);
+  gl.uniform3fv(u.uSun, data.sun);
+  gl.uniform1f(u.uAmbient, data.ambient);
+  gl.uniform1f(u.uCutoutAlpha, data.cutoutAlpha);
+  gl.uniform1f(u.uHover, hover);
+  gl.uniform1f(u.uSelect, selected);
+  gl.uniform1fv(u.uLit, padded(lit)); gl.uniform1i(u.uLitCount, Math.min(lit.length, 16));
+  gl.uniform1fv(u.uHot, padded(hoverLit)); gl.uniform1i(u.uHotCount, Math.min(hoverLit.length, 16));
+  gl.uniform1i(u.uFlat, show.flat);
+  gl.uniform1i(u.uEdges, show.edges);
+  gl.bindVertexArray(scene.vao);
+  for (const d of scene.draws) {
+    const look = current.looks[d.look];
+    gl.bindTexture(gl.TEXTURE_2D, texture(current, look.image, look.wrap));
+    gl.uniform1f(u.uShade, look.shade);
+    gl.uniform1i(u.uCutout, look.cutout);
+    gl.drawArrays(gl.TRIANGLES, d.first, d.count);
+  }
+
+  gl.useProgram(lineProgram.p);
+  gl.uniformMatrix4fv(lineProgram.u.uView, false, view);
+  gl.bindVertexArray(scene.lines.vao);
+  if (show.grid3d) {
+    gl.uniform4f(lineProgram.u.uColour, 0.42, 0.42, 0.42, 1);
+    gl.drawArrays(gl.LINES, 0, scene.lines.grid);
+  }
+  if (show.box && scene.lines.box) {
+    gl.uniform4f(lineProgram.u.uColour, 0.88, 0.63, 0.19, 1);
+    gl.drawArrays(gl.LINES, scene.lines.grid, scene.lines.box);
+  }
+  drawGizmo();
+  const named = Object.entries(data.views).find(([, [az, el]]) => az === cam.az && el === cam.el)?.[0];
+  $('cam').textContent = `${current.file} · az ${cam.az.toFixed(0)}° el ${cam.el.toFixed(0)}°`
+    + `${named ? ` (${named})` : ''} · ${current.part.length} tris`;
+}
+
+function drawGizmo() {
+  const g = $('gizmo').getContext('2d'), { r, u } = axes();
+  g.clearRect(0, 0, 140, 140);
+  g.font = '18px ui-monospace, monospace';
+  g.lineWidth = 3;
+  for (const [v, label, colour] of [[[1, 0, 0], 'E', '#e06060'], [[0, 1, 0], 'N', '#60d080'], [[0, 0, 1], 'UP', '#6090ff']]) {
+    const x = 70 + dot(v, r) * 46, y = 70 - dot(v, u) * 46;
+    g.strokeStyle = g.fillStyle = colour;
+    g.beginPath(); g.moveTo(70, 70); g.lineTo(x, y); g.stroke();
+    g.fillText(label, x + (x >= 70 ? 4 : -4 - g.measureText(label).width), y + 7);
+  }
+}
+
+function fit() {
+  const [lo, hi] = current.bounds || current.extent;
+  cam.target = lo.map((v, i) => (v + hi[i]) / 2);
+  const span = Math.hypot(hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2]) || 1;
+  cam.px = 0.8 * Math.min(canvas.clientWidth, canvas.clientHeight) / span;
+}
+
+// The part under a point of the canvas: the nearest triangle there, hidden parts and back faces skipped.
+function pick(clientX, clientY) {
+  const box = canvas.getBoundingClientRect();
+  const x = (clientX - box.left) / box.width * 2 - 1, y = 1 - (clientY - box.top) / box.height * 2;
+  const m = viewMatrix(), { t } = axes();
+  let best = -1, nearest = Infinity;
+  const P = current.P, N = current.N;
+  for (let tri = 0; tri < current.part.length; tri++) {
+    if (hidden.has(current.part[tri])) continue;
+    const n = [0, 1, 2].map(k => N[tri * 9 + k] + N[tri * 9 + 3 + k] + N[tri * 9 + 6 + k]);
+    if (dot(n, t) <= 0) continue;
+    const s = [0, 1, 2].map(k => {
+      const p = [P[tri * 9 + k * 3], P[tri * 9 + k * 3 + 1], P[tri * 9 + k * 3 + 2]];
+      return [m[0] * p[0] + m[4] * p[1] + m[8] * p[2] + m[12], m[1] * p[0] + m[5] * p[1] + m[9] * p[2] + m[13],
+              m[2] * p[0] + m[6] * p[1] + m[10] * p[2] + m[14]];
+    });
+    const area = (s[1][0] - s[0][0]) * (s[2][1] - s[0][1]) - (s[2][0] - s[0][0]) * (s[1][1] - s[0][1]);
+    if (Math.abs(area) < 1e-12) continue;
+    const w0 = ((s[1][0] - x) * (s[2][1] - y) - (s[2][0] - x) * (s[1][1] - y)) / area;
+    const w1 = ((s[2][0] - x) * (s[0][1] - y) - (s[0][0] - x) * (s[2][1] - y)) / area;
+    const w2 = 1 - w0 - w1;
+    if (w0 < 0 || w1 < 0 || w2 < 0) continue;
+    const z = w0 * s[0][2] + w1 * s[1][2] + w2 * s[2][2] - current.part[tri] * 2e-6;
+    if (z < nearest) { nearest = z; best = current.part[tri]; }
+  }
+  return best;
+}
+
+function setHover(part) {
+  if (part === hover) return;
+  hover = part;
+  $('pick').textContent = part >= 0 ? current.parts[part] : '';
+  document.querySelectorAll('#tab [data-part]').forEach(e => e.classList.toggle('hot', +e.dataset.part === part));
+  draw();
+}
+// Light the faces wearing these texture indices of the shown model while the pointer is over what names them.
+function setHot(indices) { hoverLit = indices; draw(); }
+const hotOn = indices => ({ onmouseenter: () => setHot(indices), onmouseleave: () => setHot([]) });
+function selectPart(part) {
+  selected = part;
+  if (part >= 0 && current) { tab = 'parts'; store('tab', tab); }
+  renderDetailTabs();
+  draw();
+}
+function toggleHidden(part) {
+  hidden.has(part) ? hidden.delete(part) : hidden.add(part);
+  scene = buildScene(current);
+  if (tab === 'parts') renderDetailTabs();
+  draw();
+}
+
+// The model drawn on the stage, by file, and which of its textures are lit: those `wanted` says (asset id, or a
+// placed part's `<id>.` prefix), the rest dimmed; none wanted, none dimmed.
+let shownFile = null, wanted = null;
+async function showModel(file, want) {
+  shownFile = file; wanted = want ?? null;
+  const model = file && data.models.find(m => m.file === file);
+  $('stage').classList.toggle('none', !model);
+  $('error').textContent = model?.error ?? '';
+  if (!model || model.error) { current = scene = null; lit = []; draw(); return; }
+  await need(model.geometry.src);
+  if (!data.models.includes(model) || shownFile !== file) return;
+  Object.assign(model, geometries.get(model.geometry.key));
+  const fresh = !current || current.file !== file;
+  if (fresh || [...hidden].some(p => p >= model.parts.length)) { hidden = new Set(); selected = -1; }
+  current = model;
+  lit = wanted ? litFor(model, wanted) : [];
+  scene = buildScene(model);
+  if (fresh) { const saved = localStorage.getItem(`shapes:${file}`); if (saved) cam = JSON.parse(saved); else fit(); }
+  draw();
+  if (['model', 'parts', 'textures'].includes(tab)) renderDetailTabs();
+}
+function litFor(model, want) {
+  return model.textures.map((t, i) => [t, i])
+    .filter(([t]) => want.endsWith('.') ? t.name.startsWith(want) : t.asset === want).map(([, i]) => i);
+}
+const modelOf = file => data.models.find(m => m.file === file && !m.error);
+
+// ---------------------------------------------------------------- the catalogue: filters, search, cards
+const TEXTURE_KINDS = ['material', 'face', 'decal'];
+const KINDS = [...TEXTURE_KINDS, 'part', 'device', 'draft'];
+const FACETS = { kinds: e => [e.kind], sets: e => e.sets ?? [], fits: e => e.fits ?? [],
+                 materials: e => e.material ? [e.material] : [], tags: e => e.tags ?? [] };
+const FLAGS = { notes: ['has notes', e => notesOf(e).length > 0], over: ['past its cap', e => overCap(e)],
+                unused: ['worn by nothing', e => unused(e)], problems: ['incomplete', e => (e.problems ?? []).length > 0] };
+let F = Object.assign({ q: '', kinds: [], sets: [], fits: [], materials: [], tags: [], flags: [], sort: 'group' },
+                      stored('filters', {}));
+let pageView = stored('view', 'grid'), tab = stored('tab', 'use'), selectedId = null, lastFocus = null;
+const byId = new Map();
+
+const overCap = e => e.cap != null && (e.users?.length ?? 0) > e.cap;
+const unused = e => [...TEXTURE_KINDS, 'part'].includes(e.kind) && !e.users?.length && !e.installed;
+const idPattern = id => new RegExp(`(^|[^a-z0-9_])${id}(?![a-z0-9_])`);
+const notesOf = e => (catalog?.notes ?? []).filter(n => idPattern(e.id).test(n));
+const usd = n => `$${(n ?? 0).toFixed(4)}`;
+const when = ts => (ts ?? '').slice(5, 16).replace('T', ' ');
+const nowCost = e => e.cost?.currentUsd ?? 0;
+const kindBadge = k => h('span', { class: `kind k-${k}` }, k);
+const useText = e => e.kind === 'part' ? `placed ${e.users.length}` + (e.cap ? `/${e.cap}` : '')
+  : TEXTURE_KINDS.includes(e.kind) ? `worn ${e.users.length}` + (e.cap ? `/${e.cap}` : '') : '';
+
+// Words as the catalogue files them (_catalog.words): lowercased, short and common ones dropped, a plural's s.
+const STOP = new Set(`a an and the of to in on at by for with from into its it is as or but than then this that these
+those each every one two three four five six seven eight nine all any no not nothing only also again same very more
+most seen face faces straight down up left right top bottom edge edges side sides square wide tall twice half times
+swatch swatches filling fills fill touching plain faint fine dull slightly small large long short thin thick narrow
+broad evenly even soft repeating repeat whole rest outside inside round along across over under behind between near
+middle centre center corner corners fully transparent`.split(/\s+/));
+function words(text) {
+  return (text.toLowerCase().replace(/_/g, ' ').match(/[a-z0-9]+/g) ?? [])
+    .filter(w => w.length >= 3 && !STOP.has(w) && !/^\d+$/.test(w))
+    .map(w => w.length > 3 && w.endsWith('s') && !w.endsWith('ss') ? w.slice(0, -1) : w);
+}
+let bags = new Map(), rarity = new Map();
+function index() {
+  bags = new Map(catalog.entries.map(e => [e.id, {
+    filed: new Set(words([e.id, e.kind, e.material ?? '', ...(e.sets ?? []), ...(e.fits ?? []), ...(e.tags ?? [])].join(' '))),
+    about: new Set(words(e.about ?? '')) }]));
+}
+function score(e) {
+  const asked = words(F.q);
+  if (!asked.length) return 1;
+  const { filed, about } = bags.get(e.id), n = bags.size;
+  let total = 0;
+  for (const w of asked) {
+    if (!rarity.has(w)) rarity.set(w, Math.log((1 + n) / (1 + [...bags.values()].filter(b => b.filed.has(w) || b.about.has(w)).length)) + 1);
+    const r = rarity.get(w);
+    if (filed.has(w)) total += 3 * r;
+    else if (about.has(w)) total += r;
+    else if ([...filed].some(f => f.startsWith(w))) total += 1.5 * r;
+    else if ([...about].some(a => a.startsWith(w))) total += 0.5 * r;
+  }
+  return total;
+}
+// An entry the filters keep: within a facet any chosen value, across facets every facet; `skip` leaves one out,
+// for the counts beside its own chips.
+function kept(e, skip) {
+  for (const [facet, values] of Object.entries(FACETS)) {
+    if (facet === skip || !F[facet].length) continue;
+    if (!values(e).some(v => F[facet].includes(v))) return false;
+  }
+  if (skip !== 'flags' && F.flags.some(f => !FLAGS[f][1](e))) return false;
+  return true;
+}
+function listed() {
+  const out = catalog.entries.filter(e => kept(e)).map(e => [score(e), e]).filter(([s]) => s > 0);
+  const by = {
+    name: (a, b) => a[1].id.localeCompare(b[1].id),
+    group: (a, b) => KINDS.indexOf(a[1].kind) - KINDS.indexOf(b[1].kind) || b[0] - a[0] || a[1].id.localeCompare(b[1].id),
+    worn: (a, b) => (b[1].users?.length ?? 0) - (a[1].users?.length ?? 0) || a[1].id.localeCompare(b[1].id),
+    cost: (a, b) => nowCost(b[1]) - nowCost(a[1]),
+    new: (a, b) => (b[1].variants.at(-1)?.ts ?? '').localeCompare(a[1].variants.at(-1)?.ts ?? ''),
+  };
+  const sorter = F.q.trim() && ['group', 'name'].includes(F.sort) ? (a, b) => b[0] - a[0] || by.name(a, b) : by[F.sort] ?? by.group;
+  return out.sort(sorter).map(([, e]) => e);
+}
+function saveFilters() { store('filters', F); }
+function toggle(facet, value) {
+  F[facet] = F[facet].includes(value) ? F[facet].filter(v => v !== value) : [...F[facet], value];
+  saveFilters(); renderFilters(); renderMain();
+}
+function only(facet, value) { for (const k of Object.keys(FACETS)) F[k] = []; F.flags = []; F[facet] = [value]; F.q = ''; $('q').value = '';
+  pageView = 'grid'; store('view', pageView); saveFilters(); renderFilters(); renderMain(); }
+
+function renderFilters() {
+  const facetChips = (facet, values, title) => {
+    const counts = new Map();
+    for (const e of catalog.entries) if (kept(e, facet) && score(e) > 0) for (const v of FACETS[facet](e)) counts.set(v, (counts.get(v) ?? 0) + 1);
+    return h('div', {}, values.map(v => h('span', {
+      class: `chip${F[facet].includes(v) ? ' on' : ''}${counts.get(v) ? '' : ' zero'}`, title: title?.(v) ?? '',
+      onclick: () => toggle(facet, v) }, facet === 'kinds' ? kindBadge(v) : v, ' ', h('small', {}, counts.get(v) ?? 0))));
+  };
+  const all = facet => [...new Set(catalog.entries.flatMap(FACETS[facet]))].sort();
+  const tagCounts = new Map();
+  for (const e of catalog.entries) for (const t of e.tags ?? []) tagCounts.set(t, (tagCounts.get(t) ?? 0) + 1);
+  const tags = [...new Set([...F.tags, ...[...tagCounts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 48).map(([t]) => t)])];
+  const setAbout = Object.fromEntries(catalog.sets.map(s => [s.id, s.about]));
+  const any = Object.keys(FACETS).some(k => F[k].length) || F.flags.length || F.q;
+  $('filters').replaceChildren(
+    h('h2', {}, 'Show ', any ? h('span', { class: 'link', onclick: () => {
+      for (const k of Object.keys(FACETS)) F[k] = []; F.flags = []; F.q = ''; $('q').value = '';
+      saveFilters(); renderFilters(); renderMain(); } }, '· clear all') : null),
+    h('div', {}, Object.entries(FLAGS).map(([k, [label, test]]) => h('span', {
+      class: `chip${F.flags.includes(k) ? ' on' : ''}`, onclick: () => toggle('flags', k) }, label, ' ',
+      h('small', {}, catalog.entries.filter(e => kept(e, 'flags') && test(e)).length)))),
+    h('h2', {}, 'Kind'), facetChips('kinds', KINDS.filter(k => catalog.entries.some(e => e.kind === k))),
+    h('h2', {}, 'Set'), facetChips('sets', catalog.sets.map(s => s.id), v => setAbout[v]),
+    h('h2', {}, 'Fits'), facetChips('fits', all('fits')),
+    h('h2', {}, 'Material'), facetChips('materials', all('materials')),
+    h('h2', {}, 'Tags'), facetChips('tags', tags));
+}
+
+function card(e) {
+  return h('div', { class: `card${e.id === selectedId ? ' sel' : ''}`, 'data-id': e.id, onclick: () => selectAsset(e.id) },
+    h('div', { class: 'pic checker' }, e.picture ? h('img', { src: e.picture, loading: 'lazy' }) : h('span', { class: 'dim' }, e.kind === 'draft' ? 'draft' : 'no picture')),
+    h('div', { class: 'id' }, e.id),
+    h('div', { class: 'meta' }, h('span', {}, kindBadge(e.kind), ' ', h('small', { class: overCap(e) ? 'over' : '' }, useText(e))),
+      h('span', {}, notesOf(e).length ? h('span', { class: 'warn', title: notesOf(e).join('\n') }, '● ') : null,
+        e.error || (e.problems ?? []).length ? h('span', { class: 'over', title: e.error || e.problems.join('\n') }, '✕ ') : null,
+        h('small', {}, e.cost ? usd(e.cost.currentUsd) : ''))));
+}
+
+function renderMain() {
+  document.querySelectorAll('#views button').forEach(b => b.classList.toggle('on', b.dataset.view === pageView));
+  if (pageView === 'ledger') return $('list').replaceChildren(...ledgerView());
+  if (pageView === 'notes') return $('list').replaceChildren(...notesView());
+  const found = listed();
+  const out = [h('div', { class: 'dim' }, `${found.length} of ${catalog.entries.length}`)];
+  if (F.sort === 'group' && !F.q.trim()) {
+    for (const k of KINDS) {
+      const group = found.filter(e => e.kind === k);
+      if (group.length) out.push(h('div', { class: 'group' }, `${k} · ${group.length}`), h('div', { id: 'grid' }, group.map(card)));
+    }
+  } else out.push(h('div', { id: 'grid' }, found.map(card)));
+  $('list').replaceChildren(...out);
+}
+
+// Text with every catalogued id in it a link to that asset.
+function linked(text) {
+  const ids = [...byId.keys()].sort((a, b) => b.length - a.length);
+  const re = new RegExp(`(?<![a-z0-9_])(${ids.map(i => i.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})(?![a-z0-9_])`, 'g');
+  const out = []; let at = 0;
+  for (const m of text.matchAll(re)) {
+    out.push(text.slice(at, m.index), h('span', { class: 'link', onclick: ev => { ev.stopPropagation(); selectAsset(m[1]); } }, m[1]));
+    at = m.index + m[1].length;
+  }
+  out.push(text.slice(at));
+  return out;
+}
+
+function notesView() {
+  const incomplete = catalog.entries.filter(e => (e.problems ?? []).length || e.error);
+  return [h('h2', {}, `Reuse notes · ${catalog.notes.length}`),
+    h('p', { class: 'dim' }, `A face, decal or part past its soft cap (${Object.entries(catalog.caps).map(([k, v]) => `${k} ${v}`).join(', ')}, a trial), worn outside its sets, a model in no set, or kept and worn by nothing. A note is a question, never a refusal.`),
+    h('ul', {}, catalog.notes.map(n => h('li', {}, linked(n)))),
+    h('h2', {}, `Incomplete · ${incomplete.length}`),
+    incomplete.length ? h('ul', {}, incomplete.map(e => h('li', { onclick: () => selectAsset(e.id) }, e.id, ': ', h('span', { class: 'err' }, e.error || e.problems.join('; '))))) : h('p', { class: 'dim' }, 'every entry complete')];
+}
+
+function ledgerView() {
+  const b = catalog.billing;
+  return [h('h2', {}, `Ledger · ${b.calls.length} billed call(s), newest first`),
+    h('dl', {}, h('dt', {}, 'spent'), h('dd', {}, h('b', { class: 'total' }, usd(b.spentUsd))),
+      h('dt', {}, 'installed art'), h('dd', {}, usd(b.installedUsd), h('small', {}, ' as it stands, shared textures split')),
+      h('dt', {}, 'retries'), h('dd', { class: 'retry-text' }, usd(b.retryUsd)),
+      h('dt', {}, 'nothing installed'), h('dd', {}, usd(b.idleUsd), h('small', {}, ' calls no installed asset traces to')),
+      h('dt', {}, 'ledger'), h('dd', {}, b.ledger)),
+    h('table', {}, h('tr', {}, h('th', {}, 'when'), h('th', {}, 'frame'), h('th', {}, 'op'), h('th', { class: 'num' }, 'cost'), h('th', {}, 'cells, kept in bold')),
+      b.calls.map(r => {
+        const keptIds = new Set(r.kept.map(k => k.asset));
+        return h('tr', { class: `${r.attempt > 1 ? 'retry' : ''} ${r.forInstalled ? '' : 'idle'}`, title: `${r.model} ${r.quality ?? ''}` },
+          h('td', { class: 'num', style: 'text-align:left' }, when(r.ts)), h('td', { class: 'num', style: 'text-align:left' }, r.frame,
+            r.attempt > 1 ? h('div', {}, h('small', {}, `retry ${r.attempt - 1}`)) : null), h('td', {}, r.op),
+          h('td', { class: 'num' }, usd(r.costUsd), h('br'), h('small', {}, `/${r.cells.length} = ${usd(r.costUsd / Math.max(1, r.cells.length))}`)),
+          h('td', {}, r.cells.map((c, i) => [i ? ', ' : '', byId.has(c)
+            ? h('span', { class: 'link', style: keptIds.has(c) ? 'font-weight:bold' : '', onclick: () => selectAsset(c) }, c)
+            : h('span', { class: keptIds.has(c) ? '' : 'dim' }, c)])));
+      }))];
+}
+
+// ---------------------------------------------------------------- one asset: what it is, its use, cost and history
+function selectAsset(id, file, want) {
+  const e = byId.get(id);
+  if (!e) return;
+  selectedId = id;
+  history.replaceState(null, '', `#${encodeURIComponent(id)}`);
+  document.querySelectorAll('.card').forEach(c => c.classList.toggle('sel', c.dataset.id === id));
+  const tabs = tabsOf(e);
+  if (!tabs.includes(tab)) tab = tabs[0];
+  renderHead(e);
+  renderDetailTabs();
+  const [f, w] = file !== undefined ? [file, want] : defaultShown(e);
+  showModel(f, w);
+}
+// What the stage shows for an asset: a model itself; a texture or a part on its first wearer, its faces lit.
+function defaultShown(e) {
+  if (['device', 'draft'].includes(e.kind)) return [e.standing ?? e.drafts?.[0], null];
+  if (e.kind === 'part') return [e.standing, null];
+  const user = e.users.map(u => byId.get(u)).find(u => u?.standing);
+  return [user?.standing ?? null, e.id];
+}
+const tabsOf = e => TEXTURE_KINDS.includes(e.kind) ? ['use', 'billing', 'history']
+  : e.kind === 'draft' ? ['model', 'parts', 'textures', 'billing'] : ['use', 'model', 'parts', 'textures', 'billing', 'history'];
+
+function renderHead(e) {
+  const setAbout = Object.fromEntries(catalog.sets.map(s => [s.id, s.about]));
+  const notes = notesOf(e);
+  const edit = `qq sprites catalog ${e.id} --tags=${(e.tags ?? []).join(',')}`;
+  $('head').replaceChildren(h('div', { class: 'head' },
+    h('div', { class: 'pic checker' }, e.picture ? h('img', { src: e.picture }) : h('span', { class: 'dim' }, 'no picture')),
+    h('div', {},
+      h('h3', {}, e.id, ' ', kindBadge(e.kind)),
+      h('div', {}, e.about || h('span', { class: 'dim' }, 'no about')),
+      h('dl', {},
+        h('dt', {}, 'sets'), h('dd', {}, (e.sets ?? []).map(s => h('span', { class: 'chip', title: setAbout[s] ?? '', onclick: () => only('sets', s) }, s))),
+        e.tags?.length ? [h('dt', {}, 'tags'), h('dd', {}, e.tags.map(t => h('span', { class: 'chip', onclick: () => only('tags', t) }, t)))] : null,
+        e.material ? [h('dt', {}, 'material'), h('dd', {}, h('span', { class: 'chip', onclick: () => only('materials', e.material) }, e.material))] : null,
+        e.fits?.length ? [h('dt', {}, 'fits'), h('dd', {}, e.fits.map(f => h('span', { class: 'chip', onclick: () => only('fits', f) }, f)))] : null,
+        useText(e) ? [h('dt', {}, 'use'), h('dd', { class: overCap(e) ? 'over' : '' }, useText(e), e.installed ? ' · installed' : '')] : null,
+        e.cost ? [h('dt', {}, 'cost'), h('dd', {}, `now ${usd(e.cost.currentUsd)} · all time ${usd(e.cost.allTimeUsd)}`,
+          e.cost.retries ? h('span', { class: 'retry-text' }, ` · ${e.cost.retries} retries`) : '')] : null,
+        e.px ? [h('dt', {}, 'picture'), h('dd', {}, `${e.px.join('×')} px · ${(e.px[0] / e.px[1]).toFixed(1)}:1`)] : null,
+        e.folder ? [h('dt', {}, 'kept in'), h('dd', {}, e.folder)] : null,
+        e.formerly?.length ? [h('dt', {}, 'formerly'), h('dd', {}, e.formerly.join(', '))] : null),
+      notes.length ? h('ul', {}, notes.map(n => h('li', { class: 'warn' }, linked(n)))) : null,
+      e.error ? h('div', { class: 'err' }, e.error) : null,
+      (e.problems ?? []).length ? h('div', { class: 'err' }, e.problems.join('; ')) : null,
+      e.kind !== 'draft' ? h('div', { class: 'cmd', title: 'click to copy', onclick: () => navigator.clipboard?.writeText(edit) }, edit) : null)));
+}
+
+function renderDetailTabs() {
+  const e = byId.get(selectedId);
+  if (!e) { $('tabs').replaceChildren(); $('head').replaceChildren(); return $('tab').replaceChildren(...overview()); }
+  $('tabs').replaceChildren(...tabsOf(e).map(t => h('button', { class: t === tab ? 'on' : '',
+    onclick: () => { tab = t; store('tab', tab); renderDetailTabs(); } }, t)));
+  const body = { use: useTab, billing: billingTab, history: historyTab, model: modelTab, parts: partsTab, textures: texturesTab }[tab];
+  $('tab').replaceChildren(...body(e));
+}
+
+function overview() {
+  return [h('h2', {}, 'Sets'), h('p', { class: 'dim' }, 'Families of assets alike in style and function: a reuse hint, never a fence (raw_assets/sets.md).'),
+    h('table', {}, catalog.sets.map(s => h('tr', {}, h('td', {}, h('span', { class: 'chip', onclick: () => only('sets', s.id) }, s.id),
+      h('small', {}, ` ${catalog.entries.filter(e => e.sets?.includes(s.id)).length}`)), h('td', {}, s.about)))),
+    h('h2', {}, 'Reuse'), h('p', { class: 'dim' }, 'A material is worn anywhere. A face or a decal is recognised where it appears again, so past its soft cap it is named; a part is placed wherever it is the same object. Click an asset to see who wears it, how, what it cost and how it was made.'),
+    h('p', {}, h('span', { class: 'link', onclick: () => { pageView = 'notes'; store('view', pageView); renderMain(); } }, `${catalog.notes.length} reuse note(s)`))];
+}
+
+const tile = (id, extra, attrs = {}) => {
+  const e = byId.get(id);
+  return h('div', { class: 'tile', ...attrs }, h('div', { class: 'pic checker' }, e?.picture ? h('img', { src: e.picture, loading: 'lazy' }) : null),
+    h('div', {}, h('span', { class: 'link', onclick: ev => { ev.stopPropagation(); selectAsset(id); } }, id)),
+    h('div', {}, e ? kindBadge(e.kind) : null, ' ', extra));
+};
+const faceText = (m, u) => `${m.parts[u.part]} · ${u.face}${u.turnDeg ? ` · turn ${u.turnDeg}°` : ''} · ${u.tileM ? `tile ${u.tileM.join('×')} m` : 'fit'}`;
+
+function useTab(e) {
+  if (TEXTURE_KINDS.includes(e.kind)) {
+    const out = [h('h2', {}, `Worn by ${e.users.length}${e.cap ? ` · soft cap ${e.cap}` : ' · a material, no cap'}`)];
+    if (!e.users.length) out.push(h('p', { class: 'dim' }, e.installed ? 'installed by the game itself' : 'worn by nothing'));
+    out.push(h('table', {}, e.users.map(id => {
+      const user = byId.get(id), m = user?.standing && modelOf(user.standing);
+      const faces = m ? m.textures.filter(t => t.asset === e.id).flatMap(t => t.used.map(u => faceText(m, u))) : [];
+      return h('tr', { class: shownFile && shownFile === user?.standing ? 'cur' : '', onclick: () => user?.standing && showModel(user.standing, e.id) },
+        h('td', {}, user?.picture ? h('img', { class: 'mini', src: user.picture }) : null),
+        h('td', {}, h('span', { class: 'link', onclick: ev => { ev.stopPropagation(); selectAsset(id); } }, id), ' ', user ? kindBadge(user.kind) : null,
+          h('br'), h('small', {}, (user?.sets ?? []).join(', '), (user?.sets ?? []).some(s => e.sets.includes(s)) ? '' : h('span', { class: 'warn' }, ' · outside its sets'))),
+        h('td', {}, faces.length ? h('small', {}, `${faces.length} face(s)`, h('br'), faces.slice(0, 6).join('\n'), faces.length > 6 ? ' …' : '') : h('small', { class: 'dim' }, 'its standing model is not loaded')));
+    })));
+    const through = e.users.map(u => byId.get(u)).filter(u => u?.kind === 'part' && u.users.length);
+    if (through.length) out.push(h('h2', {}, 'Through a part'), ...through.map(p => h('p', {}, `${p.id}, placed by `, linked(p.users.join(', ')))));
+    out.push(h('p', { class: 'dim' }, 'Click a row to see that model on the stage, this texture lit and the rest dimmed.'));
+    return out;
+  }
+  const m = e.standing && modelOf(e.standing);
+  const out = [];
+  if (e.kind === 'part') {
+    out.push(h('h2', {}, `Placed by ${e.users.length}${e.cap ? ` · soft cap ${e.cap}` : ''}`),
+      e.users.length ? h('div', { class: 'tiles' }, e.users.map(id => tile(id, '', {
+        onclick: () => byId.get(id)?.standing && showModel(byId.get(id).standing, `${e.id}.`) }))) : h('p', { class: 'dim' }, e.installed ? 'placed by the game itself' : 'placed by nothing'));
+  }
+  if (m) {
+    const own = new Map();
+    m.textures.forEach((t, i) => { if (!t.name.includes('.')) own.set(t.asset, [...(own.get(t.asset) ?? []), i]); });
+    out.push(h('h2', {}, `Wears ${own.size} texture(s)`), h('div', { class: 'tiles' }, [...own].map(([asset, idx]) => {
+      const t = byId.get(asset);
+      return tile(asset, t ? h('small', { class: overCap(t) ? 'over' : '' }, useText(t)) : h('small', { class: 'stale' }, 'not catalogued'),
+        { ...hotOn(idx), onclick: () => showModel(e.standing, asset) });
+    })));
+    const parts = [...new Set(m.textures.filter(t => t.name.includes('.')).map(t => t.name.split('.')[0]))];
+    if (parts.length) out.push(h('h2', {}, `Places ${parts.length} part(s)`), h('div', { class: 'tiles' }, parts.map(p => tile(p, '', {
+      ...hotOn(m.textures.map((t, i) => [t, i]).filter(([t]) => t.name.startsWith(`${p}.`)).map(([, i]) => i)) }))));
+    out.push(h('p', { class: 'dim' }, 'Hover a tile to light its faces; click it to dim the rest.'));
+  } else out.push(h('p', { class: 'dim' }, 'its model is not loaded'));
+  return out;
+}
+
+// Money: a frame's cost is shared evenly by its cells; a retry is any attempt of a sheet past its first (_spend.py).
+const keptText = kept => kept.length ? kept.map(k => `${k.variant} ${k.status}`).join(', ') : h('span', { class: 'dim' }, 'nothing kept');
+const wornText = (w, self) => w.wornBy.length > 1
+  ? h('span', { class: 'retry-text', title: w.wornBy.join(', ') }, `shared ×${w.wornBy.length}`)
+  : h('span', { class: 'dim' }, 'this model only');
+
+function costSection(e) {
+  const c = e.cost, reused = c.textures.filter(w => w.wornBy.length > 1), texture = TEXTURE_KINDS.includes(e.kind);
+  const split = texture && e.users.length > 1 ? c.currentUsd / e.users.length : null;
+  const out = [h('h2', {}, `Cost of ${c.asset}`), h('dl', { class: 'figures' },
+    h('dt', {}, 'all time'), h('dd', {}, h('b', { class: 'total' }, usd(c.allTimeUsd)), ` · ${c.count} frame(s), every attempt`, h('br'),
+      h('span', { class: c.retries ? 'retry-text' : 'dim' }, `retries: ${c.retries}, ${usd(c.retryUsd)} of it`),
+      c.frames.length && !texture ? [h('br'), h('small', {}, `incl. ${usd(c.ownUsd)} for ${c.frames.length} frame(s) that drew ${c.asset} itself`)] : null),
+    h('dt', {}, 'current'), h('dd', {}, h('b', { class: 'total' }, usd(c.currentUsd)),
+      c.drawnFrom ? ` · its cell of ${c.drawnFrom}` : ` · the frames its ${c.textures.length} textures were cut from`),
+    h('dt', {}, 'shared'), h('dd', {}, texture ? (split != null ? [`split over its ${e.users.length} wearers: `, h('b', {}, usd(split)), ' each'] : h('span', { class: 'dim' }, 'one wearer or none'))
+      : reused.length ? [`${reused.length} of ${c.textures.length} textures shared with other models; current with them split: `, h('b', {}, usd(c.amortizedUsd))]
+      : h('span', { class: 'dim' }, 'no texture shared')))];
+  if (c.textures.length) out.push(h('table', {},
+    h('tr', {}, h('th', {}, 'texture'), h('th', { class: 'num' }, 'current'), h('th', { class: 'num' }, 'all time'), h('th', {}, 'worn by')),
+    c.textures.map(w => h('tr', { class: w.frames.some(r => r.attempt > 1) ? 'retry' : '', title: `current from ${w.frame ?? '—'}` },
+      h('td', {}, h('span', { class: 'link', onclick: () => selectAsset(w.texture.split('.')[0]) }, w.texture)),
+      h('td', { class: 'num' }, w.frames.length ? usd(w.currentUsd) : h('span', { class: 'stale' }, 'none billed')),
+      h('td', { class: 'num' }, usd(w.allTimeUsd)), h('td', {}, wornText(w, c.asset))))));
+  return out;
+}
+function billingTab(e) {
+  const c = e.cost ?? modelOf(e.standing)?.cost;
+  if (!c) return [h('p', { class: 'dim' }, 'nothing billed')];
+  const calls = assetCalls(c);
+  return [...costSection({ ...e, cost: c }),
+    h('h2', {}, `Calls, newest first · ${calls.length}`),
+    h('p', {}, h('small', {}, `its share of each sums to the all-time ${usd(c.allTimeUsd)}; retries in amber`)),
+    h('table', {}, h('tr', {}, h('th', {}, 'when'), h('th', {}, 'frame'), h('th', {}, 'drew for it'), h('th', { class: 'num' }, 'its share')),
+      calls.map(r => h('tr', { class: r.attempt > 1 ? 'retry' : '', title: `${r.op} ${r.model} ${r.quality ?? ''}` },
+        h('td', { class: 'num', style: 'text-align: left' }, when(r.ts)),
+        h('td', {}, r.frame, h('br'), h('small', {}, r.attempt > 1 ? `retry ${r.attempt - 1}` : 'first try')),
+        h('td', { title: r.for.join(', ') }, r.for.length > 3 ? `${r.for.length} textures` : linked(r.for.join(', ')), h('br'),
+          h('small', {}, r.kept.length > 2 ? `kept ${r.kept.length}` : r.kept.length ? ['kept: ', keptText(r.kept)] : keptText(r.kept))),
+        h('td', { class: 'num' }, usd(r.shareUsd), h('br'), h('small', {}, `of ${usd(r.costUsd)} /${r.cells.length}`)))))];
+}
+// One row per frame: a frame that drew several of the asset's pieces is one call.
+function assetCalls(c) {
+  const calls = new Map();
+  const add = (r, piece) => {
+    const call = calls.get(r.frame) ?? { ...r, shareUsd: 0, for: [], kept: [] };
+    call.shareUsd += r.shareUsd; call.for.push(piece); call.kept.push(...r.kept);
+    calls.set(r.frame, call);
+  };
+  c.frames.forEach(r => add(r, c.asset));
+  c.textures.forEach(w => w.frames.forEach(r => add(r, w.texture)));
+  return [...calls.values()].sort((a, b) => b.ts.localeCompare(a.ts));
+}
+
+function historyTab(e) {
+  const out = [];
+  if (e.formerly?.length) out.push(h('h2', {}, 'Renamed'), h('p', {}, `formerly ${e.formerly.join(', ')}; the ledger reads those as ${e.id}`));
+  out.push(h('h2', {}, `Kept variants · ${e.variants.length}`), h('div', { class: 'pics' }, [...e.variants].reverse().map(v => h('figure', {},
+    h('div', { class: 'pic checker' }, v.url ? h('img', { src: v.url, loading: 'lazy' }) : h('span', { class: 'stale' }, 'picture gone')),
+    h('figcaption', {}, h('b', {}, v.variant), ` · score ${v.score} · `, h('span', { class: v.status === 'used' ? 'warn' : '' }, v.status === 'used' ? 'installed' : v.status),
+      h('br'), when(v.ts), v.frame ? ` · cut from ${v.frame}` : '', v.view ? ` · ${v.view} view` : '',
+      v.model ? [h('br'), h('span', { class: 'link', onclick: () => showModel(v.model, null) }, shownFile === v.model ? '▶ on the stage' : 'show in 3D')] : null)))));
+  if (e.drafts?.length) out.push(h('h2', {}, 'Drafts'), h('ul', {}, e.drafts.map(f => h('li', { onclick: () => showModel(f, null) }, f, shownFile === f ? ' ◀' : ''))));
+  const own = [...(e.cost?.frames ?? [])].sort((a, b) => b.ts.localeCompare(a.ts));
+  out.push(h('h2', {}, `Frames that drew ${e.id} · ${own.length}`));
+  if (!own.length) out.push(h('p', { class: 'dim' }, TEXTURE_KINDS.includes(e.kind) ? 'none billed' : 'none: a model is made of its textures, whose frames are on the billing tab'));
+  for (const r of own) {
+    const f = catalog.frames[r.frame];
+    out.push(h('div', { class: 'card box' },
+      h('div', {}, h('b', {}, r.frame), ` · ${when(r.ts)} · ${r.op} · `, h('span', { class: r.attempt > 1 ? 'retry-text' : '' }, r.attempt > 1 ? `retry ${r.attempt - 1}` : 'first try'),
+        ` · ${usd(r.shareUsd)} of ${usd(r.costUsd)} /${r.cells.length}`),
+      h('div', {}, h('small', {}, 'kept: '), keptText(r.kept)),
+      f ? [h('div', {}, h('small', {}, `${f.model} ${JSON.stringify(f.settings)}`)),
+           h('details', {}, h('summary', {}, 'prompt'), h('pre', {}, f.prompt), f.inputs.length ? h('pre', {}, f.inputs.join('\n')) : null),
+           f.cells ? h('details', {}, h('summary', {}, `its ${f.cells.length} cells`), h('div', {}, linked(f.cells.join(', ')))) : null]
+        : h('small', { class: 'dim' }, 'its record was not kept')));
+  }
+  return out;
+}
+
+// The model on the stage: what it is, its parts and their faces, its textures and where each came from.
+const metres = v => v.map(n => n.toFixed(3)).join(', ');
+const picture = (url, caption, extra) => h('figure', {}, h('div', { class: 'thumb' }, h('img', { src: url })), h('figcaption', {}, caption, extra));
+function modelTab() {
+  const m = current;
+  if (!m) return [h('p', { class: 'dim' }, 'no model on the stage')];
+  const [lo, hi] = m.extent;
+  const out = [h('h2', {}, 'On the stage'), h('dl', {},
+    h('dt', {}, 'file'), h('dd', {}, m.file), h('dt', {}, 'about'), h('dd', {}, m.about || '—'),
+    h('dt', {}, 'size m'), h('dd', {}, metres(hi.map((v, i) => v - lo[i]))),
+    h('dt', {}, 'boundsM'), h('dd', {}, m.bounds ? `${metres(m.bounds[0])} → ${metres(m.bounds[1])}` : '— (cropped to drawing)'),
+    h('dt', {}, 'parts'), h('dd', {}, m.parts.length), h('dt', {}, 'triangles'), h('dd', {}, m.triangles),
+    h('dt', {}, 'textures'), h('dd', {}, `${m.textures.length} (${m.textures.filter(t => !t.used.length).length} unused)`))];
+  if (m.overlaps.length) out.push(h('h2', { class: 'stale' }, `${m.overlaps.length} overlap(s)`),
+    h('ul', {}, m.overlaps.map(o => h('li', { class: 'stale', onclick: () => selectPart(m.parts.indexOf(o.parts[0])) },
+      `${o.parts[0]} × ${o.parts[1]} · ${o.depthM.map(d => d.toFixed(3)).join(' × ')} m`))));
+  if (m.floating?.length) out.push(h('h2', { class: 'stale' }, `${m.floating.length} floating`),
+    h('ul', {}, m.floating.map(item => h('li', { class: 'stale', onclick: () => selectPart(m.parts.findIndex(p => p.startsWith(item))) }, item))));
+  if (m.stretched?.length) out.push(h('h2', { class: 'stale' }, `${m.stretched.length} stretched (GAM-14)`),
+    h('ul', {}, m.stretched.map(s => h('li', { class: 'stale', onclick: () => selectPart(m.parts.findIndex(p => p.startsWith(s.part))) },
+      `${s.part} ${s.face} · ${s.tex} ${s.pictureAspect}:1 ${s.tiled ? 'tiled' : 'fitted'} on ${metres(s.regionM)} · ×${s.ratio}`))));
+  out.push(h('h2', {}, 'Renders'), !m.renders.length ? h('p', { class: 'dim' }, `none: qq shapes render ${m.file}`)
+    : h('div', { class: 'pics' }, m.renders.map(r => picture(r.url, r.view, r.stale && h('span', { class: 'stale' }, ' · older than the model')))));
+  out.push(h('details', {}, h('summary', {}, 'source'), h('pre', {}, m.source)));
+  return out;
+}
+function partsTab() {
+  const m = current;
+  if (!m) return [h('p', { class: 'dim' }, 'no model on the stage')];
+  const out = [h('h2', {}, 'Parts ', h('button', { onclick: () => { hidden.clear(); scene = buildScene(m); renderDetailTabs(); draw(); } }, 'show all'))];
+  out.push(h('ul', {}, m.parts.map((label, i) => h('li', {
+    'data-part': i, class: [i === selected && 'sel', hidden.has(i) && 'off'].filter(Boolean).join(' '),
+    onmouseenter: () => setHover(i), onmouseleave: () => setHover(-1), onclick: () => selectPart(i === selected ? -1 : i),
+  }, h('span', { class: 'name' }, label), ' ', h('small', {}, m.specs[i].shape), ' ',
+     h('span', { class: 'link', onclick: ev => { ev.stopPropagation(); toggleHidden(i); } }, hidden.has(i) ? 'show' : 'hide')))));
+  if (selected < 0) { out.push(h('p', { class: 'dim' }, 'click a part, here or on the model')); return out; }
+  const spec = m.specs[selected];
+  out.push(h('h2', {}, m.parts[selected]), h('dl', {}, h('dt', {}, 'centre m'), h('dd', {}, metres(spec.atWorldM))));
+  const faces = m.textures.flatMap((t, ti) => t.used.filter(u => u.part === selected).map(u => [t, ti, u]));
+  out.push(h('table', {}, h('tr', {}, h('th', {}, 'face'), h('th', {}, 'texture'), h('th', {}, 'turn'), h('th', {}, 'map'), h('th', {}, 'shade')),
+    faces.map(([t, ti, u]) => h('tr', hotOn([ti]),
+      h('td', {}, u.face), h('td', {}, h('img', { class: 'mini', src: t.url }), ' ', h('span', { class: 'link', onclick: () => selectAsset(t.asset) }, t.asset)),
+      h('td', {}, `${u.turnDeg}°`), h('td', {}, u.tileM ? `tile ${u.tileM.join('×')} m` : 'fit'), h('td', {}, u.shade)))));
+  const { atWorldM, ...written } = spec;
+  out.push(h('pre', {}, JSON.stringify(written, null, 1)));
+  return out;
+}
+function texturesTab() {
+  const m = current;
+  if (!m) return [h('p', { class: 'dim' }, 'no model on the stage')];
+  return [h('h2', {}, `Textures of ${m.id}`), ...m.textures.map((t, ti) => h('div', { class: 'card box', ...hotOn([ti]) },
+    h('div', {}, h('b', {}, t.name), ' → ', byId.has(t.asset) ? h('span', { class: 'link', onclick: () => selectAsset(t.asset) }, t.asset) : h('span', { class: 'stale' }, `${t.asset} (not catalogued)`),
+      t.used.length ? '' : h('span', { class: 'stale' }, ' · unused')),
+    h('div', { class: 'thumb checker' }, h('img', { src: t.url }), t.insetPct ? h('div', { class: 'inset', style: `inset:${t.insetPct}%` }) : null),
+    h('dl', {}, h('dt', {}, 'src'), h('dd', {}, t.src), h('dt', {}, 'map'),
+      h('dd', {}, `${t.tileM == null ? 'fit to each face' : `tile ${JSON.stringify(t.tileM)} m`} · inset ${t.insetPct}%${t.cutout ? ' · cutout' : ''}`),
+      h('dt', {}, 'from'), h('dd', {}, t.from.kind, t.from.variant ? ` · ${t.from.variant} · score ${t.from.score}` : '', t.from.frame ? ` · ${t.from.frame}` : '')),
+    h('details', {}, h('summary', {}, `${t.used.length} face(s)`), h('ul', {}, t.used.map(u => h('li', { 'data-part': u.part, onclick: () => selectPart(u.part) }, faceText(m, u)))))))];
+}
+
+// ---------------------------------------------------------------- data in, and the page's controls
+// Called by viewer-data.js, on load and whenever the stamp moves.
+window.shapesData = async next => {
+  if (data && next.stamp === data.stamp) return;
+  data = next; catalog = data.catalog;
+  byId.clear(); for (const e of catalog.entries) byId.set(e.id, e);
+  index(); rarity = new Map();
+  const b = catalog.billing;
+  $('spend').textContent = `${catalog.entries.length} assets · spent ${usd(b.spentUsd)} · retries ${usd(b.retryUsd)}`;
+  $('status').textContent = `data ${new Date(data.stamp * 1000).toLocaleTimeString([], { hour12: false })}`;
+  renderFilters(); renderMain();
+  // A model just rendered or kept: turn to its asset and put it on the stage.
+  if (data.focus && data.focus !== lastFocus) {
+    lastFocus = data.focus;
+    const owner = catalog.entries.find(e => e.standing === data.focus || e.drafts?.includes(data.focus)
+      || e.variants.some(v => v.model === data.focus));
+    if (owner) return selectAsset(owner.id, data.focus, null);
+  }
+  const id = selectedId ?? decodeURIComponent(location.hash.slice(1));
+  if (byId.has(id)) {
+    const e = byId.get(id);
+    selectedId = id; renderHead(e); renderDetailTabs();
+    const file = shownFile && data.models.some(m => m.file === shownFile) ? shownFile : defaultShown(e)[0];
+    showModel(file, shownFile ? wanted : defaultShown(e)[1]);
+  } else renderDetailTabs();
+};
+window.shapesStamp = stamp => { if (data && stamp !== data.stamp) load(`viewer-data.js?${stamp}`); };
+function load(src) {
+  const s = h('script', { src });
+  s.onload = s.onerror = () => s.remove();
+  document.body.append(s);
+}
+setInterval(() => load(`viewer-stamp.js?${Date.now()}`), 1000);
+
+$('q').value = F.q;
+let typing = null;
+$('q').addEventListener('input', () => { clearTimeout(typing); typing = setTimeout(() => {
+  F.q = $('q').value; if (pageView !== 'grid') { pageView = 'grid'; store('view', pageView); }
+  saveFilters(); renderFilters(); renderMain(); }, 120); });
+$('sort').value = F.sort;
+$('sort').onchange = () => { F.sort = $('sort').value; saveFilters(); renderMain(); };
+document.querySelectorAll('#views button').forEach(b => b.onclick = () => { pageView = b.dataset.view; store('view', pageView); renderMain(); });
+addEventListener('hashchange', () => { const id = decodeURIComponent(location.hash.slice(1)); if (id !== selectedId) selectAsset(id); });
+
+for (const name of ['iso', 'rear', 'device', 'top', 'front', 'side'])
+  $('camviews').append(h('button', { onclick: () => setView(name) }, name));
+function setView(name) { if (!current) return; [cam.az, cam.el] = data.views[name]; saveCamera(); draw(); }
+function flip(name) { show[name] = !show[name]; $(name).classList.toggle('on', show[name]); draw(); }
+for (const name of ['flat', 'edges', 'grid3d', 'box']) $(name).onclick = () => flip(name);
+$('fit').onclick = () => { if (current) { fit(); saveCamera(); draw(); } };
+function saveCamera() { if (current) localStorage.setItem(`shapes:${current.file}`, JSON.stringify(cam)); }
+
+let dragging = null;
+canvas.addEventListener('contextmenu', e => e.preventDefault());
+canvas.addEventListener('pointerdown', e => {
+  dragging = { x: e.clientX, y: e.clientY, pan: e.shiftKey || e.button === 2, moved: false };
+  canvas.setPointerCapture(e.pointerId);
+});
+canvas.addEventListener('pointermove', e => {
+  if (!current) return;
+  if (!dragging) { setHover(pick(e.clientX, e.clientY)); return; }
+  const dx = e.clientX - dragging.x, dy = e.clientY - dragging.y;
+  if (Math.abs(dx) + Math.abs(dy) > 2) dragging.moved = true;
+  dragging.x = e.clientX; dragging.y = e.clientY;
+  if (dragging.pan) {
+    const { r, u } = axes();
+    cam.target = cam.target.map((c, i) => c - (r[i] * dx - u[i] * dy) / cam.px);
+  } else {
+    cam.az = ((cam.az - dx * 0.4 + 540) % 360) - 180;
+    cam.el = Math.max(-89, Math.min(90, cam.el + dy * 0.4));
+  }
+  draw();
+});
+canvas.addEventListener('pointerleave', () => { if (current && !dragging) setHover(-1); });
+canvas.addEventListener('pointerup', e => {
+  if (dragging && !dragging.moved && e.button === 0 && current) selectPart(pick(e.clientX, e.clientY));
+  dragging = null;
+  saveCamera();
+});
+canvas.addEventListener('wheel', e => {
+  e.preventDefault();
+  cam.px *= Math.pow(1.0015, -e.deltaY);
+  saveCamera(); draw();
+}, { passive: false });
+addEventListener('keydown', e => {
+  if (!data) return;
+  if (e.key === '/' && document.activeElement !== $('q')) { e.preventDefault(); $('q').focus(); return; }
+  if (e.target !== document.body) { if (e.key === 'Escape') e.target.blur(); return; }
+  const views = ['iso', 'rear', 'device', 'top', 'front', 'side'];
+  if (e.key >= '1' && e.key <= '6') setView(views[e.key - 1]);
+  const keys = { l: 'flat', e: 'edges', g: 'grid3d', b: 'box' };
+  if (keys[e.key]) flip(keys[e.key]);
+  if (e.key === 'f') $('fit').click();
+  if (e.key === 'h' && selected >= 0) toggleHidden(selected);
+  if (e.key === 'Escape') selectPart(-1);
+});
+addEventListener('resize', draw);
+</script>
+<script src="viewer-data.js"></script>
+</body>
+</html>
