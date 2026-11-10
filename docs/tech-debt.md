@@ -163,6 +163,14 @@ is not closed without one. **_tool_** is a fault or a gap in a `qq` tool, closed
   [scene.js](../src/app/web/wwwroot/scene.js) `liveFrame`): the shares a gauge reads and the colour a lamp takes are
   seen in `qq web` pictures, not tested; the page has no test runner (WEB-9). Closed by the signals moved to a module a
   headless check can call with a frame and read back.
+- **The demo's stand-in line is checked by eye** ([demo.js](../src/app/demo/wwwroot/demo.js)): that it speaks the
+  protocol [host.js](../src/app/web/wwwroot/host.js) expects — `onmessage`, `onclose`, `send` and the `{re, ok}`
+  answer — is shown by `qq web --page` pictures of the written site, and the workflow deploys whatever builds. A change
+  to `host.js` that the stand-in misses ships a blank demo. Closed by the workflow photographing the site headless and
+  failing on a page that never framed.
+- **The Pages actions run on a deprecated Node** (`.github/workflows/demo.yml`): `actions/deploy-pages@v4` and the
+  artifact upload inside `actions/upload-pages-artifact@v4` target Node 20, which GitHub forces onto Node 24 with a
+  warning on every run. Closed by moving to their first majors that target Node 24.
 
 ## Unmeasured
 
