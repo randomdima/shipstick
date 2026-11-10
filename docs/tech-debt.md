@@ -154,6 +154,25 @@ is not closed without one. **_tool_** is a fault or a gap in a `qq` tool, closed
 - **A move shows once the host has run it** ([cabin.js](../src/app/web/wwwroot/cabin.js)): a dragged item springs back
   to its slot until the frame that moved it comes, a round trip later; on a slow line that reads as a refusal. Closed by
   the page holding a dragged item where it was dropped, marked as waiting, until the answer.
+- **The floor's 3D scene is a first cut** ([scene.js](../src/app/web/wwwroot/scene.js)): one shadow map covers the
+  whole ship, so a large ship's shadows coarsen; faces turned from the camera are culled by pixel where `qq shapes`
+  culls by triangle; the triangles (`.mesh.bin`) are float32 and unindexed — 1.35 MB for a seat's fifteen models,
+  0.22 MB as the host compresses them. Costs soft shadows when zoomed on a big ship, a slower first load. Closed by a
+  shadow map fitted to the view, triangle culling exported with the mesh, and the triangles indexed and quantized.
+- **The page asks for each picture alone** ([scene.js](../src/app/web/wwwroot/scene.js) `fetchAll`,
+  [AssetList](../src/app/host/AssetList.cs)): a seat's first load is about 120 requests of art, over HTTP/1.1 (the
+  host serves plain HTTP, and no browser speaks HTTP/2 without TLS) six at a time, so on a line of 100 ms a round trip
+  the last picture lands at 2.3 s (`qq web --line=100`), though every one is asked for by 0.5 s. A later load asks for
+  none: each is kept at its version. Closed by the textures packed into a few sheets the models' UVs address, made by
+  `qq sprites use`, or the host served over TLS so the page speaks HTTP/2.
+- **The admin's overview misses frames on a weak GPU** ([scene.js](../src/app/web/wwwroot/scene.js) `draw`,
+  `LIGHT_FRAGMENT`): while ship time runs, the parts moving in nine capsules are redrawn every display frame, each in a
+  box of its own, and the light pass reads its neighbours per target pixel — occlusion a third of its cost, and the
+  halo read even where nothing glows. Drawn in software (`qq web --software --frames`), the admin's page misses about
+  a third of its frames after supersampling gives up (`keepPace`); a seat's misses none, and on this machine's GPU
+  neither does. Closed by occlusion measured at the page's resolution, or kept from the frame before where nothing
+  near it moved, and the halo skipped where no glow is near.
+
 ## Untested
 
 - **The socket is checked by eye** ([Client](../src/app/host/Client.cs)): which actions a player's line refuses, a
@@ -173,16 +192,6 @@ is not closed without one. **_tool_** is a fault or a gap in a `qq` tool, closed
 
 ## Unmeasured
 
-- **Every frame re-describes the whole floor** ([cabin.js](../src/app/web/wwwroot/cabin.js) `drawFloor`,
-  [scene.js](../src/app/web/wwwroot/scene.js) `setScene`): a frame that changes anything — a count in one slot — has
-  the page lay out every deck cell, wall and device again and compare it with the last as one JSON string, before the
-  scene finds nothing to rebuild. On the admin's page that is nine capsules' worth. Its cost on a slow machine is
-  unmeasured. Closed by timing it, and describing the floor only when what stands on it changed.
-- **Live parts redraw the scene every frame while ship time runs** ([scene.js](../src/app/web/wwwroot/scene.js)
-  `draw`, `movedBox`): the costly passes are drawn only over the box round what moved, but that is one box round every
-  moving part, so on the admin's overview of nine capsules it is most of the picture, every display frame. A zoomed
-  device holds 60 frames a second on this machine's GPU; a weak one is unmeasured. Closed by timing it there, and by a
-  box per moving part, or a lower rate for a part too small to see move.
 - **The starter ship's balance** ([GameConfig](../src/core/config/GameConfig.cs) `Devices`, `Starter`): a way's
   catalogue minute is one ship second, each device starts with three cycles' worth of what it runs on, and chests start
   empty — all set by hand. Whether a capsule can keep its life support powered from its own solar strip, and how much
@@ -211,8 +220,8 @@ is not closed without one. **_tool_** is a fault or a gap in a `qq` tool, closed
   the model tab listing each live part, with a control to drive its signal.
 - **`qq web` has no caption** (_tool_): a picture carries no stamp of what it shows or when, which traffic's captioned
   shots did. Closed once the page says its own state on the console for `qq web` to stamp.
-- **No profiler** (_tool_): traffic's `qq prof` (perf over a running process) was not ported; nothing here runs long
-  enough to profile yet.
+- **No profiler for the host** (_tool_): the page's thread has one (`qq web --profile`), but traffic's `qq prof` (perf
+  over a running process) was not ported; nothing in the host runs long enough to profile yet.
 - **`any_wall_segment-v1`'s kept model has its cap and kick strip sunk into its core** (_tool_): kept before
   `qq shapes` checked overlaps, so the viewer lists two on it; the draft in `.tmp/shapes/` groups them. Costs nothing
   drawn — the render is right. Closed by keeping `any_wall_segment` again from the draft.
@@ -231,14 +240,6 @@ is not closed without one. **_tool_** is a fault or a gap in a `qq` tool, closed
   and a contrast-keeping seamless blend; they change only when `qq sprites use` installs them again. Costs faded bands
   where a tiled texture repeats, on the floor the player sees. Closed by `qq sprites use` again for each installed
   model render.
-- **The floor's 3D scene is a first cut** (`src/app/web/wwwroot/scene.js`): what the pointer is over is read back
-  from the picture at once (`readPixels`), which stalls the GPU a moment each move over the floor; one shadow map
-  covers the whole ship, so a large ship's shadows coarsen; faces turned from the camera are culled by pixel where
-  `qq shapes` culls by triangle; the triangles (`.mesh.bin`, 2.4 MB for twenty) go uncompressed, the host compressing
-  no `application/octet-stream`; and a device's lamp and a door's tag are page elements laid over the scene, not in
-  it. Costs a hitch on a slow GPU, soft shadows when zoomed on a big ship, a slower first load. Closed by an
-  asynchronous read-back (a pixel buffer and a fence), a shadow map fitted to the view, triangle culling exported
-  with the mesh, and the triangles quantized or compressed.
 - **The spend ledger misses calls that brought no image** (_tool_): remotegen writes `raw_assets/_spend.jsonl` with
   a frame's record, so a refusal or a dropped reply that was still billed is on neither, and the 72 calls before the
   ledger were filled in from `.tmp/gen/index.jsonl` as it stood (2026-11-09), whatever an earlier wipe removed. The

@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Shipstick.App.Host;
 
 namespace Shipstick.Tests.App.Host;
@@ -11,31 +12,60 @@ public sealed class AssetListTests : IDisposable
 
     public void Dispose() => root.Delete(recursive: true);
 
-    void Touch(string path)
+    void Write(string path, string text = "")
     {
         var file = Path.Combine(root.FullName, path);
         Directory.CreateDirectory(Path.GetDirectoryName(file)!);
-        File.WriteAllBytes(file, []);
+        File.WriteAllText(file, text);
     }
 
     [Fact]
-    public void ListsEveryImageUnderAssetsByItsPathFromTheWebRoot()
+    public void ListsEveryImageAndTextureUnderAssetsByItsPathFromTheWebRoot()
     {
-        Touch("assets/devices/any_bench.png");
-        Touch("assets/ship/floor/deck_plate.png");
-        Touch("assets/app/web/fonts/Michroma-Regular.ttf");
-        Touch("style.css");
+        Write("assets/devices/any_bench.png");
+        Write("assets/textures/tex_bare_steel.webp");
+        Write("assets/app/web/fonts/Michroma-Regular.ttf");
+        Write("style.css");
 
-        Assert.Equal(["assets/devices/any_bench.png", "assets/ship/floor/deck_plate.png"], AssetList.Of(root.FullName));
+        Assert.Equal(["assets/devices/any_bench.png", "assets/textures/tex_bare_steel.webp"], AssetList.Of(root.FullName));
     }
 
     [Fact]
-    public void ListsADeviceModelByItsMeshAloneAmongTheImages()
+    public void ListsADeviceModelByItsMeshAndItsTriangles()
     {
-        Touch("assets/devices/any_bench.png");
-        Touch("assets/devices/any_bench.mesh.json");
-        Touch("assets/devices/any_bench.mesh.bin");
+        Write("assets/devices/any_bench.mesh.json");
+        Write("assets/devices/any_bench.mesh.bin");
 
-        Assert.Equal(["assets/devices/any_bench.mesh.json", "assets/devices/any_bench.png"], AssetList.Of(root.FullName));
+        Assert.Equal(["assets/devices/any_bench.mesh.bin", "assets/devices/any_bench.mesh.json"], AssetList.Of(root.FullName));
+    }
+
+    [Fact]
+    public void VersionsAFileByWhatItHolds()
+    {
+        Write("assets/a.png", "one");
+        Write("assets/b.png", "one");
+        Write("assets/c.png", "two");
+
+        var files = Files();
+
+        Assert.Equal(files["assets/a.png"], files["assets/b.png"]);
+        Assert.NotEqual(files["assets/a.png"], files["assets/c.png"]);
+    }
+
+    [Fact]
+    public void SendsEachMeshWhole()
+    {
+        Write("assets/devices/any_bench.mesh.json", """{"bin": "any_bench.mesh.bin"}""");
+
+        using var json = JsonDocument.Parse(AssetList.Json(root.FullName));
+
+        Assert.Equal("any_bench.mesh.bin",
+            json.RootElement.GetProperty("meshes").GetProperty("assets/devices/any_bench.mesh.json").GetProperty("bin").GetString());
+    }
+
+    Dictionary<string, string> Files()
+    {
+        using var json = JsonDocument.Parse(AssetList.Json(root.FullName));
+        return json.RootElement.GetProperty("files").EnumerateObject().ToDictionary(file => file.Name, file => file.Value.GetString()!);
     }
 }

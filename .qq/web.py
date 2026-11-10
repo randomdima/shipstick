@@ -26,6 +26,13 @@ and stops it.
     qq web --shot F --frames --drag A:B --drag-steps 120
                                             a two-second drag, its frames timed: the gaps between them, those the
                                             display missed, and Chrome's style, layout and script time over it
+    qq web --shot F --frames --after 5 --software
+                                            the page's frames over 5 s untouched, drawn in software: the
+                                            weakest GPU a player may have
+    qq web --shot F --frames --after 5 --cpu 6
+                                            the same with the page's thread six times slower: a weak machine
+    qq web --shot F --profile --after 5     the page's busiest functions over 5 s untouched, by their own time
+    qq web --shot F --warm --eval JS        the page loaded twice, its cache kept: what a returning player asks for
     qq web --shot F --page .tmp/shapes/viewer.html
                                             a page of the project opened from disk, not the game's: no build, no
                                             host; the gestures and --query work the same, and the page may fetch
@@ -86,6 +93,9 @@ FLAGS = ("--test-type", "--no-first-run", "--no-default-browser-check", "--disab
 
 #: Headless on the GPU: left alone, headless Chromium draws WebGL in software at a few frames a second.
 HEADLESS = ("--headless=new", "--use-angle=vulkan", "--enable-features=Vulkan")
+
+#: Headless in software (SwiftShader, on the CPU): the weakest GPU a player may have, for timing what the page draws.
+SOFTWARE = ("--headless=new", "--use-angle=swiftshader", "--enable-unsafe-swiftshader")
 
 #: A page opened from disk may fetch and import its neighbours there, as a static site does from its server: a page's
 #: modules and JSON otherwise fail as cross-origin from a file.
@@ -204,7 +214,8 @@ def shoot(base: Path, folder: Path | None, a) -> int:
     profile = base / ".tmp" / "web-profile"
     profile.mkdir(parents=True, exist_ok=True)
     browser = subprocess.Popen(
-        [command, *FLAGS, *(HEADED if a.headed else HEADLESS), *(FROM_DISK if folder is None else ()),
+        [command, *FLAGS, *(HEADED if a.headed else SOFTWARE if a.software else HEADLESS),
+         *(FROM_DISK if folder is None else ()),
          f"--user-data-dir={profile}",
          f"--remote-debugging-port={a.debug_port}", f"--window-size={a.width},{a.height}", "about:blank"],
         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -226,13 +237,24 @@ def capture(page: dict, url: str, out: Path, a):
     ask(sock, "Runtime.enable")
     # What the browser says itself: a file that would not load is said here, not on the page's console.
     ask(sock, "Log.enable")
-    # As a first visit: the profile is kept between runs, and with it whatever an older host let it cache.
+    # As a first visit: the profile is kept between runs, and with it whatever an older host let it cache. A warm one
+    # is the page loaded once with the cache off, then again with it on: a returning player's.
     ask(sock, "Network.enable")
     ask(sock, "Network.setCacheDisabled", {"cacheDisabled": True})
+    if a.warm:
+        ask(sock, "Network.setCacheDisabled", {"cacheDisabled": False})
+        ask(sock, "Network.clearBrowserCache")
+        ask(sock, "Page.navigate", {"url": url})
+        ask(sock, "Page.bringToFront")
+        settle(sock, a.seconds)
+        print(f"   loaded once, cache kept, for {a.seconds:g} s")
 
     # Before the navigate: a page reads its viewport and pixel ratio at start-up.
     if a.device:
         pretend(sock, a.device)
+    if a.cpu > 1:
+        ask(sock, "Emulation.setCPUThrottlingRate", {"rate": a.cpu})
+        print(f"   the page's thread slowed {a.cpu:g} times")
     if a.line:
         ask(sock, "Network.emulateNetworkConditions",
             {"offline": False, "latency": a.line, "downloadThroughput": -1, "uploadThroughput": -1})
@@ -246,6 +268,10 @@ def capture(page: dict, url: str, out: Path, a):
 
     if a.frames:
         start_frames(sock)
+    if a.profile:
+        ask(sock, "Profiler.enable")
+        ask(sock, "Profiler.setSamplingInterval", {"interval": PROFILE_INTERVAL_US})
+        ask(sock, "Profiler.start")
     for point in a.click:
         press(sock, point)
     if a.key:
@@ -256,10 +282,12 @@ def capture(page: dict, url: str, out: Path, a):
         fingers(sock, a.finger, a.drag_steps)
     for spec in a.wheel:
         wheel(sock, spec)
-    if a.after and (a.click or a.key or a.drag or a.finger or a.wheel):
+    if a.after and (a.click or a.key or a.drag or a.finger or a.wheel or a.frames or a.profile):
         settle(sock, a.after)
     if a.frames:
         report_frames(sock)
+    if a.profile:
+        report_profile(sock)
     if a.mutations:
         count_mutations(sock, a.mutations)
     for expression in a.eval:
@@ -440,6 +468,30 @@ def report_frames(sock: socket.socket):
     print(f"   work: task {spent['TaskDuration'] * 1000:.0f} ms, script {spent['ScriptDuration'] * 1000:.0f} ms, "
           f"style {spent['RecalcStyleDuration'] * 1000:.0f} ms ×{spent['RecalcStyleCount']:.0f}, "
           f"layout {spent['LayoutDuration'] * 1000:.0f} ms ×{spent['LayoutCount']:.0f}")
+
+
+#: How often the profiler samples the page's thread, and how many of its busiest functions are named.
+PROFILE_INTERVAL_US = 200
+PROFILE_TOP = 15
+
+
+def report_profile(sock: socket.socket):
+    """The page's busiest functions over the gestures and --after, by the time spent in each itself."""
+    sock.settimeout(60.0)
+    profile = ask(sock, "Profiler.stop").get("result", {}).get("profile")
+    if not profile:
+        print("   profile: none taken")
+        return
+    nodes = {n["id"]: n["callFrame"] for n in profile["nodes"]}
+    spent: dict = {}
+    for node, delta_us in zip(profile["samples"], profile["timeDeltas"]):
+        frame = nodes[node]
+        where = f"{frame['functionName'] or '(anonymous)'} {Path(frame['url']).name or ''}:{frame['lineNumber'] + 1}"
+        spent[where] = spent.get(where, 0) + delta_us
+    total = sum(spent.values()) or 1
+    print(f"   profile: {total / 1e6:.1f} s sampled; by self time:")
+    for where, us in sorted(spent.items(), key=lambda item: -item[1])[:PROFILE_TOP]:
+        print(f"     {us / 1000:8.1f} ms {us / total:6.1%}  {where}")
 
 
 #: How many of the attributes changed most a place's line names: element (its class) and attribute.
@@ -697,7 +749,16 @@ def parse_args():
     parser.add_argument("--drag-steps", type=cli.counting, default=DRAG_STEPS, help="moves a drag is made in, a frame apart")
     parser.add_argument("--after", type=seconds_type, default=0.0, help="seconds the page runs after the gestures")
     parser.add_argument("--frames", action="store_true",
-                        help="over the gestures, time the page's frames and count Chrome's style, layout and script work")
+                        help="over the gestures and --after, time the page's frames and count Chrome's style, layout "
+                             "and script work; with no gesture, the page running untouched")
+    parser.add_argument("--software", action="store_true",
+                        help="draw WebGL in software (SwiftShader), the weakest GPU a player may have, for timing")
+    parser.add_argument("--profile", action="store_true",
+                        help="over the gestures and --after, sample the page's thread and name its busiest functions")
+    parser.add_argument("--cpu", type=float, default=1.0, metavar="N",
+                        help="run the page's thread N times slower, as a weak machine does (Chrome's CPU throttling)")
+    parser.add_argument("--warm", action="store_true",
+                        help="as a returning visit: the page loaded once first, and its cache kept for the second")
     parser.add_argument("--mutations", type=seconds_type, default=0.0, metavar="SECONDS",
                         help="before the picture, count what the page changes in its DOM this long, by where (WEB-10)")
     parser.add_argument("--eval", metavar="JS", action="append", default=[],

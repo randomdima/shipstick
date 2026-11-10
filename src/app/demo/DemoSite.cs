@@ -36,7 +36,7 @@ static class DemoSite
 
         var ship = new ServedShip(config, Catalogue.Embedded);
         File.WriteAllBytes(Path.Combine(site, "codex.json"), ship.CodexJson);
-        File.WriteAllBytes(Path.Combine(site, "assets.json"), JsonSerializer.SerializeToUtf8Bytes(AssetList.Of(site)));
+        File.WriteAllBytes(Path.Combine(site, "assets.json"), AssetList.Json(site));
         var recording = Path.Combine(site, RecordingPath);
         Directory.CreateDirectory(Path.GetDirectoryName(recording)!);
         File.WriteAllBytes(recording, Record(ship, config.Demo.RecordedS, config.Host.TickS));

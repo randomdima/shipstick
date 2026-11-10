@@ -38,7 +38,15 @@ tooling standing in for runtime.
 The host is an ASP.NET Core project (`shipstick.host.csproj`) referencing the game. The client's files are copied beside
 it as written (`client/`) and served as static files, each revalidated on every load, so a new build is never served
 stale; JS and CSS changed under a running host are served once a build has copied them, and C# changes need the host
-started again. Responses are compressed; the codex, most of what a client downloads, is compressed once at start at
-Brotli's smallest and answered "not modified" to a client that holds it. Its port is `appsettings.json`'s, overridden
+started again. Responses are compressed, a model's triangles too; the codex, most of what a client downloads, is
+compressed once at start at Brotli's smallest and answered "not modified" to a client that holds it.
+
+The art is the exception to revalidating, as it is most of the requests a page makes and a reload asked again for
+each over HTTP/1.1. `assets.json` (`AssetList`) gives each file under `assets/` a version, a hash of its bytes, and
+the page asks for a file at it (`?v=`); what one such address holds never changes, so it is kept a year without
+asking (`HostFigures.VersionedKeptS`), and a new build's file is a new address. `assets.json` itself is revalidated,
+and carries every model's `.mesh.json` whole, so the page asks for a model's triangles and textures together, as soon
+as the floor stands it, rather than a round trip apart. The page's own files, and what the stylesheet names, stay revalidated: they
+would need a build step to carry versions (WEB-9). Its port is `appsettings.json`'s, overridden
 by `--urls`. `qq web` builds it, starts and stops it, and photographs the page it serves; VS Code's launches run it
 under the debugger.

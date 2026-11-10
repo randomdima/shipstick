@@ -13,7 +13,7 @@ const FIRST_SEAT = '0,0';
 // Fetched while the line opens (index.html preloads it): every name the floor shows is the codex's, so a frame that
 // comes first waits for it.
 const codex = fetch('codex.json').then(answer => answer.json());
-const art = fetch('assets.json').then(answer => answer.json());
+const assets = fetch('assets.json').then(answer => answer.json());
 const paints = fetch('assets/app/web/kit/paints.json').then(answer => answer.json());
 
 // `?admin` is the admin's page; anything else is a player's, at `?seat=column,row`.
@@ -21,8 +21,8 @@ const query = new URLSearchParams(location.search);
 if (query.has('admin')) startAdmin();
 else startPlayer(query.get('seat') ?? FIRST_SEAT);
 
-loadArt(await art, await paints);
-await loadScene(await art);
+loadArt(await assets, await paints);
+loadScene(await assets);
 loadCodex(await codex);
 hooks.draw();
 setInterval(() => busy() || hooks.draw(), REDRAW_MS);

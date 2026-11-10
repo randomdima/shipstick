@@ -24,8 +24,9 @@ const STATE = { NotYet: 'standby', Ran: 'running', Starved: 'input short', Full:
 // windows: inventory id → { x, y, z } of each open window, in page pixels. press: a pointer held down on a slot.
 // view: the ship's { column, row }, in fractional cells, held at the middle of the floor's view; null until the view's
 // first draw centres its capsule. pan: a pointer held down on the floor; panned: whether the last one dragged it, so
-// its release opens nothing.
-const ui = { windows: new Map(), topZ: 1, press: null, grip: null, view: null, pan: null, panned: false };
+// its release opens nothing. pointsAsked, pointsShown: the last read of what the pointer is over asked for, and shown.
+const ui = { windows: new Map(), topZ: 1, press: null, grip: null, view: null, pan: null, panned: false, pointsAsked: 0,
+  pointsShown: 0 };
 
 /**
  * What the view in charge does: `draw()` redraws the page, `slotClicked(slot)` takes a click on a slot that was not a
@@ -268,13 +269,16 @@ const GAUGE_INSET_M = .36;
 const runs = f => f.way != null;
 const held = inventory => inventory.slots.reduce((sum, s) => sum + s.count, 0);
 
-/** Every window the lit rooms can open, by its inventory id; `help` is the codex page its `?` opens (WEB-4). */
+/**
+ * Every open window the lit rooms hold, by its inventory id — what is not open is not written; `help` is the codex page
+ * its `?` opens (WEB-4).
+ */
 function openable(rooms) {
   const things = new Map();
   for (const { cabin, look } of rooms) {
-    for (const f of cabin.fixtures)
+    for (const f of cabin.fixtures) if (ui.windows.has(f.inventory.id))
       things.set(f.inventory.id, runs(f) ? deviceWindow(f, look) : holderWindow(f));
-    for (const d of cabin.doors) things.set(d.inventory.id, doorWindow(d, look));
+    for (const d of cabin.doors) if (ui.windows.has(d.inventory.id)) things.set(d.inventory.id, doorWindow(d, look));
   }
   return things;
 }
@@ -472,7 +476,11 @@ document.addEventListener('click', e => {
     ui.windows.delete(Number(close.dataset.close));
     return hooks.draw();
   }
-  const hit = e.target.closest('#floor canvas') && pick(e.clientX, e.clientY);
+  if (e.target.closest('#floor canvas')) pick(e.clientX, e.clientY).then(clicked);
+});
+
+/** A click on the floor, on `hit` (scene.js `pick`): opens what it is on, or closes it if open. */
+function clicked(hit) {
   if (!hit) return;
   if (hit.at) hooks.reach(hit.at);
   if (hit.id == null) return;
@@ -480,7 +488,7 @@ document.addEventListener('click', e => {
     ui.windows.delete(hit.id);
     hooks.draw();
   } else open(hit.id, rectOf(hit.id));
-});
+}
 
 document.addEventListener('change', e => {
   const choice = e.target.closest('#windows [data-way]');
@@ -558,10 +566,21 @@ document.addEventListener('pointermove', e => {
   inFrame(moveGhost);
 });
 
-/** Lights what the pointer is over on the floor, and names it as a title does. */
+/**
+ * Lights what the pointer is over on the floor, and names it as a title does: read from the picture without waiting on
+ * it, so an answer older than one already shown is passed over.
+ */
 function pointAt() {
   if (!ui.pointer || ui.pan) return;
-  const hit = pick(ui.pointer.clientX, ui.pointer.clientY);
+  const asked = ++ui.pointsAsked;
+  pick(ui.pointer.clientX, ui.pointer.clientY).then(hit => {
+    if (asked < ui.pointsShown || ui.pan) return;
+    ui.pointsShown = asked;
+    showPointed(hit);
+  });
+}
+
+function showPointed(hit) {
   const thing = hit?.id != null || hit?.title ? hit.thing : 0;
   if ((ui.hover?.thing ?? 0) === thing) return;
   ui.hover = thing ? hit : null;

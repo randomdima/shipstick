@@ -1,5 +1,6 @@
 using System.IO.Compression;
 using System.Net.WebSockets;
+using System.Security.Cryptography;
 using Microsoft.AspNetCore.ResponseCompression;
 using Shipstick.App.Host;
 using Shipstick.Core.Config;
@@ -13,7 +14,9 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
     ContentRootPath = AppContext.BaseDirectory,
     WebRootPath = "client",
 });
-builder.Services.AddResponseCompression();
+// A model's triangles (.mesh.bin, application/octet-stream) shrink to a fifth compressed.
+builder.Services.AddResponseCompression(compression =>
+    compression.MimeTypes = [.. ResponseCompressionDefaults.MimeTypes, "application/octet-stream"]);
 builder.Services.Configure<BrotliCompressionProviderOptions>(brotli => brotli.Level = CompressionLevel.Optimal);
 builder.Services.AddSingleton(new ServedShip(GameConfig.Default, Catalogue.Embedded));
 builder.Services.AddHostedService(services => services.GetRequiredService<ServedShip>());
@@ -22,12 +25,15 @@ var app = builder.Build();
 app.UseResponseCompression();
 app.UseWebSockets();
 
-// Every file revalidated on each load (a 304 when unchanged): without a Cache-Control a browser guesses a freshness and
-// keeps the last build's client.
+// A file asked for at its version (`?v=`, from assets.json) never changes at that address, so it is kept without
+// asking. Every other file is revalidated on each load (a 304 when unchanged): without a Cache-Control a browser
+// guesses a freshness and keeps the last build's client.
+var versionedCache = $"public, max-age={GameConfig.Default.Host.VersionedKeptS}, immutable";
 app.UseDefaultFiles();
 app.UseStaticFiles(new StaticFileOptions
 {
-    OnPrepareResponse = served => served.Context.Response.Headers.CacheControl = "no-cache",
+    OnPrepareResponse = served => served.Context.Response.Headers.CacheControl =
+        served.Context.Request.Query.ContainsKey("v") ? versionedCache : "no-cache",
 });
 
 app.MapGet("/codex.json", (HttpContext http, ServedShip ship) =>
@@ -42,10 +48,18 @@ app.MapGet("/codex.json", (HttpContext http, ServedShip ship) =>
     return Results.Bytes(ship.CodexBrotli, "application/json");
 });
 
-// Which images the host serves under assets/, so a page asks for a device's own art only when there is some and
-// otherwise draws the shared art its kind falls back to. Listed once: the assets are the build's.
-var assetList = AssetList.Of(app.Environment.WebRootPath);
-app.MapGet("/assets.json", () => Results.Json(assetList));
+// What the host serves under assets/ and at which version, so a page asks for a device's own art only when there is
+// some and otherwise draws the shared art its kind falls back to. Listed once: the assets are the build's.
+var assetList = AssetList.Json(app.Environment.WebRootPath);
+var assetTag = $"\"{Convert.ToHexString(SHA256.HashData(assetList))}\"";
+app.MapGet("/assets.json", (HttpContext http) =>
+{
+    http.Response.Headers.CacheControl = "no-cache";
+    http.Response.Headers.ETag = assetTag;
+    return http.Request.Headers.IfNoneMatch == assetTag
+        ? Results.StatusCode(StatusCodes.Status304NotModified)
+        : Results.Bytes(assetList, "application/json");
+});
 
 app.Map("/play", async (HttpContext http, ServedShip ship, IHostApplicationLifetime life) =>
 {

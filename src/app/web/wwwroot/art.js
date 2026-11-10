@@ -38,9 +38,9 @@ const served = new Set();
 // underscore, or `storage`, `door` and `generic_<trade>` for the shared ones; the stylesheet maps a paint to its kit.
 let paints = {};
 
-/** Takes the host's list of served images, and the windows' paints. */
-export function loadArt(paths, windowPaints) {
-  for (const p of paths) served.add(p);
+/** Takes the host's list of served art (`assets.json`), and the windows' paints. */
+export function loadArt({ files }, windowPaints) {
+  for (const p of Object.keys(files)) served.add(p);
   paints = windowPaints;
 }
 

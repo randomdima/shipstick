@@ -97,6 +97,12 @@ public sealed record HostFigures
 
     /// <summary>The longest action a client may send, in bytes; a longer one closes its socket.</summary>
     public int ActionBytesMost { get; init; } = 1024;
+
+    /// <summary>
+    /// How long a browser keeps an asset asked for at its version (<c>?v=</c>) without asking again: what one address
+    /// holds never changes, so a year: as long as a cache keeps anything.
+    /// </summary>
+    public int VersionedKeptS { get; init; } = 31_536_000;
 }
 
 /// <summary>How the demo (DEM-1) records the host for playing back with none.</summary>

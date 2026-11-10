@@ -82,6 +82,11 @@ them, every device's model, lit by the renderer's own passes — sun, one shadow
 outlines — under a camera in perspective. What a click hits is read back from the picture; a device's lamp and a
 door's tag are laid on the page where the camera puts them, as the windows and their leaders are.
 
+**A weak GPU keeps the display's pace before the picture's edges** (WEB-11 over the renderer's look): the passes draw
+at twice the canvas's resolution each way for edges as smooth as the renderer's, and give that up for the session once
+frames drawn back to back fall behind the display (`scene.js` `keepPace`). While parts move, only the boxes round them
+are drawn again, each with the models and deck that reach it, so a moving needle costs its own few pixels.
+
 ## 2026-11-09 — every asset is a 3D model
 
 The owner, in as many words: "p0 rule - all our assets are now 3D", and asked which assets, "Everything" — every image

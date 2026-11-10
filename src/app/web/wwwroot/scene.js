@@ -42,6 +42,21 @@ const GLOW_PX = 2;
 const AMBER = [.95, .66, .18];
 // The most open things ringed at once.
 const OPEN_MAX = 16;
+// The passes draw at this many pixels a canvas pixel each way, and at most this many pixels in all: a 4K picture's
+// worth, about 170 MB of targets. Past it they draw at the canvas's own size, as a display at two does.
+const SUPERSAMPLE = 2;
+const SUPERSAMPLED_MOST_PX = 3840 * 2160;
+// The deck and walls are drawn in squares of this many cells a side, so a partial draw leaves out those it misses;
+// what is laid on a cell (a lintel wider than its cap) reaches no further than this past it.
+const CHUNK_CELLS = 4;
+const CHUNK_OVERHANG_M = .5;
+// Frames drawn back to back are measured this many at a time, each behind the display past this share of its gap,
+// and too many behind past this share of them (a frame's work on the page's thread misses one now and then); the
+// display's gap is read off this many frames that draw nothing.
+const PACE_FRAMES = 30;
+const BEHIND_SHARE = 1.5;
+const BEHIND_MOST_SHARE = .25;
+const PROBE_FRAMES = 10;
 // A later part in a model stands this much nearer the camera than the one before, so of two faces in one plane the
 // later shows (the renderer's TIE_M, coarser for a depth buffer's precision: see `aim`'s near plane).
 const ORDER_M = 3e-5;
@@ -80,24 +95,39 @@ const MOVED_PAD_PX = 24;
 const metas = new Map();      // mesh path → its .mesh.json
 const meshes = new Map();     // mesh path → { meta, vao } once loaded, or a Promise
 const textures = new Map();   // picture path → { texture, aspect } once loaded, or a Promise
+let versions = {};            // served path → its version (assets.json `files`)
 let gl, shaders, samplers, canvas, light;
-let scene = null;             // what setScene was last given, built: { key, things, statics, devices, extent }
-let sun = null;               // the shadow map for scene.key
+let scene = null;             // what setScene was last given, built: { key, things, statics, devices, extent, lintels }
+// The shadow map for scene.key, and the meshes and cutout pictures it was drawn without: `stale` once one arrives.
+let sun = null;
 let targets = null;           // the pictures each pass draws into, at one size
 const marks = { hover: 0, open: [] };
 const view = { target: [0, 0, 0], yaw: 0, pitch: PITCH.start, zoom: ZOOM.start, cells: 10, matrix: null, inverse: null,
   eye: null };
-// What each device's live parts show (setLive): its signals by inventory id, and the ship's clock; each needle's reading
-// as shown and each spin's angle, by device and part, kept across scenes; when the last frame was drawn.
-const live = { byId: new Map(), clock: () => ({ nowS: 0, rate: 0 }), shown: new Map(), lastMs: 0, moving: false };
-// queued: a frame is asked for; whole: it must draw everything, not only what moved.
+// What each device's live parts show (setLive): its signals by inventory id, and the ship's clock and the rate it last
+// told; each needle's reading as shown and each spin's angle, by device and part, kept across scenes; when the last
+// frame was drawn.
+const live = { byId: new Map(), clock: () => ({ nowS: 0, rate: 0 }), rate: 0, shown: new Map(), lastMs: 0, moving: false };
+// queued: a frame is asked for; whole: it must draw everything, not only what moved; dirty: the world corners of what
+// else changed since the last frame, drawn with what moved.
 let queued = false, whole = true;
+const dirty = [];
+// How frames keep the display's pace (keepPace): the last frame's clock, whether it drew, whether it asked for the
+// next at once; the gaps after frames drawn back to back; the display's shortest gap; whether the passes supersample.
+const pace = { lastMs: 0, drew: false, chained: false, gaps: [], shortestMs: Infinity, supersample: true };
 
-/** Reads every model the host serves (its .mesh.json alone; its triangles and textures load when first drawn). */
-export async function loadScene(paths) {
-  await Promise.all(paths.filter(p => p.endsWith('.mesh.json')).map(async p => metas.set(p, await (await fetch(p)).json())));
+/**
+ * Takes what the host serves (`assets.json`): each file's version, asked for with it so the browser keeps it, and every
+ * model's .mesh.json; a model's triangles and textures load once a scene stands it on the floor.
+ */
+export function loadScene({ files, meshes: served }) {
+  versions = files;
+  for (const [path, meta] of Object.entries(served)) metas.set(path, meta);
   light = metas.get(CRATE)?.light ?? metas.values().next().value?.light;
 }
+
+/** Where `path` is asked for: at its version, when the host lists one. */
+const urlOf = path => versions[path] ? `${path}?v=${versions[path]}` : path;
 
 /** Whether this page can draw the floor: WebGL2, and the models' light. */
 export const drawable = () => Boolean(light && context());
@@ -108,6 +138,7 @@ export function sceneCanvas() {
   context();
   canvas = gl.canvas;
   canvas.className = 'scene';
+  probePace();
   new ResizeObserver(() => {
     aim({});
     request();
@@ -155,12 +186,30 @@ export function setScene(description) {
     const box = [0, 1].map(end => [0, 1, 2].map(i => (end ? Math.max : Math.min)(...corners.map(c => c[i]))));
     devices.push({ path: p.mesh, offset: p.atM, scale: [1, 1, 1], turn, id: p.id, thing: thing(p.id, p.at, p.title, box) });
   }
-  scene = { key, description, things, devices, statics: null, extent: extentOf(description) };
+  if (scene?.statics) dropStatics(scene.statics);
+  scene = { key, description, things, devices, statics: null, extent: extentOf(description),
+    lintels: [...new Set(description.walls.flatMap(w => w.lintel ?? []))] };
   scene.wallThings = description.walls.map(w => w.id != null || w.at
     ? thing(w.id, w.at, w.title, [[w.column, -(w.row + 1), 0], [w.column + 1, -w.row, WALL_HIGH_M]]) : 0);
   scene.cellThings = description.cells.map(c => c.at ? thing(null, c.at, '', [[c.column, -(c.row + 1), 0], [c.column + 1, -c.row, 0]]) : 0);
-  sun = null;
+  if (drawable()) fetchAll(scene);
   request();
+}
+
+/** Asks for every model and picture `scene` shows at once, rather than each when a draw first finds it missing. */
+function fetchAll({ description: { cells, walls }, devices }) {
+  for (const c of cells) textureOf(c.src);
+  for (const w of walls) for (const src of [w.cap, w.lintel, w.leaf, ...w.faces.flatMap(f => [f.src, f.plain])]) if (src) textureOf(src);
+  for (const d of devices) {
+    loadedMesh(d.path);
+    for (const src of looksOf(d.path)) textureOf(src);
+  }
+}
+
+/** The pictures a model's looks wear, by the path each is served at. */
+function looksOf(path) {
+  const folder = path.slice(0, path.lastIndexOf('/') + 1);
+  return (metas.get(path)?.looks ?? []).map(l => l.texture.startsWith('assets/') ? l.texture : folder + l.texture);
 }
 
 const extentOf = ({ cells, walls }) => {
@@ -169,26 +218,44 @@ const extentOf = ({ cells, walls }) => {
     [Math.max(...all.map(c => c.column)) + 1, -Math.min(...all.map(c => c.row)), TALLEST_M]];
 };
 
-/** What is pointed at — the `thing` `pick` named, lit — and what is `open`, by inventory id, ringed. */
+/**
+ * What is pointed at — the `thing` `pick` named, lit — and what is `open`, by inventory id, ringed: drawn again round
+ * the things whose mark changed alone.
+ */
 export function setMarks({ hover = 0, open = [] }) {
   const ids = scene ? scene.things.flatMap((t, i) => t && t.id != null && open.includes(t.id) ? [i] : []) : [];
   const next = { hover, open: ids.slice(0, OPEN_MAX) };
   if (next.hover === marks.hover && `${next.open}` === `${marks.open}`) return;
+  const changed = [marks.hover, next.hover, ...marks.open.filter(i => !next.open.includes(i)),
+    ...next.open.filter(i => !marks.open.includes(i))];
   Object.assign(marks, next);
-  request();
+  redrawRound(changed);
+}
+
+/** Asks for a frame of what moves and of the things numbered `changed` (`scene.things`), not of everything. */
+function redrawRound(changed) {
+  for (const n of changed) if (scene?.things[n]) dirty.push(cornersOf(scene.things[n].box));
+  request(false);
 }
 
 /**
  * What each thing's live parts show, by inventory id: `{ runs, last, short, cycleFromS, cycleS, input, output, held }`
  * — whether it runs a way, how its last cycle ended (a CycleOutcome), whether it is short of the next, when the cycle
  * under way began and how long it is, in ship seconds, and the shares 0–1 of what its slots hold at most. `clock()`
- * is the ship's `{ nowS, rate }`.
+ * is the ship's `{ nowS, rate }`. Drawn again round the things whose signals changed alone, or whole for a new rate:
+ * every lamp and fan reads it.
  */
 export function setLive(byId, clock) {
-  live.byId = byId;
-  live.clock = clock;
-  request();
+  const was = live.byId, rate = clock().rate;
+  const changed = [...byId].filter(([id, s]) => !sameSignals(was.get(id), s)).map(([id]) => id);
+  const wasRate = live.rate;
+  Object.assign(live, { byId, clock, rate });
+  if (rate !== wasRate) return request();
+  if (changed.length && scene) redrawRound(scene.things.flatMap((t, i) => t && changed.includes(t.id) ? [i] : []));
+  else request(false);
 }
+
+const sameSignals = (a, b) => Boolean(a) && Object.keys(b).every(k => a[k] === b[k]);
 
 /**
  * Aims the camera: at the ship's cell `column`, `row` (fractional, on the deck), from `yaw` degrees clockwise of north
@@ -210,11 +277,14 @@ export function aim({ column, row, yaw, pitch, zoom, cells }) {
   const reach = Math.hypot(...(scene ? scene.extent[1].map((v, i) => v - scene.extent[0][i]) : [30, 30, 3]));
   // As far out as nothing can stand nearer, for the depth buffer's precision: ORDER_M must stay above it.
   const near = Math.max(.5, (view.eye[2] - TALLEST_M) * Math.sin(pitchR) / 2), far = distance + reach;
-  view.matrix = multiply(perspective(FOV_DEG * Math.PI / 180, aspect, near, far), lookAt(view.eye, view.target, [0, 0, 1]));
-  view.inverse = invert(view.matrix);
   view.metresPerPx = 2 * distance * tan / h;
   view.ahead = ahead;
   view.right = [Math.cos(yawR), -Math.sin(yawR), 0];
+  const matrix = multiply(perspective(FOV_DEG * Math.PI / 180, aspect, near, far), lookAt(view.eye, view.target, [0, 0, 1]));
+  // Aimed as it was, as every frame from the host aims it: the same matrix kept, and nothing drawn again.
+  if (view.matrix?.every((v, i) => v === matrix[i])) return;
+  view.matrix = matrix;
+  view.inverse = invert(matrix);
   request();
 }
 
@@ -265,21 +335,57 @@ export function rectOf(id) {
 /** The eight corners of the box `[lo, hi]`. */
 const cornersOf = ([lo, hi]) => [0, 1, 2, 3, 4, 5, 6, 7].map(i => [(i & 1 ? hi : lo)[0], (i & 2 ? hi : lo)[1], (i & 4 ? hi : lo)[2]]);
 
-/** What is drawn at a point of the page: { id, at, title } of a thing, or null over the bare deck of fog or space. */
+/**
+ * What is drawn at a point of the page: { thing, id, at, title } of a thing, or null over the bare deck of fog or
+ * space. Answered once the GPU has drawn what is asked of it, rather than waiting on it, so a click or a move over the
+ * floor stalls nothing.
+ */
 export function pick(clientX, clientY) {
-  if (!targets || !scene) return null;
+  const buffer = gl?.createBuffer();
+  if (!buffer) return Promise.resolve(null);
+  gl.bindBuffer(gl.PIXEL_PACK_BUFFER, buffer);
+  gl.bufferData(gl.PIXEL_PACK_BUFFER, 4, gl.STREAM_READ);
+  const read = readThing(clientX, clientY, 0);
+  gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
+  if (!read) {
+    gl.deleteBuffer(buffer);
+    return Promise.resolve(null);
+  }
+  const fence = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
+  gl.flush();
+  return new Promise(resolve => {
+    const ready = () => {
+      if (gl.clientWaitSync(fence, 0, 0) === gl.TIMEOUT_EXPIRED) return void requestAnimationFrame(ready);
+      gl.deleteSync(fence);
+      const px = new Uint8Array(4);
+      gl.bindBuffer(gl.PIXEL_PACK_BUFFER, buffer);
+      gl.getBufferSubData(gl.PIXEL_PACK_BUFFER, 0, px);
+      gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
+      gl.deleteBuffer(buffer);
+      resolve(thingOf(px));
+    };
+    requestAnimationFrame(ready);
+  });
+}
+
+/** Reads the thing drawn at a point of the page into the bound pixel-pack buffer at `into`; says whether it is on the picture. */
+function readThing(clientX, clientY, into) {
+  if (!targets || !scene) return false;
   const r = canvas.getBoundingClientRect();
   const x = Math.floor((clientX - r.left) / r.width * targets.size[0]);
   const y = Math.floor((1 - (clientY - r.top) / r.height) * targets.size[1]);
-  if (x < 0 || y < 0 || x >= targets.size[0] || y >= targets.size[1]) return null;
+  if (x < 0 || y < 0 || x >= targets.size[0] || y >= targets.size[1]) return false;
   gl.bindFramebuffer(gl.READ_FRAMEBUFFER, targets.gbuffer);
   gl.readBuffer(gl.COLOR_ATTACHMENT2);
-  const px = new Uint8Array(4);
-  gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
+  gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, into);
   gl.bindFramebuffer(gl.READ_FRAMEBUFFER, null);
-  const n = px[0] | px[1] << 8 | px[2] << 16;
-  return n ? { thing: n, ...scene.things[n] } : null;
+  return true;
 }
+
+const thingOf = px => {
+  const n = px[0] | px[1] << 8 | px[2] << 16;
+  return n && scene.things[n] ? { thing: n, ...scene.things[n] } : null;
+};
 
 /**
  * Asks for a frame: of everything, or — `everything` false — of what moves alone, if nothing else asks for more. The
@@ -293,10 +399,39 @@ function request(everything = true) {
   requestAnimationFrame(ms => {
     queued = false;
     try {
-      draw(ms);
+      keepPace(ms, draw(ms));
     } finally {
       if (live.moving) request(false);
     }
+  });
+}
+
+/**
+ * Supersampling given up for good once a GPU cannot keep the display's pace with it: of `PACE_FRAMES` frames drawn
+ * back to back while parts move, more than `BEHIND_MOST_SHARE` came later than `BEHIND_SHARE` of the display's own gap
+ * (its shortest seen, `probePace` first).
+ */
+function keepPace(ms, drew) {
+  if (pace.chained && pace.lastMs) {
+    const gap = ms - pace.lastMs;
+    pace.shortestMs = Math.min(pace.shortestMs, gap);
+    if (pace.drew) pace.gaps.push(gap);
+  }
+  Object.assign(pace, { lastMs: ms, drew, chained: live.moving });
+  if (pace.gaps.length < PACE_FRAMES) return;
+  const behind = pace.gaps.filter(gap => gap > pace.shortestMs * BEHIND_SHARE).length;
+  pace.gaps.length = 0;
+  if (pace.supersample && targets?.ss > 1 && behind > PACE_FRAMES * BEHIND_MOST_SHARE) {
+    pace.supersample = false;
+    request();
+  }
+}
+
+/** The display's own gap between frames, read off a few frames that draw nothing. */
+function probePace(left = PROBE_FRAMES, lastMs = 0) {
+  if (left) requestAnimationFrame(ms => {
+    if (lastMs) pace.shortestMs = Math.min(pace.shortestMs, ms - lastMs);
+    probePace(left - 1, ms);
   });
 }
 
@@ -333,21 +468,24 @@ function textureOf(src) {
   const known = textures.get(src);
   if (known && !(known instanceof Promise)) return known;
   if (!known) textures.set(src, (async () => {
-    const image = new Image();
-    image.src = src;
-    await image.decode();
+    // Decoded off the page's thread, as drawn: neither premultiplied nor converted.
+    const image = await createImageBitmap(await (await fetch(urlOf(src))).blob(),
+      { premultiplyAlpha: 'none', colorSpaceConversion: 'none' });
     const t = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, t);
-    gl.pixelStorei(gl.UNPACK_COLORSPACE_CONVERSION_WEBGL, gl.NONE);
-    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, gl.RGBA, gl.UNSIGNED_BYTE, image);
     gl.generateMipmap(gl.TEXTURE_2D);
-    textures.set(src, { texture: t, aspect: image.naturalWidth / image.naturalHeight });
-    if (scene) scene.statics = null;
-    sun = null;
-    request();
+    textures.set(src, { texture: t, aspect: image.width / image.height });
+    image.close();
+    arrived(src);
   })());
   return null;
+}
+
+/** `path` has loaded: the shadow map is drawn again if it was drawn without it, and the whole picture is. */
+function arrived(path) {
+  if (sun?.missing.has(path)) sun.stale = true;
+  request();
 }
 
 /** A model's triangles on the card, once; null until they have loaded, when the scene is drawn again. */
@@ -355,8 +493,9 @@ function loadedMesh(path) {
   const known = meshes.get(path);
   if (known && !(known instanceof Promise)) return known;
   if (!known) meshes.set(path, (async () => {
-    const meta = metas.get(path) ?? await (await fetch(path)).json();
-    const bin = await (await fetch(path.slice(0, path.lastIndexOf('/') + 1) + meta.bin)).arrayBuffer();
+    const meta = metas.get(path) ?? await (await fetch(urlOf(path))).json();
+    metas.set(path, meta);
+    const bin = await (await fetch(urlOf(path.slice(0, path.lastIndexOf('/') + 1) + meta.bin))).arrayBuffer();
     const vao = gl.createVertexArray();
     gl.bindVertexArray(vao);
     for (const [location, name, size, type, normalized] of [[0, 'P', 3, gl.FLOAT, false], [1, 'N', 3, gl.BYTE, true],
@@ -367,29 +506,44 @@ function loadedMesh(path) {
       attribute(location, new Typed(bin, offset, length), size, type, normalized);
     }
     gl.bindVertexArray(null);
-    meshes.set(path, { meta, vao });
-    sun = null;
-    request();
+    meshes.set(path, { meta, vao, pictures: looksOf(path) });
+    meshesLoaded++;
+    arrived(path);
   })());
   return null;
 }
 
+/** A buffer of `data` fed to the bound vertex array's attribute `location`; the buffer, for deleting with it. */
 function attribute(location, data, size, type, normalized) {
-  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+  const buffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
   gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
   gl.enableVertexAttribArray(location);
   gl.vertexAttribPointer(location, size, type, normalized, 0, 0);
+  return buffer;
 }
 
 /**
- * The deck, walls and doors as one set of triangles, grouped by picture, each vertex carrying the thing it is and its
- * tone; null while a lintel's picture, whose shape it takes, is still loading.
+ * The deck, walls and doors as one set of triangles, grouped by picture and by chunk — a square of `CHUNK_CELLS` cells,
+ * so a partial draw leaves out the chunks its box does not meet — each vertex carrying the thing it is and its tone;
+ * null while a lintel's picture, whose shape it takes, is still loading. Built once a scene: no other picture changes
+ * its shape.
  */
-function buildStatics({ cells, walls }, cellThings, wallThings) {
-  const groups = new Map();
+function buildStatics({ description: { cells, walls }, cellThings, wallThings, lintels }) {
+  if (!lintels.map(textureOf).every(Boolean)) return null;
+  const groups = new Map(), chunks = new Map();
+  let chunk = '';
+  const inChunk = (column, row) => {
+    const [cx, cy] = [Math.floor(column / CHUNK_CELLS), Math.floor(row / CHUNK_CELLS)];
+    chunk = `${cx},${cy}`;
+    if (!chunks.has(chunk)) chunks.set(chunk, cornersOf([
+      [cx * CHUNK_CELLS - CHUNK_OVERHANG_M, -(cy + 1) * CHUNK_CELLS - CHUNK_OVERHANG_M, 0],
+      [(cx + 1) * CHUNK_CELLS + CHUNK_OVERHANG_M, -cy * CHUNK_CELLS + CHUNK_OVERHANG_M, WALL_HIGH_M + LAID_M]]));
+  };
   const group = (src, cutout) => {
-    if (!groups.has(src)) groups.set(src, { src, cutout, P: [], N: [], UV: [], thing: [], tint: [] });
-    return groups.get(src);
+    const key = `${chunk} ${src}`;
+    if (!groups.has(key)) groups.set(key, { src, cutout, chunk, P: [], N: [], UV: [], thing: [], tint: [] });
+    return groups.get(key);
   };
   // A quad's corners top-left, top-right, bottom-right, bottom-left as its picture is seen; `turn` quarter turns
   // clockwise of the picture on it.
@@ -408,9 +562,13 @@ function buildStatics({ cells, walls }, cellThings, wallThings) {
     const [w, e, n, s] = [column + inset, column + 1 - inset, -row - inset, -row - 1 + inset];
     return [[w, n, z], [e, n, z], [e, s, z], [w, s, z]];
   };
-  cells.forEach((c, i) => quad(group(c.src), flat(c.column, c.row, 0), [0, 0, 1], cellThings[i],
-    DECK_TONE * c.tint * (c.fog ? FOG_TONE : 1), [DECK_INSET, DECK_INSET, 1 - DECK_INSET, 1 - DECK_INSET], c.deg / 90));
+  for (const [i, c] of cells.entries()) {
+    inChunk(c.column, c.row);
+    quad(group(c.src), flat(c.column, c.row, 0), [0, 0, 1], cellThings[i], DECK_TONE * c.tint * (c.fog ? FOG_TONE : 1),
+      [DECK_INSET, DECK_INSET, 1 - DECK_INSET, 1 - DECK_INSET], c.deg / 90);
+  }
   for (const [i, w] of walls.entries()) {
+    inChunk(w.column, w.row);
     const tone = w.fog ? FOG_TONE : 1, thing = wallThings[i];
     quad(group(w.cap), flat(w.column, w.row, WALL_HIGH_M), [0, 0, 1], thing, CAP_TONE * tone,
       [JOIN_INSET, JOIN_INSET, 1 - JOIN_INSET, 1 - JOIN_INSET], w.capDeg / 90);
@@ -426,30 +584,32 @@ function buildStatics({ cells, walls }, cellThings, wallThings) {
     }
     if (w.lintel) {
       const picture = textureOf(w.lintel);
-      if (!picture) return null;
       const [wide, deep] = w.lintelAcross ? [LINTEL_SPAN, LINTEL_SPAN / picture.aspect] : [LINTEL_SPAN * picture.aspect, LINTEL_SPAN];
       const x = w.column + .5, y = -w.row - .5, z = WALL_HIGH_M + LAID_M;
       quad(group(w.lintel, true), [[x - wide / 2, y + deep / 2, z], [x + wide / 2, y + deep / 2, z],
         [x + wide / 2, y - deep / 2, z], [x - wide / 2, y - deep / 2, z]], [0, 0, 1], thing, tone);
     }
   }
-  const all = [...groups.values()];
+  // By picture first, so a whole draw binds each picture once.
+  const all = [...groups.values()].sort((a, b) => a.src < b.src ? -1 : a.src > b.src ? 1 : 0);
   const vao = gl.createVertexArray();
   gl.bindVertexArray(vao);
-  attribute(0, new Float32Array(all.flatMap(g => g.P)), 3, gl.FLOAT, false);
-  attribute(1, new Float32Array(all.flatMap(g => g.N)), 3, gl.FLOAT, false);
-  attribute(2, new Float32Array(all.flatMap(g => g.UV)), 2, gl.FLOAT, false);
-  attribute(4, new Float32Array(all.flatMap(g => g.thing)), 1, gl.FLOAT, false);
-  attribute(5, new Float32Array(all.flatMap(g => g.tint)), 1, gl.FLOAT, false);
+  const buffers = [[0, 'P', 3], [1, 'N', 3], [2, 'UV', 2], [4, 'thing', 1], [5, 'tint', 1]]
+    .map(([location, name, size]) => attribute(location, new Float32Array(all.flatMap(g => g[name])), size, gl.FLOAT, false));
   gl.bindVertexArray(null);
   let first = 0;
   const draws = all.map(g => {
     const count = g.P.length / 3;
-    const d = { src: g.src, cutout: Boolean(g.cutout), first, count };
+    const d = { src: g.src, cutout: Boolean(g.cutout), chunk: g.chunk, first, count };
     first += count;
     return d;
   });
-  return { vao, draws };
+  return { vao, buffers, draws, chunks: new Map([...chunks].map(([key, corners]) => [key, { corners, rect: null }])) };
+}
+
+function dropStatics({ vao, buffers }) {
+  gl.deleteVertexArray(vao);
+  for (const b of buffers) gl.deleteBuffer(b);
 }
 
 /**
@@ -469,28 +629,42 @@ function face(column, row, side, from, to, out, lowM = 0, highM = WALL_HIGH_M) {
 
 /**
  * Each thing's draws: the statics, then every device as its model's looks, each with its own place, turn and stretch,
- * and its live parts as they stand (`liveFrame`). The sun's map is drawn once for a scene, so what swings casts nothing.
+ * and its live parts as they stand (`liveFrame`). The sun's map is drawn once for a scene, so what swings casts nothing;
+ * it needs only the pictures of what is cut out, and is told what it was drawn without: the paths it misses. `within`,
+ * a box on the targets, leaves out each device that cannot draw into it (`d.rect`, `reaches`).
  */
-function drawScene(u, forSun) {
+function drawScene(u, forSun, within = null) {
+  const missing = new Set();
+  // A picture the sun's map draws without: its depth is its shape's alone, unless it is cut out.
+  const pictureOf = (src, cutout) => {
+    const picture = textureOf(src);
+    if (!picture && forSun && cutout) missing.add(src);
+    return picture ?? (forSun && !cutout ? { texture: null } : null);
+  };
   gl.vertexAttrib1f(6, 0);
-  gl.uniformMatrix3fv(u.uTurn, false, turned(0));
+  gl.uniformMatrix3fv(u.uTurn, false, UNTURNED);
+  gl.activeTexture(gl.TEXTURE0);
+  gl.uniform1i(u.uTex, 0);
+  gl.uniform1f(u.uCutAlpha, light.cutoutAlpha);
+  unbind();
   if (scene.statics) {
     gl.uniform3fv(u.uOffset, [0, 0, 0]);
     gl.uniform3fv(u.uScale, [1, 1, 1]);
     gl.vertexAttrib1f(3, 0);
     gl.bindVertexArray(scene.statics.vao);
     for (const d of scene.statics.draws) {
-      const picture = textureOf(d.src);
+      if (within && !reaches(scene.statics.chunks.get(d.chunk).rect, within)) continue;
+      const picture = pictureOf(d.src, d.cutout);
       if (!picture) continue;
       bindPicture(u, picture.texture, false, d.cutout, 1);
       gl.drawArrays(gl.TRIANGLES, d.first, d.count);
     }
-  }
-  let complete = true;
+  } else for (const src of scene.lintels) missing.add(src);
   for (const d of scene.devices) {
+    if (within && !reaches(d.rect, within)) continue;
     const mesh = loadedMesh(d.path);
     if (!mesh) {
-      complete = false;
+      missing.add(d.path);
       continue;
     }
     gl.bindVertexArray(mesh.vao);
@@ -507,36 +681,42 @@ function drawScene(u, forSun) {
       gl.uniform4fv(u.uLiveSplit, d.live.split);
       gl.uniform1iv(u.uLiveMode, d.live.mode);
     }
-    const folder = d.path.slice(0, d.path.lastIndexOf('/') + 1);
     for (const [look, first, count] of mesh.meta.draws) {
       const l = mesh.meta.looks[look];
-      const picture = textureOf(l.texture.startsWith('assets/') ? l.texture : folder + l.texture);
-      if (!picture) {
-        complete = false;
-        continue;
-      }
+      const picture = pictureOf(mesh.pictures[look], l.cutout);
+      if (!picture) continue;
       bindPicture(u, picture.texture, l.wrap, l.cutout, l.shade);
       gl.drawArrays(gl.TRIANGLES, first * 3, count * 3);
     }
   }
   gl.bindVertexArray(null);
   gl.bindSampler(0, null);
-  return complete || !forSun;
+  return missing;
 }
+
+const UNTURNED = turned(0);
+
+// What the pass under way last bound to texture unit 0, so a look wearing what the one before wore binds nothing again.
+const bound = { texture: undefined, wrap: undefined, cutout: undefined, shade: undefined };
+const unbind = () => Object.keys(bound).forEach(k => bound[k] = undefined);
 
 function bindPicture(u, texture, wrap, cutout, shade) {
-  gl.activeTexture(gl.TEXTURE0);
-  gl.bindTexture(gl.TEXTURE_2D, texture);
-  gl.bindSampler(0, samplers[wrap]);
-  gl.uniform1i(u.uTex, 0);
-  gl.uniform1i(u.uCutout, cutout ? 1 : 0);
-  gl.uniform1f(u.uCutAlpha, light.cutoutAlpha);
-  if (u.uShade) gl.uniform1f(u.uShade, shade);
+  wrap = Boolean(wrap);
+  cutout = Boolean(cutout);
+  if (bound.texture !== texture) gl.bindTexture(gl.TEXTURE_2D, bound.texture = texture);
+  if (bound.wrap !== wrap) gl.bindSampler(0, samplers[bound.wrap = wrap]);
+  if (bound.cutout !== cutout) gl.uniform1i(u.uCutout, (bound.cutout = cutout) ? 1 : 0);
+  if (u.uShade && bound.shade !== shade) gl.uniform1f(u.uShade, bound.shade = shade);
 }
 
-/** The pictures each pass draws into, made again when the canvas changes size. */
+/**
+ * The pictures each pass draws into, made again when the canvas changes size: `SUPERSAMPLE` times the canvas each way
+ * on a display under two pixels a page pixel, for edges as smooth as the renderer's, unless that passes
+ * `SUPERSAMPLED_MOST_PX` or the GPU cannot keep the display's pace with it (`keepPace`).
+ */
 function targetsFor(width, height) {
-  const ss = devicePixelRatio >= 2 ? 1 : 2;
+  const ss = pace.supersample && devicePixelRatio < 2 && width * height * SUPERSAMPLE ** 2 <= SUPERSAMPLED_MOST_PX
+    ? SUPERSAMPLE : 1;
   const size = [width * ss, height * ss];
   if (targets && `${targets.size}` === `${size}`) return targets;
   if (targets) {
@@ -574,7 +754,10 @@ function storage(format, [w, h]) {
   return t;
 }
 
-/** The sun's view of the whole scene, as depth: drawn again only when the scene or what it has loaded changes. */
+/**
+ * The sun's view of the whole scene, as depth: drawn again only when the scene changes or what it was drawn without
+ * arrives (`missing`, `stale`), into the last map when that is its size.
+ */
 function sunMap() {
   const s = light.sun, across = unit(cross([0, 0, 1], s)), along = cross(s, across);
   const corners = cornersOf(scene.extent);
@@ -590,8 +773,9 @@ function sunMap() {
     2 / (a1 - a0) * across[2], 2 / (b1 - b0) * along[2], -2 / depth * s[2], 0,
     -2 * a0 / (a1 - a0) - 1, -2 * b0 / (b1 - b0) - 1, 2 * s0 / depth + 1, 1,
   ]);
-  if (sun?.map) gl.deleteTexture(sun.map);
-  const map = depthTexture(size);
+  const kept = sun && `${sun.size}` === `${size}`;
+  if (sun && !kept) gl.deleteTexture(sun.map);
+  const map = kept ? sun.map : depthTexture(size);
   const f = framebuffer([], map);
   gl.viewport(0, 0, ...size);
   gl.enable(gl.DEPTH_TEST);
@@ -599,24 +783,29 @@ function sunMap() {
   const { p, u } = shaders.sun;
   gl.useProgram(p);
   gl.uniformMatrix4fv(u.uMatrix, false, matrix);
-  const complete = drawScene(u, true);
+  const missing = drawScene(u, true);
   gl.deleteFramebuffer(f);
-  return { key: scene.key, map, size, matrix, depth, texelM: 1 / pxM, complete };
+  return { key: scene.key, map, size, matrix, depth, texelM: 1 / pxM, missing, stale: false };
 }
 
 /**
  * Draws a frame at `ms` (the display's clock): everything, or — when only live parts moved since the last — the
- * costly passes over the box round them alone, the rest of the picture kept from the frame before.
+ * costly passes round them alone, the rest of the picture kept from the frame before: the scene over one box round
+ * all of them, and the light, the costliest, over the box round each. Says whether it drew.
  */
 function draw(ms) {
-  if (!scene || !canvas || !drawable() || !canvas.clientWidth) return;
+  // Undrawn, what changed is forgotten: the frame that draws again after is whole (aim, on the canvas's resize).
+  if (!scene || !canvas || !drawable() || !canvas.clientWidth) {
+    dirty.length = 0;
+    return false;
+  }
   const width = Math.round(canvas.clientWidth * devicePixelRatio), height = Math.round(canvas.clientHeight * devicePixelRatio);
   if (canvas.width !== width || canvas.height !== height) Object.assign(canvas, { width, height });
   if (!scene.statics) {
-    scene.statics = buildStatics(scene.description, scene.cellThings, scene.wallThings);
+    scene.statics = buildStatics(scene);
     whole = true;
   }
-  if (!sun || sun.key !== scene.key || !sun.complete) {
+  if (!sun || sun.key !== scene.key || sun.stale) {
     sun = sunMap();
     whole = true;
   }
@@ -624,25 +813,29 @@ function draw(ms) {
   if (t !== before) whole = true;
   const moved = liveFrame(ms);
   live.moving = moved.length > 0;
-  const box = whole ? null : movedBox(moved, t);
-  if (!whole && !box) return;
+  const boxes = whole ? null : movedBoxes(moved.concat(dirty), t);
+  dirty.length = 0;
+  if (!whole && !boxes.length) return false;
   whole = false;
-  if (box) {
+  if (boxes) {
     gl.enable(gl.SCISSOR_TEST);
-    gl.scissor(...box);
+    placeOnTargets(t);
   }
 
   gl.bindFramebuffer(gl.FRAMEBUFFER, t.gbuffer);
   gl.viewport(0, 0, ...t.size);
   gl.clearColor(0, 0, 0, 0);
-  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   gl.enable(gl.DEPTH_TEST);
   let { p, u } = shaders.gbuffer;
   gl.useProgram(p);
   gl.uniformMatrix4fv(u.uMatrix, false, view.matrix);
   gl.uniform3fv(u.uEye, view.eye);
   gl.uniform1f(u.uOrderM, ORDER_M);
-  drawScene(u, false);
+  for (const b of boxes ?? [null]) {
+    if (b) gl.scissor(...b);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    drawScene(u, false, b);
+  }
 
   gl.bindFramebuffer(gl.FRAMEBUFFER, t.light);
   gl.disable(gl.DEPTH_TEST);
@@ -666,6 +859,7 @@ function draw(ms) {
   gl.uniform1i(u.uGlowPx, GLOW_PX * t.ss);
   gl.uniform1i(u.uHover, marks.hover);
   gl.uniform1iv(u.uOpen, Int32Array.from({ length: OPEN_MAX }, (_, i) => marks.open[i] ?? -1));
+  gl.uniform1i(u.uOpenCount, marks.open.length);
   const scalars = {
     uPxPerMetre: t.size[1] / (2 * Math.tan(FOV_DEG * Math.PI / 360)), uSunDepth: sun.depth, uShadowTexelM: sun.texelM, uAmbient: light.ambient,
     uKeep: light.shadowKeep, uLift: light.shadowLiftM, uBias: light.shadowBiasM, uAoStrength: light.aoStrength,
@@ -674,7 +868,10 @@ function draw(ms) {
   };
   for (const [name, v] of Object.entries(scalars)) gl.uniform1f(u[name], v);
   gl.uniform1i(u.uHaloPx, HALO_PX * t.ss);
-  gl.drawArrays(gl.TRIANGLES, 0, 3);
+  for (const b of boxes ?? [null]) {
+    if (b) gl.scissor(...b);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
   gl.disable(gl.SCISSOR_TEST);
 
   gl.bindFramebuffer(gl.FRAMEBUFFER, null);
@@ -687,6 +884,7 @@ function draw(ms) {
   gl.uniform1i(u.uLit, 0);
   gl.uniform1i(u.uSS, t.ss);
   gl.drawArrays(gl.TRIANGLES, 0, 3);
+  return true;
 }
 
 /**
@@ -714,9 +912,14 @@ function liveFrame(ms) {
     const share = show => !s ? 0 : clamp01(show === 'cycle' ? (s.runs && s.cycleS ? (nowS - s.cycleFromS) / s.cycleS : 0) : s[show] ?? 0);
     const l = d.live ??= { move: new Float32Array(16 * LIVE_MAX), on: new Float32Array(4 * LIVE_MAX),
       off: new Float32Array(4 * LIVE_MAX), split: new Float32Array(4 * LIVE_MAX), mode: new Int32Array(LIVE_MAX) };
-    parts.forEach((e, i) => {
-      const key = `${d.id} ${d.path} ${i}`;
-      let move = IDENTITY, on = LIT, split = ALWAYS, moves = false;
+    // Made once a device: what each part is shown by, and the box it sweeps.
+    d.keys ??= parts.map((_, i) => `${d.id} ${d.path} ${i}`);
+    d.swept ??= parts.map(e => sweptCorners(d, e));
+    for (let i = 0; i < parts.length; i++) {
+      const e = parts[i], key = d.keys[i];
+      let on = LIT, moves = false;
+      l.move.set(IDENTITY, 16 * i);
+      l.split.set(ALWAYS, 4 * i);
       if (e.as === 'lamp') {
         const tone = e.show === 'run' ? (running ? 'running' : 'off') : fault ? (blinkOn ? 'fault' : 'off')
           : s?.short && s.runs ? 'short' : e.show === 'state' && running ? 'running' : 'off';
@@ -727,33 +930,32 @@ function liveFrame(ms) {
       } else if (e.as === 'fill') {
         const v = e.steps ? Math.floor(share(e.show) * e.steps + 1e-6) / e.steps : share(e.show);
         const [lo, hi] = e.spanM;
-        split = [...e.axis, v <= 0 ? lo - 1 : v >= 1 ? hi + 1 : lo + v * (hi - lo)];
+        l.split.set(e.axis, 4 * i);
+        l.split[4 * i + 3] = v <= 0 ? lo - 1 : v >= 1 ? hi + 1 : lo + v * (hi - lo);
         moves = e.show === 'cycle' && ticking;
       } else if (e.as === 'needle') {
         const target = share(e.show), was = live.shown.get(key) ?? target;
         const reading = was + Math.sign(target - was) * Math.min(Math.abs(target - was), NEEDLE_PER_S * dtS);
         live.shown.set(key, reading);
-        move = turnAbout(e.pivotM, e.axis, -reading * e.sweepDeg);
+        turnAbout(e.pivotM, e.axis, -reading * e.sweepDeg, l.move, 16 * i);
         moves = reading !== target || (e.show === 'cycle' && ticking);
       } else if (e.as === 'spin') {
         const angle = ((live.shown.get(key) ?? 0) + (running ? e.degPerS * dtS : 0)) % 360;
         live.shown.set(key, angle);
-        move = turnAbout(e.pivotM, e.axis, -angle);
+        turnAbout(e.pivotM, e.axis, -angle, l.move, 16 * i);
         moves = running;
       } else if (e.as === 'stroke') {
         const phase = ((live.shown.get(key) ?? 0) + (running ? dtS / e.periodS : 0)) % 1;
         live.shown.set(key, phase);
         const out = (1 - Math.abs(1 - 2 * phase)) * e.strokeM;
-        move = new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, ...e.axis.map(v => v * out), 1]);
+        for (let k = 0; k < 3; k++) l.move[16 * i + 12 + k] = e.axis[k] * out;
         moves = running;
       }
-      l.move.set(move, 16 * i);
       l.on.set(on, 4 * i);
       l.off.set(DIMMED, 4 * i);
-      l.split.set(split, 4 * i);
       l.mode[i] = MODE[e.as];
-      if (moves) moved.push(sweptCorners(d, e));
-    });
+      if (moves) moved.push(d.swept[i]);
+    }
   }
   return moved;
 }
@@ -780,36 +982,106 @@ function sweptCorners(d, e) {
 }
 
 /**
- * The box on the targets round every point of `moved`, `[x, y, width, height]`, widened by the reach of what is
- * measured across a pixel; null when none of it is in view, the whole picture when some is behind the eye.
+ * The boxes on the targets round each part of `moved` (its corners), `[x, y, width, height]`, each widened by the reach
+ * of what is measured across a pixel, those that overlap joined: none when nothing is in view, the whole picture when
+ * some is behind the eye.
  */
-function movedBox(moved, t) {
-  const [w, h] = t.size, m = view.matrix;
-  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity, nearest = Infinity;
-  for (const [x, y, z] of moved.flat()) {
-    const cw = m[3] * x + m[7] * y + m[11] * z + m[15];
-    if (cw <= 0) return [0, 0, w, h];
-    const px = ((m[0] * x + m[4] * y + m[8] * z + m[12]) / cw * .5 + .5) * w;
-    const py = ((m[1] * x + m[5] * y + m[9] * z + m[13]) / cw * .5 + .5) * h;
-    [x0, x1, y0, y1] = [Math.min(x0, px), Math.max(x1, px), Math.min(y0, py), Math.max(y1, py)];
-    nearest = Math.min(nearest, Math.hypot(x - view.eye[0], y - view.eye[1], z - view.eye[2]));
+function movedBoxes(moved, t) {
+  const [w, h] = t.size;
+  const pxPerMetreAt1M = h / (2 * Math.tan(FOV_DEG * Math.PI / 360));
+  const reachM = Math.max(...light.aoRadiiM) * 4;
+  const boxes = [];
+  for (const corners of moved) {
+    const rect = screenRect(corners, t);
+    if (!rect) return [[0, 0, w, h]];
+    const pad = MOVED_PAD_PX * t.ss + reachM * pxPerMetreAt1M / rect.nearestM;
+    const box = [Math.max(0, Math.floor(rect[0] - pad)), Math.max(0, Math.floor(rect[1] - pad)),
+      Math.min(w, Math.ceil(rect[2] + pad)), Math.min(h, Math.ceil(rect[3] + pad))];
+    if (box[2] > box[0] && box[3] > box[1]) boxes.push(box);
   }
-  if (!moved.length) return null;
-  const pxPerMetre = h / (2 * Math.tan(FOV_DEG * Math.PI / 360)) / nearest;
-  const pad = MOVED_PAD_PX * t.ss + Math.max(...light.aoRadiiM) * 4 * pxPerMetre;
-  const [left, bottom] = [Math.max(0, Math.floor(x0 - pad)), Math.max(0, Math.floor(y0 - pad))];
-  const [right, top] = [Math.min(w, Math.ceil(x1 + pad)), Math.min(h, Math.ceil(y1 + pad))];
-  return right > left && top > bottom ? [left, bottom, right - left, top - bottom] : null;
+  // Joined until no two overlap: a box grown by one join may reach one already passed.
+  for (let joined = true; joined;) {
+    joined = false;
+    for (let i = 0; i < boxes.length && !joined; i++)
+      for (let j = i + 1; j < boxes.length && !joined; j++) {
+        const [a, b] = [boxes[i], boxes[j]];
+        if (a[0] > b[2] || b[0] > a[2] || a[1] > b[3] || b[1] > a[3]) continue;
+        boxes[i] = [Math.min(a[0], b[0]), Math.min(a[1], b[1]), Math.max(a[2], b[2]), Math.max(a[3], b[3])];
+        boxes.splice(j, 1);
+        joined = true;
+      }
+  }
+  return boxes.map(([x0, y0, x1, y1]) => [x0, y0, x1 - x0, y1 - y0]);
 }
 
-/** A turn of `deg` about the axis `[x, y, z]` (a unit vector) through `pivot`, counter-clockwise seen from its tip. */
-function turnAbout(pivot, [x, y, z], deg) {
+/**
+ * Where the world points `corners` fall on the targets: `[left, bottom, right, top]` in target pixels, with `nearestM`
+ * the nearest's distance from the eye; null when one is behind it.
+ */
+function screenRect(corners, t) {
+  const [w, h] = t.size, m = view.matrix;
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity, nearestM = Infinity;
+  for (const [x, y, z] of corners) {
+    const cw = m[3] * x + m[7] * y + m[11] * z + m[15];
+    if (cw <= 0) return null;
+    const px = ((m[0] * x + m[4] * y + m[8] * z + m[12]) / cw * .5 + .5) * w;
+    const py = ((m[1] * x + m[5] * y + m[9] * z + m[13]) / cw * .5 + .5) * h;
+    x0 = Math.min(x0, px), x1 = Math.max(x1, px), y0 = Math.min(y0, py), y1 = Math.max(y1, py);
+    nearestM = Math.min(nearestM, Math.hypot(x - view.eye[0], y - view.eye[1], z - view.eye[2]));
+  }
+  return Object.assign([x0, y0, x1, y1], { nearestM });
+}
+
+/**
+ * Where device `d` may draw on the targets (`screenRect`): round its model's box, as placed, and every box its live
+ * parts sweep; null, anywhere, while its model has not loaded or a corner is behind the eye.
+ */
+function deviceRect(d, t) {
+  const mesh = meshes.get(d.path);
+  if (!mesh || mesh instanceof Promise) return null;
+  if (!d.reachCorners) {
+    const all = [...cornersOf(mesh.meta.boundsM).map(c => apply(d.turn, c.map((v, i) => v * d.scale[i])).map((v, i) => v + d.offset[i])),
+      ...(d.swept ?? []).flat()];
+    d.reachCorners = cornersOf([0, 1].map(end => [0, 1, 2].map(i => (end ? Math.max : Math.min)(...all.map(c => c[i])))));
+  }
+  return screenRect(d.reachCorners, t);
+}
+
+// The camera, targets, scene and count of models loaded the devices' and chunks' rects were last found for.
+const placed = { matrix: null, targets: null, scene: null, statics: null, meshesLoaded: 0 };
+let meshesLoaded = 0;
+
+/**
+ * Finds where each device and chunk of the deck may draw on the targets `t` (`d.rect`, `chunk.rect`): again only once
+ * the camera, the targets, the scene or the models loaded have changed.
+ */
+function placeOnTargets(t) {
+  if (placed.matrix === view.matrix && placed.targets === t && placed.scene === scene && placed.statics === scene.statics
+    && placed.meshesLoaded === meshesLoaded) return;
+  Object.assign(placed, { matrix: view.matrix, targets: t, scene, statics: scene.statics, meshesLoaded });
+  for (const d of scene.devices) d.rect = deviceRect(d, t);
+  for (const c of scene.statics?.chunks.values() ?? []) c.rect = screenRect(c.corners, t);
+}
+
+/** Whether a device whose `rect` is `deviceRect`'s may draw into `box`, `[x, y, width, height]` on the targets. */
+const reaches = (rect, [x, y, w, h]) => !rect || (rect[2] + 1 >= x && rect[0] - 1 <= x + w && rect[3] + 1 >= y && rect[1] - 1 <= y + h);
+
+/**
+ * Writes into `out` from `at` a turn of `deg` about the axis `[x, y, z]` (a unit vector) through `pivot`,
+ * counter-clockwise seen from its tip, as a 4×4 column-major matrix: once a part a frame, so it makes nothing.
+ */
+function turnAbout([px, py, pz], [x, y, z], deg, out, at) {
   const a = deg * Math.PI / 180, c = Math.cos(a), s = Math.sin(a), k = 1 - c;
-  const r = [c + x * x * k, y * x * k + z * s, z * x * k - y * s, x * y * k - z * s, c + y * y * k, z * y * k + x * s,
-    x * z * k + y * s, y * z * k - x * s, c + z * z * k];
-  const moved = apply(r, pivot);
-  return new Float32Array([...r.slice(0, 3), 0, ...r.slice(3, 6), 0, ...r.slice(6), 0,
-    pivot[0] - moved[0], pivot[1] - moved[1], pivot[2] - moved[2], 1]);
+  const r0 = c + x * x * k, r1 = y * x * k + z * s, r2 = z * x * k - y * s;
+  const r3 = x * y * k - z * s, r4 = c + y * y * k, r5 = z * y * k + x * s;
+  const r6 = x * z * k + y * s, r7 = y * z * k - x * s, r8 = c + z * z * k;
+  out[at] = r0; out[at + 1] = r1; out[at + 2] = r2; out[at + 3] = 0;
+  out[at + 4] = r3; out[at + 5] = r4; out[at + 6] = r5; out[at + 7] = 0;
+  out[at + 8] = r6; out[at + 9] = r7; out[at + 10] = r8; out[at + 11] = 0;
+  out[at + 12] = px - (r0 * px + r3 * py + r6 * pz);
+  out[at + 13] = py - (r1 * px + r4 * py + r7 * pz);
+  out[at + 14] = pz - (r2 * px + r5 * py + r8 * pz);
+  out[at + 15] = 1;
 }
 
 /** A turn about the vertical of `deg` clockwise seen from above, as a 3×3 matrix. */
@@ -991,7 +1263,7 @@ uniform vec3 uEye, uSun, uAmber;
 uniform vec2 uShadowSize, uAoRadii;
 uniform float uPxPerMetre, uSunDepth, uShadowTexelM, uAmbient, uKeep, uLift, uBias, uAoStrength, uAoMargin, uEdgeM, uEdgeShade,
               uFoldCos, uFoldLight, uHoverLight, uGlowGain, uHalo;
-uniform int uAoDirs, uStep, uGlowPx, uHover, uHaloPx;
+uniform int uAoDirs, uStep, uGlowPx, uHover, uHaloPx, uOpenCount;
 uniform int uOpen[${OPEN_MAX}];
 out vec4 oColour;
 ivec2 size;
@@ -1007,7 +1279,7 @@ int thingAt(ivec2 p) {
   return int(t.r) + int(t.g) * 256 + int(t.b) * 65536;
 }
 bool isOpen(int id) {
-  for (int i = 0; i < ${OPEN_MAX}; i++) if (uOpen[i] == id && id > 0) return true;
+  for (int i = 0; i < uOpenCount; i++) if (uOpen[i] == id && id > 0) return true;
   return false;
 }
 void main() {
@@ -1016,7 +1288,7 @@ void main() {
   float z = texelFetch(uDepthTex, p, 0).r;
   int me = thingAt(p);
   vec4 ring = vec4(0.);
-  if (!isOpen(me))
+  if (uOpenCount > 0 && !isOpen(me))
     for (int y = -uGlowPx; y <= uGlowPx; y += max(uGlowPx / 2, 1))
       for (int x = -uGlowPx; x <= uGlowPx; x += max(uGlowPx / 2, 1)) {
         ivec2 q = p + ivec2(x, y);
