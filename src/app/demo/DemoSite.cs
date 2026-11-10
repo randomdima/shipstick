@@ -35,7 +35,8 @@ static class DemoSite
         Copy(client, site);
 
         var ship = new ServedShip(config, Catalogue.Embedded);
-        File.WriteAllBytes(Path.Combine(site, "codex.json"), ship.CodexJson);
+        File.WriteAllBytes(Path.Combine(site, "codex.json"), ship.Codex.Json);
+        File.WriteAllBytes(Path.Combine(site, "codex-words.json"), ship.CodexWords.Json);
         File.WriteAllBytes(Path.Combine(site, "assets.json"), AssetList.Json(site));
         var recording = Path.Combine(site, RecordingPath);
         Directory.CreateDirectory(Path.GetDirectoryName(recording)!);

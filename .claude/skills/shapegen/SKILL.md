@@ -35,7 +35,7 @@ qq sprites keep walltex_a-v1 tex_wall_cap tex_pipe ... --at=textures --score=4
 qq sprites catalog tex_wall_cap --kind=material --material=enamel --fits=top --sets=hull --tags=wall,cap,yellow
 # 2. the model: .tmp/shapes/<id>.json, textures pointing at the kept variants
 qq shapes render .tmp/shapes/any_wall_segment.json            # Read .tmp/shapes/any_wall_segment/_views.png
-#    with a sprite to match: --tilt-deg=60 --against=assets/devices/any_wall_segment.png puts it on the sheet
+#    with a sprite to match: --tilt-deg=60 --against=assets/devices/any_wall_segment.webp puts it on the sheet
 #    which part is which: --light=parts, each part coloured and numbered, an overlapping or floating one red
 #    fix and re-render until every view is right — rendering is free, generating is billed
 #    and until it prints no overlap, nothing floating and nothing stretched: one item inside another, resting on
@@ -98,8 +98,8 @@ What remotegen asks is unchanged — model, settings, nine to a sheet, three att
   Swap, render, and set the views beside the old ones: keep the swap only where nothing reads worse. The sheet's cells
   go only to what nothing kept can be; remotegen names a kept entry a cell's line reads like (`near:`) before billing.
 
-- **A model of an asset that has a sprite is textured from that sprite**: `edit --image assets/<path>/<id>.png` as
-  the only image, "Image 1 is the <thing> these swatches texture: match its colours, paints, materials and wear
+- **A model of an asset that has a sprite is textured from that sprite**: `edit --image` the kept variant it was
+  made from (lossless; `qq sprites trace <id>` names it) as the only image, "Image 1 is the <thing> these swatches texture: match its colours, paints, materials and wear
   exactly, and take each swatch's surface from the matching part of it. Do not draw the <thing> itself, and nothing in
   perspective". Without one, `smooth_style.png` as for any sheet.
 - **Cells the model leaves over go to its family**: materials the next models will need, read off the sprites around

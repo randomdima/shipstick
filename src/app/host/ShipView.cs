@@ -35,5 +35,6 @@ sealed class ItemJson : JsonConverter<Item>
 [JsonSerializable(typeof(SeatView))]
 [JsonSerializable(typeof(ShipView))]
 [JsonSerializable(typeof(CodexBook))]
+[JsonSerializable(typeof(CodexWordsView))]
 [JsonSerializable(typeof(ClientAction))]
 partial class HostJson : JsonSerializerContext;

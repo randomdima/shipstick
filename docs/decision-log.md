@@ -78,14 +78,25 @@ before it — with a panel's fitting only on the top one, and the door stretched
 The how is the assistant's. `qq sprites use` writes a model's triangles and textures beside its sprite
 (`.qq/_shapes_mesh.py`); the crate is a kept part like any other (`any_crate`). The page draws one scene
 (`scene.js`): the deck's plates, the wall kit's caps and panels on blocks a cell square, the door's leaf and lintel on
-them, every device's model, lit by the renderer's own passes — sun, one shadow map for the whole floor, occlusion,
-outlines — under a camera in perspective. What a click hits is read back from the picture; a device's lamp and a
+them, every device's model, lit by the renderer's own passes — the light's direction, occlusion, outlines — under a
+camera in perspective. What a click hits is read back from the picture; a device's lamp and a
 door's tag are laid on the page where the camera puts them, as the windows and their leaders are.
 
 **A weak GPU keeps the display's pace before the picture's edges** (WEB-11 over the renderer's look): the passes draw
 at twice the canvas's resolution each way for edges as smooth as the renderer's, and give that up for the session once
 frames drawn back to back fall behind the display (`scene.js` `keepPace`). While parts move, only the boxes round them
-are drawn again, each with the models and deck that reach it, so a moving needle costs its own few pixels.
+are drawn again, each with the models and deck that reach it, so a moving needle costs its own few pixels. The light
+pass writes the canvas itself, averaging down as it goes, and the canvas keeps its picture between frames, so no lit
+copy of the picture is held; normals are held in two channels (octahedral), not three of four. A seat's page holds
+about 79 MB on the GPU (`qq web --load`), where it held 118 MB.
+
+## 2026-11-10 — the floor casts no shadow
+
+The owner, in as many words: "Disable shadows for now. We are on the ship. And no sun light anyway. Potentially we
+will add lamps, but not now". So the page draws no shadow map and no pass for it: a face is lit by the light's
+direction, occlusion and outlines alone, and its share of the light no longer waits on what stands between it and a
+sun. `qq shapes` still renders its sprites with the sun's shadows; the models the floor draws are the same. Lamps that
+light the cabin, and what they cast, are the owner's to ask for.
 
 ## 2026-11-09 — every asset is a 3D model
 
@@ -107,6 +118,16 @@ is not a texture the model format offers. The swatch sheet keeps remotegen's sha
 three attempts — and one sheet textures a model or a family. The how is the assistant's: orthographic rendering so a
 view is exact, a grid cell one metre square as the deck tiles were briefed, the device camera at 18° (GAM-10's "about
 15–20°"), and a kept render tracing through its model to each texture's prompt.
+
+## 2026-11-10 — the page is given its art as lossy WebP
+
+The assistant's, for a client as light as it can be: every sprite `qq sprites use` installs is WebP at quality 90, its
+alpha exact; the stylesheet's own art (`assets/app/web/`) at 100, since below it the coder smooths a repeated tile's
+inside more than the edge it wraps to and `qq fit` finds the seam (GAM-14); and the textures models wear at 70, since
+the floor lights them, shades them and mostly shows them smaller than they are — at the closest zoom a seat's page
+differs from quality 90 by under 1% a pixel on average, and its textures are 0.8 MB where they were 1.8 MB. The kept
+variants under `raw_assets/` stay lossless PNG, so a sprite and a model's textures are made again from them (`qq
+sprites reinstall`), never from themselves. A seat's first load fell from 3.8 MB to 1.4 MB.
 
 ## 2026-11-10 — a generated image is never stretched
 

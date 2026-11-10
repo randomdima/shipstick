@@ -15,7 +15,7 @@ is not closed without one. **_tool_** is a fault or a gap in a `qq` tool, closed
   asset — 96 px a cell of footprint width for the devices, as cut for interfaces, props and trim. Closed by a figure on
   `GameConfig` (a capsule cell in pixels) that `use` reads.
 
-- **The model-rendered wall segment is installed and nothing draws it** (_owner_): `assets/devices/any_wall_segment.png`
+- **The model-rendered wall segment is installed and nothing draws it** (_owner_): `assets/devices/any_wall_segment.webp`
   (`qq shapes`' first render, from `raw_assets/devices/any_wall_segment/`) proves the chain from model to prompt; the
   page builds walls from the kit's cap and panel pictures under its own camera (`art.js` `structureLook`). Closed by the
   owner choosing whether walls take model renders — the `top` and `front` views of a model are a cap and a panel in
@@ -121,8 +121,6 @@ is not closed without one. **_tool_** is a fault or a gap in a `qq` tool, closed
   stylesheet draws — two letters on its section's colour — not a generated image. Five thousand items is some 560
   sheets at nine a sheet. Closed by icons for the items aboard the starter ship first, then by section, each chip its
   image with the count over it.
-- **The art is full-size PNG** (WEB-9): a starter floor asks some 1–2 MB of device sprites, interface panels and trim.
-  Closed by serving WebP (or lossy PNG) at the size drawn, made by `qq sprites use`.
 
 - **One steel top is worn by five models** ([catalogue](../raw_assets/index.md#the-catalogue)):
   `tex_top_steel_rimmed`, the bench's top, is also the top of `any_cot`, `any_crate`, `any_lifesupport` and
@@ -133,7 +131,7 @@ is not closed without one. **_tool_** is a fault or a gap in a `qq` tool, closed
 - **Two kept swatches nothing wears**: `tex_handwheel` (the backed handwheel, superseded by `tex_handwheel_cutout` on
   `any_hatch`) and `tex_wall_cap_worn` (the worn wall cap the kit never laid). Cost $0.0045, nothing drawn. Closed by a
   model that wears them, or by the owner's word to delete them.
-- **Two lamp props nothing draws** (`assets/app/web/props/lamp_off.png`, `lamp_amber.png`): the page's lamp over each
+- **Two lamp props nothing draws** (`assets/app/web/props/lamp_off.webp`, `lamp_amber.webp`): the page's lamp over each
   running device was their wearer, and a device's lamps are its model's now (WEB-12); the header's status lamp wears
   `lamp_green` and `lamp_red` alone. Closed by a window's prop wearing them, or by deleting them with their `.src.json`.
 - **Every wall and door is 1×1** (GAM-10, [Vessel.Enclose](../src/ship/Vessel.cs)): the owner said some are 1×2 or
@@ -154,11 +152,18 @@ is not closed without one. **_tool_** is a fault or a gap in a `qq` tool, closed
 - **A move shows once the host has run it** ([cabin.js](../src/app/web/wwwroot/cabin.js)): a dragged item springs back
   to its slot until the frame that moved it comes, a round trip later; on a slow line that reads as a refusal. Closed by
   the page holding a dragged item where it was dropped, marked as waiting, until the answer.
-- **The floor's 3D scene is a first cut** ([scene.js](../src/app/web/wwwroot/scene.js)): one shadow map covers the
-  whole ship, so a large ship's shadows coarsen; faces turned from the camera are culled by pixel where `qq shapes`
-  culls by triangle; the triangles (`.mesh.bin`) are float32 and unindexed — 1.35 MB for a seat's fifteen models,
-  0.22 MB as the host compresses them. Costs soft shadows when zoomed on a big ship, a slower first load. Closed by a
-  shadow map fitted to the view, triangle culling exported with the mesh, and the triangles indexed and quantized.
+- **The floor's 3D scene is a first cut** ([scene.js](../src/app/web/wwwroot/scene.js)): faces turned from the camera
+  are culled by pixel where `qq shapes` culls by triangle; the triangles (`.mesh.bin`) are float32 and unindexed —
+  2.9 MB held for all 23 models, 0.43 MB compressed. Indexed (about a third of the corners are distinct) and positions
+  quantized to 16 bits, they would be 0.8 MB held but only a tenth less over the line, and tiled faces' texture
+  coordinates stay float32. Costs a seat about 1.4 MB of the GPU's 90 MB. Closed by triangle culling exported with the
+  mesh, and the triangles indexed and quantized by `qq sprites use`.
+- **One swatch is shipped once for each crop a model asks of it** ([_shapes_mesh.py](../.qq/_shapes_mesh.py)
+  `texture_asset`): `tex_vent` four times, `tex_lamp_lens_green` and `tex_label_plate` three, fifteen swatches twice —
+  170 kB of the textures' 820 kB, about 120 kB of it untiled crops, each also its own texture on the GPU. Closed for an
+  untiled crop by one texture of the whole swatch and the crop taken in the texture coordinates `export` writes, once a
+  render shows the crop's border bleeding in at the coarse mip levels is not seen; for a tiled one, by models of a
+  family asking one crop.
 - **The page asks for each picture alone** ([scene.js](../src/app/web/wwwroot/scene.js) `fetchAll`,
   [AssetList](../src/app/host/AssetList.cs)): a seat's first load is about 120 requests of art, over HTTP/1.1 (the
   host serves plain HTTP, and no browser speaks HTTP/2 without TLS) six at a time, so on a line of 100 ms a round trip
@@ -186,7 +191,8 @@ is not closed without one. **_tool_** is a fault or a gap in a `qq` tool, closed
   protocol [host.js](../src/app/web/wwwroot/host.js) expects — `onmessage`, `onclose`, `send` and the `{re, ok}`
   answer — is shown by `qq web --page` pictures of the written site, and the workflow deploys whatever builds. A change
   to `host.js` that the stand-in misses ships a blank demo. Closed by the workflow photographing the site headless and
-  failing on a page that never framed.- **The Pages actions run on a deprecated Node** (`.github/workflows/demo.yml`): `actions/deploy-pages@v4` and the
+  failing on a page that never framed.
+- **The Pages actions run on a deprecated Node** (`.github/workflows/demo.yml`): `actions/deploy-pages@v4` and the
   artifact upload inside `actions/upload-pages-artifact@v4` target Node 20, which GitHub forces onto Node 24 with a
   warning on every run. Closed by moving to their first majors that target Node 24.
 
@@ -212,9 +218,6 @@ is not closed without one. **_tool_** is a fault or a gap in a `qq` tool, closed
 
 ## Tools
 
-- **The `qq` tools are not in git** (_tool_): `.qq/` is ignored by the machine's global gitignore
-  (`~/.config/git/ignore`), as the qq contract wants, so a clone of this repository on another machine has none of
-  them. Closed by the owner choosing to commit `.qq/` (a `!.qq/` line in `.gitignore`) or to keep it per machine.
 - **The catalogue page shows live parts at rest** (_tool_, `.qq/_shapes_viewer.html`): a model's lamps, needles and
   bars are drawn as modelled; only `qq shapes render` lists them (`live N:`) and only the game moves them. Closed by
   the model tab listing each live part, with a control to drive its signal.

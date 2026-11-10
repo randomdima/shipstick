@@ -1,7 +1,8 @@
 // The codex: a page for every item and device the game holds and for how the ship works (WEB-3, WEB-5), in one window
 // that keeps its own history and is dragged by its title bar (WEB-6). Its words and data are the game's own
 // (`codex.json`, which the host makes from what it runs, fetched once), so nothing here can fall behind the ship. A link anywhere on the page —
-// `data-go="item:wat-001"` — opens its page here.
+// `data-go="item:wat-001"` — opens its page here. The items' and devices' words, only ever shown here and most of the
+// codex's bytes, come apart (`codex-words.json`), asked for when the window first opens.
 
 import { $, esc, inFrame, keepInside, patch, setStyle } from './dom.js'
 
@@ -25,6 +26,23 @@ const book = {
 
 // history: the targets read, `at` the one shown. more: the lists opened past their first LIST_FIRST.
 const view = { open: false, x: 0, y: 0, history: [], at: -1, more: new Set(), query: '', grip: null };
+
+// { items, devices }: id → { about, flavour }, once come; `asked` while on the way.
+const words = { items: null, devices: null, asked: false };
+
+function askWords() {
+  if (words.asked || words.items) return;
+  words.asked = true;
+  fetch('codex-words.json').then(answer => answer.json())
+    .then(come => {
+      Object.assign(words, come);
+      if (view.open) draw();
+    })
+    .finally(() => words.asked = false);
+}
+
+/** An item's or a device's words, by its id — none until they have come. */
+const wordsOf = id => words.items?.[id] ?? words.devices?.[id];
 
 const push = (map, key, value) => (map.get(key) ?? map.set(key, []).get(key)).push(value);
 
@@ -94,6 +112,7 @@ const subLink = u => `<a class="go" data-go="sub:${esc(u.code)}">${codeOf(u.code
 
 /** Opens the codex at `target` ("item:wat-001", "device:any.chest", "page:doors", or "home"). */
 export function openCodex(target = 'home') {
+  askWords();
   if (!view.open) {
     view.open = true;
     view.x = innerWidth - $('codex').offsetWidth - OPEN_INSET_PX;
@@ -220,7 +239,7 @@ function itemPage(id) {
   const tool = (book.neededBy.get(id) ?? []).map(wayHtml);
   return {
     title: i.name,
-    body: `${head(i.id, sub, kindOf(i), i.words)}${factsHtml(facts)}
+    body: `${head(i.id, sub, kindOf(i))}${factsHtml(facts)}
       ${list(`made:${id}`, `Sources · ${made.length}`, made, 'No procedure aboard produces it.')}
       ${list(`used:${id}`, `Consumed by · ${used.length}`, used, '')}
       ${list(`tool:${id}`, `Tool for · ${tool.length}`, tool, '')}`,
@@ -243,17 +262,18 @@ function devicePage(id) {
   const none = `Runs no procedure; storage only — ${go('page:storage', 'chests and lockers')}.`;
   return {
     title: d.name,
-    body: `${head(d.id, sub, 'device', d.words)}${factsHtml(facts)}
+    body: `${head(d.id, sub, 'device')}${factsHtml(facts)}
       ${list(`ways:${id}`, `Procedures · ${ways.length}`, ways, none)}
       <p class="note">Procedure selection and cycles: ${go('page:devices', 'devices and ways')}.</p>`,
   };
 }
 
-function head(id, sub, kind, words) {
+function head(id, sub, kind) {
   const where = sub ? `${go(`sub:${sub.code}`, sub.name)} · ${go(`section:${sub.section}`, book.sections.get(sub.section)?.name ?? sub.section)}`
     : go('page:capsule', 'standard issue');
+  const said = wordsOf(id);
   return `<div class="where">stock code <code>${esc(id.toUpperCase())}</code> · ${where} · class <span class="kind">${esc(kind)}</span></div>
-    <p class="about">${esc(words.about)}</p><p class="flavour">${esc(words.flavour)}</p>`;
+    ${said ? `<p class="about">${esc(said.about)}</p><p class="flavour">${esc(said.flavour)}</p>` : ''}`;
 }
 
 const factsHtml = facts => `<dl class="form">${facts.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>`;
@@ -309,7 +329,7 @@ function subPage(code) {
 function rolePage(id) {
   const r = book.roles.get(id);
   if (!r) return null;
-  const devices = book.data.devices.filter(d => d.role === id).map(d => `<li>${deviceLink(d.id)} <small>${esc(d.words.about)}</small></li>`);
+  const devices = book.data.devices.filter(d => d.role === id).map(d => `<li>${deviceLink(d.id)} <small>${esc(wordsOf(d.id)?.about ?? '')}</small></li>`);
   return { title: r.name, body: `<p class="note">${go('page:roles', 'Role assignment')}.</p>${list(`role:${id}`, 'Devices', devices, 'None.')}` };
 }
 

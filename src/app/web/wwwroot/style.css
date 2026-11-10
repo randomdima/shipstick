@@ -25,14 +25,14 @@
   /* The console kit (assets/app/web/kit/), each a model's render (GAM-13) shown at its own proportions (GAM-14): a
      tile repeats whole; a sliced piece keeps its ends whole and repeats its middle, every side scaled alike — so a
      slice below is in the piece's own pixels, and its widths are those times one scale. */
-  --steel-dark: url("assets/app/web/kit/ui_steel_dark.png"); --hazard-strip: url("assets/app/web/kit/ui_hazard_strip.png");
-  --plate: url("assets/app/web/kit/ui_plate.png"); --bezel: url("assets/app/web/kit/ui_bezel.png");
-  --key-up: url("assets/app/web/kit/ui_key_up.png"); --key-down: url("assets/app/web/kit/ui_key_down.png");
-  --key-bay: url("assets/app/web/kit/ui_key_bay.png");
-  --panel-yellow: url("assets/app/web/kit/ui_panel_yellow.png"); --panel-orange: url("assets/app/web/kit/ui_panel_orange.png");
-  --panel-grey: url("assets/app/web/kit/ui_panel_grey.png"); --panel-hazard: url("assets/app/web/kit/ui_panel_hazard.png");
-  --panel-white: url("assets/app/web/kit/ui_panel_white.png");
-  --socket: url("assets/app/web/props/socket_slot.png");
+  --steel-dark: url("assets/app/web/kit/ui_steel_dark.webp"); --hazard-strip: url("assets/app/web/kit/ui_hazard_strip.webp");
+  --plate: url("assets/app/web/kit/ui_plate.webp"); --bezel: url("assets/app/web/kit/ui_bezel.webp");
+  --key-up: url("assets/app/web/kit/ui_key_up.webp"); --key-down: url("assets/app/web/kit/ui_key_down.webp");
+  --key-bay: url("assets/app/web/kit/ui_key_bay.webp");
+  --panel-yellow: url("assets/app/web/kit/ui_panel_yellow.webp"); --panel-orange: url("assets/app/web/kit/ui_panel_orange.webp");
+  --panel-grey: url("assets/app/web/kit/ui_panel_grey.webp"); --panel-hazard: url("assets/app/web/kit/ui_panel_hazard.webp");
+  --panel-white: url("assets/app/web/kit/ui_panel_white.webp");
+  --socket: url("assets/app/web/props/socket_slot.webp");
   --slot-px: 48px;
 }
 html, body { margin: 0; height: 100%; background: var(--space); color: var(--stencil);
@@ -42,11 +42,11 @@ body { display: flex; flex-direction: column; user-select: none; overflow: hidde
    measure so the sky does not repeat, the haze and the far things placed once. Each patch is near-black round its
    stars, so they are lightened together and no patch's edge shows. The sky stands still while the floor is dragged. */
 body { background: var(--space) no-repeat;
-  background-image: url("assets/app/web/space/galaxy_far.png"), url("assets/app/web/space/stars_cluster.png"),
-    url("assets/app/web/space/nebula_cold.png"), url("assets/app/web/space/nebula_warm.png"),
-    url("assets/app/web/space/space_stars_bright.png"), url("assets/app/web/space/space_stars_scant.png"),
-    url("assets/app/web/space/space_stars_sparse_b.png"), url("assets/app/web/space/space_stars_sparse_a.png"),
-    url("assets/app/web/space/space_stars_dust.png");
+  background-image: url("assets/app/web/space/galaxy_far.webp"), url("assets/app/web/space/stars_cluster.webp"),
+    url("assets/app/web/space/nebula_cold.webp"), url("assets/app/web/space/nebula_warm.webp"),
+    url("assets/app/web/space/space_stars_bright.webp"), url("assets/app/web/space/space_stars_scant.webp"),
+    url("assets/app/web/space/space_stars_sparse_b.webp"), url("assets/app/web/space/space_stars_sparse_a.webp"),
+    url("assets/app/web/space/space_stars_dust.webp");
   background-position: 82% 24%, 30% 12%, 10% 72%, 64% 94%, 0 0, 137px 59px, 71px 113px, 0 0, 0 0;
   background-size: 220px, 260px, 560px, 480px, 611px, 433px, 347px, 293px, 257px;
   background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat, repeat, repeat, repeat, repeat;
@@ -70,7 +70,7 @@ button { font-family: var(--font-wide); text-transform: uppercase; letter-spacin
 #controls button:active, #editor .body button:active:not(:disabled), #codex-open:active,
 #controls button.on, #codex .titlebar button[data-codex-step]:active:not(:disabled) { border-image-source: var(--key-down); }
 #controls button.on::before { content: ''; display: inline-block; width: 9px; height: 9px; margin-right: 5px;
-  vertical-align: -1px; background: url("assets/app/web/props/lamp_green.png") center / contain no-repeat; }
+  vertical-align: -1px; background: url("assets/app/web/props/lamp_green.webp") center / contain no-repeat; }
 #editor .body button:disabled { opacity: .45; cursor: default; }
 
 /* A label on the kit's plate (206 × 46, a screw in each end 26 wide, its rims 8 deep): --plate-px high, its ends whole,
@@ -92,9 +92,9 @@ header { display: flex; gap: 16px; align-items: center; padding: 8px 18px 20px;
 .plate, .readout span, #controls button { white-space: nowrap; }
 .readout { display: flex; gap: 22px; align-items: center; padding: 3px 8px; text-transform: uppercase; letter-spacing: .06em; }
 #status { display: flex; align-items: center; gap: 8px; }
-#status::before { content: ''; width: 12px; height: 12px; background: url("assets/app/web/props/lamp_green.png") center / contain no-repeat; }
+#status::before { content: ''; width: 12px; height: 12px; background: url("assets/app/web/props/lamp_green.webp") center / contain no-repeat; }
 #status.alarm { color: var(--alert); text-shadow: 0 0 5px var(--alert); }
-#status.alarm::before { background-image: url("assets/app/web/props/lamp_red.png"); }
+#status.alarm::before { background-image: url("assets/app/web/props/lamp_red.webp"); }
 #controls { display: flex; gap: 6px; margin-left: auto; }
 #codex-open { margin-left: 4px; }
 
@@ -136,9 +136,9 @@ body.admin .plate span { display: none; }
 /* A window's keys are props: the manual key, the close key. Their glyphs stay for a reader, not for the eye. */
 .titlebar button, .bay button { width: 24px; height: 24px; border: 0; padding: 0; cursor: pointer; font-size: 0;
   background: center / contain no-repeat; }
-.bay .key-manual, .titlebar button[data-go] { background-image: url("assets/app/web/props/key_manual.png"); }
+.bay .key-manual, .titlebar button[data-go] { background-image: url("assets/app/web/props/key_manual.webp"); }
 .bay .key-close, .titlebar button[data-codex-close], .titlebar button[data-edit-close] {
-  background-image: url("assets/app/web/props/key_close.png"); }
+  background-image: url("assets/app/web/props/key_close.webp"); }
 .titlebar button:hover, .bay button:hover { filter: brightness(1.2); }
 
 /* A window is one block (GAM-11): its paint's housing from the kit, sliced round whatever it holds — the corners

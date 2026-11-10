@@ -1,5 +1,6 @@
 // The ship's floor in 3D (GAM-10, GAM-13): every deck plate, wall, door and device a textured model in one scene,
-// drawn live in WebGL2 with the renderer's passes (.qq/_shapes_render.py) — sun, shadow map, occlusion, outlines —
+// drawn live in WebGL2 with the renderer's passes (.qq/_shapes_render.py) — its light, occlusion and outlines, but no
+// shadow: nothing on the ship's floor casts one —
 // from a camera the player turns, tilts and zooms (cabin.js) round the middle of the view. A device is its
 // model as `qq sprites use` wrote it (assets/<path>/<id>.mesh.json, .qq/_shapes_mesh.py), or the plain crate stretched
 // to its footprint until it has one; walls and doors are the kit's caps and panels on blocks a cell square; the deck is
@@ -60,10 +61,7 @@ const PROBE_FRAMES = 10;
 // A later part in a model stands this much nearer the camera than the one before, so of two faces in one plane the
 // later shows (the renderer's TIE_M, coarser for a depth buffer's precision: see `aim`'s near plane).
 const ORDER_M = 3e-5;
-// The shadow map's largest side, and what stands taller than a wall, for its extent.
-const SHADOW_MAX_PX = 4096;
-// The shadow map's pixels read round a point's own, each way: its shadow's edge is softened over them.
-const SHADOW_KERNEL_PX = 1;
+// Nothing on the floor stands taller: the scene's extent, and how near the camera's near plane may come.
 const TALLEST_M = 3;
 // The stand-in for a device with no model of its own: the crate, stretched to its footprint.
 const CRATE = 'assets/parts/any_crate.mesh.json';
@@ -72,11 +70,6 @@ const LIVE_MAX = 12;
 // How each way of showing draws its picture: as modelled (what turns), multiplied by its tone (a glow, a fill), or its
 // coloured part — a lamp's lens, not its rim — in the tone's colour, as bright as the picture is there.
 const MODE = { needle: 0, spin: 0, stroke: 0, glow: 1, fill: 1, lamp: 2 };
-// What moves from where the sun's map has it casts no shadow if it is small (a needle, an arm) — a large one (a panel
-// tracking the sun) casts the shadow of where it was modelled; what spins turns in its own outline.
-const UNSHADOWED = new Set(['needle', 'stroke']);
-const SHADOWED_FROM_M = .2;
-const castsNone = e => UNSHADOWED.has(e.as) && Math.max(...e.boxM[1].map((v, i) => v - e.boxM[0][i])) < SHADOWED_FROM_M;
 // A tone is [r, g, b, glow]. A lamp is green, amber for caution, red for a fault alone (docs/style.md), or dark; a glow
 // and a fill's lit steps are their picture lit, the rest dimmed.
 const LAMP = { running: [.42, 1, .5, 1], short: [...AMBER, 1], fault: [1, .25, .18, 1], off: [.2, .23, .21, 0] };
@@ -98,8 +91,6 @@ const textures = new Map();   // picture path → { texture, aspect } once loade
 let versions = {};            // served path → its version (assets.json `files`)
 let gl, shaders, samplers, canvas, light;
 let scene = null;             // what setScene was last given, built: { key, things, statics, devices, extent, lintels }
-// The shadow map for scene.key, and the meshes and cutout pictures it was drawn without: `stale` once one arrives.
-let sun = null;
 let targets = null;           // the pictures each pass draws into, at one size
 const marks = { hover: 0, open: [] };
 const view = { target: [0, 0, 0], yaw: 0, pitch: PITCH.start, zoom: ZOOM.start, cells: 10, matrix: null, inverse: null,
@@ -148,11 +139,12 @@ export function sceneCanvas() {
 
 function context() {
   if (gl !== undefined) return gl;
-  gl = document.createElement('canvas').getContext('webgl2', { antialias: false, alpha: true, premultipliedAlpha: false }) ?? null;
+  // Kept between frames: a frame redraws the boxes round what moved, and the rest of the picture is the last frame's.
+  gl = document.createElement('canvas').getContext('webgl2',
+    { antialias: false, alpha: true, premultipliedAlpha: false, preserveDrawingBuffer: true }) ?? null;
   if (!gl) return gl;
   shaders = {
-    gbuffer: program(G_VERTEX, G_FRAGMENT), sun: program(SUN_VERTEX, SUN_FRAGMENT),
-    light: program(FULL_VERTEX, LIGHT_FRAGMENT), resolve: program(FULL_VERTEX, RESOLVE_FRAGMENT),
+    gbuffer: program(G_VERTEX, G_FRAGMENT), light: program(FULL_VERTEX, LIGHT_FRAGMENT),
   };
   samplers = { true: sampler(gl.REPEAT), false: sampler(gl.CLAMP_TO_EDGE) };
   return gl;
@@ -477,15 +469,9 @@ function textureOf(src) {
     gl.generateMipmap(gl.TEXTURE_2D);
     textures.set(src, { texture: t, aspect: image.width / image.height });
     image.close();
-    arrived(src);
+    request();
   })());
   return null;
-}
-
-/** `path` has loaded: the shadow map is drawn again if it was drawn without it, and the whole picture is. */
-function arrived(path) {
-  if (sun?.missing.has(path)) sun.stale = true;
-  request();
 }
 
 /** A model's triangles on the card, once; null until they have loaded, when the scene is drawn again. */
@@ -508,7 +494,7 @@ function loadedMesh(path) {
     gl.bindVertexArray(null);
     meshes.set(path, { meta, vao, pictures: looksOf(path) });
     meshesLoaded++;
-    arrived(path);
+    request();
   })());
   return null;
 }
@@ -629,18 +615,10 @@ function face(column, row, side, from, to, out, lowM = 0, highM = WALL_HIGH_M) {
 
 /**
  * Each thing's draws: the statics, then every device as its model's looks, each with its own place, turn and stretch,
- * and its live parts as they stand (`liveFrame`). The sun's map is drawn once for a scene, so what swings casts nothing;
- * it needs only the pictures of what is cut out, and is told what it was drawn without: the paths it misses. `within`,
- * a box on the targets, leaves out each device that cannot draw into it (`d.rect`, `reaches`).
+ * and its live parts as they stand (`liveFrame`). `within`, a box on the targets, leaves out each device that cannot
+ * draw into it (`d.rect`, `reaches`).
  */
-function drawScene(u, forSun, within = null) {
-  const missing = new Set();
-  // A picture the sun's map draws without: its depth is its shape's alone, unless it is cut out.
-  const pictureOf = (src, cutout) => {
-    const picture = textureOf(src);
-    if (!picture && forSun && cutout) missing.add(src);
-    return picture ?? (forSun && !cutout ? { texture: null } : null);
-  };
+function drawScene(u, within = null) {
   gl.vertexAttrib1f(6, 0);
   gl.uniformMatrix3fv(u.uTurn, false, UNTURNED);
   gl.activeTexture(gl.TEXTURE0);
@@ -654,27 +632,23 @@ function drawScene(u, forSun, within = null) {
     gl.bindVertexArray(scene.statics.vao);
     for (const d of scene.statics.draws) {
       if (within && !reaches(scene.statics.chunks.get(d.chunk).rect, within)) continue;
-      const picture = pictureOf(d.src, d.cutout);
+      const picture = textureOf(d.src);
       if (!picture) continue;
       bindPicture(u, picture.texture, false, d.cutout, 1);
       gl.drawArrays(gl.TRIANGLES, d.first, d.count);
     }
-  } else for (const src of scene.lintels) missing.add(src);
+  }
   for (const d of scene.devices) {
     if (within && !reaches(d.rect, within)) continue;
     const mesh = loadedMesh(d.path);
-    if (!mesh) {
-      missing.add(d.path);
-      continue;
-    }
+    if (!mesh) continue;
     gl.bindVertexArray(mesh.vao);
     gl.uniform3fv(u.uOffset, d.offset);
     gl.uniform3fv(u.uScale, d.scale);
     gl.uniformMatrix3fv(u.uTurn, false, d.turn);
     gl.vertexAttrib1f(4, d.thing);
     gl.vertexAttrib1f(5, 1);
-    if (forSun) gl.uniform1i(u.uSwings, (mesh.meta.live ?? []).reduce((bits, e, i) => castsNone(e) ? bits | 1 << i : bits, 0));
-    else if (d.live) {
+    if (d.live) {
       gl.uniformMatrix4fv(u.uLiveMove, false, d.live.move);
       gl.uniform4fv(u.uLiveOn, d.live.on);
       gl.uniform4fv(u.uLiveOff, d.live.off);
@@ -683,7 +657,7 @@ function drawScene(u, forSun, within = null) {
     }
     for (const [look, first, count] of mesh.meta.draws) {
       const l = mesh.meta.looks[look];
-      const picture = pictureOf(mesh.pictures[look], l.cutout);
+      const picture = textureOf(mesh.pictures[look]);
       if (!picture) continue;
       bindPicture(u, picture.texture, l.wrap, l.cutout, l.shade);
       gl.drawArrays(gl.TRIANGLES, first * 3, count * 3);
@@ -691,7 +665,6 @@ function drawScene(u, forSun, within = null) {
   }
   gl.bindVertexArray(null);
   gl.bindSampler(0, null);
-  return missing;
 }
 
 const UNTURNED = turned(0);
@@ -718,15 +691,13 @@ function targetsFor(width, height) {
   const ss = pace.supersample && devicePixelRatio < 2 && width * height * SUPERSAMPLE ** 2 <= SUPERSAMPLED_MOST_PX
     ? SUPERSAMPLE : 1;
   const size = [width * ss, height * ss];
-  if (targets && `${targets.size}` === `${size}`) return targets;
+  if (targets && `${targets.size}` === `${size}` && targets.ss === ss) return targets;
   if (targets) {
-    [targets.albedo, targets.normal, targets.thing, targets.depth, targets.lit].forEach(t => gl.deleteTexture(t));
+    [targets.albedo, targets.normal, targets.thing, targets.depth].forEach(t => gl.deleteTexture(t));
     gl.deleteFramebuffer(targets.gbuffer);
-    gl.deleteFramebuffer(targets.light);
   }
-  const t = { size, ss, albedo: colour(size), normal: colour(size), thing: colour(size), depth: depthTexture(size), lit: colour(size) };
+  const t = { size, ss, albedo: colour(size), normal: storage(gl.RG8, size), thing: colour(size), depth: depthTexture(size) };
   t.gbuffer = framebuffer([t.albedo, t.normal, t.thing], t.depth);
-  t.light = framebuffer([t.lit], null);
   targets = t;
   return t;
 }
@@ -755,40 +726,6 @@ function storage(format, [w, h]) {
 }
 
 /**
- * The sun's view of the whole scene, as depth: drawn again only when the scene changes or what it was drawn without
- * arrives (`missing`, `stale`), into the last map when that is its size.
- */
-function sunMap() {
-  const s = light.sun, across = unit(cross([0, 0, 1], s)), along = cross(s, across);
-  const corners = cornersOf(scene.extent);
-  const [a0, a1] = range(corners.map(c => dot(c, across))), [b0, b1] = range(corners.map(c => dot(c, along)));
-  const [s0, s1] = range(corners.map(c => dot(c, s)));
-  const pxM = Math.min(light.shadowPxM, Math.min(SHADOW_MAX_PX, gl.getParameter(gl.MAX_TEXTURE_SIZE)) / Math.max(a1 - a0, b1 - b0));
-  const size = [Math.ceil((a1 - a0) * pxM) + 2, Math.ceil((b1 - b0) * pxM) + 2];
-  const depth = s1 - s0;
-  // World to the map's clip space: across and along to x and y, nearer the sun to lower depth.
-  const matrix = new Float32Array([
-    2 / (a1 - a0) * across[0], 2 / (b1 - b0) * along[0], -2 / depth * s[0], 0,
-    2 / (a1 - a0) * across[1], 2 / (b1 - b0) * along[1], -2 / depth * s[1], 0,
-    2 / (a1 - a0) * across[2], 2 / (b1 - b0) * along[2], -2 / depth * s[2], 0,
-    -2 * a0 / (a1 - a0) - 1, -2 * b0 / (b1 - b0) - 1, 2 * s0 / depth + 1, 1,
-  ]);
-  const kept = sun && `${sun.size}` === `${size}`;
-  if (sun && !kept) gl.deleteTexture(sun.map);
-  const map = kept ? sun.map : depthTexture(size);
-  const f = framebuffer([], map);
-  gl.viewport(0, 0, ...size);
-  gl.enable(gl.DEPTH_TEST);
-  gl.clear(gl.DEPTH_BUFFER_BIT);
-  const { p, u } = shaders.sun;
-  gl.useProgram(p);
-  gl.uniformMatrix4fv(u.uMatrix, false, matrix);
-  const missing = drawScene(u, true);
-  gl.deleteFramebuffer(f);
-  return { key: scene.key, map, size, matrix, depth, texelM: 1 / pxM, missing, stale: false };
-}
-
-/**
  * Draws a frame at `ms` (the display's clock): everything, or — when only live parts moved since the last — the
  * costly passes round them alone, the rest of the picture kept from the frame before: the scene over one box round
  * all of them, and the light, the costliest, over the box round each. Says whether it drew.
@@ -800,13 +737,13 @@ function draw(ms) {
     return false;
   }
   const width = Math.round(canvas.clientWidth * devicePixelRatio), height = Math.round(canvas.clientHeight * devicePixelRatio);
-  if (canvas.width !== width || canvas.height !== height) Object.assign(canvas, { width, height });
-  if (!scene.statics) {
-    scene.statics = buildStatics(scene);
+  // A canvas sized again is cleared.
+  if (canvas.width !== width || canvas.height !== height) {
+    Object.assign(canvas, { width, height });
     whole = true;
   }
-  if (!sun || sun.key !== scene.key || sun.stale) {
-    sun = sunMap();
+  if (!scene.statics) {
+    scene.statics = buildStatics(scene);
     whole = true;
   }
   const before = targets, t = targetsFor(width, height);
@@ -834,57 +771,50 @@ function draw(ms) {
   for (const b of boxes ?? [null]) {
     if (b) gl.scissor(...b);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    drawScene(u, false, b);
+    drawScene(u, b);
   }
 
-  gl.bindFramebuffer(gl.FRAMEBUFFER, t.light);
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  gl.viewport(0, 0, width, height);
   gl.disable(gl.DEPTH_TEST);
   ({ p, u } = shaders.light);
   gl.useProgram(p);
-  [[t.albedo, 'uAlbedo'], [t.normal, 'uNormal'], [t.depth, 'uDepthTex'], [sun.map, 'uShadowTex'], [t.thing, 'uThingTex']]
+  [[t.albedo, 'uAlbedo'], [t.normal, 'uNormal'], [t.depth, 'uDepthTex'], [t.thing, 'uThingTex']]
     .forEach(([texture, name], i) => {
       gl.activeTexture(gl.TEXTURE0 + i);
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.uniform1i(u[name], i);
     });
   gl.uniformMatrix4fv(u.uInverse, false, view.inverse);
-  gl.uniformMatrix4fv(u.uSunMatrix, false, sun.matrix);
   gl.uniform3fv(u.uEye, view.eye);
   gl.uniform3fv(u.uSun, light.sun);
   gl.uniform3fv(u.uAmber, AMBER);
-  gl.uniform2fv(u.uShadowSize, sun.size);
   gl.uniform2fv(u.uAoRadii, light.aoRadiiM);
   gl.uniform1i(u.uAoDirs, light.aoDirections);
-  gl.uniform1i(u.uStep, t.ss);
+  gl.uniform1i(u.uSS, t.ss);
   gl.uniform1i(u.uGlowPx, GLOW_PX * t.ss);
   gl.uniform1i(u.uHover, marks.hover);
   gl.uniform1iv(u.uOpen, Int32Array.from({ length: OPEN_MAX }, (_, i) => marks.open[i] ?? -1));
   gl.uniform1i(u.uOpenCount, marks.open.length);
   const scalars = {
-    uPxPerMetre: t.size[1] / (2 * Math.tan(FOV_DEG * Math.PI / 360)), uSunDepth: sun.depth, uShadowTexelM: sun.texelM, uAmbient: light.ambient,
-    uKeep: light.shadowKeep, uLift: light.shadowLiftM, uBias: light.shadowBiasM, uAoStrength: light.aoStrength,
+    uPxPerMetre: t.size[1] / (2 * Math.tan(FOV_DEG * Math.PI / 360)), uAmbient: light.ambient, uAoStrength: light.aoStrength,
     uAoMargin: light.aoMarginM, uEdgeM: light.edgeM, uEdgeShade: light.edgeShade, uFoldCos: light.foldCos,
     uFoldLight: light.foldLight, uHoverLight: HOVER_LIGHT, uGlowGain: GLOW_GAIN, uHalo: HALO,
   };
   for (const [name, v] of Object.entries(scalars)) gl.uniform1f(u[name], v);
   gl.uniform1i(u.uHaloPx, HALO_PX * t.ss);
   for (const b of boxes ?? [null]) {
-    if (b) gl.scissor(...b);
+    if (b) gl.scissor(...onCanvas(b, t.ss));
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }
   gl.disable(gl.SCISSOR_TEST);
-
-  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-  gl.viewport(0, 0, width, height);
-  gl.clear(gl.COLOR_BUFFER_BIT);
-  ({ p, u } = shaders.resolve);
-  gl.useProgram(p);
-  gl.activeTexture(gl.TEXTURE0);
-  gl.bindTexture(gl.TEXTURE_2D, t.lit);
-  gl.uniform1i(u.uLit, 0);
-  gl.uniform1i(u.uSS, t.ss);
-  gl.drawArrays(gl.TRIANGLES, 0, 3);
   return true;
+}
+
+/** A box of the targets (x, y, width, height) as the canvas's pixels that cover it. */
+function onCanvas([x, y, w, h], ss) {
+  const x0 = Math.floor(x / ss), y0 = Math.floor(y / ss);
+  return [x0, y0, Math.ceil((x + w) / ss) - x0, Math.ceil((y + h) / ss) - y0];
 }
 
 /**
@@ -1176,6 +1106,22 @@ void main() {
   vTint = aTint;
 }`;
 
+// A unit normal as two numbers 0–1 and back: folded onto an octahedron and flattened, so a two-channel target holds it
+// as finely as three channels held its components.
+const OCTAHEDRAL = `
+vec2 octOf(vec3 n) {
+  n /= abs(n.x) + abs(n.y) + abs(n.z);
+  vec2 e = n.z >= 0. ? n.xy : (1. - abs(n.yx)) * vec2(n.x >= 0. ? 1. : -1., n.y >= 0. ? 1. : -1.);
+  return e * .5 + .5;
+}
+vec3 normalOf(vec2 stored) {
+  vec2 e = stored * 2. - 1.;
+  vec3 n = vec3(e, 1. - abs(e.x) - abs(e.y));
+  float t = max(-n.z, 0.);
+  n.xy += vec2(n.x >= 0. ? -t : t, n.y >= 0. ? -t : t);
+  return normalize(n);
+}`;
+
 // A face turned from the eye is not drawn, as the renderer culls it; a little past edge-on still is, so a round part's
 // interpolated normal opens no gap along its outline. A live part takes its tone — uLiveOn on the lit side of its
 // split (a fill's reach along its axis), uLiveOff past it — as its MODE says; how much it glows goes out in the
@@ -1194,8 +1140,9 @@ uniform vec3 uEye;
 uniform vec4 uLiveOn[${LIVE_MAX}], uLiveOff[${LIVE_MAX}], uLiveSplit[${LIVE_MAX}];
 uniform int uLiveMode[${LIVE_MAX}];
 layout(location = 0) out vec4 oAlbedo;
-layout(location = 1) out vec4 oNormal;
+layout(location = 1) out vec2 oNormal;
 layout(location = 2) out vec4 oThing;
+${OCTAHEDRAL}
 void main() {
   vec3 n = normalize(vN);
   if (dot(n, normalize(uEye - vWorld)) < -.2) discard;
@@ -1213,37 +1160,9 @@ void main() {
     glow = tone.a * lens;
   }
   oAlbedo = vec4(c * mix(uShade * vTint, 1., glow), glow);
-  oNormal = vec4(n * .5 + .5, 1.);
+  oNormal = octOf(n);
   uint id = uint(vThing + .5);
   oThing = vec4(float(id & 255u), float((id >> 8) & 255u), float((id >> 16) & 255u), 255.) / 255.;
-}`;
-
-// A live part that swings (uSwings, a bit each) is left out: the map is drawn once for a scene.
-const SUN_VERTEX = `#version 300 es
-layout(location = 0) in vec3 aP;
-layout(location = 2) in vec2 aUV;
-layout(location = 6) in float aLive;
-uniform mat4 uMatrix;
-uniform mat3 uTurn;
-uniform vec3 uOffset, uScale;
-uniform int uSwings;
-out vec2 vUV;
-void main() {
-  int live = int(aLive + .5);
-  gl_Position = live > 0 && ((uSwings >> (live - 1)) & 1) == 1 ? vec4(2., 2., 2., 1.)
-    : uMatrix * vec4(uTurn * (aP * uScale) + uOffset, 1.);
-  vUV = aUV;
-}`;
-
-// A cutout face casts only where its picture is solid.
-const SUN_FRAGMENT = `#version 300 es
-precision highp float;
-in vec2 vUV;
-uniform sampler2D uTex;
-uniform bool uCutout;
-uniform float uCutAlpha;
-void main() {
-  if (uCutout && texture(uTex, vUV).a < uCutAlpha) discard;
 }`;
 
 const FULL_VERTEX = `#version 300 es
@@ -1251,22 +1170,25 @@ void main() {
   gl_Position = vec4(gl_VertexID == 1 ? 3. : -1., gl_VertexID == 2 ? 3. : -1., 0., 1.);
 }`;
 
-// The renderer's light pass (_shapes_render.lit) for a camera in perspective: the sun by the normal and its shadow map;
-// ambient occlusion and the outlines measured as how far a neighbour stands off a pixel's own plane, the neighbours
-// taken as far apart on the page as the renderer's radii are at that distance; then what is pointed at, lit, and what
-// is open, ringed. What glows (the albedo's alpha) is lit by itself, and lights the pixels round it.
+// The renderer's light pass (_shapes_render.lit) for a camera in perspective, less its shadows (none is cast on the
+// ship's floor): the light's direction by the normal; ambient occlusion and the outlines measured as how far a
+// neighbour stands off a pixel's own plane, the neighbours taken as far apart on the page as the renderer's radii are
+// at that distance; then what is pointed at, lit, and what is open, ringed. What glows (the albedo's alpha) is lit by
+// itself, and lights the pixels round it.
 const LIGHT_FRAGMENT = `#version 300 es
 precision highp float;
-uniform sampler2D uAlbedo, uNormal, uDepthTex, uShadowTex, uThingTex;
-uniform mat4 uInverse, uSunMatrix;
+uniform sampler2D uAlbedo, uNormal, uDepthTex, uThingTex;
+uniform mat4 uInverse;
 uniform vec3 uEye, uSun, uAmber;
-uniform vec2 uShadowSize, uAoRadii;
-uniform float uPxPerMetre, uSunDepth, uShadowTexelM, uAmbient, uKeep, uLift, uBias, uAoStrength, uAoMargin, uEdgeM, uEdgeShade,
-              uFoldCos, uFoldLight, uHoverLight, uGlowGain, uHalo;
-uniform int uAoDirs, uStep, uGlowPx, uHover, uHaloPx, uOpenCount;
+uniform vec2 uAoRadii;
+uniform float uPxPerMetre, uAmbient, uAoStrength, uAoMargin, uEdgeM, uEdgeShade, uFoldCos, uFoldLight, uHoverLight,
+              uGlowGain, uHalo;
+uniform int uAoDirs, uSS, uGlowPx, uHover, uHaloPx, uOpenCount;
 uniform int uOpen[${OPEN_MAX}];
 out vec4 oColour;
 ivec2 size;
+${OCTAHEDRAL}
+vec3 normalAt(ivec2 p) { return normalOf(texelFetch(uNormal, p, 0).xy); }
 
 bool inside(ivec2 p) { return all(greaterThanEqual(p, ivec2(0))) && all(lessThan(p, size)); }
 float depthOf(ivec2 p) { return inside(p) ? texelFetch(uDepthTex, p, 0).r : 1.; }
@@ -1282,9 +1204,7 @@ bool isOpen(int id) {
   for (int i = 0; i < uOpenCount; i++) if (uOpen[i] == id && id > 0) return true;
   return false;
 }
-void main() {
-  size = textureSize(uDepthTex, 0);
-  ivec2 p = ivec2(gl_FragCoord.xy);
+vec4 shade(ivec2 p) {
   float z = texelFetch(uDepthTex, p, 0).r;
   int me = thingAt(p);
   vec4 ring = vec4(0.);
@@ -1294,28 +1214,12 @@ void main() {
         ivec2 q = p + ivec2(x, y);
         if (inside(q) && isOpen(thingAt(q))) ring = vec4(uAmber, .85);
       }
-  if (z >= 1.) { oColour = ring; return; }
+  if (z >= 1.) return ring;
   vec3 P = worldAt(p, z);
-  vec3 n = normalize(texelFetch(uNormal, p, 0).xyz * 2. - 1.);
+  vec3 n = normalAt(p);
   float pxPerM = uPxPerMetre / distance(P, uEye);
 
   float toSun = dot(n, uSun);
-  // A map pixel holds its surface's depth at the pixel's centre, and a plane slanted off the sun departs from that by
-  // the slant's tangent a metre across; lifted that far times the slant's sine along its normal, a point clears its
-  // own plane out to the farthest centre read. The renderer's fixed lift alone holds only at its own pixels a metre.
-  float slant = sqrt(max(0., 1. - toSun * toSun));
-  float reachM = (float(${SHADOW_KERNEL_PX}) + .5) * sqrt(2.) * uShadowTexelM;
-  vec3 q = P + n * (uLift + reachM * slant);
-  vec4 s = uSunMatrix * vec4(q, 1.);
-  vec2 st = (s.xy * .5 + .5) * uShadowSize;
-  float qz = s.z * .5 + .5 - uBias / uSunDepth;
-  float reached = 0.;
-  for (int dy = -${SHADOW_KERNEL_PX}; dy <= ${SHADOW_KERNEL_PX}; dy++)
-    for (int dx = -${SHADOW_KERNEL_PX}; dx <= ${SHADOW_KERNEL_PX}; dx++) {
-      ivec2 c = clamp(ivec2(floor(st)) + ivec2(dx, dy), ivec2(0), ivec2(uShadowSize) - 1);
-      reached += texelFetch(uShadowTex, c, 0).r >= qz ? 1. : 0.;
-    }
-  float sunlit = reached / float((2 * ${SHADOW_KERNEL_PX} + 1) * (2 * ${SHADOW_KERNEL_PX} + 1));
 
   float blocked = 0.;
   int samples = 0;
@@ -1333,19 +1237,19 @@ void main() {
   float ao = 1. - uAoStrength * blocked / float(samples);
 
   bool outline = false, fold = false;
-  ivec2 steps[4] = ivec2[4](ivec2(uStep, 0), ivec2(-uStep, 0), ivec2(0, uStep), ivec2(0, -uStep));
+  ivec2 steps[4] = ivec2[4](ivec2(uSS, 0), ivec2(-uSS, 0), ivec2(0, uSS), ivec2(0, -uSS));
   for (int i = 0; i < 4; i++) {
     ivec2 o = p + steps[i];
     float zn = depthOf(o);
     if (zn >= 1.) { outline = true; continue; }
     float rise = dot(worldAt(o, zn) - P, n);
     outline = outline || rise > uEdgeM;
-    vec3 m = normalize(texelFetch(uNormal, o, 0).xyz * 2. - 1.);
+    vec3 m = normalAt(o);
     fold = fold || (dot(n, m) < uFoldCos && rise < 0. && rise > -uEdgeM && toSun > dot(m, uSun));
   }
   float edge = outline ? uEdgeShade : fold ? uFoldLight : 1.;
 
-  float light = (uAmbient + (1. - uAmbient) * max(toSun, 0.) * (uKeep + (1. - uKeep) * sunlit)) * ao;
+  float light = (uAmbient + (1. - uAmbient) * max(toSun, 0.)) * ao;
   vec4 albedo = texelFetch(uAlbedo, p, 0);
   vec3 c = albedo.rgb * mix(light, uGlowGain, albedo.a) * edge * (me == uHover && me > 0 ? uHoverLight : 1.);
   vec3 halo = vec3(0.);
@@ -1355,22 +1259,18 @@ void main() {
     halo += near.rgb * near.a;
   }
   c += halo * uHalo / 8.;
-  oColour = vec4(mix(c, ring.rgb, ring.a), 1.);
-}`;
-
-// Averaged down premultiplied, so an edge fades to space rather than to black.
-const RESOLVE_FRAGMENT = `#version 300 es
-precision highp float;
-uniform sampler2D uLit;
-uniform int uSS;
-out vec4 oColour;
+  return vec4(mix(c, ring.rgb, ring.a), 1.);
+}
+// A canvas pixel is the average of the uSS × uSS target pixels it covers, premultiplied, so an edge fades to space
+// rather than to black.
 void main() {
+  size = textureSize(uDepthTex, 0);
   ivec2 p = ivec2(gl_FragCoord.xy) * uSS;
   vec3 c = vec3(0.);
   float a = 0.;
   for (int y = 0; y < uSS; y++)
     for (int x = 0; x < uSS; x++) {
-      vec4 t = texelFetch(uLit, p + ivec2(x, y), 0);
+      vec4 t = shade(p + ivec2(x, y));
       c += t.rgb * t.a;
       a += t.a;
     }

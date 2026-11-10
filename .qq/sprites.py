@@ -11,6 +11,9 @@ every sprite traces back to its first prompt. The rules are raw_assets/index.md.
     qq sprites mask devices_a-v1 oxygen_generator   the frame with that drawing transparent, for a remotegen --mask redo
     qq sprites keep devices_a-v1 oxygen_generator food_farm --at=ship/devices --score=4
     qq sprites use oxygen_generator-v1 --px=128     the variant becomes the game's sprite, longest side 128 px
+    qq sprites reinstall                            every installed sprite made again from the variant and at the size
+                                                    its .src.json records, and its model and textures exported again,
+                                                    as `use` writes them now; or those named
     qq sprites trace oxygen_generator               sprite -> variant -> frame -> prompt and inputs
     qq sprites cost oxygen_generator                its share of every billed frame that asked for it, attempts and all
     qq sprites cost                                 every installed sprite's cost, dearest first, and the whole spend
@@ -55,6 +58,16 @@ LEGACY = RAW / "legacy.txt"
 VARIANTS = "variants.jsonl"
 SOURCE = ".src.json"
 IMAGES = (".png", ".webp")
+#: What the page is given (a sprite, a model's texture): lossy WebP at this quality, its alpha exact. As PNG a page's
+#: art is six times the bytes, and a generated picture's grain is past what the eye tells apart at this.
+SPRITE = ".webp"
+WEBP_QUALITY = 90
+#: The stylesheet's own art (`PAGE_ART`) at this: it repeats and slices it, and below this the coder smooths a tile's
+#: inside more than the edge it wraps to, a seam `qq fit` finds (GAM-14).
+PAGE_ART_QUALITY = 100
+#: A model's texture (`TEXTURES`) at this: the floor lights it, shades it and shows it smaller than it is.
+TEXTURE_QUALITY = 70
+TEXTURES = Path("assets/textures")
 #: A device as the game draws it (GAM-10): its model's triangles, beside its sprite (_shapes_mesh).
 MESH = ".mesh.json"
 #: The page's own art — housings, plates, keys, the sky — shown flat as rendered, never in the floor's scene: a model's
@@ -97,6 +110,8 @@ def main():
         return 1 if problems else 0
     if a.action == "catalog":
         return catalog(base, [asset_id(r) for r in a.refs], a)
+    if a.action == "reinstall":
+        return reinstall(base, [asset_id(r) for r in a.refs])
     if a.action == "rename":
         import _rename
 
@@ -436,17 +451,14 @@ def use(base: Path, variant: str, px: int) -> int:
     picture = found[0]
     ident = variant.rsplit("-v", 1)[0]
     folder = picture.parent.parent.relative_to(base / RAW)
-    sprite = base / ASSETS / folder / f"{ident}.png"
-    sprite.parent.mkdir(parents=True, exist_ok=True)
+    sprite = base / ASSETS / folder / f"{ident}{SPRITE}"
 
     image = Image.open(picture)
     if px:
         scale = px / max(image.size)
         image = image.resize((max(1, round(image.width * scale)), max(1, round(image.height * scale))),
                              Image.Resampling.LANCZOS)
-    image.save(sprite)
-    sprite.with_name(f"{ident}{SOURCE}").write_text(json.dumps(
-        {"variant": _sim.rel(base, picture), "px": list(image.size)}, indent=2) + "\n", encoding="utf-8")
+    install(base, image, sprite, picture)
 
     rows = picture.parent / VARIANTS
     marked, used = [], None
@@ -469,13 +481,61 @@ def use(base: Path, variant: str, px: int) -> int:
     return 0
 
 
+def save_for_page(image, path: Path) -> None:
+    """`image` written as the page is given it (`SPRITE`), at the quality of where it is drawn."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    under = lambda folder: path.resolve().is_relative_to((_sim.root() / folder).resolve())
+    quality = PAGE_ART_QUALITY if under(PAGE_ART) else TEXTURE_QUALITY if under(TEXTURES) else WEBP_QUALITY
+    image.convert("RGBA").save(path, "WEBP", quality=quality, alpha_quality=100, method=6)
+
+
+def install(base: Path, image, sprite: Path, picture: Path) -> None:
+    """`image`, made from the kept variant `picture`, as the sprite at `sprite`, with the .src.json that traces it."""
+    save_for_page(image, sprite)
+    for older in IMAGES:
+        if older != SPRITE:
+            sprite.with_suffix(older).unlink(missing_ok=True)
+    sprite.with_name(f"{sprite.stem}{SOURCE}").write_text(json.dumps(
+        {"variant": _sim.rel(base, picture), "px": list(image.size)}, indent=2) + "\n", encoding="utf-8")
+
+
+def reinstall(base: Path, idents: list[str]) -> int:
+    """
+    Every installed sprite, or those of `idents`, made again from its variant at the size its .src.json records, and
+    the model the game draws beside one exported again with its textures — what a change to how `use` writes either
+    needs.
+    """
+    from PIL import Image
+    import _shapes_mesh
+
+    sources = [s for s in sorted((base / ASSETS).rglob(f"*{SOURCE}"))
+               if (not idents or s.name[: -len(SOURCE)] in idents) and "px" in json.loads(s.read_text(encoding="utf-8"))]
+    if idents and len(sources) != len(idents):
+        cli.fail(f"{len(sources)} installed sprites for {len(idents)} ids")
+    models = 0
+    for source in sources:
+        named = json.loads(source.read_text(encoding="utf-8"))
+        picture = base / named["variant"]
+        image = Image.open(picture)
+        if list(image.size) != named["px"]:
+            image = image.resize(tuple(named["px"]), Image.Resampling.LANCZOS)
+        sprite = source.with_name(source.name[: -len(SOURCE)] + SPRITE)
+        install(base, image, sprite, picture)
+        if sprite.with_name(sprite.stem + MESH).is_file():
+            row = next(r for r in read_rows(picture.parent / VARIANTS) if r["variant"] == picture.stem)
+            _shapes_mesh.export(base, row, sprite)
+            models += 1
+    print(f"{len(sources)} sprite(s) made again as {SPRITE}, {models} with the model the game draws")
+    return 0
+
+
 def trace(base: Path, ident: str) -> int:
     """Sprite, variant, frame, and the frame's prompt and inputs — and any frame it was edited from, the same way."""
     sources = sorted((base / ASSETS).rglob(f"{ident}{SOURCE}"))
     if not sources:
         cli.fail(f"no {ident}{SOURCE} under {ASSETS}/")
     source = json.loads(sources[0].read_text(encoding="utf-8"))
-    print(f"sprite   {_sim.rel(base, sources[0].with_name(ident + '.png'))}  {source.get('px')}")
+    print(f"sprite   {_sim.rel(base, sources[0].with_name(ident + SPRITE))}  {source.get('px')}")
     trace_variant(base, base / source["variant"], "", set())
     return 0
 
@@ -632,11 +692,12 @@ def parse_args():
         allow_abbrev=False,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument("action", choices=["cut", "mask", "keep", "use", "trace", "cost", "check", "catalog", "rename"],
+    parser.add_argument("action", choices=["cut", "mask", "keep", "use", "reinstall", "trace", "cost", "check", "catalog",
+                                           "rename"],
                         help="what to do (the module's docstring has one line of each)")
     parser.add_argument("refs", nargs="*",
                         help="a frame id then asset ids (cut, mask, keep), a variant id (use), an asset id (trace), "
-                             "asset ids or none (cost, catalog), an asset id and its new id (rename)")
+                             "asset ids or none (reinstall, cost, catalog), an asset id and its new id (rename)")
     parser.add_argument("--kind", default=None, metavar="KIND",
                         help="of catalog: material, face or decal for a texture (_catalog.KINDS)")
     parser.add_argument("--sets", default=None, metavar="A,B", help="of catalog: the sets, replacing any")

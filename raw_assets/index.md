@@ -27,7 +27,8 @@ raw_assets/                        committed
   _spend.jsonl                     every billed call, kept or not: frame, model, cost, the cells it asked
   legacy.txt                       images under assets/ that trace to nothing yet
 
-assets/<path>/<id>.png             the sprite, and <id>.src.json beside it: the variant it was made from, its size
+assets/<path>/<id>.webp            the sprite, lossy at `qq sprites`' quality, its alpha exact, and <id>.src.json beside it:
+                                   the variant it was made from, its size
 assets/<path>/<id>.mesh.json       of a render of a model, the model as the page draws it live (GAM-10): its variant,
 assets/<path>/<id>.mesh.bin        its looks and light; its triangles; written by `use` with the textures it wears
 assets/textures/<texture>.webp     each as a face wears it, inset and made seamless, its .src.json naming its variant

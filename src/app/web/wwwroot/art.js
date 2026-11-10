@@ -4,6 +4,8 @@
 
 const DEVICES = 'assets/devices';
 const FLOOR = 'assets/ship/floor';
+// What every installed picture is (`qq sprites`).
+const PICTURE = '.webp';
 
 // A role's devices with no paint of their own take the shared one of the trade nearest theirs.
 const GENERIC = {
@@ -78,7 +80,7 @@ const SEAM_EVERY = 3;
 const PANEL_FITTINGS = [[7, 'panel_vent'], [11, 'panel_hatch'], [13, 'panel_porthole'], [17, 'panel_intercom']];
 const CAP_FITTINGS = [[5, 'cap_straight_worn'], [7, 'cap_straight_inspect']];
 const mixOf = (column, row) => Math.abs((column * TILE_MIX_COLUMN) ^ (row * TILE_MIX_ROW));
-const art = name => `${DEVICES}/any_${name}.png`;
+const art = name => `${DEVICES}/any_${name}${PICTURE}`;
 const seamed = (column, row) => mixOf(column, row) % SEAM_EVERY === 0;
 
 function plainOf(column, row, fittings, seam, plain) {
@@ -149,13 +151,13 @@ export function deckOf(across, doors = []) {
   const thresholds = new Map(doors.map(({ column, row }) => row === 0 ? [at(column, 1), 0]
     : row === last ? [at(column, last - 1), 180] : column === 0 ? [at(1, row), 270] : [at(last - 1, row), 90]));
   return plateOf.map((plate, i) => {
-    if (thresholds.has(i)) return { src: `${FLOOR}/deck_threshold.png`, deg: thresholds.get(i), tint: 1 };
+    if (thresholds.has(i)) return { src: `${FLOOR}/deck_threshold${PICTURE}`, deg: thresholds.get(i), tint: 1 };
     const column = i % across, row = Math.floor(i / across);
     const edges = (same(column, row - 1, plate) ? 0 : NORTH) | (same(column + 1, row, plate) ? 0 : EAST)
       | (same(column, row + 1, plate) ? 0 : SOUTH) | (same(column - 1, row, plate) ? 0 : WEST);
     let [tile, deg] = DECK_TILES[edges];
     if (edges === (NORTH | EAST | SOUTH | WEST) && mixOf(column, row) % FITTING_EVERY === 0)
       tile = DECK_FITTINGS[mixOf(row, column) % DECK_FITTINGS.length];
-    return { src: `${FLOOR}/deck_${tile}.png`, deg, tint: PLATE_TINTS[plate % PLATE_TINTS.length] };
+    return { src: `${FLOOR}/deck_${tile}${PICTURE}`, deg, tint: PLATE_TINTS[plate % PLATE_TINTS.length] };
   });
 }

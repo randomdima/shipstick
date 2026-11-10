@@ -14,9 +14,9 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
     ContentRootPath = AppContext.BaseDirectory,
     WebRootPath = "client",
 });
-// A model's triangles (.mesh.bin, application/octet-stream) shrink to a fifth compressed.
+// A model's triangles (.mesh.bin, application/octet-stream) shrink to a fifth compressed, the font (.ttf) to half.
 builder.Services.AddResponseCompression(compression =>
-    compression.MimeTypes = [.. ResponseCompressionDefaults.MimeTypes, "application/octet-stream"]);
+    compression.MimeTypes = [.. ResponseCompressionDefaults.MimeTypes, "application/octet-stream", "application/x-font-ttf"]);
 builder.Services.Configure<BrotliCompressionProviderOptions>(brotli => brotli.Level = CompressionLevel.Optimal);
 builder.Services.AddSingleton(new ServedShip(GameConfig.Default, Catalogue.Embedded));
 builder.Services.AddHostedService(services => services.GetRequiredService<ServedShip>());
@@ -36,17 +36,8 @@ app.UseStaticFiles(new StaticFileOptions
         served.Context.Request.Query.ContainsKey("v") ? versionedCache : "no-cache",
 });
 
-app.MapGet("/codex.json", (HttpContext http, ServedShip ship) =>
-{
-    var headers = http.Response.Headers;
-    headers.CacheControl = "no-cache";
-    headers.ETag = ship.CodexTag;
-    headers.Vary = "Accept-Encoding";
-    if (http.Request.Headers.IfNoneMatch == ship.CodexTag) return Results.StatusCode(StatusCodes.Status304NotModified);
-    if (!http.Request.Headers.AcceptEncoding.ToString().Contains("br")) return Results.Bytes(ship.CodexJson, "application/json");
-    headers.ContentEncoding = "br";
-    return Results.Bytes(ship.CodexBrotli, "application/json");
-});
+app.MapGet("/codex.json", (HttpContext http, ServedShip ship) => ship.Codex.Answer(http));
+app.MapGet("/codex-words.json", (HttpContext http, ServedShip ship) => ship.CodexWords.Answer(http));
 
 // What the host serves under assets/ and at which version, so a page asks for a device's own art only when there is
 // some and otherwise draws the shared art its kind falls back to. Listed once: the assets are the build's.

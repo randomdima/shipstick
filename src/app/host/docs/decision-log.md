@@ -38,8 +38,11 @@ tooling standing in for runtime.
 The host is an ASP.NET Core project (`shipstick.host.csproj`) referencing the game. The client's files are copied beside
 it as written (`client/`) and served as static files, each revalidated on every load, so a new build is never served
 stale; JS and CSS changed under a running host are served once a build has copied them, and C# changes need the host
-started again. Responses are compressed, a model's triangles too; the codex, most of what a client downloads, is
-compressed once at start at Brotli's smallest and answered "not modified" to a client that holds it.
+started again. Responses are compressed, a model's triangles and the font too; the codex, most of what a client
+downloads, is compressed once at start at Brotli's smallest and answered "not modified" to a client that holds it
+(`ServedJson`). It is sent in two (`CodexJson`): the book every page needs for its names and ways, and the items' and
+devices' words — prose, more than half its bytes compressed — which only the codex's window shows and asks for when it
+first opens.
 
 The art is the exception to revalidating, as it is most of the requests a page makes and a reload asked again for
 each over HTTP/1.1. `assets.json` (`AssetList`) gives each file under `assets/` a version, a hash of its bytes, and

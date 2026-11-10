@@ -1,7 +1,4 @@
 using System.Diagnostics;
-using System.IO.Compression;
-using System.Security.Cryptography;
-using System.Text.Json;
 using Shipstick.Codex;
 using Shipstick.Core.Config;
 using Shipstick.Economy;
@@ -30,9 +27,9 @@ sealed class ServedShip : BackgroundService
         Config = config;
         Ways = new WayIndex(catalogue);
         Vessel = StarterShip.Lay(config, catalogue);
-        CodexJson = JsonSerializer.SerializeToUtf8Bytes(CodexBook.Of(catalogue, config), HostJson.Default.CodexBook);
-        CodexBrotli = Brotli(CodexJson);
-        CodexTag = $"\"{Convert.ToHexString(SHA256.HashData(CodexJson))}\"";
+        var codex = CodexBook.Of(catalogue, config);
+        Codex = ServedJson.Of(Host.CodexJson.Book(codex));
+        CodexWords = ServedJson.Of(Host.CodexJson.Words(codex));
         Catalogue = catalogue;
     }
 
@@ -47,17 +44,11 @@ sealed class ServedShip : BackgroundService
     /// <summary>Ship seconds a real second: 1, unless the admin has set it otherwise (WEB-2).</summary>
     public double Rate { get; private set; } = 1;
 
-    /// <summary>The codex's JSON (<see cref="CodexBook"/>), made once: it is built from what the game was compiled with.</summary>
-    public byte[] CodexJson { get; }
+    /// <summary>The codex less its words (<see cref="Host.CodexJson"/>), made once: it is built from what the game was compiled with.</summary>
+    public ServedJson Codex { get; }
 
-    /// <summary>
-    /// <see cref="CodexJson"/> compressed once, at the smallest Brotli makes: it is most of what a client downloads, and
-    /// compressing it per request at that size would cost each client seconds.
-    /// </summary>
-    public byte[] CodexBrotli { get; }
-
-    /// <summary>The codex's entity tag, so a client already holding it is answered "not modified".</summary>
-    public string CodexTag { get; }
+    /// <summary>The codex's words for every item and device, apart from the rest (<see cref="Host.CodexJson"/>).</summary>
+    public ServedJson CodexWords { get; }
 
     public bool Holds(CapsuleAt at) => Vessel.CapsuleOn(at) is not null;
 
@@ -137,13 +128,6 @@ sealed class ServedShip : BackgroundService
     void TellAll()
     {
         foreach (var client in clients) client.Tell(this);
-    }
-
-    static byte[] Brotli(byte[] bytes)
-    {
-        using var compressed = new MemoryStream();
-        using (var brotli = new BrotliStream(compressed, CompressionLevel.SmallestSize)) brotli.Write(bytes);
-        return compressed.ToArray();
     }
 }
 

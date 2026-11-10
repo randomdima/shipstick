@@ -252,7 +252,7 @@ def kept_info(base: Path, ident: str) -> list[dict]:
         installed = {}
         for source in (base / sprites.ASSETS).rglob(f"{ident}{sprites.SOURCE}"):
             named = json.loads(source.read_text(encoding="utf-8"))
-            sprite = source.with_name(f"{ident}.png")
+            sprite = source.with_name(f"{ident}{sprites.SPRITE}")
             installed[named["variant"]] = {"path": _sim.rel(base, sprite), "url": url(base, sprite), "px": named.get("px")}
         for row in sprites.read_rows(rows):
             picture = rows.parent / f"{row['variant']}.png"
@@ -283,5 +283,5 @@ def data_uri(picture) -> str:
 
     buffer = io.BytesIO()
     Image.fromarray((picture.clip(0, 1) * 255).round().astype("uint8"), "RGBA").save(
-        buffer, "WEBP", quality=_shapes_mesh.WEBP_QUALITY, alpha_quality=100)
+        buffer, "WEBP", quality=sprites.WEBP_QUALITY, alpha_quality=100)
     return "data:image/webp;base64," + base64.b64encode(buffer.getvalue()).decode("ascii")

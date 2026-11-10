@@ -32,7 +32,11 @@ and stops it.
     qq web --shot F --frames --after 5 --cpu 6
                                             the same with the page's thread six times slower: a weak machine
     qq web --shot F --profile --after 5     the page's busiest functions over 5 s untouched, by their own time
-    qq web --shot F --warm --eval JS        the page loaded twice, its cache kept: what a returning player asks for
+    qq web --shot F --load                  what the page loaded, by kind, and holds: its JS heap, its elements, and
+                                            what WebGL was asked to keep on the GPU, texture by texture
+    qq web --shot F --load --profile        the same, and its busiest functions while loading
+    qq web --shot F --heap                  what the JS heap holds once loaded, by the function that allocated it
+    qq web --shot F --warm --eval JS       the page loaded twice, its cache kept: what a returning player asks for
     qq web --shot F --page .tmp/shapes/viewer.html
                                             a page of the project opened from disk, not the game's: no build, no
                                             host; the gestures and --query work the same, and the page may fetch
@@ -260,18 +264,31 @@ def capture(page: dict, url: str, out: Path, a):
             {"offline": False, "latency": a.line, "downloadThroughput": -1, "uploadThroughput": -1})
         print(f"   the page's line slowed by {a.line:g} ms a round trip")
 
+    if a.load:
+        ask(sock, "Performance.enable")
+        ask(sock, "Page.enable")
+        ask(sock, "Page.addScriptToEvaluateOnNewDocument", {"source": GPU_COUNT_JS})
+        if a.profile:
+            start_profile(sock)
+    if a.heap:
+        ask(sock, "HeapProfiler.enable")
+        ask(sock, "HeapProfiler.startSampling", {"samplingInterval": HEAP_INTERVAL_BYTES})
     navigated = time.time()
     ask(sock, "Page.navigate", {"url": url})
     # A window that is not in front is not painted, and a page that is not painted runs no frame.
     ask(sock, "Page.bringToFront")
     settle(sock, a.seconds)
+    if a.load:
+        report_weight(sock)
+        if a.profile:
+            report_profile(sock)
+    if a.heap:
+        report_heap(sock)
 
     if a.frames:
         start_frames(sock)
-    if a.profile:
-        ask(sock, "Profiler.enable")
-        ask(sock, "Profiler.setSamplingInterval", {"interval": PROFILE_INTERVAL_US})
-        ask(sock, "Profiler.start")
+    if a.profile and not a.load:
+        start_profile(sock)
     for point in a.click:
         press(sock, point)
     if a.key:
@@ -286,7 +303,7 @@ def capture(page: dict, url: str, out: Path, a):
         settle(sock, a.after)
     if a.frames:
         report_frames(sock)
-    if a.profile:
+    if a.profile and not a.load:
         report_profile(sock)
     if a.mutations:
         count_mutations(sock, a.mutations)
@@ -456,14 +473,14 @@ def report_frames(sock: socket.socket):
     answer = ask(sock, "Runtime.evaluate", {"expression": "__framesStop = true, __frames.slice(1)", "returnByValue": True})
     gaps = sorted(answer.get("result", {}).get("result", {}).get("value") or [])
     after = metrics(sock)
-    if not gaps:
+    if gaps:
+        display = gaps[len(gaps) // 10]
+        missed = sum(1 for g in gaps if g > display * MISSED_FRAME_SHARE)
+        pick = lambda share: gaps[min(len(gaps) - 1, int(len(gaps) * share))]
+        print(f"   frames: {len(gaps)} over {sum(gaps) / 1000:.1f} s, display {display:.1f} ms; gap median "
+              f"{pick(.5):.1f}, p95 {pick(.95):.1f}, max {gaps[-1]:.1f} ms; {missed} missed")
+    else:
         print("   frames: none drawn")
-        return
-    display = gaps[len(gaps) // 10]
-    missed = sum(1 for g in gaps if g > display * MISSED_FRAME_SHARE)
-    pick = lambda share: gaps[min(len(gaps) - 1, int(len(gaps) * share))]
-    print(f"   frames: {len(gaps)} over {sum(gaps) / 1000:.1f} s, display {display:.1f} ms; gap median {pick(.5):.1f}, "
-          f"p95 {pick(.95):.1f}, max {gaps[-1]:.1f} ms; {missed} missed")
     spent = {name: after.get(name, 0) - _metrics_before.get(name, 0) for name in METRICS}
     print(f"   work: task {spent['TaskDuration'] * 1000:.0f} ms, script {spent['ScriptDuration'] * 1000:.0f} ms, "
           f"style {spent['RecalcStyleDuration'] * 1000:.0f} ms ×{spent['RecalcStyleCount']:.0f}, "
@@ -473,6 +490,81 @@ def report_frames(sock: socket.socket):
 #: How often the profiler samples the page's thread, and how many of its busiest functions are named.
 PROFILE_INTERVAL_US = 200
 PROFILE_TOP = 15
+
+
+def start_profile(sock: socket.socket):
+    ask(sock, "Profiler.enable")
+    ask(sock, "Profiler.setSamplingInterval", {"interval": PROFILE_INTERVAL_US})
+    ask(sock, "Profiler.start")
+
+
+#: What a page asked for, by kind (count, bytes over the line, bytes decoded), and what it holds once running.
+WEIGHT_JS = """(() => {
+  const kinds = {};
+  for (const r of performance.getEntriesByType('resource')) {
+    const kind = new URL(r.name).pathname.split('.').pop();
+    const k = kinds[kind] ??= [0, 0, 0];
+    k[0]++; k[1] += r.transferSize; k[2] += r.decodedBodySize;
+  }
+  const gpu = window.__gpu && { ...__gpu.sum(), canvas: [...document.querySelectorAll('canvas')]
+    .reduce((bytes, c) => bytes + c.width * c.height * 4 * 2, 0) };
+  return { kinds, heap: performance.memory.usedJSHeapSize, nodes: document.getElementsByTagName('*').length, gpu };
+})()"""
+
+#: Run in the page before its own scripts: counts what WebGL is asked to hold, texture by texture and buffer by
+#: buffer, as their sizes and formats say — what the GPU holds for the page, less the driver's own padding.
+GPU_COUNT_JS = """(() => {
+  const P = WebGL2RenderingContext.prototype, held = new Map();
+  const BYTES = { 0x8058: 4, 0x81A6: 4, 0x81A5: 2, 0x88F0: 4, 0x8CAC: 4, 0x881A: 8, 0x8814: 16, 0x8229: 1, 0x822B: 2,
+    0x8236: 4, 0x822E: 4, 0x8D7C: 4, 0x1908: 4, 0x1907: 3 };
+  const bound = { unit: 0, textures: new Map(), buffers: new Map() };
+  const wrap = (name, after) => { const was = P[name]; P[name] = function (...a) { const r = was.apply(this, a); after.call(this, a, r); return r; }; };
+  const size = (key, kind, bytes) => key && held.set(key, { kind, bytes });
+  wrap('activeTexture', ([unit]) => bound.unit = unit);
+  wrap('bindTexture', ([, t]) => bound.textures.set(bound.unit, t));
+  wrap('bindBuffer', ([target, b]) => bound.buffers.set(target, b));
+  wrap('texStorage2D', ([, levels, format, w, h]) => {
+    let bytes = 0;
+    for (let l = 0; l < levels; l++) bytes += Math.max(1, w >> l) * Math.max(1, h >> l) * (BYTES[format] ?? 4);
+    size(bound.textures.get(bound.unit), 'texture', bytes);
+  });
+  wrap('texImage2D', (a) => {
+    if (a[1] !== 0) return;
+    const source = a.length === 6 ? a[5] : null;
+    const [w, h] = source ? [source.width, source.height] : [a[3], a[4]];
+    size(bound.textures.get(bound.unit), 'texture', w * h * (BYTES[a[2]] ?? 4));
+  });
+  wrap('generateMipmap', () => { const t = held.get(bound.textures.get(bound.unit)); if (t) t.bytes = Math.round(t.bytes * 4 / 3); });
+  wrap('bufferData', ([target, data]) => size(bound.buffers.get(target), 'buffer', typeof data === 'number' ? data : data.byteLength));
+  wrap('deleteTexture', ([t]) => held.delete(t));
+  wrap('deleteBuffer', ([b]) => held.delete(b));
+  window.__gpu = { held, sum() {
+    const s = { textures: 0, texturesCount: 0, buffers: 0, buffersCount: 0, largest: [] };
+    for (const { kind, bytes } of held.values()) { s[kind + 's'] += bytes; s[kind + 'sCount']++; }
+    s.largest = [...held.values()].filter(h => h.kind === 'texture').map(h => h.bytes).sort((a, b) => b - a).slice(0, 6);
+    return s;
+  } };
+})()"""
+
+
+def report_weight(sock: socket.socket):
+    """What the page loaded and holds after --seconds, and the work its thread did to get there."""
+    weight = ask(sock, "Runtime.evaluate", {"expression": WEIGHT_JS, "returnByValue": True})
+    weight = weight.get("result", {}).get("result", {}).get("value") or {}
+    kinds = sorted(weight.get("kinds", {}).items(), key=lambda kind: -kind[1][2])
+    over, held = sum(k[1] for _, k in kinds), sum(k[2] for _, k in kinds)
+    print(f"   load: {over / 1e3:.0f} kB over the line, {held / 1e3:.0f} kB decoded; JS heap "
+          f"{weight.get('heap', 0) / 1e6:.1f} MB; {weight.get('nodes', 0)} elements")
+    for kind, (count, line, decoded) in kinds:
+        print(f"     {kind:>6} ×{count:<4} {line / 1e3:8.0f} kB over the line {decoded / 1e3:8.0f} kB decoded")
+    if gpu := weight.get("gpu"):
+        print(f"   GPU: {(gpu['textures'] + gpu['buffers'] + gpu['canvas']) / 1e6:.1f} MB — textures "
+              f"{gpu['textures'] / 1e6:.1f} MB ×{gpu['texturesCount']} (largest "
+              f"{', '.join(f'{b / 1e6:.1f}' for b in gpu['largest'])}), buffers {gpu['buffers'] / 1e6:.1f} MB "
+              f"×{gpu['buffersCount']}, canvases {gpu['canvas'] / 1e6:.1f} MB")
+    spent = metrics(sock)
+    print(f"   work: task {spent.get('TaskDuration', 0) * 1000:.0f} ms, script {spent.get('ScriptDuration', 0) * 1000:.0f} ms, "
+          f"style {spent.get('RecalcStyleDuration', 0) * 1000:.0f} ms, layout {spent.get('LayoutDuration', 0) * 1000:.0f} ms")
 
 
 def report_profile(sock: socket.socket):
@@ -492,6 +584,38 @@ def report_profile(sock: socket.socket):
     print(f"   profile: {total / 1e6:.1f} s sampled; by self time:")
     for where, us in sorted(spent.items(), key=lambda item: -item[1])[:PROFILE_TOP]:
         print(f"     {us / 1000:8.1f} ms {us / total:6.1%}  {where}")
+
+
+#: Bytes between the heap profiler's samples: fine enough that an object the page keeps is seen, coarse enough to run.
+HEAP_INTERVAL_BYTES = 4096
+HEAP_TOP = 15
+
+
+def report_heap(sock: socket.socket):
+    """What the page's JS heap holds after --seconds, after a collection: live bytes by the function that allocated
+    them, its own and with what it called."""
+    sock.settimeout(60.0)
+    ask(sock, "HeapProfiler.collectGarbage")
+    profile = ask(sock, "HeapProfiler.stopSampling").get("result", {}).get("profile")
+    if not profile:
+        print("   heap: none sampled")
+        return
+    own: dict = {}
+    under: dict = {}
+
+    def walk(node: dict, above: frozenset) -> int:
+        frame = node["callFrame"]
+        where = f"{frame['functionName'] or '(anonymous)'} {Path(frame['url']).name or ''}:{frame['lineNumber'] + 1}"
+        bytes_ = node["selfSize"] + sum(walk(child, above | {where}) for child in node["children"])
+        own[where] = own.get(where, 0) + node["selfSize"]
+        if where not in above:
+            under[where] = under.get(where, 0) + bytes_
+        return bytes_
+
+    total = walk(profile["head"], frozenset()) or 1
+    print(f"   heap: {total / 1e6:.1f} MB live, sampled; by allocating function, own and with what it called:")
+    for where, bytes_ in sorted(own.items(), key=lambda item: -item[1])[:HEAP_TOP]:
+        print(f"     {bytes_ / 1e6:6.2f} MB own {under[where] / 1e6:6.2f} MB under  {where}")
 
 
 #: How many of the attributes changed most a place's line names: element (its class) and attribute.
@@ -755,6 +879,12 @@ def parse_args():
                         help="draw WebGL in software (SwiftShader), the weakest GPU a player may have, for timing")
     parser.add_argument("--profile", action="store_true",
                         help="over the gestures and --after, sample the page's thread and name its busiest functions")
+    parser.add_argument("--load", action="store_true",
+                        help="after --seconds, report what the page loaded and holds and the work its load took; "
+                             "with --profile, sample its thread from the navigation instead")
+    parser.add_argument("--heap", action="store_true",
+                        help="from the navigation to --seconds, sample the JS heap's allocations, and name what still "
+                             "holds them after a collection, by the function that made them")
     parser.add_argument("--cpu", type=float, default=1.0, metavar="N",
                         help="run the page's thread N times slower, as a weak machine does (Chrome's CPU throttling)")
     parser.add_argument("--warm", action="store_true",

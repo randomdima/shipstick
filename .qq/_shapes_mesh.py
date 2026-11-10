@@ -21,14 +21,12 @@ from pathlib import Path
 import _shapes
 import _shapes_render
 import _sim
+import sprites
 
 TEXTURES = Path("assets/textures")
 MESH_SUFFIX = ".mesh.json"
 #: A normal's components are stored as int8 of this.
 NORMAL_UNIT = 127
-#: Textures go to the page as lossy WebP at this quality, their alpha exact: as PNG a capsule's are ~10 MB, and a
-#: generated swatch's grain is past what the eye tells apart at this.
-WEBP_QUALITY = 90
 
 
 def export(base: Path, row: dict, sprite: Path) -> list[Path]:
@@ -102,11 +100,10 @@ def texture_asset(base: Path, model: dict, name: str, written: list[Path]) -> st
     seamless = "tileM" in texture
     stem = (Path(texture["src"]).stem + (f"-i{across:g}" if across == down else f"-i{across:g}x{down:g}")
             * bool(across or down) + ("-seamless" if seamless else ""))
-    path = base / TEXTURES / f"{stem}.webp"
+    path = base / TEXTURES / f"{stem}{sprites.SPRITE}"
     if path not in written:
-        path.parent.mkdir(parents=True, exist_ok=True)
         picture = (model["images"][name].clip(0, 1) * 255).round().astype(np.uint8)
-        Image.fromarray(picture, "RGBA").save(path, quality=WEBP_QUALITY, alpha_quality=100, method=6)
+        sprites.save_for_page(Image.fromarray(picture, "RGBA"), path)
         path.with_name(f"{stem}.src.json").write_text(json.dumps(
             {"variant": texture["src"], "insetPct": inset, "seamless": seamless}, indent=2) + "\n", encoding="utf-8")
         written.append(path)
