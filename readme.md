@@ -32,7 +32,7 @@ qq web --page .tmp/demo-site/index.html --shot .tmp/web/demo.png           # the
 ```
 
 The demo (DEM-1) is deployed to GitHub Pages from `main` by `.github/workflows/demo.yml`: the page playing back the
-host's recorded frames, with ship time stopped and every action but the admin's `enter` refused.
+host's recorded frames in a loop, every action but the admin's `enter` refused.
 
 `?admin` opens the admin's page, `?seat=column,row` a player's; every page open on a host plays its one ship. In VS
 Code, the launch configurations `web: admin` and `web: player` build the host, run it under the debugger and open the

@@ -57,12 +57,8 @@ abstract class Client
         wake.Writer.TryWrite(true);
     }
 
-    /// <summary>This client's frame as the ship stands now, changed or not: what a recording of the host keeps (DEM-1).</summary>
-    public byte[] FrameNow(ServedShip ship)
-    {
-        var (kind, view) = Look(ship);
-        return Frame(ship.Vessel.NowS, ship.Rate, kind, view);
-    }
+    /// <summary>This client's view as the ship stands now, changed or not: what a recording of the host keeps (DEM-1).</summary>
+    public (string Kind, byte[] Json) ViewNow(ServedShip ship) => Look(ship);
 
     /// <summary>Joins the ship, answers this client's actions until its socket closes, and leaves.</summary>
     public async Task Run(WebSocket socket, ServedShip ship, CancellationToken stopping)
@@ -132,7 +128,7 @@ abstract class Client
         }
     }
 
-    static byte[] Frame(double nowS, double rate, string kind, byte[] view) => Json(json =>
+    public static byte[] Frame(double nowS, double rate, string kind, byte[] view) => Json(json =>
     {
         json.WriteNumber("nowS", nowS);
         json.WriteNumber("rate", rate);

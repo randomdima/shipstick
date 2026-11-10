@@ -19,6 +19,8 @@ and stops it.
     qq web --shot F --drag 100,100:400,300  a mouse drag from A to B (a finger with --device): an item moved
                                             between grids, or the floor panned
     qq web --shot F --device 390,844        as a handset sees it: a phone's points at a phone's pixel ratio
+    qq web --shot F --device 390,844 --finger 150,400:150,300 --finger 250,400:250,500
+                                            fingers put down in turn and moved together: a twist, a pinch
     qq web --shot F --line 150              every request and socket 150 ms slower a round trip
     qq web --shot F --release               the published host rather than the Debug build
     qq web --shot F --frames --drag A:B --drag-steps 120
@@ -105,6 +107,8 @@ navigated = 0.0
 def main():
     a = parse_args()
     base = _sim.root()
+    if a.finger and not a.device:
+        cli.fail("--finger wants --device: a page without one is not touched")
     if a.page:
         if not a.shot:
             cli.fail("--page wants --shot")
@@ -248,9 +252,11 @@ def capture(page: dict, url: str, out: Path, a):
         type_key(sock, a.key)
     if a.drag:
         drag(sock, a.drag, finger=bool(a.device), steps=a.drag_steps, held=a.hold, button=a.button)
+    if a.finger:
+        fingers(sock, a.finger, a.drag_steps)
     for spec in a.wheel:
         wheel(sock, spec)
-    if a.after and (a.click or a.key or a.drag or a.wheel):
+    if a.after and (a.click or a.key or a.drag or a.finger or a.wheel):
         settle(sock, a.after)
     if a.frames:
         report_frames(sock)
@@ -267,6 +273,27 @@ def capture(page: dict, url: str, out: Path, a):
     if "result" not in shot:
         raise SystemExit(f"the browser refused the screenshot: {json.dumps(shot.get('error', shot))}")
     out.write_bytes(base64.b64decode(shot["result"]["data"]))
+
+
+def fingers(sock: socket.socket, paths: list[str], steps: int):
+    """
+    Fingers put down one after another, as a hand does, then moved together each from its first point to its second,
+    `steps` times a frame apart, and lifted: two make a pinch, a twist or a two-finger drag.
+    """
+    ends = [tuple(at(p) for p in path.split(":")) for path in paths]
+
+    def points(along: float) -> list[dict]:
+        return [{"id": i, "x": a["x"] + (b["x"] - a["x"]) * along, "y": a["y"] + (b["y"] - a["y"]) * along}
+                for i, (a, b) in enumerate(ends)]
+
+    for count in range(1, len(ends) + 1):
+        ask(sock, "Input.dispatchTouchEvent", {"type": "touchStart", "touchPoints": points(0)[:count]})
+    for step in range(1, steps + 1):
+        ask(sock, "Input.dispatchTouchEvent", {"type": "touchMove", "touchPoints": points(step / steps)})
+        time.sleep(1.0 / 60.0)
+    ask(sock, "Input.dispatchTouchEvent", {"type": "touchEnd", "touchPoints": []})
+    print(f"   {len(ends)} fingers moved: {', '.join(paths)}")
+    settle(sock, 1.0)
 
 
 def press(sock: socket.socket, point: str):
@@ -658,6 +685,9 @@ def parse_args():
                         help="click here before the picture; repeat for several clicks, made in order")
     parser.add_argument("--key", type=key_type, metavar="CODE", help="press this key before the picture, after a click")
     parser.add_argument("--drag", type=drag_type, metavar="X,Y:X,Y", help="drag the mouse (a finger with --device) from A to B, after a key")
+    parser.add_argument("--finger", type=drag_type, metavar="X,Y:X,Y", action="append", default=[],
+                        help="with --device, a finger from A to B after the drag; repeat for each finger, all moved "
+                             "together (two: a pinch, a twist, a two-finger drag)")
     parser.add_argument("--button", choices=sorted(BUTTONS), default="left", help="the mouse button a drag is made with")
     parser.add_argument("--wheel", metavar="X,Y,DY", action="append", default=[],
                         help="turn the mouse wheel at X,Y by DY pixels after the drag (below 0 away from the user); "

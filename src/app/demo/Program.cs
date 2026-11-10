@@ -1,4 +1,5 @@
 using Shipstick.App.Demo;
+using Shipstick.Core.Config;
 
 // The demo (DEM-1): writes the static site into the folder named, which must be empty or not yet made.
 if (args is not [var target])
@@ -14,6 +15,6 @@ if (Directory.Exists(site) && Directory.EnumerateFileSystemEntries(site).Any())
     return 2;
 }
 
-DemoSite.Write(Path.Combine(AppContext.BaseDirectory, "client"), site);
+DemoSite.Write(GameConfig.Default, Path.Combine(AppContext.BaseDirectory, "client"), site);
 Console.WriteLine($"demo written to {site}");
 return 0;

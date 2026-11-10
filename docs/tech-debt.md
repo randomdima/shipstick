@@ -167,8 +167,7 @@ is not closed without one. **_tool_** is a fault or a gap in a `qq` tool, closed
   protocol [host.js](../src/app/web/wwwroot/host.js) expects — `onmessage`, `onclose`, `send` and the `{re, ok}`
   answer — is shown by `qq web --page` pictures of the written site, and the workflow deploys whatever builds. A change
   to `host.js` that the stand-in misses ships a blank demo. Closed by the workflow photographing the site headless and
-  failing on a page that never framed.
-- **The Pages actions run on a deprecated Node** (`.github/workflows/demo.yml`): `actions/deploy-pages@v4` and the
+  failing on a page that never framed.- **The Pages actions run on a deprecated Node** (`.github/workflows/demo.yml`): `actions/deploy-pages@v4` and the
   artifact upload inside `actions/upload-pages-artifact@v4` target Node 20, which GitHub forces onto Node 24 with a
   warning on every run. Closed by moving to their first majors that target Node 24.
 

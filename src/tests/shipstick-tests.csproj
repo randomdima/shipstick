@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="../shipstick.csproj" />
     <ProjectReference Include="../app/host/shipstick.host.csproj" />
+    <ProjectReference Include="../app/demo/shipstick.demo.csproj" />
   </ItemGroup>
 
   <ItemGroup>

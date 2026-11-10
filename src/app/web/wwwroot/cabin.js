@@ -601,16 +601,12 @@ function release(e) {
 }
 
 document.addEventListener('pointercancel', e => {
-  if (ui.pinch?.at.has(e.pointerId)) return void (ui.pinch = null);
+  if (ui.pinch?.at.has(e.pointerId)) return unpinch();
   if (ui.pan) release(e);
 });
 
 document.addEventListener('pointerup', e => {
-  if (ui.pinch?.at.has(e.pointerId)) {
-    ui.pinch = null;
-    ui.panned = true;
-    return;
-  }
+  if (ui.pinch?.at.has(e.pointerId)) return unpinch();
   if (ui.pan) return release(e);
   if (ui.grip) {
     keepOnPage(Number(ui.grip.el.dataset.win));
@@ -666,24 +662,50 @@ function zoomAt(clientX, clientY, factor) {
 
 /**
  * A second finger down on the floor while one pans it starts a pinch: from then the two fingers' spread zooms the
- * camera, about the point between them, and neither pans. Says whether it started one.
+ * camera, about the point between them, their twist turns it so the floor follows the fingers round, and the point
+ * between them moved up or down tilts it as a turning drag does; neither pans. Says whether it started one.
  */
 function pinchStarts(e) {
   if (e.pointerType !== 'touch' || !ui.pan || ui.pan.id === e.pointerId) return false;
   const at = new Map([[ui.pan.id, { x: ui.pan.last?.x ?? ui.pan.x, y: ui.pan.last?.y ?? ui.pan.y }],
     [e.pointerId, { x: e.clientX, y: e.clientY }]]);
   ui.pan = null;
-  ui.pinch = { at, spread: spreadOf(at) };
+  ui.pinch = { at, spread: spreadOf(at), angle: angleOf(at), middle: middleOf(at) };
+  document.body.classList.add('turning');
   return true;
 }
 
 function pinch(e) {
   ui.pinch.at.set(e.pointerId, { x: e.clientX, y: e.clientY });
-  const spread = spreadOf(ui.pinch.at);
-  const [a, b] = [...ui.pinch.at.values()];
-  zoomAt((a.x + b.x) / 2, (a.y + b.y) / 2, spread / ui.pinch.spread);
-  ui.pinch.spread = spread;
+  const spread = spreadOf(ui.pinch.at), angle = angleOf(ui.pinch.at), middle = middleOf(ui.pinch.at);
+  const { yaw, pitch } = camera();
+  // The camera turned clockwise turns the floor the other way on the page.
+  const twistDeg = ((angle - ui.pinch.angle) * 180 / Math.PI + 540) % 360 - 180;
+  ui.turn = {
+    ...ui.turn,
+    yaw: (yaw - twistDeg + 360) % 360,
+    pitch: clamp(pitch + (middle.y - ui.pinch.middle.y) * TILT_DEG_PER_PX, PITCH.least, PITCH.most),
+  };
+  zoomAt(middle.x, middle.y, spread / ui.pinch.spread);
+  Object.assign(ui.pinch, { spread, angle, middle });
 }
+
+/** Ends a pinch: what it ends over is not clicked. */
+function unpinch() {
+  ui.pinch = null;
+  ui.panned = true;
+  document.body.classList.remove('turning');
+}
+
+const angleOf = at => {
+  const [a, b] = [...at.values()];
+  return Math.atan2(b.y - a.y, b.x - a.x);
+};
+
+const middleOf = at => {
+  const [a, b] = [...at.values()];
+  return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+};
 
 const spreadOf = at => {
   const [a, b] = [...at.values()];

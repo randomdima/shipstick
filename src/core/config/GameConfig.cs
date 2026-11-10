@@ -24,6 +24,8 @@ public sealed record GameConfig
 
     public HostFigures Host { get; init; } = new();
 
+    public DemoFigures Demo { get; init; } = new();
+
     /// <summary>The slots in one door: a square <see cref="CapsuleFigures.DoorSlotsAcross"/> on a side.</summary>
     public int DoorSlots => Capsule.DoorSlotsAcross * Capsule.DoorSlotsAcross;
 }
@@ -95,4 +97,11 @@ public sealed record HostFigures
 
     /// <summary>The longest action a client may send, in bytes; a longer one closes its socket.</summary>
     public int ActionBytesMost { get; init; } = 1024;
+}
+
+/// <summary>How the demo (DEM-1) records the host for playing back with none.</summary>
+public sealed record DemoFigures
+{
+    /// <summary>Ship seconds of the starter ship recorded from its start, at the host's tick; the demo plays them in a loop.</summary>
+    public double RecordedS { get; init; } = 600;
 }
